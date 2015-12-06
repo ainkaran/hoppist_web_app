@@ -1,0 +1,28 @@
+{
+  "name": "hoppist_react_frontend",
+  "version": "1.0.0",
+  "description": "A React frontend for Hoppist",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alextaylor000/hoppist_web_app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alextaylor000/hoppist_web_app/issues"
+  },
+  "homepage": "https://github.com/alextaylor000/hoppist_web_app#readme",
+  "dependencies": {
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
+  },
+  "devDependencies": {
+    "jsx-loader": "^0.13.2",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
+  }
+}
