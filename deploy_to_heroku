@@ -1,0 +1,1 @@
+git push heroku master; open "http://hoppist.herokuapp.com"
