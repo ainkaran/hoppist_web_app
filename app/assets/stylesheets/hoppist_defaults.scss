@@ -1,0 +1,36 @@
+/* Globabs & Brand */
+$brand-primary:              #A6AB85;
+$border-radius-base:         2px;
+
+// NOTE: this was originally set for the buttons. if it interferes with something
+// else we can just move it into the .btn override class below...
+$padding-base-horizontal:    1.5em;
+
+/* Colurs */
+$gray-base:                  #F5F5F5;
+
+/* Typography */
+@import url(https://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu:400,400italic);
+$font-family-base:           'Ubuntu', sans-serif;
+$font-family-serif:          'Lora', serif;
+$text-color:                 #595959;
+
+$headings-font-family:       $font-family-serif;
+$headings-color:             $brand-primary;
+
+/* Buttons */
+.btn {
+  // !important is needed here because we're declaring this file before importing bootstrap
+  font-family:               $font-family-serif!important;
+  font-weight:               700!important;
+  height:                    50px!important;
+}
+
+.btn-default:hover {
+  background-color:          #EEEFE7!important;
+}
+
+$btn-default-color:          $brand-primary;
+$btn-default-bg:             $gray-base;
+$btn-default-border:         #E7E7E7;

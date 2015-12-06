@@ -7,11 +7,9 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>App!</h1>
-        <ul>
-          <li><Link to="/hello">Hello</Link></li>
-          <li><Link to="/about">About</Link></li>
-        </ul>
+        <h1>HOPPIST</h1>
+        <p>Hoppist connects you with local breweries in your area. Discover new flavours, rate your favourite beer, and see what’s currently on tap for samples and fills. Hoppist is the perfect drinking buddy.</p>
+        <button href="#" className="btn btn-default">SIGN UP</button>
         <hr />
         {this.props.children}
       </div>);

@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
-//= require turbolinks
+//  removed jquery_ujs because we're using React
+//= require bootstrap-sprockets
+//  removed turbolinks because we're using React
 //= require_tree .
