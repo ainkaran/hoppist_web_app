@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 # for heroku
 ruby '2.2.3'
 gem 'rails_12factor'
+gem 'puma'
+
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
