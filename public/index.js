@@ -51,11 +51,11 @@
 	var Route = __webpack_require__(148).Route
 
 	// pages
-	var App = __webpack_require__(197);
+	var StyleGuide = __webpack_require__(197);
 
 	ReactDOM.render((
 	  React.createElement(Router, null, 
-	    React.createElement(Route, {path: "/", component: App}
+	    React.createElement(Route, {path: "/", component: StyleGuide}
 	    )
 	  )
 	), document.getElementById('container'));
@@ -23062,13 +23062,50 @@
 	// application layout
 	module.exports = React.createClass({displayName: "module.exports",
 	  render: function() {
+	    // TODO: look into React-Bootstrap
 	    return (
 	      React.createElement("div", null, 
-	        React.createElement("h1", null, "HOPPIST"), 
+	        React.createElement("h1", {className: "branded"}, "HOPPIST"), 
+	        React.createElement("h2", {className: "branded"}, "HOPPIST"), 
+	        React.createElement("h3", null, "Discover amazing craft beers in your area."), 
+	        React.createElement("div", {className: "alert alert-success"}, "Welcome back, Alex."), 
+	        React.createElement("div", {className: "alert alert-danger"}, "Invalid credentials."), 
 	        React.createElement("p", null, "Hoppist connects you with local breweries in your area. Discover new flavours, rate your favourite beer, and see what’s currently on tap for samples and fills. Hoppist is the perfect drinking buddy."), 
 	        React.createElement("button", {href: "#", className: "btn btn-default"}, "SIGN UP"), 
 	        React.createElement("hr", null), 
-	        this.props.children
+	        this.props.children, 
+	        React.createElement("h3", null, "Sign up for a free account."), 
+	        React.createElement("form", null, 
+	          React.createElement("div", {className: "form-group"}, 
+	            React.createElement("label", {htmlFor: "name"}, "Name:"), 
+	            React.createElement("input", {type: "text", name: "name", className: "form-control"})
+	          ), 
+	          React.createElement("div", {className: "form-group"}, 
+	            React.createElement("label", {htmlFor: "email"}, "E-mail Address:"), 
+	            React.createElement("input", {type: "text", name: "email", className: "form-control"})
+	          ), 
+	          React.createElement("div", {className: "form-group has-error"}, 
+	            React.createElement("label", {htmlFor: "password"}, "Password:"), 
+	            React.createElement("input", {type: "password", name: "password", className: "form-control"}), 
+	            React.createElement("span", {className: "help-block"}, "Your password must be more than 8 characters.")
+	          ), 
+	          React.createElement("div", {className: "form-group"}, 
+	            React.createElement("input", {className: "btn btn-default", type: "submit", value: "SIGN UP"})
+	          )
+	        ), 
+	        React.createElement("hr", null), 
+	        React.createElement("h2", null, "Alex Taylor"), 
+	        React.createElement("h4", {className: "lighter"}, "Vancouver, B.C."), 
+
+	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "follow"), React.createElement("br", null), 
+	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), React.createElement("br", null), 
+	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add"), 
+
+	        React.createElement("ul", {className: "nav nav-tabs"}, 
+	          React.createElement("li", {role: "presentation", className: "active"}, React.createElement("a", {href: "#"}, "Favourites")), 
+	          React.createElement("li", {role: "presentation"}, React.createElement("a", {href: "#"}, "Reviews"))
+	        ), 
+	        React.createElement("br", null)
 	      ));
 	  },
 	});
