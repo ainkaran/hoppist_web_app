@@ -5,11 +5,11 @@ var Router = require('react-router').Router
 var Route = require('react-router').Route
 
 // pages
-var App = require("./App");
+var StyleGuide = require("./style_guide");
 
 ReactDOM.render((
   <Router>
-    <Route path="/" component={App}>
+    <Route path="/" component={StyleGuide}>
     </Route>
   </Router>
 ), document.getElementById('container'));
