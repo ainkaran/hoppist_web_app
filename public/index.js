@@ -23065,15 +23065,24 @@
 	    // TODO: look into React-Bootstrap
 	    return (
 	      React.createElement("div", null, 
+	        "// HEADINGS", 
 	        React.createElement("h1", {className: "branded"}, "HOPPIST"), 
 	        React.createElement("h2", {className: "branded"}, "HOPPIST"), 
 	        React.createElement("h3", null, "Discover amazing craft beers in your area."), 
+
+
+	        "// FLASH", 
 	        React.createElement("div", {className: "alert alert-success"}, "Welcome back, Alex."), 
 	        React.createElement("div", {className: "alert alert-danger"}, "Invalid credentials."), 
+
+
+	        "// BODY", 
 	        React.createElement("p", null, "Hoppist connects you with local breweries in your area. Discover new flavours, rate your favourite beer, and see what’s currently on tap for samples and fills. Hoppist is the perfect drinking buddy."), 
 	        React.createElement("button", {href: "#", className: "btn btn-default"}, "SIGN UP"), 
 	        React.createElement("hr", null), 
-	        this.props.children, 
+
+
+	        "// FORMS", 
 	        React.createElement("h3", null, "Sign up for a free account."), 
 	        React.createElement("form", null, 
 	          React.createElement("div", {className: "form-group"}, 
@@ -23093,7 +23102,11 @@
 	            React.createElement("input", {className: "btn btn-default", type: "submit", value: "SIGN UP"})
 	          )
 	        ), 
+
+
+	        "// PAGE COMPONENTS", 
 	        React.createElement("hr", null), 
+	        React.createElement("img", {src: "/assets/alex_avatar.jpg", className: "img img-thumbnail", width: "145"}), 
 	        React.createElement("h2", null, "Alex Taylor"), 
 	        React.createElement("h4", {className: "lighter"}, "Vancouver, B.C."), 
 
@@ -23101,10 +23114,39 @@
 	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), React.createElement("br", null), 
 	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add"), 
 
+
+
 	        React.createElement("ul", {className: "nav nav-tabs"}, 
 	          React.createElement("li", {role: "presentation", className: "active"}, React.createElement("a", {href: "#"}, "Favourites")), 
 	          React.createElement("li", {role: "presentation"}, React.createElement("a", {href: "#"}, "Reviews"))
 	        ), 
+	        React.createElement("br", null), 
+
+
+	        "// BEER REVIEW CARD", 
+	        React.createElement("div", {className: "beer-card clearfix"}, 
+
+	          React.createElement("div", {className: "col-image"}, 
+	            React.createElement("div", {className: "img-thumbnail beer-thumb"}, 
+	              React.createElement("img", {src: "/assets/hop_circle.png", width: "88", height: "105"})
+	            )
+	          ), 
+
+	          React.createElement("div", {className: "col-review"}, 
+	            React.createElement("h5", null, React.createElement("a", {href: "#"}, "Blue Buck"), " ", React.createElement("i", null, "by"), " ", React.createElement("a", {href: "#"}, "Phillips Brewing Co.")), 
+	            React.createElement("p", {className: "review-subhead lighter"}, React.createElement("i", null, "June 15, 2015")), 
+	            React.createElement("div", {className: "review-stars"}, 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"})
+	            ), 
+	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
+	          )
+	        ), 
+	        React.createElement("br", null), 
+	        React.createElement("br", null), 
 	        React.createElement("br", null)
 	      ));
 	  },

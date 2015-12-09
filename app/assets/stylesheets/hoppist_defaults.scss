@@ -1,10 +1,7 @@
 /* Globals & Brand */
-$brand-primary:              #A6AB85;
+$brand-primary:              #A6AB85; // for headings, etc
+$brand-orange:               #FFCB47; // for stars, etc
 $border-radius-base:         2px;
-
-// NOTE: this was originally set for the buttons. if it interferes with something
-// else we can just move it into the .btn override class below...
-//$padding-base-horizontal:    1.5em;
 
 /* Colurs */
 $gray-base:                  #000000;
@@ -31,6 +28,7 @@ $font-size-h1:               36px;
 $font-size-h2:               24px;
 $font-size-h3:               18px;
 $font-size-h4:               16px;
+$font-size-h5:               14px;
 
 .branded {
   // used for coloured headings like the site title
@@ -125,6 +123,12 @@ $nav-tabs-border-color:      #EBEBEB;
   }
 
   > li.active a {
-    box-shadow: 0px -2px 4px 0px rgba(0, 0, 0, 0.1);
+    box-shadow:              0px -2px 4px 0px rgba(0, 0, 0, 0.1);
   }
+}
+
+/* Misc */
+.glyphicon-star {
+  font-size:                 20px;
+  color:                     $brand-orange;
 }
