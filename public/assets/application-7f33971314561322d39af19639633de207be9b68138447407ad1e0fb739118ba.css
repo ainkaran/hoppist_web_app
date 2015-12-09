@@ -8920,3 +8920,86 @@ div.beer-thumb-large {
   display: inline-block;
   margin: 12px;
 }
+
+/* Header. */
+/* line 2, /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/app/assets/stylesheets/header.scss */
+nav.hoppist-header {
+  position: relative;
+  /* ... */
+  /* HOPPIST */
+  /* This builds the flourish with the line and the hop.
+     It's just an hr with a centered image below that gets
+     pulled up by negative margin. */
+}
+/* line 6, /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/app/assets/stylesheets/header.scss */
+nav.hoppist-header h1 {
+  position: absolute;
+  margin: 0;
+  top: -16px;
+  /* align the periods with the middle of HOPPIST */
+  left: 0;
+  width: 50px;
+  height: 50px;
+  text-align: left;
+}
+/* line 17, /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/app/assets/stylesheets/header.scss */
+nav.hoppist-header h2 {
+  text-align: center;
+}
+/* line 24, /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/app/assets/stylesheets/header.scss */
+nav.hoppist-header hr {
+  border: 1px solid #949494;
+  margin-bottom: 0;
+}
+/* line 29, /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/app/assets/stylesheets/header.scss */
+nav.hoppist-header div.flourish {
+  position: relative;
+  text-align: center;
+}
+/* line 33, /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/app/assets/stylesheets/header.scss */
+nav.hoppist-header div.flourish img {
+  margin-top: -23.33333333px;
+}
+
+/* Slides out from left, all cool-like. */
+/* line 2, /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/app/assets/stylesheets/navigation.scss */
+div.mobile-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 160px;
+  height: 100%;
+  padding: 15px;
+  background-color: white;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+  transform: translateX(-101%);
+  transition: transform 100ms;
+}
+/* line 14, /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/app/assets/stylesheets/navigation.scss */
+div.mobile-navbar.is-active {
+  transform: translateX(0);
+}
+/* line 18, /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/app/assets/stylesheets/navigation.scss */
+div.mobile-navbar h1 {
+  margin: 0;
+  margin-top: -21.6px;
+}
+/* line 23, /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/app/assets/stylesheets/navigation.scss */
+div.mobile-navbar ul {
+  list-style: none;
+  padding-left: 0;
+}
+/* line 28, /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/app/assets/stylesheets/navigation.scss */
+div.mobile-navbar li {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #D3D3D3;
+  overflow-x: hidden;
+  font-size: 16px;
+  /* this is an implementation of the table-of-contents style periods */
+}
+/* line 37, /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/app/assets/stylesheets/navigation.scss */
+div.mobile-navbar li span {
+  display: block;
+  width: 200%;
+}
