@@ -51,13 +51,15 @@
 	var Route = __webpack_require__(148).Route
 
 	// pages
-	var StyleGuide = __webpack_require__(198);
-	var BeerShow = __webpack_require__(199);
+	var StyleGuide = __webpack_require__(197);
+	var BeerShow = __webpack_require__(198);
+	var Navbar = __webpack_require__(199);
 
 	ReactDOM.render((
 	  React.createElement(Router, null, 
 	    React.createElement(Route, {path: "/", component: StyleGuide}), 
-	    React.createElement(Route, {path: "/beer-show", component: BeerShow})
+	    React.createElement(Route, {path: "/beer-show", component: BeerShow}), 
+	    React.createElement(Route, {path: "/navbar", component: Navbar})
 	  )
 	), document.getElementById('container'));
 
@@ -23053,8 +23055,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 197 */,
-/* 198 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
@@ -23175,27 +23176,72 @@
 
 
 /***/ },
-/* 199 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(148).Link;
+	var Navbar = __webpack_require__(199);
 
 	module.exports = React.createClass({displayName: "module.exports",
+	  getInitialState() {
+	    return { menuIsActive: false };
+	  },
+
+	  handleMenuClick() {
+	    this.setState( { menuIsActive: !this.state.menuIsActive } );
+	  },
+
 	  render() {
+	    var style = this.state.menuIsActive ? 'mobile-navbar is-active' : 'mobile-navbar';
+
 	    return (
 	      React.createElement("div", null, 
-	            React.createElement("div", {className: "navbar-access"}, "..."), 
+	        React.createElement("nav", {className: "hoppist-header"}, 
+	            React.createElement("h1", {className: "branded", onClick: this.handleMenuClick}, "..."), 
 	            React.createElement("h2", {className: "branded"}, "HOPPIST"), 
-
-	        React.createElement("nav", null
+	            React.createElement("div", {className: "flourish"}, 
+	              React.createElement("hr", null), 
+	              React.createElement("img", {src: "/images/hop.png"})
+	            )
+	        ), 
+	        React.createElement("div", {className: style}, 
+	          React.createElement("div", {onClick: this.handleMenuClick}, 
+	            React.createElement("h4", {className: "branded"}, "HOPPIST"), 
+	            React.createElement("h1", {className: "branded"}, "...")
+	          ), 
+	          React.createElement("ul", null, 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "Alex Taylor         ")), 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "REVIEW              ")), 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "FLAVOUR MAP         ")), 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "MATCH MAKER IS GREAT")), 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "DISCOVER            ")), 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "BEERS               ")), 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "BREWERIES           "))
+	          )
 	        )
-
-
 	      )
 	    );
 	  },
+	});
+
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(148).Link;
+	// TODO: how to we require something up here and use it down there
+	module.exports = React.createClass({displayName: "module.exports",
+
+	  render() {
+	    return (React.createElement("h1", null, "navbar!"));
+	  },
+
 	});
 
 

@@ -1,0 +1,39 @@
+/* Header */
+nav.hoppist-header {
+  position:                  relative;
+
+  /* ... */
+  h1 {
+    position:                absolute;
+    margin:                  0;
+    top:                     -16px; /* align the periods with the middle of HOPPIST */
+    left:                    0;
+    width:                   50px;
+    height:                  50px;
+    text-align:              left;
+  }
+
+  /* HOPPIST */
+  h2 {
+    text-align:              center;
+  }
+
+  /* This builds the flourish with the line and the hop.
+     It's just an hr with a centered image below that gets
+     pulled up by negative margin. */
+  hr {
+    border:                  1px solid #949494;
+    margin-bottom:           0;
+  }
+
+  div.flourish {
+    position:                relative;
+    text-align:              center;
+
+    img  {
+      $hop-icon-width:       27px;
+      $hop-icon-height:      35px;
+      margin-top:            -($hop-icon-height/1.5);
+    }
+  }
+}
