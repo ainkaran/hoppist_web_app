@@ -31,13 +31,13 @@ module.exports = React.createClass({
             <h1 className="branded">...</h1>
           </div>
           <ul>
-            <li><span><a href="#">Alex Taylor    . . . . . . . . . . . . . . </a></span></li>
-            <li><span><a href="#">REVIEW         . . . . . . . . . . . . . . </a></span></li>
-            <li><span><a href="#">FLAVOUR MAP    . . . . . . . . . . . . . . </a></span></li>
-            <li><span><a href="#">MATCH MAKER IS GREAT    . . . . . . . . . . . . . . </a></span></li>
-            <li><span><a href="#">DISCOVER       . . . . . . . . . . . . . . </a></span></li>
-            <li><span><a href="#">BEERS          . . . . . . . . . . . . . . </a></span></li>
-            <li><span><a href="#">BREWERIES      . . . . . . . . . . . . . . </a></span></li>
+            <li><a href="#">Alex Taylor         </a></li>
+            <li><a href="#">REVIEW              </a></li>
+            <li><a href="#">FLAVOUR MAP         </a></li>
+            <li><a href="#">MATCH MAKER IS GREAT</a></li>
+            <li><a href="#">DISCOVER            </a></li>
+            <li><a href="#">BEERS               </a></li>
+            <li><a href="#">BREWERIES           </a></li>
           </ul>
         </div>
       </div>
