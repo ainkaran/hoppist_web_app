@@ -49,7 +49,7 @@ module.exports = React.createClass({
 
         // PAGE COMPONENTS
         <hr />
-        <img src="/assets/alex_avatar.jpg" className="img img-thumbnail" width="145" />
+        <img src="/images/alex_avatar.jpg" className="img img-thumbnail" width="145" />
         <h2>Alex Taylor</h2>
         <h4 className="lighter">Vancouver, B.C.</h4>
 
@@ -71,7 +71,7 @@ module.exports = React.createClass({
 
           <div className="col-image">
             <div className="img-thumbnail beer-thumb">
-              <img src="/assets/hop_circle.png" width="88" height="105" />
+              <img src="/images/hop_circle.png" width="88" height="105" />
             </div>
           </div>
 
@@ -88,6 +88,25 @@ module.exports = React.createClass({
             <p>This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...</p>
           </div>
         </div>
+
+        // BEER REVIEWS
+        <h3>SIXTEEN FAVOURITE BEERS FROM FOUR BREWERIES</h3>
+        <div className="beers">
+          <div className="beer-thumb-large img-thumbnail">
+            <img src="/images/hop_circle.png" width="135" height="161" />
+          </div>
+          <div className="beer-thumb-large img-thumbnail">
+            <img src="/images/hop_circle.png" width="135" height="161" />
+          </div>
+          <div className="beer-thumb-large img-thumbnail">
+            <img src="/images/hop_circle.png" width="135" height="161" />
+          </div>
+          <div className="beer-thumb-large img-thumbnail">
+            <img src="/images/hop_circle.png" width="135" height="161" />
+          </div>
+
+        </div>
+
         <br />
         <br />
         <br />

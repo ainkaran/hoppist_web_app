@@ -51,12 +51,13 @@
 	var Route = __webpack_require__(148).Route
 
 	// pages
-	var StyleGuide = __webpack_require__(197);
+	var StyleGuide = __webpack_require__(198);
+	var BeerShow = __webpack_require__(199);
 
 	ReactDOM.render((
 	  React.createElement(Router, null, 
-	    React.createElement(Route, {path: "/", component: StyleGuide}
-	    )
+	    React.createElement(Route, {path: "/", component: StyleGuide}), 
+	    React.createElement(Route, {path: "/beer-show", component: BeerShow})
 	  )
 	), document.getElementById('container'));
 
@@ -23052,7 +23053,8 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 197 */
+/* 197 */,
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
@@ -23106,7 +23108,7 @@
 
 	        "// PAGE COMPONENTS", 
 	        React.createElement("hr", null), 
-	        React.createElement("img", {src: "/assets/alex_avatar.jpg", className: "img img-thumbnail", width: "145"}), 
+	        React.createElement("img", {src: "/images/alex_avatar.jpg", className: "img img-thumbnail", width: "145"}), 
 	        React.createElement("h2", null, "Alex Taylor"), 
 	        React.createElement("h4", {className: "lighter"}, "Vancouver, B.C."), 
 
@@ -23128,7 +23130,7 @@
 
 	          React.createElement("div", {className: "col-image"}, 
 	            React.createElement("div", {className: "img-thumbnail beer-thumb"}, 
-	              React.createElement("img", {src: "/assets/hop_circle.png", width: "88", height: "105"})
+	              React.createElement("img", {src: "/images/hop_circle.png", width: "88", height: "105"})
 	            )
 	          ), 
 
@@ -23145,10 +23147,54 @@
 	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
 	          )
 	        ), 
+
+	        "// BEER REVIEWS", 
+	        React.createElement("h3", null, "SIXTEEN FAVOURITE BEERS FROM FOUR BREWERIES"), 
+	        React.createElement("div", {className: "beers"}, 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          ), 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          ), 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          ), 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          )
+
+	        ), 
+
 	        React.createElement("br", null), 
 	        React.createElement("br", null), 
 	        React.createElement("br", null)
 	      ));
+	  },
+	});
+
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(148).Link;
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  render() {
+	    return (
+	      React.createElement("div", null, 
+	            React.createElement("div", {className: "navbar-access"}, "..."), 
+	            React.createElement("h2", {className: "branded"}, "HOPPIST"), 
+
+	        React.createElement("nav", null
+	        )
+
+
+	      )
+	    );
 	  },
 	});
 
