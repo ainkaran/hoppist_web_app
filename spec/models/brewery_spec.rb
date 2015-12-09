@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Brewery, type: :model do
-  describe "with valid attributes" do
+  describe "validations" do
     def valid_attributes(new_attributes = {})
       {
         name: "Valid Brewery Name"

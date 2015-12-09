@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Beer, type: :model do
-  describe "with valid attributes" do
+  describe "validations" do
     let(:brewery) { FactoryGirl.create(:brewery) }
     def valid_attributes(new_attributes = {})
       {
@@ -24,6 +24,11 @@ RSpec.describe Beer, type: :model do
     it "should be associated with a brewery" do
       beer = Beer.new(valid_attributes)
       expect(beer.brewery).to be_a(Brewery)
+    end
+
+    it "should be invalid without a brewery" do
+      beer = Beer.new(valid_attributes(brewery:nil))
+      expect(beer).to be_invalid
     end
 
   end
