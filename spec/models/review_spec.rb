@@ -25,7 +25,7 @@ RSpec.describe Review, type: :model do
       expect(review).to be_invalid
     end
 
-    # TODO: work on validations for this matrix
+    # TODO: work on validations for this monstrosity
     # it "should be valid just with body and star rating" do
     #   review = Review.new(valid_attributes(colour_rating: nil, flavour_rating: nil))
     #   expect(review).to be_valid
