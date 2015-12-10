@@ -1,0 +1,15 @@
+.container.container-fluid
+  %h3.branded HOPPIST alpha
+
+  %h2 Let's review some beers.
+  %h2 What's your name?
+
+  = form_tag action: "start" do
+    .form-group
+      = text_field_tag :first_name, nil, placeholder: "first name, required", class: "form-control", autofocus: true
+    .form-group
+      = text_field_tag :last_name, nil, placeholder: "last name (or initial), required", class: "form-control", autofocus: true
+
+
+    .form-group
+      = submit_tag "START", class: "btn btn-primary"
