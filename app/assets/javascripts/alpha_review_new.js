@@ -18,7 +18,7 @@ $(function() {
   });
 
 
-  $("#flavour-gradient").on("click", function() {
+  $("#flavour-gradient").on("click", function(event) {
     var docWidth = $(document).width();
     var clickedAt = event.clientX;
     var spanId = Math.ceil((clickedAt/docWidth)*12)
@@ -41,7 +41,7 @@ $(function() {
   });
 
 
-  $("#colour-gradient").on("click", function() {
+  $("#colour-gradient").on("click", function(event) {
     var docWidth = $(document).width();
     var clickedAt = event.clientX;
     var spanId = Math.ceil((clickedAt/docWidth)*12)
