@@ -1,11 +1,19 @@
 cd /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app
 
-# Git push
-git push origin master
+# run tests
+bundle exec rspec
 
-# Heroku deployment
-git push heroku master
-heroku run rake db:migrate
+if [ $? -eq 0 ]
+  then
+  # Git push
+  git push origin master
 
-# Test 'er out!
-open "http://hoppist.herokuapp.com"
+  # Heroku deployment
+  git push heroku master
+  heroku run rake db:migrate
+
+  # Test 'er out!
+  open "http://hoppist.herokuapp.com"
+else
+  echo "** Deployment halted due to failed tests."
+fi
