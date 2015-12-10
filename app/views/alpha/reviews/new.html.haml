@@ -1,6 +1,6 @@
 .container.container-fluid
-  %h3 Beer Review
-  %h1 What do you think of <em>#{@beer.name}</em>?
+  %h3.branded HOPPIST alpha
+  %h2 What do you think of <em>#{@beer.name}</em>?
 
   = form_for [:alpha, @review] do |f|
     = f.hidden_field :beer_id, value: @beer.id
@@ -9,34 +9,25 @@
       = f.label :star_rating
       = f.hidden_field :star_rating
       #stars
-        %span.glyphicon.glyphicon-star-empty#1{style: "font-size: 60px"}
-        %span.glyphicon.glyphicon-star-empty#2{style: "font-size: 60px"}
-        %span.glyphicon.glyphicon-star-empty#3{style: "font-size: 60px"}
-        %span.glyphicon.glyphicon-star-empty#4{style: "font-size: 60px"}
-        %span.glyphicon.glyphicon-star-empty#5{style: "font-size: 60px"}
+        %span.glyphicon.glyphicon-star-empty#1{style: "font-size: 3.5em"}
+        %span.glyphicon.glyphicon-star-empty#2{style: "font-size: 3.5em"}
+        %span.glyphicon.glyphicon-star-empty#3{style: "font-size: 3.5em"}
+        %span.glyphicon.glyphicon-star-empty#4{style: "font-size: 3.5em"}
+        %span.glyphicon.glyphicon-star-empty#5{style: "font-size: 3.5em"}
 
     .form-group
       = f.label :colour_rating
       %p <em>dark / light</em>
       = f.hidden_field :colour_rating
       #colour-gradient
-        .container-fluid
-          .row
-            - 12.times do |i|
-              %div{class: "col-xs-1", id: i+1}
-                %span.glyphicon.glyphicon-minus
+        %p#colour-rating-display ~
 
     .form-group
       = f.label :flavour_rating
       %p <em>malty / hoppy</em>
       = f.hidden_field :flavour_rating
       #flavour-gradient
-        .container-fluid
-          .row
-            - 12.times do |i|
-              %div{class: "col-xs-1", id: i+1}
-                %span.glyphicon.glyphicon-minus
-
+        %p#flavour-rating-display ~
 
     .form-group
       = f.submit "SUBMIT", class: "btn btn-primary"

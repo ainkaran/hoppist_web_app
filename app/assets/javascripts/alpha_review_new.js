@@ -18,9 +18,13 @@ $(function() {
   });
 
 
-  $("#flavour-gradient div.col-xs-1").on("click", function() {
-    var spanId = $(this).attr("id");
+  $("#flavour-gradient").on("click", function() {
+    var docWidth = $(document).width();
+    var clickedAt = event.clientX;
+    var spanId = Math.ceil((clickedAt/docWidth)*12)
+
     $("#review_flavour_rating").val(spanId);
+    $("#flavour-rating-display").html(spanId);
     var i = 1;
     while(i <= 12) {
       var selector = $("#flavour-gradient div.col-xs-1#" + i);
@@ -37,9 +41,13 @@ $(function() {
   });
 
 
-  $("#colour-gradient div.col-xs-1").on("click", function() {
-    var spanId = $(this).attr("id");
+  $("#colour-gradient").on("click", function() {
+    var docWidth = $(document).width();
+    var clickedAt = event.clientX;
+    var spanId = Math.ceil((clickedAt/docWidth)*12)
+
     $("#review_colour_rating").val(spanId);
+    $("#colour-rating-display").html(spanId);
     var i = 1;
     while(i <= 12) {
       var selector = $("#colour-gradient div.col-xs-1#" + i);
