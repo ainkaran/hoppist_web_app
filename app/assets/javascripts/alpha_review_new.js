@@ -62,4 +62,10 @@ $(function() {
       i++;
     };
   });
-});
+
+  $("#skip-button").on("click",function () {
+    event.preventDefault();
+    location.reload();
+  });
+
+}); // document ready

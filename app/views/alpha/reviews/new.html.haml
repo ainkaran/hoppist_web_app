@@ -6,7 +6,6 @@
     = f.hidden_field :beer_id, value: @beer.id
 
     .form-group
-      = f.label :star_rating
       = f.hidden_field :star_rating
       #stars
         %span.glyphicon.glyphicon-star-empty#1{style: "font-size: 3.5em"}
@@ -16,18 +15,17 @@
         %span.glyphicon.glyphicon-star-empty#5{style: "font-size: 3.5em"}
 
     .form-group
-      = f.label :colour_rating
-      %p <em>dark / light</em>
+      = f.label :colour_rating, "Colour (dark/light)"
       = f.hidden_field :colour_rating
       #colour-gradient
         %p#colour-rating-display ~
 
     .form-group
-      = f.label :flavour_rating
-      %p <em>malty / hoppy</em>
+      = f.label :flavour_rating, "Flavour (malty/hoppy)"
       = f.hidden_field :flavour_rating
       #flavour-gradient
         %p#flavour-rating-display ~
 
     .form-group
       = f.submit "SUBMIT", class: "btn btn-primary"
+      = f.submit "SKIP", class: "btn btn-danger pull-right", id: "skip-button"
