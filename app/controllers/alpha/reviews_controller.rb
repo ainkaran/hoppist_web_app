@@ -3,6 +3,9 @@ class Alpha::ReviewsController < ApplicationController
     redirect_to new_alpha_review_path if session[:user_id]
   end
 
+  def end
+  end
+
   def save_user
     first_name = params[:first_name].downcase
     last_name = params[:last_name].downcase
@@ -25,8 +28,17 @@ class Alpha::ReviewsController < ApplicationController
 
 
   def new
-    @beer   = Beer.joins('LEFT OUTER JOIN "reviews" ON "reviews"."beer_id" = "beers"."id"').where("user_id IS DISTINCT FROM 1").sample
-    @review = Review.new
+    unless session[:user_id]
+      redirect_to alpha_beer_reviewer_path
+      return
+    end
+
+    @beer   = Beer.joins('LEFT OUTER JOIN "reviews" ON "reviews"."beer_id" = "beers"."id"').where("user_id IS DISTINCT FROM ?", session[:user_id]).sample
+    if @beer.present?
+      @review = Review.new
+    else
+      redirect_to alpha_end_path
+    end
   end
 
   def create
