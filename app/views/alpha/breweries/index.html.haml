@@ -5,7 +5,8 @@
     or
     = link_to "Random", new_alpha_review_path
 
-  %h2= @brewery.name
+  %h2 Breweries
+  %p More to come..
 
-  - @brewery.beers.each do |beer|
-    %p= link_to beer.name, alpha_brewery_beer_path(@brewery, beer)
+  - @breweries.each do |brewery|
+    %p= link_to brewery.name, alpha_brewery_path(brewery)

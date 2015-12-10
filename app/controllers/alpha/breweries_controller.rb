@@ -15,7 +15,16 @@ class Alpha::BreweriesController < ApplicationController
     end
   end
 
+  def index
+    @breweries = Brewery.all.order(:name)
+  end
+
   def show
+    @brewery = Brewery.find(params[:id])
+  end
+
+
+  def admin_show
     @brewery = Brewery.find(params[:id])
   end
 

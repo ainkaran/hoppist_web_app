@@ -4,6 +4,7 @@ class Review < ActiveRecord::Base
 
   validates :user, presence: true
   validates :beer, presence: true
+  validates :user_id, uniqueness: { scope: :beer_id }
   # validates :body, presence: true, if: "star_rating.present?"
   # validates :flavour_rating, presence: true, if: "colour_rating.present?"
   #

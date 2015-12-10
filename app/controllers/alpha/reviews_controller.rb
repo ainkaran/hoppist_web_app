@@ -44,8 +44,12 @@ class Alpha::ReviewsController < ApplicationController
   def create
     @review = Review.new(review_params)
     @review.user = User.first
-    @review.save!
-    redirect_to new_alpha_review_path
+    @review.save
+    if params[:review][:from_show_page]
+      redirect_to alpha_brewery_path(@review.beer.brewery)
+    else
+      redirect_to new_alpha_review_path
+    end
   end
 
   private

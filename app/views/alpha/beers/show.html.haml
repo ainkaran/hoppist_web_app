@@ -4,9 +4,11 @@
     = link_to "View by Brewery", alpha_breweries_path
     or
     = link_to "Random", new_alpha_review_path
-  %h2 What do you think of <em>#{@beer.name}</em> by <em>#{@beer.brewery.name}</em>?
 
+  %h2= @beer.name
+  %h3 Review this beer
   = form_for [:alpha, @review] do |f|
+    = f.hidden_field :from_show_page, value: 1
     = f.hidden_field :beer_id, value: @beer.id
 
     .form-group

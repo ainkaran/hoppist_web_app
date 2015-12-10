@@ -13,6 +13,19 @@ class Alpha::BeersController < ApplicationController
     redirect_to alpha_brewery_path(brewery)
   end
 
+  def index
+  end
+
+  def show
+    unless session[:user_id]
+      redirect_to alpha_beer_reviewer_path
+      return
+    end
+
+    @beer = Beer.find(params[:id])
+    @review = Review.new
+  end
+
   private
   def beer_params
     params.require(:beer).permit([:name, :brewery])
