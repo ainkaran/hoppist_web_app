@@ -1,6 +1,6 @@
 .container.container-fluid
   %h3.branded HOPPIST alpha
-  %h2 What do you think of <em>#{@beer.name}</em>?
+  %h2 What do you think of <em>#{@beer.name}</em> by <em>#{@beer.brewery.name}</em>?
 
   = form_for [:alpha, @review] do |f|
     = f.hidden_field :beer_id, value: @beer.id
