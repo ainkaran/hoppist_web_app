@@ -7,8 +7,9 @@ Rails.application.routes.draw do
     get "/end" => "reviews#end"
 
     # admin
-    get "/admin/breweries/new" => "breweries#new"
-    get "/admin/breweries/:id" => "breweries#admin_show"
+    get  "/admin/breweries/new" => "breweries#new"
+    post "/admin/breweries" => "breweries#create"
+    get  "/admin/breweries/:id" => "breweries#admin_show", as: :admin_brewery_show
 
     resources :reviews, only: [:new, :create]
     resources :breweries, only: [:index, :show] do

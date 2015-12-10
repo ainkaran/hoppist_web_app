@@ -5,12 +5,12 @@
     %h2 Breweries
     - @breweries.each do |brewery|
       %div
-        = link_to brewery.name, alpha_brewery_path(brewery)
+        = link_to brewery.name, alpha_admin_brewery_show_path(brewery)
 
   .col-md-8
     %h1 New Brewery
 
-    = form_for [:alpha, @brewery] do |f|
+    = form_for [:alpha, :admin, @brewery] do |f|
       .form-group
         = f.label :name
         = f.text_field :name, class: "form-control", autofocus: true

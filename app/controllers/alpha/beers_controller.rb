@@ -10,7 +10,7 @@ class Alpha::BeersController < ApplicationController
       flash[:alert] = "Error saving beer!"
     end
 
-    redirect_to alpha_brewery_path(brewery)
+    redirect_to alpha_admin_brewery_show_path(brewery)
   end
 
   def index

@@ -8,7 +8,7 @@ class Alpha::BreweriesController < ApplicationController
     @brewery = Brewery.new(brewery_params)
     if @brewery.save
       flash[:notice] = "Brewery saved."
-      redirect_to new_alpha_brewery_path
+      redirect_to alpha_admin_breweries_new_path
     else
       flash[:alert] = "Invalid brewery"
       render :new
