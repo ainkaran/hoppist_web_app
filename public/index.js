@@ -23097,10 +23097,11 @@
 	  },
 
 	  render() {
-	    var style = this.state.menuIsActive ? 'mobile-navbar is-active' : 'mobile-navbar';
+	    var style = this.state.menuIsActive ? 'is-active' : '';
 
 	    return (
 	      React.createElement("div", null, 
+	        React.createElement("div", {id: "navbar-dimmer", className: style}), 
 	        React.createElement("nav", {className: "hoppist-header"}, 
 	          React.createElement("h1", {className: "branded", onClick: this.handleMenuClick}, "..."), 
 	          React.createElement("h2", {className: "branded"}, "HOPPIST"), 
@@ -23110,7 +23111,7 @@
 	          )
 	        ), 
 
-	        React.createElement("div", {className: style}, 
+	        React.createElement("div", {id: "mobile-navbar", className: style}, 
 	          React.createElement("div", {onClick: this.handleMenuClick}, 
 	            React.createElement("h4", {className: "branded"}, "HOPPIST"), 
 	            React.createElement("h1", {className: "branded"}, "...")

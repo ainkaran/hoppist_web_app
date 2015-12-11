@@ -12,10 +12,11 @@ module.exports = React.createClass({
   },
 
   render() {
-    var style = this.state.menuIsActive ? 'mobile-navbar is-active' : 'mobile-navbar';
+    var style = this.state.menuIsActive ? 'is-active' : '';
 
     return (
       <div>
+        <div id="navbar-dimmer" className={style}></div>
         <nav className="hoppist-header">
           <h1 className="branded" onClick={this.handleMenuClick}>...</h1>
           <h2 className="branded">HOPPIST</h2>
@@ -25,7 +26,7 @@ module.exports = React.createClass({
           </div>
         </nav>
 
-        <div className={style}>
+        <div id="mobile-navbar" className={style}>
           <div onClick={this.handleMenuClick}>
             <h4 className="branded">HOPPIST</h4>
             <h1 className="branded">...</h1>
