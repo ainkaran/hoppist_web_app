@@ -1,15 +1,16 @@
 /* Slides out from left, all cool-like. */
 div.mobile-navbar {
-  position:                  fixed;
-  top:                       0;
-  left:                      0;
-  width:                     160px;
-  height:                    100%;
-  padding:                   15px;
   background-color:          white;
   box-shadow:                0px 2px 4px 0px rgba(0,0,0,0.50);
+  left:                      0;
+  height:                    100%;
+  padding:                   15px;
+  position:                  fixed;
+  top:                       0;
   transform:                 translateX(-101%); // 101 will hide the shadow, too
   transition:                transform 100ms;
+  width:                     160px;
+  z-index:                   999;
 
   &.is-active {
     transform:               translateX(0);
