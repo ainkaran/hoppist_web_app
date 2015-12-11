@@ -1,6 +1,7 @@
 'use strict'
 var React = require('react');
 var Link = require('react-router').Link;
+var FlavourMapEmbedded = require("./_flavour_map_embedded");
 
 // application layout
 module.exports = React.createClass({
@@ -111,9 +112,7 @@ module.exports = React.createClass({
         <br />
         <br />
         // FLAVOUR MAP
-        <div id="flavour-map-embedded">
-          <div id="target"></div>
-        </div>
+        <FlavourMapEmbedded />
       </div>);
   },
 });
