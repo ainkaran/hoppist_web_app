@@ -1,0 +1,31 @@
+#target {
+  // global styles for all targets
+  background-color:          white;
+  border-radius:             50%;
+  box-shadow:                0px 2px 4px 0px rgba(0,0,0,0.50);
+}
+
+#flavour-map-embedded {
+  background-image:          url("/images/flavour_map.svg");
+  background-repeat:         no-repeat;
+  background-size:           contain;
+  display:                   block;
+  height:                    277px;
+  position:                  relative;
+  width:                     100%;
+
+  #target {
+    /* @media */
+    height:                  2em;
+    position:                absolute;
+    width:                   2em;
+  }
+}
+
+
+@media (min-width: $screen-md-min) {
+  #flavour-map-embedded #target {
+    height:                  2em;
+    width:                   2em;
+  }
+}

@@ -110,6 +110,10 @@ module.exports = React.createClass({
         <br />
         <br />
         <br />
+        // FLAVOUR MAP
+        <div id="flavour-map-embedded">
+          <div id="target"></div>
+        </div>
       </div>);
   },
 });

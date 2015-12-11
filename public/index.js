@@ -23247,7 +23247,11 @@
 
 	        React.createElement("br", null), 
 	        React.createElement("br", null), 
-	        React.createElement("br", null)
+	        React.createElement("br", null), 
+	        "// FLAVOUR MAP", 
+	        React.createElement("div", {id: "flavour-map-embedded"}, 
+	          React.createElement("div", {id: "target"})
+	        )
 	      ));
 	  },
 	});
