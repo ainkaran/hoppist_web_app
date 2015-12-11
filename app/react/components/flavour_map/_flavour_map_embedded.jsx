@@ -26,6 +26,7 @@ module.exports = React.createClass({
     return (
       <div id="flavour-map-embedded">
         <Draggable
+          start={this.props.heroTarget}
           bounds="parent"
           handle=".handle"
           zIndex={100}

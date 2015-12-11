@@ -1,7 +1,7 @@
 'use strict'
 var React = require('react');
 var Link = require('react-router').Link;
-var FlavourMapEmbedded = require("./_flavour_map_embedded");
+var FlavourMapEmbedded = require("./flavour_map/_flavour_map_embedded");
 
 // application layout
 module.exports = React.createClass({

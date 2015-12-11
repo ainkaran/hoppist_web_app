@@ -52,23 +52,35 @@
 	// react-router
 	var Router = __webpack_require__(148).Router
 	var Route = __webpack_require__(148).Route
+	var IndexRoute = __webpack_require__(148).IndexRoute
 
 	// pages
-	var App = __webpack_require__(197);
-	var StyleGuide = __webpack_require__(199);
-	var BeerShow = __webpack_require__(201);
-
-	// test pages
-	var Draggable = __webpack_require__(202);
+	var App                      = __webpack_require__(197);
+	var BeerIndex                = __webpack_require__(199);
+	var BeerShow                 = __webpack_require__(200);
+	var BeerShowFlavourMap       = __webpack_require__(201);
+	var BeerShowReviews          = __webpack_require__(202);
+	var StyleGuide               = __webpack_require__(203);
 
 
 	ReactDOM.render((
 	  React.createElement(Router, null, 
 	    React.createElement(Route, {path: "/", component: App}, 
+	      React.createElement(Route, {path: "beers", component: BeerIndex}), 
+	      React.createElement(Route, {path: "beers/:id", component: BeerShow}, 
+	        React.createElement(IndexRoute, {component: BeerShowFlavourMap}), 
+	        React.createElement(Route, {path: "flavour-map", component: BeerShowFlavourMap}), 
+	        React.createElement(Route, {path: "reviews", component: BeerShowReviews})
+	      ), 
+
+
+
+
+	      /* TEST ROUTES */
 	      React.createElement(Route, {path: "styleguide", component: StyleGuide}), 
-	      React.createElement(Route, {path: "styleguide/beer-show", component: BeerShow}), 
-	      React.createElement(Route, {path: "tests/draggable", component: Draggable})
-	    )
+	      React.createElement(Route, {path: "styleguide/beer-show", component: BeerShow})
+
+	  )
 	  )
 	), document.getElementById('container'));
 
@@ -23142,8 +23154,144 @@
 
 	'use strict'
 	var React = __webpack_require__(1);
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  render: function() {
+	    return (
+	      React.createElement("h1", null, "Beer Index")
+	    );
+	  }
+	});
+
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	var React = __webpack_require__(1);
 	var Link = __webpack_require__(148).Link;
-	var FlavourMapEmbedded = __webpack_require__(200);
+
+	var Reviews = __webpack_require__(202);
+	var FlavourMap = __webpack_require__(201);
+
+	module.exports = React.createClass({displayName: "module.exports",
+
+	  render() {
+	    var beerId = this.props.params.id
+
+	    return (
+	      React.createElement("div", {id: "beer-show"}, 
+	        React.createElement("div", {id: "beer-show-header"}, 
+	          /* TODO: fix thumbnail on mobile, it gets squished by the flex layout */
+	          React.createElement("div", {id: "beer-show-header-thumb"}, 
+	            /* TODO: remove hard-coding on beer thumbnail image */
+	            React.createElement("img", {src: "/images/hop_circle.png", className: "img img-thumbnail"})
+	          ), 
+	          React.createElement("div", {id: "beer-show-header-detail"}, 
+	            React.createElement("div", {id: "beer-show-header-detail-title-block"}, 
+	              React.createElement("h2", {className: "flush-with-top"}, "Big Long Beer Name It’s Great"), 
+	              React.createElement("h4", null, React.createElement("a", {href: "#"}, "Phillips Brewing Co.")), 
+	              React.createElement("p", {className: "indent italicize lighter"}, "ale; 5pct; 45 ibu")
+	            ), 
+	            React.createElement("div", {className: "review-stars"}, 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"})
+	            ), 
+	            React.createElement("p", {className: "indent italicize lighter"}, "out of 15 reviews"), 
+	            React.createElement("p", null, React.createElement("span", {className: "glyphicon glyphicon-grain"}), " growler fills"), 
+	            React.createElement("p", null, React.createElement("span", {className: "glyphicon glyphicon-grain"}), " bottles / cans")
+	          ), 
+	          React.createElement("div", {id: "beer-show-header-actions"}, 
+	            React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), 
+	            React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add")
+	          )
+	        ), 
+
+	        React.createElement("ul", {className: "nav nav-tabs"}, 
+	          /* TODO: figure out a good way to abstract these URLs, maybe with some Rails-style link helpers */
+	          /* TODO: fix the case of the stuck hover state on these tabs */
+	          React.createElement("li", null, React.createElement(Link, {to: `/beers/${beerId}/flavour-map`, activeClassName: "active"}, "Flavour Map")), 
+	          React.createElement("li", null, React.createElement(Link, {to: `/beers/${beerId}/reviews`, activeClassName: "active"}, "Reviews"))
+	        ), 
+
+	        React.createElement("div", {id: "nested-content"}, 
+	          this.props.children
+	        )
+
+
+
+	      )
+	    );
+	  },
+	});
+
+
+/***/ },
+/* 201 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	var React = __webpack_require__(1);
+	var FlavourMapEmbedded = __webpack_require__(206);
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  render: function() {
+	    // TODO: don't hardcode the hero target
+	    var heroTargetCoords = {x: 300, y: 100};
+
+	    return (
+	      React.createElement(FlavourMapEmbedded, {heroTarget: heroTargetCoords})
+	    );
+	  }
+	});
+
+
+/***/ },
+/* 202 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	var React = __webpack_require__(1);
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  render: function() {
+	    return (
+	      React.createElement("div", {id: "reviews"}, 
+
+	        /* example of a single review: */
+	        React.createElement("div", {className: "beer-card clearfix"}, 
+	          React.createElement("div", {className: "col-review"}, 
+	            React.createElement("h5", null, React.createElement("a", {href: "#"}, "Alex T."), " ", React.createElement("i", null, "on June 15, 2015")), 
+	            React.createElement("div", {className: "review-stars"}, 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"})
+	            ), 
+	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
+	          )
+	        )
+
+	      )
+	    );
+	  }
+	});
+
+
+/***/ },
+/* 203 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(148).Link;
+	var FlavourMapEmbedded = __webpack_require__(206);
 
 	// application layout
 	module.exports = React.createClass({displayName: "module.exports",
@@ -23261,168 +23409,8 @@
 
 
 /***/ },
-/* 200 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	var React = __webpack_require__(1);
-	var Draggable = __webpack_require__(203);
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  getInitialState: function() {
-	    return {
-	      targetPos: {x: 0, y: 0}
-	    };
-	  },
-
-
-	  handleTargetStop(event, ui) {
-	    // maybe we need this?
-	    console.log("Target position: " + this.state.targetPos.x + "," + this.state.targetPos.y);
-	  },
-
-	  handleTargetDrag(event, ui) {
-	    // TODO: this is a hack right now because ui.position on stop is NaN
-	    // for touch events. so instead we continually set the state during drag.
-	    // not ideal?
-	    this.setState({ targetPos: { x: ui.position.left, y: ui.position.top } });
-	  },
-
-	  render() {
-	    return (
-	      React.createElement("div", {id: "flavour-map-embedded"}, 
-	        React.createElement(Draggable, {
-	          bounds: "parent", 
-	          handle: ".handle", 
-	          zIndex: 100, 
-	          onDrag: this.handleTargetDrag, 
-	          onStop: this.handleTargetStop}, 
-	          React.createElement("div", {id: "target", className: "handle"})
-	        )
-	      )
-	    );
-	  },
-	});
-
-
-/***/ },
-/* 201 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(148).Link;
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  render() {
-	    return (
-	      React.createElement("div", {id: "beer-show"}, 
-	        React.createElement("div", {id: "beer-show-header"}, 
-	          /* TODO: fix thumbnail on mobile, it gets squished by the flex layout */
-	          React.createElement("div", {id: "beer-show-header-thumb"}, 
-	            /* TODO: remove hard-coding on beer thumbnail image */
-	            React.createElement("img", {src: "/images/hop_circle.png", className: "img img-thumbnail"})
-	          ), 
-	          React.createElement("div", {id: "beer-show-header-detail"}, 
-	            React.createElement("div", {id: "beer-show-header-detail-title-block"}, 
-	              React.createElement("h2", {className: "flush-with-top"}, "Big Long Beer Name It’s Great"), 
-	              React.createElement("h4", null, React.createElement("a", {href: "#"}, "Phillips Brewing Co.")), 
-	              React.createElement("p", {className: "indent italicize lighter"}, "ale; 5pct; 45 ibu")
-	            ), 
-	            React.createElement("div", {className: "review-stars"}, 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"})
-	            ), 
-	            React.createElement("p", {className: "indent italicize lighter"}, "out of 15 reviews"), 
-	            React.createElement("p", null, React.createElement("span", {className: "glyphicon glyphicon-grain"}), " growler fills"), 
-	            React.createElement("p", null, React.createElement("span", {className: "glyphicon glyphicon-grain"}), " bottles / cans")
-	          ), 
-	          React.createElement("div", {id: "beer-show-header-actions"}, 
-	            React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), 
-	            React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add")
-	          )
-	        ), 
-
-	        React.createElement("ul", {className: "nav nav-tabs"}, 
-	          React.createElement("li", null, React.createElement("a", {href: "#"}, "Flavour Map")), 
-	          React.createElement("li", {className: "active"}, React.createElement("a", {href: "#"}, "Reviews"))
-	        ), 
-
-	        React.createElement("div", {id: "nested-content"}
-
-	        ), 
-	        React.createElement("div", {className: "beer-card clearfix"}, 
-	          React.createElement("div", {className: "col-review"}, 
-	            React.createElement("h5", null, React.createElement("a", {href: "#"}, "Alex T."), " ", React.createElement("i", null, "on June 15, 2015")), 
-	            React.createElement("div", {className: "review-stars"}, 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"})
-	            ), 
-	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
-	          )
-	        )
-
-
-
-	      )
-	    );
-	  },
-	});
-
-
-/***/ },
-/* 202 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	var React = __webpack_require__(1);
-	var Draggable = __webpack_require__(203);
-
-	module.exports = React.createClass({displayName: "module.exports",
-		handleStart: function (event, ui) {
-			console.log('Event: ', event);
-			console.log('Position: ', ui.position);
-		},
-
-		handleDrag: function (event	, ui) {
-			console.log('Event: ', event);
-	    console.log('Position: ', ui.position);
-		},
-
-		handleStop: function (event, ui) {
-			console.log('Event: ', event);
-	    console.log('Position: ', ui.position);
-		},
-
-		render: function () {
-			return (
-				React.createElement(Draggable, {
-					axis: "x", 
-					handle: ".handle", 
-					start: {x: 0, y: 0}, 
-					grid: [25, 25], 
-					zIndex: 100, 
-					onStart: this.handleStart, 
-					onDrag: this.handleDrag, 
-					onStop: this.handleStop}, 
-					React.createElement("div", null, 
-						React.createElement("div", {className: "handle"}, "Drag from here"), 
-						React.createElement("div", null, "This readme is really dragging on...")
-					)
-				)
-			);
-		}
-	});
-
-
-/***/ },
-/* 203 */
+/* 204 */,
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
@@ -24801,6 +24789,52 @@
 	});
 	;
 	//# sourceMappingURL=react-draggable.js.map
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	var React = __webpack_require__(1);
+	var Draggable = __webpack_require__(205);
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  getInitialState: function() {
+	    return {
+	      targetPos: {x: 0, y: 0}
+	    };
+	  },
+
+
+	  handleTargetStop(event, ui) {
+	    // maybe we need this?
+	    console.log("Target position: " + this.state.targetPos.x + "," + this.state.targetPos.y);
+	  },
+
+	  handleTargetDrag(event, ui) {
+	    // TODO: this is a hack right now because ui.position on stop is NaN
+	    // for touch events. so instead we continually set the state during drag.
+	    // not ideal?
+	    this.setState({ targetPos: { x: ui.position.left, y: ui.position.top } });
+	  },
+
+	  render() {
+	    return (
+	      React.createElement("div", {id: "flavour-map-embedded"}, 
+	        React.createElement(Draggable, {
+	          start: this.props.heroTarget, 
+	          bounds: "parent", 
+	          handle: ".handle", 
+	          zIndex: 100, 
+	          onDrag: this.handleTargetDrag, 
+	          onStop: this.handleTargetStop}, 
+	          React.createElement("div", {id: "target", className: "handle"})
+	        )
+	      )
+	    );
+	  },
+	});
+
 
 /***/ }
 /******/ ]);

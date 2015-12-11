@@ -2,8 +2,14 @@
 var React = require('react');
 var Link = require('react-router').Link;
 
+var Reviews = require("./_reviews");
+var FlavourMap = require("./_flavour_map");
+
 module.exports = React.createClass({
+
   render() {
+    var beerId = this.props.params.id
+
     return (
       <div id="beer-show">
         <div id="beer-show-header">
@@ -36,25 +42,14 @@ module.exports = React.createClass({
         </div>
 
         <ul className="nav nav-tabs">
-          <li><a href="#">Flavour Map</a></li>
-          <li className="active"><a href="#">Reviews</a></li>
+          {/* TODO: figure out a good way to abstract these URLs, maybe with some Rails-style link helpers */}
+          {/* TODO: fix the case of the stuck hover state on these tabs */}
+          <li><Link to={`/beers/${beerId}/flavour-map`} activeClassName={"active"}>Flavour Map</Link></li>
+          <li><Link to={`/beers/${beerId}/reviews`} activeClassName={"active"}>Reviews</Link></li>
         </ul>
 
         <div id="nested-content">
-
-        </div>
-        <div className="beer-card clearfix">
-          <div className="col-review">
-            <h5><a href="#">Alex T.</a> <i>on June 15, 2015</i></h5>
-            <div className="review-stars">
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-            </div>
-            <p>This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...</p>
-          </div>
+          {this.props.children}
         </div>
 
 
