@@ -1,0 +1,65 @@
+#beer-show-header {
+  /* @media */
+  display:                   -webkit-flex;
+  display:                   flex;
+  margin-left:               -15px;
+  margin-right:              -15px;
+
+  .review-stars span {
+    font-size:               25px;
+  }
+
+  .indent {
+    padding-left:            10px;
+  }
+
+}
+
+#beer-show-header-thumb {
+  /* @media */
+  flex-shrink:               0;
+  margin-right:              15px;
+
+  img {
+    width: 110px;
+    height: auto;
+  }
+}
+
+#beer-show-header-detail {
+  flex-grow:                 2;
+}
+
+#beer-show-header-detail-title-block {
+  margin-bottom:             15px;
+}
+
+#beer-show .nav-tabs {
+  /* @media */
+  margin-left:               ($grid-gutter-width / -2);
+  margin-right:              ($grid-gutter-width / -2);
+}
+
+#nested-content {
+  // flavour map, reviews, etc
+  margin-top:                20px;
+}
+
+
+@media (min-width: $screen-sm-min) {
+  #beer-show-header {
+    margin-left:             0;
+    margin-right:            0;
+  }
+
+  #beer-show-header-thumb {
+    img {
+      width: 175px;
+    }
+  }
+
+  #beer-show .nav-tabs {
+    margin-left:             0;
+    margin-right:            0;
+  }
+}

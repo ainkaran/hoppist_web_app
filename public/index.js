@@ -45,21 +45,26 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
+	// react
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(2);
+
+	// react-router
 	var Router = __webpack_require__(148).Router
 	var Route = __webpack_require__(148).Route
 
 	// pages
-	var StyleGuide = __webpack_require__(197);
-	var BeerShow = __webpack_require__(198);
-	var Navbar = __webpack_require__(199);
+	var App = __webpack_require__(197);
+	var StyleGuide = __webpack_require__(199);
+	var BeerShow = __webpack_require__(200);
+
 
 	ReactDOM.render((
 	  React.createElement(Router, null, 
-	    React.createElement(Route, {path: "/", component: StyleGuide}), 
-	    React.createElement(Route, {path: "/beer-show", component: BeerShow}), 
-	    React.createElement(Route, {path: "/navbar", component: Navbar})
+	    React.createElement(Route, {path: "/", component: App}, 
+	      React.createElement(Route, {path: "styleguide", component: StyleGuide}), 
+	      React.createElement(Route, {path: "styleguide/beer-show", component: BeerShow})
+	    )
 	  )
 	), document.getElementById('container'));
 
@@ -23060,6 +23065,78 @@
 
 	'use strict'
 	var React = __webpack_require__(1);
+	var HeaderNavbar = __webpack_require__(198);
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  render() {
+	    return (
+	      React.createElement("div", {id: "app"}, 
+	        React.createElement(HeaderNavbar, null), 
+	        this.props.children
+	      )
+	    );
+	  },
+	});
+
+
+/***/ },
+/* 198 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(148).Link;
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  getInitialState() {
+	    return { menuIsActive: false };
+	  },
+
+	  handleMenuClick() {
+	    this.setState( { menuIsActive: !this.state.menuIsActive } );
+	  },
+
+	  render() {
+	    var style = this.state.menuIsActive ? 'mobile-navbar is-active' : 'mobile-navbar';
+
+	    return (
+	      React.createElement("div", null, 
+	        React.createElement("nav", {className: "hoppist-header"}, 
+	          React.createElement("h1", {className: "branded", onClick: this.handleMenuClick}, "..."), 
+	          React.createElement("h2", {className: "branded"}, "HOPPIST"), 
+	          React.createElement("div", {className: "flourish"}, 
+	            React.createElement("hr", null), 
+	            React.createElement("img", {src: "/images/hop.png"})
+	          )
+	        ), 
+
+	        React.createElement("div", {className: style}, 
+	          React.createElement("div", {onClick: this.handleMenuClick}, 
+	            React.createElement("h4", {className: "branded"}, "HOPPIST"), 
+	            React.createElement("h1", {className: "branded"}, "...")
+	          ), 
+	          React.createElement("ul", null, 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "Alex Taylor         ")), 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "REVIEW              ")), 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "FLAVOUR MAP         ")), 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "MATCH MAKER IS GREAT")), 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "DISCOVER            ")), 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "BEERS               ")), 
+	            React.createElement("li", null, React.createElement("a", {href: "#"}, "BREWERIES           "))
+	          )
+	        )
+	      )
+	    );
+	  },
+	});
+
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	var React = __webpack_require__(1);
 	var Link = __webpack_require__(148).Link;
 
 	// application layout
@@ -23176,72 +23253,73 @@
 
 
 /***/ },
-/* 198 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(148).Link;
-	var Navbar = __webpack_require__(199);
 
 	module.exports = React.createClass({displayName: "module.exports",
-	  getInitialState() {
-	    return { menuIsActive: false };
-	  },
-
-	  handleMenuClick() {
-	    this.setState( { menuIsActive: !this.state.menuIsActive } );
-	  },
-
 	  render() {
-	    var style = this.state.menuIsActive ? 'mobile-navbar is-active' : 'mobile-navbar';
-
 	    return (
-	      React.createElement("div", null, 
-	        React.createElement("nav", {className: "hoppist-header"}, 
-	            React.createElement("h1", {className: "branded", onClick: this.handleMenuClick}, "..."), 
-	            React.createElement("h2", {className: "branded"}, "HOPPIST"), 
-	            React.createElement("div", {className: "flourish"}, 
-	              React.createElement("hr", null), 
-	              React.createElement("img", {src: "/images/hop.png"})
-	            )
-	        ), 
-	        React.createElement("div", {className: style}, 
-	          React.createElement("div", {onClick: this.handleMenuClick}, 
-	            React.createElement("h4", {className: "branded"}, "HOPPIST"), 
-	            React.createElement("h1", {className: "branded"}, "...")
+	      React.createElement("div", {id: "beer-show"}, 
+	        React.createElement("div", {id: "beer-show-header"}, 
+	          /* TODO: fix thumbnail on mobile, it gets squished by the flex layout */
+	          React.createElement("div", {id: "beer-show-header-thumb"}, 
+	            /* TODO: remove hard-coding on beer thumbnail image */
+	            React.createElement("img", {src: "/images/hop_circle.png", className: "img img-thumbnail"})
 	          ), 
-	          React.createElement("ul", null, 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "Alex Taylor         ")), 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "REVIEW              ")), 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "FLAVOUR MAP         ")), 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "MATCH MAKER IS GREAT")), 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "DISCOVER            ")), 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "BEERS               ")), 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "BREWERIES           "))
+	          React.createElement("div", {id: "beer-show-header-detail"}, 
+	            React.createElement("div", {id: "beer-show-header-detail-title-block"}, 
+	              React.createElement("h2", {className: "flush-with-top"}, "Big Long Beer Name It’s Great"), 
+	              React.createElement("h4", null, React.createElement("a", {href: "#"}, "Phillips Brewing Co.")), 
+	              React.createElement("p", {className: "indent italicize lighter"}, "ale; 5pct; 45 ibu")
+	            ), 
+	            React.createElement("div", {className: "review-stars"}, 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"})
+	            ), 
+	            React.createElement("p", {className: "indent italicize lighter"}, "out of 15 reviews"), 
+	            React.createElement("p", null, React.createElement("span", {className: "glyphicon glyphicon-grain"}), " growler fills"), 
+	            React.createElement("p", null, React.createElement("span", {className: "glyphicon glyphicon-grain"}), " bottles / cans")
+	          ), 
+	          React.createElement("div", {id: "beer-show-header-actions"}, 
+	            React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), 
+	            React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add")
+	          )
+	        ), 
+
+	        React.createElement("ul", {className: "nav nav-tabs"}, 
+	          React.createElement("li", null, React.createElement("a", {href: "#"}, "Flavour Map")), 
+	          React.createElement("li", {className: "active"}, React.createElement("a", {href: "#"}, "Reviews"))
+	        ), 
+
+	        React.createElement("div", {id: "nested-content"}
+
+	        ), 
+	        React.createElement("div", {className: "beer-card clearfix"}, 
+	          React.createElement("div", {className: "col-review"}, 
+	            React.createElement("h5", null, React.createElement("a", {href: "#"}, "Alex T."), " ", React.createElement("i", null, "on June 15, 2015")), 
+	            React.createElement("div", {className: "review-stars"}, 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"})
+	            ), 
+	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
 	          )
 	        )
+
+
+
 	      )
 	    );
 	  },
-	});
-
-
-/***/ },
-/* 199 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(148).Link;
-	// TODO: how to we require something up here and use it down there
-	module.exports = React.createClass({displayName: "module.exports",
-
-	  render() {
-	    return (React.createElement("h1", null, "navbar!"));
-	  },
-
 	});
 
 

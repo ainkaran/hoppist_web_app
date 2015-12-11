@@ -1,7 +1,13 @@
+// NOTE: these are imported in a specific order
+// in order to get our global variables to
+// override boostrap's
 @import "hoppist_defaults";
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "user_profile";
+
+
+@import "alpha";
+@import "beer_show";
 @import "header";
 @import "navigation";
-@import "alpha";
+@import "user_profile";
