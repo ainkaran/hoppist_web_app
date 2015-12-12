@@ -1,6 +1,5 @@
 'use strict'
-var React = require('react');
-var Draggable = require('react-draggable');
+//var Draggable = require('react-draggable');
 
 module.exports = React.createClass({
 	handleStart: function (event, ui) {
@@ -20,7 +19,7 @@ module.exports = React.createClass({
 
 	render: function () {
 		return (
-			<Draggable
+			{/*<Draggable
 				axis="x"
 				handle=".handle"
 				start={{x: 0, y: 0}}
@@ -33,7 +32,7 @@ module.exports = React.createClass({
 					<div className="handle">Drag from here</div>
 					<div>This readme is really dragging on...</div>
 				</div>
-			</Draggable>
+			</Draggable>*/}
 		);
 	}
 });

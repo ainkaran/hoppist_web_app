@@ -47,6 +47,7 @@
 	'use strict'
 	// react
 	var React = __webpack_require__(1);
+
 	var ReactDOM = __webpack_require__(2);
 
 	// react-router
@@ -58,10 +59,10 @@
 	var App                      = __webpack_require__(197);
 	var BeerIndex                = __webpack_require__(199);
 	var BeerShow                 = __webpack_require__(200);
-	var BeerShowFlavourMap       = __webpack_require__(201);
-	var BeerShowReviews          = __webpack_require__(202);
-	var FlavourMapIndex          = __webpack_require__(207);
-	var StyleGuide               = __webpack_require__(203);
+	var BeerShowFlavourMap       = __webpack_require__(202);
+	var BeerShowReviews          = __webpack_require__(201);
+	var FlavourMapIndex          = __webpack_require__(205);
+	var StyleGuide               = __webpack_require__(207);
 
 
 	ReactDOM.render((
@@ -19066,6 +19067,10 @@
 
 	var _createDOMHistory2 = _interopRequireDefault(_createDOMHistory);
 
+	var _parsePath = __webpack_require__(165);
+
+	var _parsePath2 = _interopRequireDefault(_parsePath);
+
 	function isAbsolutePath(path) {
 	  return typeof path === 'string' && path.charAt(0) === '/';
 	}
@@ -19124,7 +19129,9 @@
 	      key = state = null;
 	    }
 
-	    return history.createLocation(path, state, undefined, key);
+	    var location = _parsePath2['default'](path);
+
+	    return history.createLocation(_extends({}, location, { state: state }), undefined, key);
 	  }
 
 	  function startHashChangeListener(_ref) {
@@ -19211,6 +19218,18 @@
 	    };
 	  }
 
+	  function push(location) {
+	    process.env.NODE_ENV !== 'production' ? _warning2['default'](queryKey || location.state == null, 'You cannot use state without a queryKey it will be dropped') : undefined;
+
+	    history.push(location);
+	  }
+
+	  function replace(location) {
+	    process.env.NODE_ENV !== 'production' ? _warning2['default'](queryKey || location.state == null, 'You cannot use state without a queryKey it will be dropped') : undefined;
+
+	    history.replace(location);
+	  }
+
 	  var goIsSupportedWithoutReload = _DOMUtils.supportsGoWithoutReloadUsingHash();
 
 	  function go(n) {
@@ -19237,14 +19256,14 @@
 	    if (--listenerCount === 0) stopHashChangeListener();
 	  }
 
-	  // deprecated - warning is in createHistory
+	  // deprecated
 	  function pushState(state, path) {
 	    process.env.NODE_ENV !== 'production' ? _warning2['default'](queryKey || state == null, 'You cannot use state without a queryKey it will be dropped') : undefined;
 
 	    history.pushState(state, path);
 	  }
 
-	  // deprecated - warning is in createHistory
+	  // deprecated
 	  function replaceState(state, path) {
 	    process.env.NODE_ENV !== 'production' ? _warning2['default'](queryKey || state == null, 'You cannot use state without a queryKey it will be dropped') : undefined;
 
@@ -19254,12 +19273,15 @@
 	  return _extends({}, history, {
 	    listenBefore: listenBefore,
 	    listen: listen,
-	    pushState: pushState,
-	    replaceState: replaceState,
+	    push: push,
+	    replace: replace,
 	    go: go,
 	    createHref: createHref,
-	    registerTransitionHook: registerTransitionHook,
-	    unregisterTransitionHook: unregisterTransitionHook
+
+	    registerTransitionHook: registerTransitionHook, // deprecated - warning is in createHistory
+	    unregisterTransitionHook: unregisterTransitionHook, // deprecated - warning is in createHistory
+	    pushState: pushState, // deprecated - warning is in createHistory
+	    replaceState: replaceState // deprecated - warning is in createHistory
 	  });
 	}
 
@@ -19647,6 +19669,7 @@
 /* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
+	//import warning from 'warning'
 	'use strict';
 
 	exports.__esModule = true;
@@ -19667,13 +19690,13 @@
 
 	var _createLocation3 = _interopRequireDefault(_createLocation2);
 
-	var _parsePath = __webpack_require__(165);
-
-	var _parsePath2 = _interopRequireDefault(_parsePath);
-
 	var _runTransitionHook = __webpack_require__(167);
 
 	var _runTransitionHook2 = _interopRequireDefault(_runTransitionHook);
+
+	var _parsePath = __webpack_require__(165);
+
+	var _parsePath2 = _interopRequireDefault(_parsePath);
 
 	var _deprecate = __webpack_require__(168);
 
@@ -19812,11 +19835,11 @@
 	  }
 
 	  function push(location) {
-	    transitionTo(createLocation(location, null, _Actions.PUSH, createKey()));
+	    transitionTo(createLocation(location, _Actions.PUSH, createKey()));
 	  }
 
 	  function replace(location) {
-	    transitionTo(createLocation(location, null, _Actions.REPLACE, createKey()));
+	    transitionTo(createLocation(location, _Actions.REPLACE, createKey()));
 	  }
 
 	  function goBack() {
@@ -19831,12 +19854,12 @@
 	    return createRandomKey(keyLength);
 	  }
 
-	  function createPath(path) {
-	    if (path == null || typeof path === 'string') return path;
+	  function createPath(location) {
+	    if (location == null || typeof location === 'string') return location;
 
-	    var pathname = path.pathname;
-	    var search = path.search;
-	    var hash = path.hash;
+	    var pathname = location.pathname;
+	    var search = location.search;
+	    var hash = location.hash;
 
 	    var result = pathname;
 
@@ -19847,14 +19870,29 @@
 	    return result;
 	  }
 
-	  function createHref(path) {
-	    return createPath(path);
+	  function createHref(location) {
+	    return createPath(location);
 	  }
 
-	  function createLocation(path, state, action) {
-	    var key = arguments.length <= 3 || arguments[3] === undefined ? createKey() : arguments[3];
+	  function createLocation(location, action) {
+	    var key = arguments.length <= 2 || arguments[2] === undefined ? createKey() : arguments[2];
 
-	    return _createLocation3['default'](path, state, action, key);
+	    if (typeof action === 'object') {
+	      //warning(
+	      //  false,
+	      //  'The state (2nd) argument to history.createLocation is deprecated; use a ' +
+	      //  'location descriptor instead'
+	      //)
+
+	      if (typeof location === 'string') location = _parsePath2['default'](location);
+
+	      location = _extends({}, location, { state: action });
+
+	      action = key;
+	      key = arguments[3] || createKey();
+	    }
+
+	    return _createLocation3['default'](location, action, key);
 	  }
 
 	  // deprecated
@@ -20099,9 +20137,12 @@
 /* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
+	//import warning from 'warning'
 	'use strict';
 
 	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -20113,18 +20154,30 @@
 
 	function createLocation() {
 	  var location = arguments.length <= 0 || arguments[0] === undefined ? '/' : arguments[0];
-	  var state = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-	  var action = arguments.length <= 2 || arguments[2] === undefined ? _Actions.POP : arguments[2];
-	  var key = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+	  var action = arguments.length <= 1 || arguments[1] === undefined ? _Actions.POP : arguments[1];
+	  var key = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+	  var _fourthArg = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
 
 	  if (typeof location === 'string') location = _parsePath2['default'](location);
+
+	  if (typeof action === 'object') {
+	    //warning(
+	    //  false,
+	    //  'The state (2nd) argument to createLocation is deprecated; use a ' +
+	    //  'location descriptor instead'
+	    //)
+
+	    location = _extends({}, location, { state: action });
+
+	    action = key || _Actions.POP;
+	    key = _fourthArg;
+	  }
 
 	  var pathname = location.pathname || '/';
 	  var search = location.search || '';
 	  var hash = location.hash || '';
-
-	  // TODO: Deprecate passing state directly into createLocation.
-	  state = location.state || state;
+	  var state = location.state || null;
 
 	  return {
 	    pathname: pathname,
@@ -20239,28 +20292,23 @@
 
 /***/ },
 /* 168 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	//import warning from 'warning'
+
+	"use strict";
 
 	exports.__esModule = true;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _warning = __webpack_require__(152);
-
-	var _warning2 = _interopRequireDefault(_warning);
-
-	function deprecate(fn, message) {
-	  return function () {
-	    process.env.NODE_ENV !== 'production' ? _warning2['default'](false, '[history] ' + message) : undefined;
-	    return fn.apply(this, arguments);
-	  };
+	function deprecate(fn) {
+	  return fn;
+	  //return function () {
+	  //  warning(false, '[history] ' + message)
+	  //  return fn.apply(this, arguments)
+	  //}
 	}
 
-	exports['default'] = deprecate;
-	module.exports = exports['default'];
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+	exports["default"] = deprecate;
+	module.exports = exports["default"];
 
 /***/ },
 /* 169 */
@@ -21270,12 +21318,14 @@
 	      history.replace(appendQuery(location, location.query));
 	    }
 
-	    function createPath(path, query) {
-	      return history.createPath(appendQuery(path, query));
+	    function createPath(location, query) {
+	      process.env.NODE_ENV !== 'production' ? _warning2['default'](query, 'the query argument to createPath is deprecated; use a location descriptor instead') : undefined;
+	      return history.createPath(appendQuery(location, query || location.query));
 	    }
 
-	    function createHref(path, query) {
-	      return history.createHref(appendQuery(path, query));
+	    function createHref(location, query) {
+	      process.env.NODE_ENV !== 'production' ? _warning2['default'](query, 'the query argument to createHref is deprecated; use a location descriptor instead') : undefined;
+	      return history.createHref(appendQuery(location, query || location.query));
 	    }
 
 	    function createLocation() {
@@ -22806,6 +22856,10 @@
 
 	var _createHistory2 = _interopRequireDefault(_createHistory);
 
+	var _parsePath = __webpack_require__(165);
+
+	var _parsePath2 = _interopRequireDefault(_parsePath);
+
 	function createStateStorage(entries) {
 	  return entries.filter(function (entry) {
 	    return entry.state;
@@ -22885,7 +22939,9 @@
 	      entry.key = key;
 	    }
 
-	    return history.createLocation(path, state, undefined, key);
+	    var location = _parsePath2['default'](path);
+
+	    return history.createLocation(_extends({}, location, { state: state }), undefined, key);
 	  }
 
 	  function canGo(n) {
@@ -23033,12 +23089,12 @@
 	      history.replace(prependBasename(location));
 	    }
 
-	    function createPath(path) {
-	      return history.createPath(prependBasename(path));
+	    function createPath(location) {
+	      return history.createPath(prependBasename(location));
 	    }
 
-	    function createHref(path) {
-	      return history.createHref(prependBasename(path));
+	    function createHref(location) {
+	      return history.createHref(prependBasename(location));
 	    }
 
 	    function createLocation() {
@@ -23082,7 +23138,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
-	var React = __webpack_require__(1);
 	var HeaderNavbar = __webpack_require__(198);
 
 	module.exports = React.createClass({displayName: "module.exports",
@@ -23102,7 +23157,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
-	var React = __webpack_require__(1);
 	var Link = __webpack_require__(148).Link;
 
 	module.exports = React.createClass({displayName: "module.exports",
@@ -23152,10 +23206,9 @@
 
 /***/ },
 /* 199 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict'
-	var React = __webpack_require__(1);
 
 	module.exports = React.createClass({displayName: "module.exports",
 	  render: function() {
@@ -23171,11 +23224,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
-	var React = __webpack_require__(1);
 	var Link = __webpack_require__(148).Link;
 
-	var Reviews = __webpack_require__(202);
-	var FlavourMap = __webpack_require__(201);
+	var Reviews = __webpack_require__(201);
+	var FlavourMap = __webpack_require__(202);
 
 	module.exports = React.createClass({displayName: "module.exports",
 
@@ -23234,31 +23286,9 @@
 
 /***/ },
 /* 201 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict'
-
-	var React = __webpack_require__(1);
-	var FlavourMapEmbedded = __webpack_require__(206);
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  render: function() {
-	    // TODO: don't hardcode the hero target
-	    var heroTargetCoords = {x: 300, y: 100};
-
-	    return (
-	      React.createElement(FlavourMapEmbedded, {heroTarget: heroTargetCoords})
-	    );
-	  }
-	});
-
-
-/***/ },
-/* 202 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	var React = __webpack_require__(1);
 
 	module.exports = React.createClass({displayName: "module.exports",
 	  render: function() {
@@ -23287,132 +23317,90 @@
 
 
 /***/ },
+/* 202 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	var FlavourMapEmbedded = __webpack_require__(203);
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  render: function() {
+	    // TODO: don't hardcode the hero target
+	    var heroTargetCoords = {x: 300, y: 100};
+
+	    return (
+	      React.createElement(FlavourMapEmbedded, {heroTarget: heroTargetCoords})
+	    );
+	  }
+	});
+
+
+/***/ },
 /* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(148).Link;
-	var FlavourMapEmbedded = __webpack_require__(206);
+	var Draggable = __webpack_require__(204);
 
-	// application layout
+
 	module.exports = React.createClass({displayName: "module.exports",
-	  render: function() {
-	    // TODO: look into React-Bootstrap
+	  getInitialState: function() {
+	    return {
+	      maxWidth:  this.props.maxWidth,
+	      targetPos: {x: 0, y: 0}
+	    };
+	  },
+
+	  updateClientDimensions(node) {
+	    var x = $(window).width();
+	    var y = $(window).height();
+	    console.log(`flavour map is ${x}x${y}`);
+	  },
+
+	  componentDidMount() {
+	    //this.addEventListener('resize', this.updateClientDimensions);
+	    //debugger
+	  },
+
+	  handleTargetStop(event, ui) {
+	    // maybe we need this?
+	    console.log("Target position: " + this.state.targetPos.x + "," + this.state.targetPos.y);
+	  },
+
+	  handleTargetDrag(event, ui) {
+	    // TODO: this is a hack right now because ui.position on stop is NaN
+	    // for touch events. so instead we continually set the state during drag.
+	    // not ideal?
+	    this.setState({ targetPos: { x: ui.position.left, y: ui.position.top } });
+	  },
+
+	  render() {
+	    var styles = {
+	      width:    "100%",
+	      maxWidth: `${this.state.maxWidth}px`
+	    };
+
 	    return (
-	      React.createElement("div", null, 
-	        "// HEADINGS", 
-	        React.createElement("h1", {className: "branded"}, "HOPPIST"), 
-	        React.createElement("h2", {className: "branded"}, "HOPPIST"), 
-	        React.createElement("h3", null, "Discover amazing craft beers in your area."), 
-
-
-	        "// FLASH", 
-	        React.createElement("div", {className: "alert alert-success"}, "Welcome back, Alex."), 
-	        React.createElement("div", {className: "alert alert-danger"}, "Invalid credentials."), 
-
-
-	        "// BODY", 
-	        React.createElement("p", null, "Hoppist connects you with local breweries in your area. Discover new flavours, rate your favourite beer, and see what’s currently on tap for samples and fills. Hoppist is the perfect drinking buddy."), 
-	        React.createElement("button", {href: "#", className: "btn btn-default"}, "SIGN UP"), 
-	        React.createElement("hr", null), 
-
-
-	        "// FORMS", 
-	        React.createElement("h3", null, "Sign up for a free account."), 
-	        React.createElement("form", null, 
-	          React.createElement("div", {className: "form-group"}, 
-	            React.createElement("label", {htmlFor: "name"}, "Name:"), 
-	            React.createElement("input", {type: "text", name: "name", className: "form-control"})
-	          ), 
-	          React.createElement("div", {className: "form-group"}, 
-	            React.createElement("label", {htmlFor: "email"}, "E-mail Address:"), 
-	            React.createElement("input", {type: "text", name: "email", className: "form-control"})
-	          ), 
-	          React.createElement("div", {className: "form-group has-error"}, 
-	            React.createElement("label", {htmlFor: "password"}, "Password:"), 
-	            React.createElement("input", {type: "password", name: "password", className: "form-control"}), 
-	            React.createElement("span", {className: "help-block"}, "Your password must be more than 8 characters.")
-	          ), 
-	          React.createElement("div", {className: "form-group"}, 
-	            React.createElement("input", {className: "btn btn-default", type: "submit", value: "SIGN UP"})
-	          )
+	      React.createElement("div", {id: "flavour-map-embedded", style: styles}, 
+	        React.createElement(Draggable, {
+	          start: this.props.heroTarget, 
+	          bounds: "parent", 
+	          handle: ".handle", 
+	          zIndex: 100, 
+	          onDrag: this.handleTargetDrag, 
+	          onStop: this.handleTargetStop}, 
+	          React.createElement("div", {id: "target", className: "handle"})
 	        ), 
-
-
-	        "// PAGE COMPONENTS", 
-	        React.createElement("hr", null), 
-	        React.createElement("img", {src: "/images/alex_avatar.jpg", className: "img img-thumbnail", width: "145"}), 
-	        React.createElement("h2", null, "Alex Taylor"), 
-	        React.createElement("h4", {className: "lighter"}, "Vancouver, B.C."), 
-
-	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "follow"), React.createElement("br", null), 
-	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), React.createElement("br", null), 
-	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add"), 
-
-
-
-	        React.createElement("ul", {className: "nav nav-tabs"}, 
-	          React.createElement("li", {role: "presentation", className: "active"}, React.createElement("a", {href: "#"}, "Favourites")), 
-	          React.createElement("li", {role: "presentation"}, React.createElement("a", {href: "#"}, "Reviews"))
-	        ), 
-	        React.createElement("br", null), 
-
-
-	        "// BEER REVIEW CARD", 
-	        React.createElement("div", {className: "beer-card clearfix"}, 
-
-	          React.createElement("div", {className: "col-image"}, 
-	            React.createElement("div", {className: "img-thumbnail beer-thumb"}, 
-	              React.createElement("img", {src: "/images/hop_circle.png", width: "88", height: "105"})
-	            )
-	          ), 
-
-	          React.createElement("div", {className: "col-review"}, 
-	            React.createElement("h5", null, React.createElement("a", {href: "#"}, "Blue Buck"), " ", React.createElement("i", null, "by"), " ", React.createElement("a", {href: "#"}, "Phillips Brewing Co.")), 
-	            React.createElement("p", {className: "review-subhead lighter"}, React.createElement("i", null, "June 15, 2015")), 
-	            React.createElement("div", {className: "review-stars"}, 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"})
-	            ), 
-	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
-	          )
-	        ), 
-
-	        "// BEER REVIEWS", 
-	        React.createElement("h3", null, "SIXTEEN FAVOURITE BEERS FROM FOUR BREWERIES"), 
-	        React.createElement("div", {className: "beers"}, 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          ), 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          ), 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          ), 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          )
-
-	        ), 
-
-	        React.createElement("br", null), 
-	        React.createElement("br", null), 
-	        React.createElement("br", null), 
-	        "// FLAVOUR MAP", 
-	        React.createElement(FlavourMapEmbedded, null)
-	      ));
+	        React.createElement("img", {src: "/images/flavour_map.svg", style: styles})
+	      )
+	    );
 	  },
 	});
 
 
 /***/ },
-/* 204 */,
-/* 205 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
@@ -24793,70 +24781,13 @@
 	//# sourceMappingURL=react-draggable.js.map
 
 /***/ },
-/* 206 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
-	var React = __webpack_require__(1);
-	var Draggable = __webpack_require__(205);
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  getInitialState: function() {
-	    return {
-	      targetPos: {x: 0, y: 0}
-	    };
-	  },
-
-	  updateClientDimensions() {
-	    debugger
-	    var x = $(window).width();
-	    var y = $(window).height();
-	    console.log(`flavour map is ${x}x${y}`);
-	  },
-
-	  componentDidMount() {
-	    this.addEventListener('resize', this.updateClientDimensions);
-	  },
-
-	  handleTargetStop(event, ui) {
-	    // maybe we need this?
-	    console.log("Target position: " + this.state.targetPos.x + "," + this.state.targetPos.y);
-	  },
-
-	  handleTargetDrag(event, ui) {
-	    // TODO: this is a hack right now because ui.position on stop is NaN
-	    // for touch events. so instead we continually set the state during drag.
-	    // not ideal?
-	    this.setState({ targetPos: { x: ui.position.left, y: ui.position.top } });
-	  },
-
-	  render() {
-	    return (
-	      React.createElement("div", {id: "flavour-map-embedded"}, 
-	        React.createElement(Draggable, {
-	          start: this.props.heroTarget, 
-	          bounds: "parent", 
-	          handle: ".handle", 
-	          zIndex: 100, 
-	          onDrag: this.handleTargetDrag, 
-	          onStop: this.handleTargetStop}, 
-	          React.createElement("div", {id: "target", className: "handle"})
-	        )
-	      )
-	    );
-	  },
-	});
-
-
-/***/ },
-/* 207 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	var React = __webpack_require__(1);
 	var Link = __webpack_require__(148).Link;
-	var calculateFlavourMapCoords = __webpack_require__(208);
-	var FlavourMapEmbedded = __webpack_require__(206);
+	var calculateFlavourMapCoords = __webpack_require__(206);
+	var FlavourMapEmbedded = __webpack_require__(203);
 
 	module.exports = React.createClass({displayName: "module.exports",
 	  // getInitialState: function() {
@@ -24871,7 +24802,8 @@
 	      React.createElement("div", null, 
 	        React.createElement("h2", {className: "text-center"}, "FLAVOUR MAP"), 
 	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Go ahead — drag the target around the map to discover new dimensions of flavour.")), 
-	        React.createElement(FlavourMapEmbedded, {heroTarget: {x: 50, y: 57}})
+	        /* TODO: how to respond to media queries so that we can re-render this at a different res? */
+	        React.createElement(FlavourMapEmbedded, {maxWidth: 375, heroTarget: {x: 50, y: 57}})
 	      )
 	    );
 	  },
@@ -24879,7 +24811,7 @@
 
 
 /***/ },
-/* 208 */
+/* 206 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -24895,6 +24827,129 @@
 	    y: mapY
 	  };
 	};
+
+
+/***/ },
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	var Link = __webpack_require__(148).Link;
+	var FlavourMapEmbedded = __webpack_require__(203);
+
+	// application layout
+	module.exports = React.createClass({displayName: "module.exports",
+	  render: function() {
+	    // TODO: look into React-Bootstrap
+	    return (
+	      React.createElement("div", null, 
+	        "// HEADINGS", 
+	        React.createElement("h1", {className: "branded"}, "HOPPIST"), 
+	        React.createElement("h2", {className: "branded"}, "HOPPIST"), 
+	        React.createElement("h3", null, "Discover amazing craft beers in your area."), 
+
+
+	        "// FLASH", 
+	        React.createElement("div", {className: "alert alert-success"}, "Welcome back, Alex."), 
+	        React.createElement("div", {className: "alert alert-danger"}, "Invalid credentials."), 
+
+
+	        "// BODY", 
+	        React.createElement("p", null, "Hoppist connects you with local breweries in your area. Discover new flavours, rate your favourite beer, and see what’s currently on tap for samples and fills. Hoppist is the perfect drinking buddy."), 
+	        React.createElement("button", {href: "#", className: "btn btn-default"}, "SIGN UP"), 
+	        React.createElement("hr", null), 
+
+
+	        "// FORMS", 
+	        React.createElement("h3", null, "Sign up for a free account."), 
+	        React.createElement("form", null, 
+	          React.createElement("div", {className: "form-group"}, 
+	            React.createElement("label", {htmlFor: "name"}, "Name:"), 
+	            React.createElement("input", {type: "text", name: "name", className: "form-control"})
+	          ), 
+	          React.createElement("div", {className: "form-group"}, 
+	            React.createElement("label", {htmlFor: "email"}, "E-mail Address:"), 
+	            React.createElement("input", {type: "text", name: "email", className: "form-control"})
+	          ), 
+	          React.createElement("div", {className: "form-group has-error"}, 
+	            React.createElement("label", {htmlFor: "password"}, "Password:"), 
+	            React.createElement("input", {type: "password", name: "password", className: "form-control"}), 
+	            React.createElement("span", {className: "help-block"}, "Your password must be more than 8 characters.")
+	          ), 
+	          React.createElement("div", {className: "form-group"}, 
+	            React.createElement("input", {className: "btn btn-default", type: "submit", value: "SIGN UP"})
+	          )
+	        ), 
+
+
+	        "// PAGE COMPONENTS", 
+	        React.createElement("hr", null), 
+	        React.createElement("img", {src: "/images/alex_avatar.jpg", className: "img img-thumbnail", width: "145"}), 
+	        React.createElement("h2", null, "Alex Taylor"), 
+	        React.createElement("h4", {className: "lighter"}, "Vancouver, B.C."), 
+
+	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "follow"), React.createElement("br", null), 
+	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), React.createElement("br", null), 
+	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add"), 
+
+
+
+	        React.createElement("ul", {className: "nav nav-tabs"}, 
+	          React.createElement("li", {role: "presentation", className: "active"}, React.createElement("a", {href: "#"}, "Favourites")), 
+	          React.createElement("li", {role: "presentation"}, React.createElement("a", {href: "#"}, "Reviews"))
+	        ), 
+	        React.createElement("br", null), 
+
+
+	        "// BEER REVIEW CARD", 
+	        React.createElement("div", {className: "beer-card clearfix"}, 
+
+	          React.createElement("div", {className: "col-image"}, 
+	            React.createElement("div", {className: "img-thumbnail beer-thumb"}, 
+	              React.createElement("img", {src: "/images/hop_circle.png", width: "88", height: "105"})
+	            )
+	          ), 
+
+	          React.createElement("div", {className: "col-review"}, 
+	            React.createElement("h5", null, React.createElement("a", {href: "#"}, "Blue Buck"), " ", React.createElement("i", null, "by"), " ", React.createElement("a", {href: "#"}, "Phillips Brewing Co.")), 
+	            React.createElement("p", {className: "review-subhead lighter"}, React.createElement("i", null, "June 15, 2015")), 
+	            React.createElement("div", {className: "review-stars"}, 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"})
+	            ), 
+	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
+	          )
+	        ), 
+
+	        "// BEER REVIEWS", 
+	        React.createElement("h3", null, "SIXTEEN FAVOURITE BEERS FROM FOUR BREWERIES"), 
+	        React.createElement("div", {className: "beers"}, 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          ), 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          ), 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          ), 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          )
+
+	        ), 
+
+	        React.createElement("br", null), 
+	        React.createElement("br", null), 
+	        React.createElement("br", null), 
+	        "// FLAVOUR MAP", 
+	        React.createElement(FlavourMapEmbedded, null)
+	      ));
+	  },
+	});
 
 
 /***/ }

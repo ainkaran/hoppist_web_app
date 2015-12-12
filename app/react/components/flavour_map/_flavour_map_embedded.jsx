@@ -1,23 +1,24 @@
 'use strict'
-var React = require('react');
 var Draggable = require('react-draggable');
+
 
 module.exports = React.createClass({
   getInitialState: function() {
     return {
+      maxWidth:  this.props.maxWidth,
       targetPos: {x: 0, y: 0}
     };
   },
 
-  updateClientDimensions() {
-    debugger
+  updateClientDimensions(node) {
     var x = $(window).width();
     var y = $(window).height();
     console.log(`flavour map is ${x}x${y}`);
   },
 
   componentDidMount() {
-    this.addEventListener('resize', this.updateClientDimensions);
+    //this.addEventListener('resize', this.updateClientDimensions);
+    //debugger
   },
 
   handleTargetStop(event, ui) {
@@ -33,8 +34,13 @@ module.exports = React.createClass({
   },
 
   render() {
+    var styles = {
+      width:    "100%",
+      maxWidth: `${this.state.maxWidth}px`
+    };
+
     return (
-      <div id="flavour-map-embedded">
+      <div id="flavour-map-embedded" style={styles}>
         <Draggable
           start={this.props.heroTarget}
           bounds="parent"
@@ -44,6 +50,7 @@ module.exports = React.createClass({
           onStop={this.handleTargetStop}>
           <div id="target" className="handle"></div>
         </Draggable>
+        <img src="/images/flavour_map.svg" style={styles}/>
       </div>
     );
   },

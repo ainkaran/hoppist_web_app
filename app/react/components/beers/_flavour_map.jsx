@@ -1,6 +1,5 @@
 'use strict'
 
-var React = require("react");
 var FlavourMapEmbedded = require("../flavour_map/_flavour_map_embedded");
 
 module.exports = React.createClass({

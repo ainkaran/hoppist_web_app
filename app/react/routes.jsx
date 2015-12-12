@@ -1,6 +1,7 @@
 'use strict'
 // react
 var React = require('react');
+
 var ReactDOM = require('react-dom');
 
 // react-router
