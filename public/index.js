@@ -23346,6 +23346,10 @@
 	var calculateFlavourMapCoords = __webpack_require__(207);
 
 	module.exports = React.createClass({displayName: "module.exports",
+	  propTypes: {
+	    onDragStart: React.PropTypes.func
+	  },
+
 	  getInitialState: function() {
 	    // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
 	    var newTargetPos = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, this.props.maxWidth, this.props.maxWidth/1.6);
@@ -23368,8 +23372,13 @@
 	  },
 
 	  handleTargetStop(event, ui) {
-	    // maybe we need this?
 	    console.log("Target position: " + this.state.targetPos.x + "," + this.state.targetPos.y);
+
+	    // handle any action the parent component wants to take when the user finishes
+	    // dragging. for the flavour map index page, this results in the welcome message
+	    // disappearing and the beer list appearing. As a result, this will also trigger
+	    // the beer list to re-render.
+	    this.props.onDragStop();
 	  },
 
 	  handleTargetDrag(event, ui) {
@@ -23385,7 +23394,7 @@
 	      maxWidth: `${this.state.maxWidth}px`
 	    };
 
-	    console.log(`render() targetPos: ${this.state.targetPos.x}x${this.state.targetPos.y}`);
+	    //console.log(`render() targetPos: ${this.state.targetPos.x}x${this.state.targetPos.y}`);
 
 	    return (
 	      React.createElement("div", {id: "flavour-map-embedded", style: styles}, 
@@ -23414,17 +23423,25 @@
 	var Link = __webpack_require__(148).Link;
 
 	var FlavourMapEmbedded = __webpack_require__(203);
+	var BeerList = __webpack_require__(208);
 
 	module.exports = React.createClass({displayName: "module.exports",
+	  getInitialState() {
+	    return { display: "intro" }
+	  },
+
+	  handleDragStop() {
+	    console.log("display -> beerList");
+	    this.setState({ display: "beerList" });
+	  },
+
 	  render: function() {
 
 	    return (
 	      React.createElement("div", null, 
 	        /* TODO: how to respond to media queries so that we can re-render this at a different res? */
-	        React.createElement(FlavourMapEmbedded, {maxWidth: 375, heroTarget: {x: 6, y: 6}}), 
-	          React.createElement("h2", {className: "text-center"}, "FLAVOUR MAP"), 
-	          React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Go ahead — drag the target around the map to discover new dimensions of flavour."))
-
+	        React.createElement(FlavourMapEmbedded, {onDragStop: this.handleDragStop, maxWidth: 375, heroTarget: {x: 6, y: 6}}), 
+	          React.createElement(BeerList, {display: this.state.display})
 	      )
 	    );
 	  },
@@ -24952,6 +24969,48 @@
 	    y: mapY
 	  };
 	};
+
+
+/***/ },
+/* 208 */
+/***/ function(module, exports) {
+
+	'use strict'
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  getDefaultProps() {
+	    return {
+	      display: "intro"
+	    };
+	  },
+
+	  render() {
+	    console.log("Render beerList, display: " + this.props.display );
+	    var intro = (
+	      React.createElement("div", null, 
+	        React.createElement("h2", {className: "text-center"}, "FLAVOUR MAP"), 
+	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Go ahead — drag the target around the map to discover new dimensions of flavour."))
+	      )
+	    );
+
+	    var beerList = (
+	      React.createElement("div", null, 
+	        React.createElement("h2", null, "beers go here..."), 
+	        React.createElement("h2", null, "beers go here..."), 
+	        React.createElement("h2", null, "beers go here..."), 
+	        React.createElement("h2", null, "beers go here...")
+	      )
+	    );
+
+	    var display = this.props.display === "intro" ? intro : beerList
+
+	    return (
+	      React.createElement("div", {id: "beer-list"}, 
+	        display
+	      )
+	    );
+	  }
+	});
 
 
 /***/ }

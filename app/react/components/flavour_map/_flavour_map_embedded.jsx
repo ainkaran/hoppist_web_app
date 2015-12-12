@@ -4,6 +4,10 @@ var ReactDOM = require('react-dom'); // required here because we're invoking it 
 var calculateFlavourMapCoords = require("../../utils/calculate_flavour_map_coords.jsx");
 
 module.exports = React.createClass({
+  propTypes: {
+    onDragStart: React.PropTypes.func
+  },
+
   getInitialState: function() {
     // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
     var newTargetPos = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, this.props.maxWidth, this.props.maxWidth/1.6);
@@ -26,8 +30,13 @@ module.exports = React.createClass({
   },
 
   handleTargetStop(event, ui) {
-    // maybe we need this?
     console.log("Target position: " + this.state.targetPos.x + "," + this.state.targetPos.y);
+
+    // handle any action the parent component wants to take when the user finishes
+    // dragging. for the flavour map index page, this results in the welcome message
+    // disappearing and the beer list appearing. As a result, this will also trigger
+    // the beer list to re-render.
+    this.props.onDragStop();
   },
 
   handleTargetDrag(event, ui) {
@@ -43,7 +52,7 @@ module.exports = React.createClass({
       maxWidth: `${this.state.maxWidth}px`
     };
 
-    console.log(`render() targetPos: ${this.state.targetPos.x}x${this.state.targetPos.y}`);
+    //console.log(`render() targetPos: ${this.state.targetPos.x}x${this.state.targetPos.y}`);
 
     return (
       <div id="flavour-map-embedded" style={styles}>
