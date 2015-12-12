@@ -61,8 +61,8 @@
 	var BeerShow                 = __webpack_require__(200);
 	var BeerShowFlavourMap       = __webpack_require__(202);
 	var BeerShowReviews          = __webpack_require__(201);
-	var FlavourMapIndex          = __webpack_require__(205);
-	var StyleGuide               = __webpack_require__(207);
+	var FlavourMapIndex          = __webpack_require__(204);
+	var StyleGuide               = __webpack_require__(205);
 
 
 	ReactDOM.render((
@@ -23341,26 +23341,30 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
-	var Draggable = __webpack_require__(204);
-
+	var Draggable = __webpack_require__(206);
+	var ReactDOM = __webpack_require__(2); // required here because we're invoking it to get the node width
+	var calculateFlavourMapCoords = __webpack_require__(207);
 
 	module.exports = React.createClass({displayName: "module.exports",
 	  getInitialState: function() {
+	    // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
+	    var newTargetPos = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, this.props.maxWidth, this.props.maxWidth/1.6);
 	    return {
 	      maxWidth:  this.props.maxWidth,
-	      targetPos: {x: 0, y: 0}
+	      targetPos: newTargetPos,
 	    };
 	  },
 
-	  updateClientDimensions(node) {
-	    var x = $(window).width();
-	    var y = $(window).height();
-	    console.log(`flavour map is ${x}x${y}`);
-	  },
-
 	  componentDidMount() {
-	    //this.addEventListener('resize', this.updateClientDimensions);
-	    //debugger
+	    // TODO: add event listener for page resize, currently the page must be refreshed
+	    // for this to update after a window size change.
+	    // TODO: this doesn't center properly because of the dynamic screen size
+	    var node                   = ReactDOM.findDOMNode(this);
+	    var nodeRenderedWidth      = node.offsetWidth;
+	    var renderedTargetDiameter = node.childNodes[0].offsetWidth;
+	    var newTargetPos           = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, nodeRenderedWidth, nodeRenderedWidth/1.6);
+	    var newTargetPos           = { x: newTargetPos.x - (renderedTargetDiameter/2), y: newTargetPos.y - (renderedTargetDiameter/2)};
+	    this.setState({ maxWidth: nodeRenderedWidth, targetPos: {newTargetPos} });
 	  },
 
 	  handleTargetStop(event, ui) {
@@ -23381,15 +23385,18 @@
 	      maxWidth: `${this.state.maxWidth}px`
 	    };
 
+	    console.log(`render() targetPos: ${this.state.targetPos.x}x${this.state.targetPos.y}`);
+
 	    return (
 	      React.createElement("div", {id: "flavour-map-embedded", style: styles}, 
 	        React.createElement(Draggable, {
-	          start: this.props.heroTarget, 
 	          bounds: "parent", 
 	          handle: ".handle", 
-	          zIndex: 100, 
+	          moveOnStartChange: true, 
 	          onDrag: this.handleTargetDrag, 
-	          onStop: this.handleTargetStop}, 
+	          onStop: this.handleTargetStop, 
+	          start: this.state.targetPos, 
+	          zIndex: 100}, 
 	          React.createElement("div", {id: "target", className: "handle"})
 	        ), 
 	        React.createElement("img", {src: "/images/flavour_map.svg", style: styles})
@@ -23401,6 +23408,154 @@
 
 /***/ },
 /* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	var Link = __webpack_require__(148).Link;
+
+	var FlavourMapEmbedded = __webpack_require__(203);
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  render: function() {
+
+	    return (
+	      React.createElement("div", null, 
+	        /* TODO: how to respond to media queries so that we can re-render this at a different res? */
+	        React.createElement(FlavourMapEmbedded, {maxWidth: 375, heroTarget: {x: 6, y: 6}}), 
+	          React.createElement("h2", {className: "text-center"}, "FLAVOUR MAP"), 
+	          React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Go ahead — drag the target around the map to discover new dimensions of flavour."))
+
+	      )
+	    );
+	  },
+	});
+
+
+/***/ },
+/* 205 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	var Link = __webpack_require__(148).Link;
+	var FlavourMapEmbedded = __webpack_require__(203);
+
+	// application layout
+	module.exports = React.createClass({displayName: "module.exports",
+	  render: function() {
+	    // TODO: look into React-Bootstrap
+	    return (
+	      React.createElement("div", null, 
+	        "// HEADINGS", 
+	        React.createElement("h1", {className: "branded"}, "HOPPIST"), 
+	        React.createElement("h2", {className: "branded"}, "HOPPIST"), 
+	        React.createElement("h3", null, "Discover amazing craft beers in your area."), 
+
+
+	        "// FLASH", 
+	        React.createElement("div", {className: "alert alert-success"}, "Welcome back, Alex."), 
+	        React.createElement("div", {className: "alert alert-danger"}, "Invalid credentials."), 
+
+
+	        "// BODY", 
+	        React.createElement("p", null, "Hoppist connects you with local breweries in your area. Discover new flavours, rate your favourite beer, and see what’s currently on tap for samples and fills. Hoppist is the perfect drinking buddy."), 
+	        React.createElement("button", {href: "#", className: "btn btn-default"}, "SIGN UP"), 
+	        React.createElement("hr", null), 
+
+
+	        "// FORMS", 
+	        React.createElement("h3", null, "Sign up for a free account."), 
+	        React.createElement("form", null, 
+	          React.createElement("div", {className: "form-group"}, 
+	            React.createElement("label", {htmlFor: "name"}, "Name:"), 
+	            React.createElement("input", {type: "text", name: "name", className: "form-control"})
+	          ), 
+	          React.createElement("div", {className: "form-group"}, 
+	            React.createElement("label", {htmlFor: "email"}, "E-mail Address:"), 
+	            React.createElement("input", {type: "text", name: "email", className: "form-control"})
+	          ), 
+	          React.createElement("div", {className: "form-group has-error"}, 
+	            React.createElement("label", {htmlFor: "password"}, "Password:"), 
+	            React.createElement("input", {type: "password", name: "password", className: "form-control"}), 
+	            React.createElement("span", {className: "help-block"}, "Your password must be more than 8 characters.")
+	          ), 
+	          React.createElement("div", {className: "form-group"}, 
+	            React.createElement("input", {className: "btn btn-default", type: "submit", value: "SIGN UP"})
+	          )
+	        ), 
+
+
+	        "// PAGE COMPONENTS", 
+	        React.createElement("hr", null), 
+	        React.createElement("img", {src: "/images/alex_avatar.jpg", className: "img img-thumbnail", width: "145"}), 
+	        React.createElement("h2", null, "Alex Taylor"), 
+	        React.createElement("h4", {className: "lighter"}, "Vancouver, B.C."), 
+
+	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "follow"), React.createElement("br", null), 
+	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), React.createElement("br", null), 
+	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add"), 
+
+
+
+	        React.createElement("ul", {className: "nav nav-tabs"}, 
+	          React.createElement("li", {role: "presentation", className: "active"}, React.createElement("a", {href: "#"}, "Favourites")), 
+	          React.createElement("li", {role: "presentation"}, React.createElement("a", {href: "#"}, "Reviews"))
+	        ), 
+	        React.createElement("br", null), 
+
+
+	        "// BEER REVIEW CARD", 
+	        React.createElement("div", {className: "beer-card clearfix"}, 
+
+	          React.createElement("div", {className: "col-image"}, 
+	            React.createElement("div", {className: "img-thumbnail beer-thumb"}, 
+	              React.createElement("img", {src: "/images/hop_circle.png", width: "88", height: "105"})
+	            )
+	          ), 
+
+	          React.createElement("div", {className: "col-review"}, 
+	            React.createElement("h5", null, React.createElement("a", {href: "#"}, "Blue Buck"), " ", React.createElement("i", null, "by"), " ", React.createElement("a", {href: "#"}, "Phillips Brewing Co.")), 
+	            React.createElement("p", {className: "review-subhead lighter"}, React.createElement("i", null, "June 15, 2015")), 
+	            React.createElement("div", {className: "review-stars"}, 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"})
+	            ), 
+	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
+	          )
+	        ), 
+
+	        "// BEER REVIEWS", 
+	        React.createElement("h3", null, "SIXTEEN FAVOURITE BEERS FROM FOUR BREWERIES"), 
+	        React.createElement("div", {className: "beers"}, 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          ), 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          ), 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          ), 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          )
+
+	        ), 
+
+	        React.createElement("br", null), 
+	        React.createElement("br", null), 
+	        React.createElement("br", null), 
+	        "// FLAVOUR MAP", 
+	        React.createElement(FlavourMapEmbedded, null)
+	      ));
+	  },
+	});
+
+
+/***/ },
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
@@ -24781,37 +24936,7 @@
 	//# sourceMappingURL=react-draggable.js.map
 
 /***/ },
-/* 205 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	var Link = __webpack_require__(148).Link;
-	var calculateFlavourMapCoords = __webpack_require__(206);
-	var FlavourMapEmbedded = __webpack_require__(203);
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  // getInitialState: function() {
-	  //   return {
-	  //     targetCoords: calculateFlavourMapCoords(6,6,,)
-	  //   };
-	  // },
-
-	  render: function() {
-
-	    return (
-	      React.createElement("div", null, 
-	        React.createElement("h2", {className: "text-center"}, "FLAVOUR MAP"), 
-	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Go ahead — drag the target around the map to discover new dimensions of flavour.")), 
-	        /* TODO: how to respond to media queries so that we can re-render this at a different res? */
-	        React.createElement(FlavourMapEmbedded, {maxWidth: 375, heroTarget: {x: 50, y: 57}})
-	      )
-	    );
-	  },
-	});
-
-
-/***/ },
-/* 206 */
+/* 207 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -24827,129 +24952,6 @@
 	    y: mapY
 	  };
 	};
-
-
-/***/ },
-/* 207 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	var Link = __webpack_require__(148).Link;
-	var FlavourMapEmbedded = __webpack_require__(203);
-
-	// application layout
-	module.exports = React.createClass({displayName: "module.exports",
-	  render: function() {
-	    // TODO: look into React-Bootstrap
-	    return (
-	      React.createElement("div", null, 
-	        "// HEADINGS", 
-	        React.createElement("h1", {className: "branded"}, "HOPPIST"), 
-	        React.createElement("h2", {className: "branded"}, "HOPPIST"), 
-	        React.createElement("h3", null, "Discover amazing craft beers in your area."), 
-
-
-	        "// FLASH", 
-	        React.createElement("div", {className: "alert alert-success"}, "Welcome back, Alex."), 
-	        React.createElement("div", {className: "alert alert-danger"}, "Invalid credentials."), 
-
-
-	        "// BODY", 
-	        React.createElement("p", null, "Hoppist connects you with local breweries in your area. Discover new flavours, rate your favourite beer, and see what’s currently on tap for samples and fills. Hoppist is the perfect drinking buddy."), 
-	        React.createElement("button", {href: "#", className: "btn btn-default"}, "SIGN UP"), 
-	        React.createElement("hr", null), 
-
-
-	        "// FORMS", 
-	        React.createElement("h3", null, "Sign up for a free account."), 
-	        React.createElement("form", null, 
-	          React.createElement("div", {className: "form-group"}, 
-	            React.createElement("label", {htmlFor: "name"}, "Name:"), 
-	            React.createElement("input", {type: "text", name: "name", className: "form-control"})
-	          ), 
-	          React.createElement("div", {className: "form-group"}, 
-	            React.createElement("label", {htmlFor: "email"}, "E-mail Address:"), 
-	            React.createElement("input", {type: "text", name: "email", className: "form-control"})
-	          ), 
-	          React.createElement("div", {className: "form-group has-error"}, 
-	            React.createElement("label", {htmlFor: "password"}, "Password:"), 
-	            React.createElement("input", {type: "password", name: "password", className: "form-control"}), 
-	            React.createElement("span", {className: "help-block"}, "Your password must be more than 8 characters.")
-	          ), 
-	          React.createElement("div", {className: "form-group"}, 
-	            React.createElement("input", {className: "btn btn-default", type: "submit", value: "SIGN UP"})
-	          )
-	        ), 
-
-
-	        "// PAGE COMPONENTS", 
-	        React.createElement("hr", null), 
-	        React.createElement("img", {src: "/images/alex_avatar.jpg", className: "img img-thumbnail", width: "145"}), 
-	        React.createElement("h2", null, "Alex Taylor"), 
-	        React.createElement("h4", {className: "lighter"}, "Vancouver, B.C."), 
-
-	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "follow"), React.createElement("br", null), 
-	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), React.createElement("br", null), 
-	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add"), 
-
-
-
-	        React.createElement("ul", {className: "nav nav-tabs"}, 
-	          React.createElement("li", {role: "presentation", className: "active"}, React.createElement("a", {href: "#"}, "Favourites")), 
-	          React.createElement("li", {role: "presentation"}, React.createElement("a", {href: "#"}, "Reviews"))
-	        ), 
-	        React.createElement("br", null), 
-
-
-	        "// BEER REVIEW CARD", 
-	        React.createElement("div", {className: "beer-card clearfix"}, 
-
-	          React.createElement("div", {className: "col-image"}, 
-	            React.createElement("div", {className: "img-thumbnail beer-thumb"}, 
-	              React.createElement("img", {src: "/images/hop_circle.png", width: "88", height: "105"})
-	            )
-	          ), 
-
-	          React.createElement("div", {className: "col-review"}, 
-	            React.createElement("h5", null, React.createElement("a", {href: "#"}, "Blue Buck"), " ", React.createElement("i", null, "by"), " ", React.createElement("a", {href: "#"}, "Phillips Brewing Co.")), 
-	            React.createElement("p", {className: "review-subhead lighter"}, React.createElement("i", null, "June 15, 2015")), 
-	            React.createElement("div", {className: "review-stars"}, 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"})
-	            ), 
-	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
-	          )
-	        ), 
-
-	        "// BEER REVIEWS", 
-	        React.createElement("h3", null, "SIXTEEN FAVOURITE BEERS FROM FOUR BREWERIES"), 
-	        React.createElement("div", {className: "beers"}, 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          ), 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          ), 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          ), 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          )
-
-	        ), 
-
-	        React.createElement("br", null), 
-	        React.createElement("br", null), 
-	        React.createElement("br", null), 
-	        "// FLAVOUR MAP", 
-	        React.createElement(FlavourMapEmbedded, null)
-	      ));
-	  },
-	});
 
 
 /***/ }
