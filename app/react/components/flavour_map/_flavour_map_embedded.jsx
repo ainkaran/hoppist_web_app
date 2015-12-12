@@ -1,7 +1,8 @@
 'use strict'
 var Draggable = require('react-draggable');
 var ReactDOM = require('react-dom'); // required here because we're invoking it to get the node width
-var calculateFlavourMapCoords = require("../../utils/calculate_flavour_map_coords.jsx");
+var calculateFlavourMapCoords = require("../../utils/calculate_flavour_map_coords");
+var calculateDbCoords = require("../../utils/calculate_db_coords");
 
 module.exports = React.createClass({
   propTypes: {
@@ -39,14 +40,22 @@ module.exports = React.createClass({
   },
 
   handleTargetStop(event, ui) {
-    console.log("Target position: " + this.state.targetPos.x + "," + this.state.targetPos.y);
-
     // handle any action the parent component wants to take when the user finishes
     // dragging. for the flavour map index page, this results in the welcome message
     // disappearing and the beer list appearing. As a result, this will also trigger
     // the beer list to re-render.
+
+    //console.log("Target position: " + this.state.targetPos.x + "," + this.state.targetPos.y);
+
+    var newCoords = calculateDbCoords(this.state.targetPos.x,
+                                      this.state.targetPos.y,
+                                      this.state.maxWidth,
+                                      this.state.maxWidth/1.6);
+
+    console.log("Db position: " + newCoords.x + "," + newCoords.y);
+
     if(this.props.onDragStop !== undefined) {
-      this.props.onDragStop();
+      this.props.onDragStop(newCoords);
     }
 
   },

@@ -9,7 +9,6 @@ module.exports = React.createClass({
   },
 
   render() {
-    console.log("Render beerList, display: " + this.props.display );
     var intro = (
       <div key="intro">
         <h2 className="text-center">FLAVOUR MAP</h2>
@@ -17,74 +16,35 @@ module.exports = React.createClass({
       </div>
     );
 
+    var beers = this.props.beers.map((beer)=> {
+      return (
+        <div className="beer-card clearfix" key={beer.id}>
+
+          <div className="col-image">
+            <div className="img-thumbnail beer-thumb">
+              <img src="/images/hop_circle.png" width="88" height="105" />
+            </div>
+          </div>
+
+          <div className="col-details">
+            <h5><a href="#">{beer.attributes.name}</a> <i>by</i> <a href="#">brewery goes here</a></h5>
+            <p className="indent italicize lighter">ale; 5pct; 45 ibu</p>
+            <div className="review-stars">
+              <span className="glyphicon glyphicon-star"></span>
+              <span className="glyphicon glyphicon-star"></span>
+              <span className="glyphicon glyphicon-star"></span>
+              <span className="glyphicon glyphicon-star"></span>
+              <span className="glyphicon glyphicon-star"></span>
+            </div>
+          </div>
+        </div>
+      );
+    });
+
     var beerList = (
       <div key="beerList">
         <hr />
-        <div className="beer-card clearfix">
-
-          <div className="col-image">
-            <div className="img-thumbnail beer-thumb">
-              <img src="/images/hop_circle.png" width="88" height="105" />
-            </div>
-          </div>
-
-          <div className="col-details">
-            <h5><a href="#">Blue Buck</a> <i>by</i> <a href="#">Phillips Brewing Co.</a></h5>
-            <p className="indent italicize lighter">ale; 5pct; 45 ibu</p>
-            <div className="review-stars">
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-            </div>
-          </div>
-        </div>
-
-
-        <div className="beer-card clearfix">
-
-          <div className="col-image">
-            <div className="img-thumbnail beer-thumb">
-              <img src="/images/hop_circle.png" width="88" height="105" />
-            </div>
-          </div>
-
-          <div className="col-details">
-            <h5><a href="#">Blue Buck</a> <i>by</i> <a href="#">Phillips Brewing Co.</a></h5>
-            <p className="indent italicize lighter">ale; 5pct; 45 ibu</p>
-            <div className="review-stars">
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-            </div>
-          </div>
-        </div>
-
-
-        <div className="beer-card clearfix">
-
-          <div className="col-image">
-            <div className="img-thumbnail beer-thumb">
-              <img src="/images/hop_circle.png" width="88" height="105" />
-            </div>
-          </div>
-
-          <div className="col-details">
-            <h5><a href="#">Blue Buck</a> <i>by</i> <a href="#">Phillips Brewing Co.</a></h5>
-            <p className="indent italicize lighter">ale; 5pct; 45 ibu</p>
-            <div className="review-stars">
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-            </div>
-          </div>
-        </div>
-
+        {beers}
         <br />
       </div>
     );
