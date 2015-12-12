@@ -60,6 +60,7 @@
 	var BeerShow                 = __webpack_require__(200);
 	var BeerShowFlavourMap       = __webpack_require__(201);
 	var BeerShowReviews          = __webpack_require__(202);
+	var FlavourMapIndex          = __webpack_require__(207);
 	var StyleGuide               = __webpack_require__(203);
 
 
@@ -72,6 +73,7 @@
 	        React.createElement(Route, {path: "flavour-map", component: BeerShowFlavourMap}), 
 	        React.createElement(Route, {path: "reviews", component: BeerShowReviews})
 	      ), 
+	      React.createElement(Route, {path: "flavour-map", component: FlavourMapIndex}), 
 
 
 
@@ -23135,7 +23137,7 @@
 	          React.createElement("ul", null, 
 	            React.createElement("li", null, React.createElement("a", {href: "#"}, "Alex Taylor         ")), 
 	            React.createElement("li", null, React.createElement("a", {href: "#"}, "REVIEW              ")), 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "FLAVOUR MAP         ")), 
+	            React.createElement("li", null, React.createElement(Link, {to: "/flavour-map", onClick: this.handleMenuClick}, "FLAVOUR MAP")), 
 	            React.createElement("li", null, React.createElement("a", {href: "#"}, "MATCH MAKER IS GREAT")), 
 	            React.createElement("li", null, React.createElement("a", {href: "#"}, "DISCOVER            ")), 
 	            React.createElement("li", null, React.createElement("a", {href: "#"}, "BEERS               ")), 
@@ -24805,6 +24807,16 @@
 	    };
 	  },
 
+	  updateClientDimensions() {
+	    debugger
+	    var x = $(window).width();
+	    var y = $(window).height();
+	    console.log(`flavour map is ${x}x${y}`);
+	  },
+
+	  componentDidMount() {
+	    this.addEventListener('resize', this.updateClientDimensions);
+	  },
 
 	  handleTargetStop(event, ui) {
 	    // maybe we need this?
@@ -24834,6 +24846,55 @@
 	    );
 	  },
 	});
+
+
+/***/ },
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(148).Link;
+	var calculateFlavourMapCoords = __webpack_require__(208);
+	var FlavourMapEmbedded = __webpack_require__(206);
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  // getInitialState: function() {
+	  //   return {
+	  //     targetCoords: calculateFlavourMapCoords(6,6,,)
+	  //   };
+	  // },
+
+	  render: function() {
+
+	    return (
+	      React.createElement("div", null, 
+	        React.createElement("h2", {className: "text-center"}, "FLAVOUR MAP"), 
+	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Go ahead — drag the target around the map to discover new dimensions of flavour.")), 
+	        React.createElement(FlavourMapEmbedded, {heroTarget: {x: 50, y: 57}})
+	      )
+	    );
+	  },
+	});
+
+
+/***/ },
+/* 208 */
+/***/ function(module, exports) {
+
+	'use strict'
+	module.exports = function(flavour_x, colour_y, map_width, map_height) {
+	  const FLAVOUR_SCALE = 12;
+	  const COLOUR_SCALE  = 12;
+	  var mapX = (flavour_x/FLAVOUR_SCALE)*map_width;
+	  // we have to invert the value of Y here because the colour is stored in
+	  // the db as light=12, dark=0, but it's the opposite on our map.
+	  var mapY = ((COLOUR_SCALE - colour_y)/12)*map_height;
+	  return {
+	    x: mapX,
+	    y: mapY
+	  };
+	};
 
 
 /***/ }

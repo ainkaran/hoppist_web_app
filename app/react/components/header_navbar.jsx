@@ -34,7 +34,7 @@ module.exports = React.createClass({
           <ul>
             <li><a href="#">Alex Taylor         </a></li>
             <li><a href="#">REVIEW              </a></li>
-            <li><a href="#">FLAVOUR MAP         </a></li>
+            <li><Link to="/flavour-map" onClick={this.handleMenuClick}>FLAVOUR MAP</Link></li>
             <li><a href="#">MATCH MAKER IS GREAT</a></li>
             <li><a href="#">DISCOVER            </a></li>
             <li><a href="#">BEERS               </a></li>

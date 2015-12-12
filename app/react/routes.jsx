@@ -14,6 +14,7 @@ var BeerIndex                = require("./components/beers/index");
 var BeerShow                 = require("./components/beers/show");
 var BeerShowFlavourMap       = require("./components/beers/_flavour_map");
 var BeerShowReviews          = require("./components/beers/_reviews");
+var FlavourMapIndex          = require("./components/flavour_map/index");
 var StyleGuide               = require("./components/style_guide");
 
 
@@ -26,6 +27,7 @@ ReactDOM.render((
         <Route path="flavour-map" component={BeerShowFlavourMap} />
         <Route path="reviews" component={BeerShowReviews} />
       </Route>
+      <Route path="flavour-map" component={FlavourMapIndex} />
 
 
 

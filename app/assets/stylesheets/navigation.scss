@@ -51,7 +51,7 @@
   top:                       0;
   transition:                200ms;
   width:                     100%;
-  z-index:                   0;
+  z-index:                   -1;
 
   &.is-active {
     opacity:                 0.5;

@@ -9,6 +9,16 @@ module.exports = React.createClass({
     };
   },
 
+  updateClientDimensions() {
+    debugger
+    var x = $(window).width();
+    var y = $(window).height();
+    console.log(`flavour map is ${x}x${y}`);
+  },
+
+  componentDidMount() {
+    this.addEventListener('resize', this.updateClientDimensions);
+  },
 
   handleTargetStop(event, ui) {
     // maybe we need this?
