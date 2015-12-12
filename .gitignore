@@ -17,3 +17,6 @@
 
 /app/react/node_modules
 /app/react/npm-debug.log
+
+.byebug_history
+.DS_Store

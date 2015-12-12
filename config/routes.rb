@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :beers
       resources :flavour_map, only: [] do
         get "search", on: :collection
+        post "search", on: :collection
       end
     end
   end
