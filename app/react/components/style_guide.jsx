@@ -111,7 +111,7 @@ module.exports = React.createClass({
         <br />
         <br />
         // FLAVOUR MAP
-        <FlavourMapEmbedded />
+        <FlavourMapEmbedded/>
       </div>);
   },
 });

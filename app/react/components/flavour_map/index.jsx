@@ -19,7 +19,11 @@ module.exports = React.createClass({
     return (
       <div>
         {/* TODO: how to respond to media queries so that we can re-render this at a different res? */}
-        <FlavourMapEmbedded onDragStop={this.handleDragStop} maxWidth={375} heroTarget={{x: 6, y: 6}}/>
+        <FlavourMapEmbedded
+          heroTarget={{x: 6, y: 6}}
+          isDraggable={true}
+          maxWidth={375}
+          onDragStop={this.handleDragStop} />
           <BeerList display={this.state.display} />
       </div>
     );

@@ -8,6 +8,15 @@ module.exports = React.createClass({
     onDragStart: React.PropTypes.func
   },
 
+  getDefaultProps() {
+    return {
+      isDraggable: false,
+      maxWidth: 375,
+      heroTarget: { x: 6, y: 6 }
+    };
+
+  },
+
   getInitialState: function() {
     // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
     var newTargetPos = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, this.props.maxWidth, this.props.maxWidth/1.6);
@@ -36,7 +45,10 @@ module.exports = React.createClass({
     // dragging. for the flavour map index page, this results in the welcome message
     // disappearing and the beer list appearing. As a result, this will also trigger
     // the beer list to re-render.
-    this.props.onDragStop();
+    if(this.props.onDragStop !== undefined) {
+      this.props.onDragStop();
+    }
+
   },
 
   handleTargetDrag(event, ui) {
@@ -52,12 +64,11 @@ module.exports = React.createClass({
       maxWidth: `${this.state.maxWidth}px`
     };
 
-    //console.log(`render() targetPos: ${this.state.targetPos.x}x${this.state.targetPos.y}`);
-
     return (
       <div id="flavour-map-embedded" style={styles}>
         <Draggable
           bounds="parent"
+          cancel={this.props.isDraggable ? "" : ".handle"}
           handle=".handle"
           moveOnStartChange={true}
           onDrag={this.handleTargetDrag}
