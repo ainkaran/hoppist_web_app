@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/rails-api/active_model_serializers.git
+  revision: f562449bd439d1295b91b41b01d5b780c793100a
+  specs:
+    active_model_serializers (0.10.0.rc3)
+      actionpack (>= 4.0)
+      activemodel (>= 4.0)
+      railties (>= 4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -123,6 +132,9 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.2.4)
       sprockets-rails
+    rails-api (0.4.0)
+      actionpack (>= 3.2.11)
+      railties (>= 3.2.11)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.7)
@@ -207,6 +219,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers!
   awesome_print
   bootstrap-sass (~> 3.3.6)
   byebug
@@ -222,6 +235,7 @@ DEPENDENCIES
   pg
   puma
   rails (= 4.2.4)
+  rails-api
   rails_12factor
   rspec-rails
   sass-rails (~> 5.0)

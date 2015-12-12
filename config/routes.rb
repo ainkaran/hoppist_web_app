@@ -1,6 +1,17 @@
 Rails.application.routes.draw do
+  # This is the entry point for React.
   root "react#index"
 
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :beers
+      resources :flavour_map, only: [] do
+        get "search", on: :collection
+      end
+    end
+  end
+
+  # For the 'survey' microsite.
   namespace :alpha do
     get "/beer_reviewer" => "reviews#start"
     post "/beer_reviewer" => "reviews#save_user"
