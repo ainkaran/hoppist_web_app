@@ -6,7 +6,6 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :beers
       resources :flavour_map, only: [] do
-        get "search", on: :collection
         post "search", on: :collection
       end
     end

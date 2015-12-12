@@ -48,6 +48,7 @@ RSpec.describe Beer, type: :model do
       end.to change  { beer.avg_star_rating }
          .and change { beer.avg_flavour_rating }
          .and change { beer.avg_colour_rating }
+      byebug
     end
   end
 end

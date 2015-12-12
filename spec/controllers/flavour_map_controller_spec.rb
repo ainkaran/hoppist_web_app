@@ -22,6 +22,8 @@ RSpec.describe Api::V1::FlavourMapController, type: :controller do
       [10,6],
       [10,7]
     ].each do |flv_x, col_y|
+      # TODO something about this setup causes a uniqueness validation on beer name
+      # from time to time. very annoying!
       b = FactoryGirl.build(:beer_with_ratings, avg_flavour_rating: flv_x, avg_colour_rating: col_y)
       #puts ">>>>>>>>>> creating #{b.name}"
       b.save

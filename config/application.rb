@@ -23,6 +23,8 @@ module HoppistWebApp
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
+    # TODO: remove this once we're done with the alpha site. also confirm if
+    # inheriting from ActionController::API in the controller will override this setting?
     config.api_only = false
   end
 end
