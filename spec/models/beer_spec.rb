@@ -32,4 +32,22 @@ RSpec.describe Beer, type: :model do
     end
 
   end
+
+  describe "average ratings" do
+    it "should have no average ratings before any reviews have been written" do
+      beer = FactoryGirl.create(:beer)
+      expect(beer.avg_star_rating).not_to be
+      expect(beer.avg_colour_rating).not_to be
+      expect(beer.avg_flavour_rating).not_to be
+    end
+
+    it "should update its average ratings when a review is saved" do
+      beer = FactoryGirl.create(:beer)
+      expect do
+        FactoryGirl.create(:review, beer: beer)
+      end.to change  { beer.avg_star_rating }
+         .and change { beer.avg_flavour_rating }
+         .and change { beer.avg_colour_rating }
+    end
+  end
 end

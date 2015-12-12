@@ -3,39 +3,43 @@ require 'rails_helper'
 RSpec.describe Api::V1::FlavourMapController, type: :controller do
   let(:brewery) { FactoryGirl.create(:brewery) }
 
-  describe "#search" do
-    def coords_from_json(json)
-      coords = []
-      beers = json["data"]
-      beers.each do |beer|
-        coord_x = beer["attributes"]["coord_x_flavour"].round
-        coord_y = beer["attributes"]["coord_y_colour"].round
-        coords.push([coord_x, coord_y])
-      end
-      coords
+  # set up a group of beers that we can use to
+  # ensure the search is returning correct results.
+  before do
+    #puts ">>>>>> before flavour_map#search"
+    beer_ratings = [
+      [0,1],
+      [1,1],
+      [2,2],
+      [2,3],
+      [2,4],
+      [3,3],
+      [4,2],
+      [6,3],
+      [7,3],
+      [9,6],
+      [9,9],
+      [10,6],
+      [10,7]
+    ].each do |flv_x, col_y|
+      b = FactoryGirl.build(:beer_with_ratings, avg_flavour_rating: flv_x, avg_colour_rating: col_y)
+      #puts ">>>>>>>>>> creating #{b.name}"
+      b.save
     end
+  end
 
-    # set up a group of beers that we can use to
-    # ensure the search is returning correct results.
-    before do
-      beer_ratings = [
-        [0,1],
-        [1,1],
-        [2,2],
-        [2,3],
-        [2,4],
-        [3,3],
-        [4,2],
-        [6,3],
-        [7,3],
-        [9,6],
-        [9,9],
-        [10,6],
-        [10,7]
-      ].each do |flv_x, col_y|
-        FactoryGirl.create(:beer_with_ratings, coord_x_flavour: flv_x, coord_y_colour: col_y)
-      end
+  def coords_from_json(json)
+    coords = []
+    beers = json["data"]
+    beers.each do |beer|
+      coord_x = beer["attributes"]["avg_flavour_rating"].round
+      coord_y = beer["attributes"]["avg_colour_rating"].round
+      coords.push([coord_x, coord_y])
     end
+    coords
+  end
+
+  describe "#search" do
 
     context "with valid coordinates" do
       it "returns an array of beers for a given set of coordinates" do
