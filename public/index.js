@@ -25201,7 +25201,7 @@
 	    // TODO: refactor and abstract URLs somehow
 	    $.ajax({
 	      method: "POST",
-	      url: "http://localhost:3000/api/v1/flavour_map/search",
+	      url: "/api/v1/flavour_map/search",
 	      data: { coords: searchCoords },
 	      success: (response) => {
 	        var newBeers = response.data;
