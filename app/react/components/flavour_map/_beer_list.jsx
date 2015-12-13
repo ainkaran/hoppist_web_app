@@ -6,7 +6,7 @@ var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 module.exports = React.createClass({
   getInitialState() {
-    return { display: "intro", beers: [] }
+    return { display: "intro", beers: [], breweries: [] }
   },
 
   componentWillReceiveProps(nextProps) {
@@ -18,8 +18,9 @@ module.exports = React.createClass({
   },
 
   render() {
-    var beerNodes = this.props.beers.map((beer)=> {
-      return (<BeerCardVitals key={beer.id} beer={beer} />);
+    var beerNodes = this.props.beers.map((beer, idx)=> {
+      var brewery = this.props.breweries[idx];
+      return (<BeerCardVitals key={beer.id} beer={beer} brewery={brewery} />);
     });
 
     var beerList = (

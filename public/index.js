@@ -25183,28 +25183,27 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
+
+	var $ = __webpack_require__(230);
+	var BeerList = __webpack_require__(210);
+	var FlavourMapEmbedded = __webpack_require__(205);
 	var Link = __webpack_require__(148).Link;
 
-	var FlavourMapEmbedded = __webpack_require__(205);
-	var BeerList = __webpack_require__(210);
-	var $ = __webpack_require__(230);
 
 	module.exports = React.createClass({displayName: "module.exports",
-	  // TODO: since we're initing an empty beers array, do we even need the display
-	  // state or can we infer it?
 	  getInitialState() {
-	    return { beers: [] }
+	    return { beers: [], breweries: [] }
 	  },
 
 
 	  ajaxPostFlavourMapSearch(searchCoords) {
-	    // TODO: refactor and abstract URLs somehow
 	    $.ajax({
 	      method: "POST",
 	      url: "/api/v1/flavour_map/search",
 	      data: { coords: searchCoords },
 	      success: (response) => {
-	        var newBeers = response.data;
+	        var newBeers  = response.data;
+	        var breweries = response.included;
 
 	        if (newBeers.length > 0) {
 	          console.log(`Beers found: ${newBeers.length} | first id: ${newBeers[0].id} | last id: ${newBeers[newBeers.length-1].id}`);
@@ -25212,7 +25211,7 @@
 	          console.log(`Beers found: 0`);
 	        }
 
-	        this.setState({ beers: newBeers });
+	        this.setState({ beers: newBeers, breweries: breweries });
 	      },
 
 	      error: (obj, msg, err) => {
@@ -25234,7 +25233,7 @@
 	          isDraggable: true, 
 	          maxWidth: 375, 
 	          onDragStop: this.handleDragStop}), 
-	        React.createElement(BeerList, {beers: this.state.beers})
+	        React.createElement(BeerList, {beers: this.state.beers, breweries: this.state.breweries})
 	      )
 	    );
 	  },
@@ -25253,7 +25252,7 @@
 
 	module.exports = React.createClass({displayName: "module.exports",
 	  getInitialState() {
-	    return { display: "intro", beers: [] }
+	    return { display: "intro", beers: [], breweries: [] }
 	  },
 
 	  componentWillReceiveProps(nextProps) {
@@ -25265,8 +25264,9 @@
 	  },
 
 	  render() {
-	    var beerNodes = this.props.beers.map((beer)=> {
-	      return (React.createElement(BeerCardVitals, {key: beer.id, beer: beer}));
+	    var beerNodes = this.props.beers.map((beer, idx)=> {
+	      var brewery = this.props.breweries[idx];
+	      return (React.createElement(BeerCardVitals, {key: beer.id, beer: beer, brewery: brewery}));
 	    });
 
 	    var beerList = (
@@ -25305,12 +25305,28 @@
 
 /***/ },
 /* 211 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
+	var Link = __webpack_require__(148).Link;
 
 	module.exports = React.createClass({displayName: "module.exports",
 	  render() {
+	    // TODO: think about url abstraction. maybe everything could be in a global object
+	    var beerLink = (
+	      React.createElement(Link, {
+	        to: `/breweries/${this.props.brewery.id}/beers/${this.props.beer.id}`}, 
+	        this.props.beer.attributes.name
+	      )
+	    );
+
+	    var breweryLink = (
+	      React.createElement(Link, {
+	        to: `/breweries/${this.props.brewery.id}`}, 
+	        this.props.brewery.attributes.name
+	      )
+	    );
+
 	    return (
 	      React.createElement("div", {className: "beer-card clearfix"}, 
 
@@ -25321,7 +25337,7 @@
 	        ), 
 
 	        React.createElement("div", {className: "col-details"}, 
-	          React.createElement("h5", null, React.createElement("a", {href: "#"}, this.props.beer.attributes.name), " ", React.createElement("i", null, "by"), " ", React.createElement("a", {href: "#"}, "brewery goes here")), 
+	          React.createElement("h5", null, beerLink, " ", React.createElement("em", null, "by"), " ", breweryLink), 
 	          React.createElement("p", {className: "indent italicize lighter"}, "ale; 5pct; 45 ibu"), 
 	          React.createElement("div", {className: "review-stars"}, 
 	            React.createElement("span", {className: "glyphicon glyphicon-star"}), 
@@ -36483,7 +36499,7 @@
 	    return (
 	      React.createElement("div", null, 
 	        React.createElement("h2", {className: "text-center"}, "NO BEERS FOUND."), 
-	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Perhaps you've hit upon the next big flavour profile."))
+	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Perhaps you've hit upon the next big flavour."))
 	      )
 	    );
 	  }

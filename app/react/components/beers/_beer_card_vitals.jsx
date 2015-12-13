@@ -1,7 +1,23 @@
 'use strict'
+var Link = require('react-router').Link;
 
 module.exports = React.createClass({
   render() {
+    // TODO: think about url abstraction. maybe everything could be in a global object
+    var beerLink = (
+      <Link
+        to={`/breweries/${this.props.brewery.id}/beers/${this.props.beer.id}`}>
+        {this.props.beer.attributes.name}
+      </Link>
+    );
+
+    var breweryLink = (
+      <Link
+        to={`/breweries/${this.props.brewery.id}`}>
+        {this.props.brewery.attributes.name}
+      </Link>
+    );
+
     return (
       <div className="beer-card clearfix">
 
@@ -12,7 +28,7 @@ module.exports = React.createClass({
         </div>
 
         <div className="col-details">
-          <h5><a href="#">{this.props.beer.attributes.name}</a> <i>by</i> <a href="#">brewery goes here</a></h5>
+          <h5>{beerLink} <em>by</em> {breweryLink}</h5>
           <p className="indent italicize lighter">ale; 5pct; 45 ibu</p>
           <div className="review-stars">
             <span className="glyphicon glyphicon-star"></span>

@@ -1,26 +1,25 @@
 'use strict'
+
+var $ = require("jquery");
+var BeerList = require("./_beer_list");
+var FlavourMapEmbedded = require("./_flavour_map_embedded");
 var Link = require('react-router').Link;
 
-var FlavourMapEmbedded = require("./_flavour_map_embedded");
-var BeerList = require("./_beer_list");
-var $ = require("jquery");
 
 module.exports = React.createClass({
-  // TODO: since we're initing an empty beers array, do we even need the display
-  // state or can we infer it?
   getInitialState() {
-    return { beers: [] }
+    return { beers: [], breweries: [] }
   },
 
 
   ajaxPostFlavourMapSearch(searchCoords) {
-    // TODO: refactor and abstract URLs somehow
     $.ajax({
       method: "POST",
       url: "/api/v1/flavour_map/search",
       data: { coords: searchCoords },
       success: (response) => {
-        var newBeers = response.data;
+        var newBeers  = response.data;
+        var breweries = response.included;
 
         if (newBeers.length > 0) {
           console.log(`Beers found: ${newBeers.length} | first id: ${newBeers[0].id} | last id: ${newBeers[newBeers.length-1].id}`);
@@ -28,7 +27,7 @@ module.exports = React.createClass({
           console.log(`Beers found: 0`);
         }
 
-        this.setState({ beers: newBeers });
+        this.setState({ beers: newBeers, breweries: breweries });
       },
 
       error: (obj, msg, err) => {
@@ -50,7 +49,7 @@ module.exports = React.createClass({
           isDraggable={true}
           maxWidth={375}
           onDragStop={this.handleDragStop} />
-        <BeerList beers={this.state.beers} />
+        <BeerList beers={this.state.beers} breweries={this.state.breweries} />
       </div>
     );
   },

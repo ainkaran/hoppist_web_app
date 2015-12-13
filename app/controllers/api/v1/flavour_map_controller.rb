@@ -12,6 +12,6 @@ class Api::V1::FlavourMapController < Api::BaseController
                           AND avg_colour_rating BETWEEN :min_y AND :max_y",
                           { min_x: min_x, max_x: max_x, min_y: min_y, max_y: max_y }
                         ])
-    render json: beers
+    render json: beers, include: 'brewery'
   end
 end
