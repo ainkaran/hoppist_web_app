@@ -9,9 +9,12 @@ module.exports = {
     module: {
         loaders: [
             {
-                //tell webpack to use jsx-loader for all *.jsx files
                 test: /\.jsx$/,
-                loader: 'jsx-loader'
+                exclude: /(node_modules)/,
+                loader: 'babel',
+                query: {
+                  presets: ['react', 'es2015']
+                }
             }
         ]
     },

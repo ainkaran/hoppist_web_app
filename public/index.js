@@ -44,54 +44,52 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict'
+	'use strict';
 	// react
+
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(2);
 
 	// react-router
-	var Router = __webpack_require__(148).Router
-	var Route = __webpack_require__(148).Route
-	var IndexRoute = __webpack_require__(148).IndexRoute
-	var createBrowserHistory = __webpack_require__(199);
+	var Router = __webpack_require__(148).Router;
+	var Route = __webpack_require__(148).Route;
+	var IndexRoute = __webpack_require__(148).IndexRoute;
+	var createBrowserHistory = __webpack_require__(197);
 
 	// libraries
-	var $ = __webpack_require__(211);
+	var $ = __webpack_require__(198);
 
 	// pages
-	var App                      = __webpack_require__(200);
-	var BeerIndex                = __webpack_require__(202);
-	var BeerShow                 = __webpack_require__(203);
-	var BeerShowFlavourMap       = __webpack_require__(205);
-	var BeerShowReviews          = __webpack_require__(204);
-	var FlavourMapIndex          = __webpack_require__(210);
-	var StyleGuide               = __webpack_require__(234);
+	var App = __webpack_require__(199);
+	var BeerIndex = __webpack_require__(201);
+	var BeerShow = __webpack_require__(202);
+	var BeerShowFlavourMap = __webpack_require__(204);
+	var BeerShowReviews = __webpack_require__(203);
+	var FlavourMapIndex = __webpack_require__(209);
+	var StyleGuide = __webpack_require__(233);
 
 	// TODO: challenges with react router: the nesting assumes that you're rendering
 	// a child in a parent component. so we can't nest beers within breweries for the
 	// sake of the url; we have to hardcode the nesting if we want that path.
-	ReactDOM.render((
-	  React.createElement(Router, {history: createBrowserHistory()}, 
-	    React.createElement(Route, {path: "/", component: App}, 
-	      React.createElement(Route, {path: "beers", component: BeerIndex}), 
-	      React.createElement(Route, {path: "beers/:id", component: BeerShow}, 
-	        React.createElement(IndexRoute, {component: BeerShowFlavourMap}), 
-	        React.createElement(Route, {path: "flavour-map", component: BeerShowFlavourMap}), 
-	        React.createElement(Route, {path: "reviews", component: BeerShowReviews})
-	      ), 
-	      React.createElement(Route, {path: "flavour-map", component: FlavourMapIndex}), 
-
-
-
-
-	      /* TEST ROUTES */
-	      React.createElement(Route, {path: "styleguide", component: StyleGuide}), 
-	      React.createElement(Route, {path: "styleguide/beer-show", component: BeerShow})
-
-	  )
+	ReactDOM.render(React.createElement(
+	  Router,
+	  { history: createBrowserHistory() },
+	  React.createElement(
+	    Route,
+	    { path: '/', component: App },
+	    React.createElement(Route, { path: 'beers', component: BeerIndex }),
+	    React.createElement(
+	      Route,
+	      { path: 'beers/:id', component: BeerShow },
+	      React.createElement(IndexRoute, { component: BeerShowFlavourMap }),
+	      React.createElement(Route, { path: 'flavour-map', component: BeerShowFlavourMap }),
+	      React.createElement(Route, { path: 'reviews', component: BeerShowReviews })
+	    ),
+	    React.createElement(Route, { path: 'flavour-map', component: FlavourMapIndex }),
+	    React.createElement(Route, { path: 'styleguide', component: StyleGuide }),
+	    React.createElement(Route, { path: 'styleguide/beer-show', component: BeerShow })
 	  )
 	), document.getElementById('container'));
-
 
 /***/ },
 /* 1 */
@@ -18710,13 +18708,13 @@
 
 	exports.Router = _Router3['default'];
 
-	var _Link2 = __webpack_require__(187);
+	var _Link2 = __webpack_require__(185);
 
 	var _Link3 = _interopRequireDefault(_Link2);
 
 	exports.Link = _Link3['default'];
 
-	var _IndexLink2 = __webpack_require__(188);
+	var _IndexLink2 = __webpack_require__(186);
 
 	var _IndexLink3 = _interopRequireDefault(_IndexLink2);
 
@@ -18724,25 +18722,25 @@
 
 	/* components (configuration) */
 
-	var _IndexRedirect2 = __webpack_require__(189);
+	var _IndexRedirect2 = __webpack_require__(187);
 
 	var _IndexRedirect3 = _interopRequireDefault(_IndexRedirect2);
 
 	exports.IndexRedirect = _IndexRedirect3['default'];
 
-	var _IndexRoute2 = __webpack_require__(191);
+	var _IndexRoute2 = __webpack_require__(189);
 
 	var _IndexRoute3 = _interopRequireDefault(_IndexRoute2);
 
 	exports.IndexRoute = _IndexRoute3['default'];
 
-	var _Redirect2 = __webpack_require__(190);
+	var _Redirect2 = __webpack_require__(188);
 
 	var _Redirect3 = _interopRequireDefault(_Redirect2);
 
 	exports.Redirect = _Redirect3['default'];
 
-	var _Route2 = __webpack_require__(192);
+	var _Route2 = __webpack_require__(190);
 
 	var _Route3 = _interopRequireDefault(_Route2);
 
@@ -18750,19 +18748,19 @@
 
 	/* mixins */
 
-	var _History2 = __webpack_require__(193);
+	var _History2 = __webpack_require__(191);
 
 	var _History3 = _interopRequireDefault(_History2);
 
 	exports.History = _History3['default'];
 
-	var _Lifecycle2 = __webpack_require__(194);
+	var _Lifecycle2 = __webpack_require__(192);
 
 	var _Lifecycle3 = _interopRequireDefault(_Lifecycle2);
 
 	exports.Lifecycle = _Lifecycle3['default'];
 
-	var _RouteContext2 = __webpack_require__(195);
+	var _RouteContext2 = __webpack_require__(193);
 
 	var _RouteContext3 = _interopRequireDefault(_RouteContext2);
 
@@ -18786,13 +18784,13 @@
 
 	exports.RoutingContext = _RoutingContext3['default'];
 
-	var _PropTypes2 = __webpack_require__(186);
+	var _PropTypes2 = __webpack_require__(184);
 
 	var _PropTypes3 = _interopRequireDefault(_PropTypes2);
 
 	exports.PropTypes = _PropTypes3['default'];
 
-	var _match2 = __webpack_require__(196);
+	var _match2 = __webpack_require__(194);
 
 	var _match3 = _interopRequireDefault(_match2);
 
@@ -18842,7 +18840,7 @@
 
 	var _useRoutes2 = _interopRequireDefault(_useRoutes);
 
-	var _PropTypes = __webpack_require__(186);
+	var _PropTypes = __webpack_require__(184);
 
 	var _React$PropTypes = _react2['default'].PropTypes;
 	var func = _React$PropTypes.func;
@@ -19072,6 +19070,10 @@
 
 	var _createDOMHistory2 = _interopRequireDefault(_createDOMHistory);
 
+	var _parsePath = __webpack_require__(165);
+
+	var _parsePath2 = _interopRequireDefault(_parsePath);
+
 	function isAbsolutePath(path) {
 	  return typeof path === 'string' && path.charAt(0) === '/';
 	}
@@ -19130,7 +19132,9 @@
 	      key = state = null;
 	    }
 
-	    return history.createLocation(path, state, undefined, key);
+	    var location = _parsePath2['default'](path);
+
+	    return history.createLocation(_extends({}, location, { state: state }), undefined, key);
 	  }
 
 	  function startHashChangeListener(_ref) {
@@ -19217,16 +19221,16 @@
 	    };
 	  }
 
-	  function pushState(state, path) {
-	    process.env.NODE_ENV !== 'production' ? _warning2['default'](queryKey || state == null, 'You cannot use state without a queryKey it will be dropped') : undefined;
+	  function push(location) {
+	    process.env.NODE_ENV !== 'production' ? _warning2['default'](queryKey || location.state == null, 'You cannot use state without a queryKey it will be dropped') : undefined;
 
-	    history.pushState(state, path);
+	    history.push(location);
 	  }
 
-	  function replaceState(state, path) {
-	    process.env.NODE_ENV !== 'production' ? _warning2['default'](queryKey || state == null, 'You cannot use state without a queryKey it will be dropped') : undefined;
+	  function replace(location) {
+	    process.env.NODE_ENV !== 'production' ? _warning2['default'](queryKey || location.state == null, 'You cannot use state without a queryKey it will be dropped') : undefined;
 
-	    history.replaceState(state, path);
+	    history.replace(location);
 	  }
 
 	  var goIsSupportedWithoutReload = _DOMUtils.supportsGoWithoutReloadUsingHash();
@@ -19255,15 +19259,32 @@
 	    if (--listenerCount === 0) stopHashChangeListener();
 	  }
 
+	  // deprecated
+	  function pushState(state, path) {
+	    process.env.NODE_ENV !== 'production' ? _warning2['default'](queryKey || state == null, 'You cannot use state without a queryKey it will be dropped') : undefined;
+
+	    history.pushState(state, path);
+	  }
+
+	  // deprecated
+	  function replaceState(state, path) {
+	    process.env.NODE_ENV !== 'production' ? _warning2['default'](queryKey || state == null, 'You cannot use state without a queryKey it will be dropped') : undefined;
+
+	    history.replaceState(state, path);
+	  }
+
 	  return _extends({}, history, {
 	    listenBefore: listenBefore,
 	    listen: listen,
-	    pushState: pushState,
-	    replaceState: replaceState,
+	    push: push,
+	    replace: replace,
 	    go: go,
 	    createHref: createHref,
-	    registerTransitionHook: registerTransitionHook,
-	    unregisterTransitionHook: unregisterTransitionHook
+
+	    registerTransitionHook: registerTransitionHook, // deprecated - warning is in createHistory
+	    unregisterTransitionHook: unregisterTransitionHook, // deprecated - warning is in createHistory
+	    pushState: pushState, // deprecated - warning is in createHistory
+	    replaceState: replaceState // deprecated - warning is in createHistory
 	  });
 	}
 
@@ -19498,7 +19519,7 @@
 	}
 
 	/**
-	 * Returns true if the HTML5 history API is supported. Taken from modernizr.
+	 * Returns true if the HTML5 history API is supported. Taken from Modernizr.
 	 *
 	 * https://github.com/Modernizr/Modernizr/blob/master/LICENSE
 	 * https://github.com/Modernizr/Modernizr/blob/master/feature-detects/history.js
@@ -19508,6 +19529,11 @@
 	function supportsHistory() {
 	  var ua = navigator.userAgent;
 	  if ((ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) && ua.indexOf('Mobile Safari') !== -1 && ua.indexOf('Chrome') === -1 && ua.indexOf('Windows Phone') === -1) {
+	    return false;
+	  }
+	  // FIXME: Work around our browser history not working correctly on Chrome
+	  // iOS: https://github.com/rackt/react-router/issues/2565
+	  if (ua.indexOf('CriOS') !== -1) {
 	    return false;
 	  }
 	  return window.history && 'pushState' in window.history;
@@ -19646,6 +19672,7 @@
 /* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
+	//import warning from 'warning'
 	'use strict';
 
 	exports.__esModule = true;
@@ -19669,6 +19696,10 @@
 	var _runTransitionHook = __webpack_require__(167);
 
 	var _runTransitionHook2 = _interopRequireDefault(_runTransitionHook);
+
+	var _parsePath = __webpack_require__(165);
+
+	var _parsePath2 = _interopRequireDefault(_parsePath);
 
 	var _deprecate = __webpack_require__(168);
 
@@ -19790,15 +19821,10 @@
 	      if (ok) {
 	        // treat PUSH to current path like REPLACE to be consistent with browsers
 	        if (nextLocation.action === _Actions.PUSH) {
-	          var _getCurrentLocation = getCurrentLocation();
+	          var prevPath = createPath(location);
+	          var nextPath = createPath(nextLocation);
 
-	          var pathname = _getCurrentLocation.pathname;
-	          var search = _getCurrentLocation.search;
-
-	          var currentPath = pathname + search;
-	          var path = nextLocation.pathname + nextLocation.search;
-
-	          if (currentPath === path) nextLocation.action = _Actions.REPLACE;
+	          if (nextPath === prevPath) nextLocation.action = _Actions.REPLACE;
 	        }
 
 	        if (finishTransition(nextLocation) !== false) updateLocation(nextLocation);
@@ -19811,20 +19837,12 @@
 	    });
 	  }
 
-	  function pushState(state, path) {
-	    transitionTo(createLocation(path, state, _Actions.PUSH, createKey()));
+	  function push(location) {
+	    transitionTo(createLocation(location, _Actions.PUSH, createKey()));
 	  }
 
-	  function push(path) {
-	    pushState(null, path);
-	  }
-
-	  function replaceState(state, path) {
-	    transitionTo(createLocation(path, state, _Actions.REPLACE, createKey()));
-	  }
-
-	  function replace(path) {
-	    replaceState(null, path);
+	  function replace(location) {
+	    transitionTo(createLocation(location, _Actions.REPLACE, createKey()));
 	  }
 
 	  function goBack() {
@@ -19839,12 +19857,12 @@
 	    return createRandomKey(keyLength);
 	  }
 
-	  function createPath(path) {
-	    if (path == null || typeof path === 'string') return path;
+	  function createPath(location) {
+	    if (location == null || typeof location === 'string') return location;
 
-	    var pathname = path.pathname;
-	    var search = path.search;
-	    var hash = path.hash;
+	    var pathname = location.pathname;
+	    var search = location.search;
+	    var hash = location.hash;
 
 	    var result = pathname;
 
@@ -19855,14 +19873,29 @@
 	    return result;
 	  }
 
-	  function createHref(path) {
-	    return createPath(path);
+	  function createHref(location) {
+	    return createPath(location);
 	  }
 
-	  function createLocation(path, state, action) {
-	    var key = arguments.length <= 3 || arguments[3] === undefined ? createKey() : arguments[3];
+	  function createLocation(location, action) {
+	    var key = arguments.length <= 2 || arguments[2] === undefined ? createKey() : arguments[2];
 
-	    return _createLocation3['default'](path, state, action, key);
+	    if (typeof action === 'object') {
+	      //warning(
+	      //  false,
+	      //  'The state (2nd) argument to history.createLocation is deprecated; use a ' +
+	      //  'location descriptor instead'
+	      //)
+
+	      if (typeof location === 'string') location = _parsePath2['default'](location);
+
+	      location = _extends({}, location, { state: action });
+
+	      action = key;
+	      key = arguments[3] || createKey();
+	    }
+
+	    return _createLocation3['default'](location, action, key);
 	  }
 
 	  // deprecated
@@ -19892,12 +19925,24 @@
 	    });
 	  }
 
+	  // deprecated
+	  function pushState(state, path) {
+	    if (typeof path === 'string') path = _parsePath2['default'](path);
+
+	    push(_extends({ state: state }, path));
+	  }
+
+	  // deprecated
+	  function replaceState(state, path) {
+	    if (typeof path === 'string') path = _parsePath2['default'](path);
+
+	    replace(_extends({ state: state }, path));
+	  }
+
 	  return {
 	    listenBefore: listenBefore,
 	    listen: listen,
 	    transitionTo: transitionTo,
-	    pushState: pushState,
-	    replaceState: replaceState,
 	    push: push,
 	    replace: replace,
 	    go: go,
@@ -19910,7 +19955,9 @@
 
 	    setState: _deprecate2['default'](setState, 'setState is deprecated; use location.key to save state instead'),
 	    registerTransitionHook: _deprecate2['default'](registerTransitionHook, 'registerTransitionHook is deprecated; use listenBefore instead'),
-	    unregisterTransitionHook: _deprecate2['default'](unregisterTransitionHook, 'unregisterTransitionHook is deprecated; use the callback returned from listenBefore instead')
+	    unregisterTransitionHook: _deprecate2['default'](unregisterTransitionHook, 'unregisterTransitionHook is deprecated; use the callback returned from listenBefore instead'),
+	    pushState: _deprecate2['default'](pushState, 'pushState is deprecated; use push instead'),
+	    replaceState: _deprecate2['default'](replaceState, 'replaceState is deprecated; use replace instead')
 	  };
 	}
 
@@ -20093,9 +20140,12 @@
 /* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
+	//import warning from 'warning'
 	'use strict';
 
 	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -20106,16 +20156,31 @@
 	var _parsePath2 = _interopRequireDefault(_parsePath);
 
 	function createLocation() {
-	  var path = arguments.length <= 0 || arguments[0] === undefined ? '/' : arguments[0];
-	  var state = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-	  var action = arguments.length <= 2 || arguments[2] === undefined ? _Actions.POP : arguments[2];
-	  var key = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+	  var location = arguments.length <= 0 || arguments[0] === undefined ? '/' : arguments[0];
+	  var action = arguments.length <= 1 || arguments[1] === undefined ? _Actions.POP : arguments[1];
+	  var key = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
 
-	  if (typeof path === 'string') path = _parsePath2['default'](path);
+	  var _fourthArg = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
 
-	  var pathname = path.pathname || '/';
-	  var search = path.search || '';
-	  var hash = path.hash || '';
+	  if (typeof location === 'string') location = _parsePath2['default'](location);
+
+	  if (typeof action === 'object') {
+	    //warning(
+	    //  false,
+	    //  'The state (2nd) argument to createLocation is deprecated; use a ' +
+	    //  'location descriptor instead'
+	    //)
+
+	    location = _extends({}, location, { state: action });
+
+	    action = key || _Actions.POP;
+	    key = _fourthArg;
+	  }
+
+	  var pathname = location.pathname || '/';
+	  var search = location.search || '';
+	  var hash = location.hash || '';
+	  var state = location.state || null;
 
 	  return {
 	    pathname: pathname,
@@ -20230,28 +20295,23 @@
 
 /***/ },
 /* 168 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	//import warning from 'warning'
+
+	"use strict";
 
 	exports.__esModule = true;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _warning = __webpack_require__(152);
-
-	var _warning2 = _interopRequireDefault(_warning);
-
-	function deprecate(fn, message) {
-	  return function () {
-	    process.env.NODE_ENV !== 'production' ? _warning2['default'](false, '[history] ' + message) : undefined;
-	    return fn.apply(this, arguments);
-	  };
+	function deprecate(fn) {
+	  return fn;
+	  //return function () {
+	  //  warning(false, '[history] ' + message)
+	  //  return fn.apply(this, arguments)
+	  //}
 	}
 
-	exports['default'] = deprecate;
-	module.exports = exports['default'];
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+	exports["default"] = deprecate;
+	module.exports = exports["default"];
 
 /***/ },
 /* 169 */
@@ -20863,21 +20923,21 @@
 
 	var _historyLibUseQueries2 = _interopRequireDefault(_historyLibUseQueries);
 
-	var _computeChangedRoutes2 = __webpack_require__(180);
+	var _computeChangedRoutes2 = __webpack_require__(178);
 
 	var _computeChangedRoutes3 = _interopRequireDefault(_computeChangedRoutes2);
 
-	var _TransitionUtils = __webpack_require__(181);
+	var _TransitionUtils = __webpack_require__(179);
 
-	var _isActive2 = __webpack_require__(183);
+	var _isActive2 = __webpack_require__(181);
 
 	var _isActive3 = _interopRequireDefault(_isActive2);
 
-	var _getComponents = __webpack_require__(184);
+	var _getComponents = __webpack_require__(182);
 
 	var _getComponents2 = _interopRequireDefault(_getComponents);
 
-	var _matchRoutes = __webpack_require__(185);
+	var _matchRoutes = __webpack_require__(183);
 
 	var _matchRoutes2 = _interopRequireDefault(_matchRoutes);
 
@@ -21140,7 +21200,7 @@
 /* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 
@@ -21150,9 +21210,11 @@
 
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-	var _qs = __webpack_require__(176);
+	var _warning = __webpack_require__(152);
 
-	var _qs2 = _interopRequireDefault(_qs);
+	var _warning2 = _interopRequireDefault(_warning);
+
+	var _queryString = __webpack_require__(176);
 
 	var _runTransitionHook = __webpack_require__(167);
 
@@ -21162,12 +21224,22 @@
 
 	var _parsePath2 = _interopRequireDefault(_parsePath);
 
+	var _deprecate = __webpack_require__(168);
+
+	var _deprecate2 = _interopRequireDefault(_deprecate);
+
+	var SEARCH_BASE_KEY = '$searchBase';
+
 	function defaultStringifyQuery(query) {
-	  return _qs2['default'].stringify(query, { arrayFormat: 'brackets' }).replace(/%20/g, '+');
+	  return _queryString.stringify(query).replace(/%20/g, '+');
 	}
 
-	function defaultParseQueryString(queryString) {
-	  return _qs2['default'].parse(queryString.replace(/\+/g, '%20'));
+	var defaultParseQueryString = _queryString.parse;
+
+	function isNestedObject(object) {
+	  for (var p in object) {
+	    if (object.hasOwnProperty(p) && typeof object[p] === 'object' && !Array.isArray(object[p]) && object[p] !== null) return true;
+	  }return false;
 	}
 
 	/**
@@ -21189,22 +21261,42 @@
 	    if (typeof parseQueryString !== 'function') parseQueryString = defaultParseQueryString;
 
 	    function addQuery(location) {
-	      if (location.query == null) location.query = parseQueryString(location.search.substring(1));
+	      if (location.query == null) {
+	        var search = location.search;
+
+	        location.query = parseQueryString(search.substring(1));
+	        location[SEARCH_BASE_KEY] = { search: search, searchBase: '' };
+	      }
+
+	      // TODO: Instead of all the book-keeping here, this should just strip the
+	      // stringified query from the search.
 
 	      return location;
 	    }
 
-	    function appendQuery(path, query) {
+	    function appendQuery(location, query) {
+	      var _extends2;
+
 	      var queryString = undefined;
-	      if (!query || (queryString = stringifyQuery(query)) === '') return path;
+	      if (!query || (queryString = stringifyQuery(query)) === '') return location;
 
-	      if (typeof path === 'string') path = _parsePath2['default'](path);
+	      process.env.NODE_ENV !== 'production' ? _warning2['default'](stringifyQuery !== defaultStringifyQuery || !isNestedObject(query), 'useQueries does not stringify nested query objects by default; ' + 'use a custom stringifyQuery function') : undefined;
 
-	      var search = path.search + (path.search ? '&' : '?') + queryString;
+	      if (typeof location === 'string') location = _parsePath2['default'](location);
 
-	      return _extends({}, path, {
+	      var searchBaseSpec = location[SEARCH_BASE_KEY];
+	      var searchBase = undefined;
+	      if (searchBaseSpec && location.search === searchBaseSpec.search) {
+	        searchBase = searchBaseSpec.searchBase;
+	      } else {
+	        searchBase = location.search || '';
+	      }
+
+	      var search = searchBase + (searchBase ? '&' : '?') + queryString;
+
+	      return _extends({}, location, (_extends2 = {
 	        search: search
-	      });
+	      }, _extends2[SEARCH_BASE_KEY] = { search: search, searchBase: searchBase }, _extends2));
 	    }
 
 	    // Override all read methods with query-aware versions.
@@ -21221,579 +21313,147 @@
 	    }
 
 	    // Override all write methods with query-aware versions.
-	    function pushState(state, path, query) {
-	      return history.pushState(state, appendQuery(path, query));
+	    function push(location) {
+	      history.push(appendQuery(location, location.query));
 	    }
 
-	    function replaceState(state, path, query) {
-	      return history.replaceState(state, appendQuery(path, query));
+	    function replace(location) {
+	      history.replace(appendQuery(location, location.query));
 	    }
 
-	    function createPath(path, query) {
-	      return history.createPath(appendQuery(path, query));
+	    function createPath(location, query) {
+	      process.env.NODE_ENV !== 'production' ? _warning2['default'](query, 'the query argument to createPath is deprecated; use a location descriptor instead') : undefined;
+	      return history.createPath(appendQuery(location, query || location.query));
 	    }
 
-	    function createHref(path, query) {
-	      return history.createHref(appendQuery(path, query));
+	    function createHref(location, query) {
+	      process.env.NODE_ENV !== 'production' ? _warning2['default'](query, 'the query argument to createHref is deprecated; use a location descriptor instead') : undefined;
+	      return history.createHref(appendQuery(location, query || location.query));
 	    }
 
 	    function createLocation() {
 	      return addQuery(history.createLocation.apply(history, arguments));
 	    }
 
+	    // deprecated
+	    function pushState(state, path, query) {
+	      if (typeof path === 'string') path = _parsePath2['default'](path);
+
+	      push(_extends({ state: state }, path, { query: query }));
+	    }
+
+	    // deprecated
+	    function replaceState(state, path, query) {
+	      if (typeof path === 'string') path = _parsePath2['default'](path);
+
+	      replace(_extends({ state: state }, path, { query: query }));
+	    }
+
 	    return _extends({}, history, {
 	      listenBefore: listenBefore,
 	      listen: listen,
-	      pushState: pushState,
-	      replaceState: replaceState,
+	      push: push,
+	      replace: replace,
 	      createPath: createPath,
 	      createHref: createHref,
-	      createLocation: createLocation
+	      createLocation: createLocation,
+
+	      pushState: _deprecate2['default'](pushState, 'pushState is deprecated; use push instead'),
+	      replaceState: _deprecate2['default'](replaceState, 'replaceState is deprecated; use replace instead')
 	    });
 	  };
 	}
 
 	exports['default'] = useQueries;
 	module.exports = exports['default'];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
 /* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// Load modules
+	'use strict';
+	var strictUriEncode = __webpack_require__(177);
 
-	var Stringify = __webpack_require__(177);
-	var Parse = __webpack_require__(179);
+	exports.extract = function (str) {
+		return str.split('?')[1] || '';
+	};
 
+	exports.parse = function (str) {
+		if (typeof str !== 'string') {
+			return {};
+		}
 
-	// Declare internals
+		str = str.trim().replace(/^(\?|#|&)/, '');
 
-	var internals = {};
+		if (!str) {
+			return {};
+		}
 
+		return str.split('&').reduce(function (ret, param) {
+			var parts = param.replace(/\+/g, ' ').split('=');
+			// Firefox (pre 40) decodes `%3D` to `=`
+			// https://github.com/sindresorhus/query-string/pull/37
+			var key = parts.shift();
+			var val = parts.length > 0 ? parts.join('=') : undefined;
 
-	module.exports = {
-	    stringify: Stringify,
-	    parse: Parse
+			key = decodeURIComponent(key);
+
+			// missing `=` should be `null`:
+			// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+			val = val === undefined ? null : decodeURIComponent(val);
+
+			if (!ret.hasOwnProperty(key)) {
+				ret[key] = val;
+			} else if (Array.isArray(ret[key])) {
+				ret[key].push(val);
+			} else {
+				ret[key] = [ret[key], val];
+			}
+
+			return ret;
+		}, {});
+	};
+
+	exports.stringify = function (obj) {
+		return obj ? Object.keys(obj).sort().map(function (key) {
+			var val = obj[key];
+
+			if (val === undefined) {
+				return '';
+			}
+
+			if (val === null) {
+				return key;
+			}
+
+			if (Array.isArray(val)) {
+				return val.sort().map(function (val2) {
+					return strictUriEncode(key) + '=' + strictUriEncode(val2);
+				}).join('&');
+			}
+
+			return strictUriEncode(key) + '=' + strictUriEncode(val);
+		}).filter(function (x) {
+			return x.length > 0;
+		}).join('&') : '';
 	};
 
 
 /***/ },
 /* 177 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	// Load modules
-
-	var Utils = __webpack_require__(178);
-
-
-	// Declare internals
-
-	var internals = {
-	    delimiter: '&',
-	    arrayPrefixGenerators: {
-	        brackets: function (prefix, key) {
-
-	            return prefix + '[]';
-	        },
-	        indices: function (prefix, key) {
-
-	            return prefix + '[' + key + ']';
-	        },
-	        repeat: function (prefix, key) {
-
-	            return prefix;
-	        }
-	    },
-	    strictNullHandling: false
-	};
-
-
-	internals.stringify = function (obj, prefix, generateArrayPrefix, strictNullHandling, filter) {
-
-	    if (typeof filter === 'function') {
-	        obj = filter(prefix, obj);
-	    }
-	    else if (Utils.isBuffer(obj)) {
-	        obj = obj.toString();
-	    }
-	    else if (obj instanceof Date) {
-	        obj = obj.toISOString();
-	    }
-	    else if (obj === null) {
-	        if (strictNullHandling) {
-	            return Utils.encode(prefix);
-	        }
-
-	        obj = '';
-	    }
-
-	    if (typeof obj === 'string' ||
-	        typeof obj === 'number' ||
-	        typeof obj === 'boolean') {
-
-	        return [Utils.encode(prefix) + '=' + Utils.encode(obj)];
-	    }
-
-	    var values = [];
-
-	    if (typeof obj === 'undefined') {
-	        return values;
-	    }
-
-	    var objKeys = Array.isArray(filter) ? filter : Object.keys(obj);
-	    for (var i = 0, il = objKeys.length; i < il; ++i) {
-	        var key = objKeys[i];
-
-	        if (Array.isArray(obj)) {
-	            values = values.concat(internals.stringify(obj[key], generateArrayPrefix(prefix, key), generateArrayPrefix, strictNullHandling, filter));
-	        }
-	        else {
-	            values = values.concat(internals.stringify(obj[key], prefix + '[' + key + ']', generateArrayPrefix, strictNullHandling, filter));
-	        }
-	    }
-
-	    return values;
-	};
-
-
-	module.exports = function (obj, options) {
-
-	    options = options || {};
-	    var delimiter = typeof options.delimiter === 'undefined' ? internals.delimiter : options.delimiter;
-	    var strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : internals.strictNullHandling;
-	    var objKeys;
-	    var filter;
-	    if (typeof options.filter === 'function') {
-	        filter = options.filter;
-	        obj = filter('', obj);
-	    }
-	    else if (Array.isArray(options.filter)) {
-	        objKeys = filter = options.filter;
-	    }
-
-	    var keys = [];
-
-	    if (typeof obj !== 'object' ||
-	        obj === null) {
-
-	        return '';
-	    }
-
-	    var arrayFormat;
-	    if (options.arrayFormat in internals.arrayPrefixGenerators) {
-	        arrayFormat = options.arrayFormat;
-	    }
-	    else if ('indices' in options) {
-	        arrayFormat = options.indices ? 'indices' : 'repeat';
-	    }
-	    else {
-	        arrayFormat = 'indices';
-	    }
-
-	    var generateArrayPrefix = internals.arrayPrefixGenerators[arrayFormat];
-
-	    if (!objKeys) {
-	        objKeys = Object.keys(obj);
-	    }
-	    for (var i = 0, il = objKeys.length; i < il; ++i) {
-	        var key = objKeys[i];
-	        keys = keys.concat(internals.stringify(obj[key], key, generateArrayPrefix, strictNullHandling, filter));
-	    }
-
-	    return keys.join(delimiter);
+	'use strict';
+	module.exports = function (str) {
+		return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
+			return '%' + c.charCodeAt(0).toString(16);
+		});
 	};
 
 
 /***/ },
 /* 178 */
-/***/ function(module, exports) {
-
-	// Load modules
-
-
-	// Declare internals
-
-	var internals = {};
-	internals.hexTable = new Array(256);
-	for (var h = 0; h < 256; ++h) {
-	    internals.hexTable[h] = '%' + ((h < 16 ? '0' : '') + h.toString(16)).toUpperCase();
-	}
-
-
-	exports.arrayToObject = function (source, options) {
-
-	    var obj = options.plainObjects ? Object.create(null) : {};
-	    for (var i = 0, il = source.length; i < il; ++i) {
-	        if (typeof source[i] !== 'undefined') {
-
-	            obj[i] = source[i];
-	        }
-	    }
-
-	    return obj;
-	};
-
-
-	exports.merge = function (target, source, options) {
-
-	    if (!source) {
-	        return target;
-	    }
-
-	    if (typeof source !== 'object') {
-	        if (Array.isArray(target)) {
-	            target.push(source);
-	        }
-	        else if (typeof target === 'object') {
-	            target[source] = true;
-	        }
-	        else {
-	            target = [target, source];
-	        }
-
-	        return target;
-	    }
-
-	    if (typeof target !== 'object') {
-	        target = [target].concat(source);
-	        return target;
-	    }
-
-	    if (Array.isArray(target) &&
-	        !Array.isArray(source)) {
-
-	        target = exports.arrayToObject(target, options);
-	    }
-
-	    var keys = Object.keys(source);
-	    for (var k = 0, kl = keys.length; k < kl; ++k) {
-	        var key = keys[k];
-	        var value = source[key];
-
-	        if (!Object.prototype.hasOwnProperty.call(target, key)) {
-	            target[key] = value;
-	        }
-	        else {
-	            target[key] = exports.merge(target[key], value, options);
-	        }
-	    }
-
-	    return target;
-	};
-
-
-	exports.decode = function (str) {
-
-	    try {
-	        return decodeURIComponent(str.replace(/\+/g, ' '));
-	    } catch (e) {
-	        return str;
-	    }
-	};
-
-	exports.encode = function (str) {
-
-	    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
-	    // It has been adapted here for stricter adherence to RFC 3986
-	    if (str.length === 0) {
-	        return str;
-	    }
-
-	    if (typeof str !== 'string') {
-	        str = '' + str;
-	    }
-
-	    var out = '';
-	    for (var i = 0, il = str.length; i < il; ++i) {
-	        var c = str.charCodeAt(i);
-
-	        if (c === 0x2D || // -
-	            c === 0x2E || // .
-	            c === 0x5F || // _
-	            c === 0x7E || // ~
-	            (c >= 0x30 && c <= 0x39) || // 0-9
-	            (c >= 0x41 && c <= 0x5A) || // a-z
-	            (c >= 0x61 && c <= 0x7A)) { // A-Z
-
-	            out += str[i];
-	            continue;
-	        }
-
-	        if (c < 0x80) {
-	            out += internals.hexTable[c];
-	            continue;
-	        }
-
-	        if (c < 0x800) {
-	            out += internals.hexTable[0xC0 | (c >> 6)] + internals.hexTable[0x80 | (c & 0x3F)];
-	            continue;
-	        }
-
-	        if (c < 0xD800 || c >= 0xE000) {
-	            out += internals.hexTable[0xE0 | (c >> 12)] + internals.hexTable[0x80 | ((c >> 6) & 0x3F)] + internals.hexTable[0x80 | (c & 0x3F)];
-	            continue;
-	        }
-
-	        ++i;
-	        c = 0x10000 + (((c & 0x3FF) << 10) | (str.charCodeAt(i) & 0x3FF));
-	        out += internals.hexTable[0xF0 | (c >> 18)] + internals.hexTable[0x80 | ((c >> 12) & 0x3F)] + internals.hexTable[0x80 | ((c >> 6) & 0x3F)] + internals.hexTable[0x80 | (c & 0x3F)];
-	    }
-
-	    return out;
-	};
-
-	exports.compact = function (obj, refs) {
-
-	    if (typeof obj !== 'object' ||
-	        obj === null) {
-
-	        return obj;
-	    }
-
-	    refs = refs || [];
-	    var lookup = refs.indexOf(obj);
-	    if (lookup !== -1) {
-	        return refs[lookup];
-	    }
-
-	    refs.push(obj);
-
-	    if (Array.isArray(obj)) {
-	        var compacted = [];
-
-	        for (var i = 0, il = obj.length; i < il; ++i) {
-	            if (typeof obj[i] !== 'undefined') {
-	                compacted.push(obj[i]);
-	            }
-	        }
-
-	        return compacted;
-	    }
-
-	    var keys = Object.keys(obj);
-	    for (i = 0, il = keys.length; i < il; ++i) {
-	        var key = keys[i];
-	        obj[key] = exports.compact(obj[key], refs);
-	    }
-
-	    return obj;
-	};
-
-
-	exports.isRegExp = function (obj) {
-
-	    return Object.prototype.toString.call(obj) === '[object RegExp]';
-	};
-
-
-	exports.isBuffer = function (obj) {
-
-	    if (obj === null ||
-	        typeof obj === 'undefined') {
-
-	        return false;
-	    }
-
-	    return !!(obj.constructor &&
-	              obj.constructor.isBuffer &&
-	              obj.constructor.isBuffer(obj));
-	};
-
-
-/***/ },
-/* 179 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// Load modules
-
-	var Utils = __webpack_require__(178);
-
-
-	// Declare internals
-
-	var internals = {
-	    delimiter: '&',
-	    depth: 5,
-	    arrayLimit: 20,
-	    parameterLimit: 1000,
-	    strictNullHandling: false,
-	    plainObjects: false,
-	    allowPrototypes: false
-	};
-
-
-	internals.parseValues = function (str, options) {
-
-	    var obj = {};
-	    var parts = str.split(options.delimiter, options.parameterLimit === Infinity ? undefined : options.parameterLimit);
-
-	    for (var i = 0, il = parts.length; i < il; ++i) {
-	        var part = parts[i];
-	        var pos = part.indexOf(']=') === -1 ? part.indexOf('=') : part.indexOf(']=') + 1;
-
-	        if (pos === -1) {
-	            obj[Utils.decode(part)] = '';
-
-	            if (options.strictNullHandling) {
-	                obj[Utils.decode(part)] = null;
-	            }
-	        }
-	        else {
-	            var key = Utils.decode(part.slice(0, pos));
-	            var val = Utils.decode(part.slice(pos + 1));
-
-	            if (!Object.prototype.hasOwnProperty.call(obj, key)) {
-	                obj[key] = val;
-	            }
-	            else {
-	                obj[key] = [].concat(obj[key]).concat(val);
-	            }
-	        }
-	    }
-
-	    return obj;
-	};
-
-
-	internals.parseObject = function (chain, val, options) {
-
-	    if (!chain.length) {
-	        return val;
-	    }
-
-	    var root = chain.shift();
-
-	    var obj;
-	    if (root === '[]') {
-	        obj = [];
-	        obj = obj.concat(internals.parseObject(chain, val, options));
-	    }
-	    else {
-	        obj = options.plainObjects ? Object.create(null) : {};
-	        var cleanRoot = root[0] === '[' && root[root.length - 1] === ']' ? root.slice(1, root.length - 1) : root;
-	        var index = parseInt(cleanRoot, 10);
-	        var indexString = '' + index;
-	        if (!isNaN(index) &&
-	            root !== cleanRoot &&
-	            indexString === cleanRoot &&
-	            index >= 0 &&
-	            (options.parseArrays &&
-	             index <= options.arrayLimit)) {
-
-	            obj = [];
-	            obj[index] = internals.parseObject(chain, val, options);
-	        }
-	        else {
-	            obj[cleanRoot] = internals.parseObject(chain, val, options);
-	        }
-	    }
-
-	    return obj;
-	};
-
-
-	internals.parseKeys = function (key, val, options) {
-
-	    if (!key) {
-	        return;
-	    }
-
-	    // Transform dot notation to bracket notation
-
-	    if (options.allowDots) {
-	        key = key.replace(/\.([^\.\[]+)/g, '[$1]');
-	    }
-
-	    // The regex chunks
-
-	    var parent = /^([^\[\]]*)/;
-	    var child = /(\[[^\[\]]*\])/g;
-
-	    // Get the parent
-
-	    var segment = parent.exec(key);
-
-	    // Stash the parent if it exists
-
-	    var keys = [];
-	    if (segment[1]) {
-	        // If we aren't using plain objects, optionally prefix keys
-	        // that would overwrite object prototype properties
-	        if (!options.plainObjects &&
-	            Object.prototype.hasOwnProperty(segment[1])) {
-
-	            if (!options.allowPrototypes) {
-	                return;
-	            }
-	        }
-
-	        keys.push(segment[1]);
-	    }
-
-	    // Loop through children appending to the array until we hit depth
-
-	    var i = 0;
-	    while ((segment = child.exec(key)) !== null && i < options.depth) {
-
-	        ++i;
-	        if (!options.plainObjects &&
-	            Object.prototype.hasOwnProperty(segment[1].replace(/\[|\]/g, ''))) {
-
-	            if (!options.allowPrototypes) {
-	                continue;
-	            }
-	        }
-	        keys.push(segment[1]);
-	    }
-
-	    // If there's a remainder, just add whatever is left
-
-	    if (segment) {
-	        keys.push('[' + key.slice(segment.index) + ']');
-	    }
-
-	    return internals.parseObject(keys, val, options);
-	};
-
-
-	module.exports = function (str, options) {
-
-	    options = options || {};
-	    options.delimiter = typeof options.delimiter === 'string' || Utils.isRegExp(options.delimiter) ? options.delimiter : internals.delimiter;
-	    options.depth = typeof options.depth === 'number' ? options.depth : internals.depth;
-	    options.arrayLimit = typeof options.arrayLimit === 'number' ? options.arrayLimit : internals.arrayLimit;
-	    options.parseArrays = options.parseArrays !== false;
-	    options.allowDots = options.allowDots !== false;
-	    options.plainObjects = typeof options.plainObjects === 'boolean' ? options.plainObjects : internals.plainObjects;
-	    options.allowPrototypes = typeof options.allowPrototypes === 'boolean' ? options.allowPrototypes : internals.allowPrototypes;
-	    options.parameterLimit = typeof options.parameterLimit === 'number' ? options.parameterLimit : internals.parameterLimit;
-	    options.strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : internals.strictNullHandling;
-
-	    if (str === '' ||
-	        str === null ||
-	        typeof str === 'undefined') {
-
-	        return options.plainObjects ? Object.create(null) : {};
-	    }
-
-	    var tempObj = typeof str === 'string' ? internals.parseValues(str, options) : str;
-	    var obj = options.plainObjects ? Object.create(null) : {};
-
-	    // Iterate over the keys and setup the new object
-
-	    var keys = Object.keys(tempObj);
-	    for (var i = 0, il = keys.length; i < il; ++i) {
-	        var key = keys[i];
-	        var newObj = internals.parseKeys(key, tempObj[key], options);
-	        obj = Utils.merge(obj, newObj, options);
-	    }
-
-	    return Utils.compact(obj);
-	};
-
-
-/***/ },
-/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21854,7 +21514,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 181 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21863,7 +21523,7 @@
 	exports.runEnterHooks = runEnterHooks;
 	exports.runLeaveHooks = runLeaveHooks;
 
-	var _AsyncUtils = __webpack_require__(182);
+	var _AsyncUtils = __webpack_require__(180);
 
 	function createEnterHook(hook, route) {
 	  return function (a, b, callback) {
@@ -21931,7 +21591,7 @@
 	}
 
 /***/ },
-/* 182 */
+/* 180 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -21994,7 +21654,7 @@
 	}
 
 /***/ },
-/* 183 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22122,14 +21782,14 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 184 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _AsyncUtils = __webpack_require__(182);
+	var _AsyncUtils = __webpack_require__(180);
 
 	function getComponentsForRoute(location, route, callback) {
 	  if (route.component || route.components) {
@@ -22160,7 +21820,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 185 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -22173,7 +21833,7 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _AsyncUtils = __webpack_require__(182);
+	var _AsyncUtils = __webpack_require__(180);
 
 	var _PatternUtils = __webpack_require__(173);
 
@@ -22354,7 +22014,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 186 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22412,7 +22072,7 @@
 	};
 
 /***/ },
-/* 187 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22580,7 +22240,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 188 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22599,7 +22259,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Link = __webpack_require__(187);
+	var _Link = __webpack_require__(185);
 
 	var _Link2 = _interopRequireDefault(_Link);
 
@@ -22627,7 +22287,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 189 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -22652,11 +22312,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Redirect = __webpack_require__(190);
+	var _Redirect = __webpack_require__(188);
 
 	var _Redirect2 = _interopRequireDefault(_Redirect);
 
-	var _PropTypes = __webpack_require__(186);
+	var _PropTypes = __webpack_require__(184);
 
 	var _React$PropTypes = _react2['default'].PropTypes;
 	var string = _React$PropTypes.string;
@@ -22706,7 +22366,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 190 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -22731,7 +22391,7 @@
 
 	var _PatternUtils = __webpack_require__(173);
 
-	var _PropTypes = __webpack_require__(186);
+	var _PropTypes = __webpack_require__(184);
 
 	var _React$PropTypes = _react2['default'].PropTypes;
 	var string = _React$PropTypes.string;
@@ -22819,7 +22479,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 191 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -22846,7 +22506,7 @@
 
 	var _RouteUtils = __webpack_require__(169);
 
-	var _PropTypes = __webpack_require__(186);
+	var _PropTypes = __webpack_require__(184);
 
 	var func = _react2['default'].PropTypes.func;
 
@@ -22895,7 +22555,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 192 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -22918,7 +22578,7 @@
 
 	var _RouteUtils = __webpack_require__(169);
 
-	var _PropTypes = __webpack_require__(186);
+	var _PropTypes = __webpack_require__(184);
 
 	var _React$PropTypes = _react2['default'].PropTypes;
 	var string = _React$PropTypes.string;
@@ -22968,14 +22628,14 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 193 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _PropTypes = __webpack_require__(186);
+	var _PropTypes = __webpack_require__(184);
 
 	/**
 	 * A mixin that adds the "history" instance variable to components.
@@ -22996,7 +22656,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 194 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -23066,7 +22726,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 195 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23109,7 +22769,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 196 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -23124,11 +22784,11 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _historyLibCreateMemoryHistory = __webpack_require__(197);
+	var _historyLibCreateMemoryHistory = __webpack_require__(195);
 
 	var _historyLibCreateMemoryHistory2 = _interopRequireDefault(_historyLibCreateMemoryHistory);
 
-	var _historyLibUseBasename = __webpack_require__(198);
+	var _historyLibUseBasename = __webpack_require__(196);
 
 	var _historyLibUseBasename2 = _interopRequireDefault(_historyLibUseBasename);
 
@@ -23178,7 +22838,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 197 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -23198,6 +22858,10 @@
 	var _createHistory = __webpack_require__(159);
 
 	var _createHistory2 = _interopRequireDefault(_createHistory);
+
+	var _parsePath = __webpack_require__(165);
+
+	var _parsePath2 = _interopRequireDefault(_parsePath);
 
 	function createStateStorage(entries) {
 	  return entries.filter(function (entry) {
@@ -23278,7 +22942,9 @@
 	      entry.key = key;
 	    }
 
-	    return history.createLocation(path, state, undefined, key);
+	    var location = _parsePath2['default'](path);
+
+	    return history.createLocation(_extends({}, location, { state: state }), undefined, key);
 	  }
 
 	  function canGo(n) {
@@ -23326,7 +22992,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 198 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23352,6 +23018,10 @@
 	var _parsePath = __webpack_require__(165);
 
 	var _parsePath2 = _interopRequireDefault(_parsePath);
+
+	var _deprecate = __webpack_require__(168);
+
+	var _deprecate2 = _interopRequireDefault(_deprecate);
 
 	function useBasename(createHistory) {
 	  return function () {
@@ -23385,17 +23055,17 @@
 	      return location;
 	    }
 
-	    function prependBasename(path) {
-	      if (!basename) return path;
+	    function prependBasename(location) {
+	      if (!basename) return location;
 
-	      if (typeof path === 'string') path = _parsePath2['default'](path);
+	      if (typeof location === 'string') location = _parsePath2['default'](location);
 
-	      var pname = path.pathname;
+	      var pname = location.pathname;
 	      var normalizedBasename = basename.slice(-1) === '/' ? basename : basename + '/';
 	      var normalizedPathname = pname.charAt(0) === '/' ? pname.slice(1) : pname;
 	      var pathname = normalizedBasename + normalizedPathname;
 
-	      return _extends({}, path, {
+	      return _extends({}, location, {
 	        pathname: pathname
 	      });
 	    }
@@ -23414,44 +23084,51 @@
 	    }
 
 	    // Override all write methods with basename-aware versions.
-	    function pushState(state, path) {
-	      history.pushState(state, prependBasename(path));
+	    function push(location) {
+	      history.push(prependBasename(location));
 	    }
 
-	    function push(path) {
-	      pushState(null, path);
+	    function replace(location) {
+	      history.replace(prependBasename(location));
 	    }
 
-	    function replaceState(state, path) {
-	      history.replaceState(state, prependBasename(path));
+	    function createPath(location) {
+	      return history.createPath(prependBasename(location));
 	    }
 
-	    function replace(path) {
-	      replaceState(null, path);
-	    }
-
-	    function createPath(path) {
-	      return history.createPath(prependBasename(path));
-	    }
-
-	    function createHref(path) {
-	      return history.createHref(prependBasename(path));
+	    function createHref(location) {
+	      return history.createHref(prependBasename(location));
 	    }
 
 	    function createLocation() {
 	      return addBasename(history.createLocation.apply(history, arguments));
 	    }
 
+	    // deprecated
+	    function pushState(state, path) {
+	      if (typeof path === 'string') path = _parsePath2['default'](path);
+
+	      push(_extends({ state: state }, path));
+	    }
+
+	    // deprecated
+	    function replaceState(state, path) {
+	      if (typeof path === 'string') path = _parsePath2['default'](path);
+
+	      replace(_extends({ state: state }, path));
+	    }
+
 	    return _extends({}, history, {
 	      listenBefore: listenBefore,
 	      listen: listen,
-	      pushState: pushState,
 	      push: push,
-	      replaceState: replaceState,
 	      replace: replace,
 	      createPath: createPath,
 	      createHref: createHref,
-	      createLocation: createLocation
+	      createLocation: createLocation,
+
+	      pushState: _deprecate2['default'](pushState, 'pushState is deprecated; use push instead'),
+	      replaceState: _deprecate2['default'](replaceState, 'replaceState is deprecated; use replace instead')
 	    });
 	  };
 	}
@@ -23460,7 +23137,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 199 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -23486,6 +23163,10 @@
 	var _createDOMHistory = __webpack_require__(158);
 
 	var _createDOMHistory2 = _interopRequireDefault(_createDOMHistory);
+
+	var _parsePath = __webpack_require__(165);
+
+	var _parsePath2 = _interopRequireDefault(_parsePath);
 
 	/**
 	 * Creates and returns a history object that uses HTML5's history API
@@ -23523,7 +23204,9 @@
 	      if (isSupported) window.history.replaceState(_extends({}, historyState, { key: key }), null, path);
 	    }
 
-	    return history.createLocation(path, state, undefined, key);
+	    var location = _parsePath2['default'](path);
+
+	    return history.createLocation(_extends({}, location, { state: state }), undefined, key);
 	  }
 
 	  function startPopStateListener(_ref) {
@@ -23638,1830 +23321,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 200 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	var HeaderNavbar = __webpack_require__(201);
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  render() {
-	    return (
-	      React.createElement("div", {id: "app"}, 
-	        React.createElement(HeaderNavbar, null), 
-	        this.props.children
-	      )
-	    );
-	  },
-	});
-
-
-/***/ },
-/* 201 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	var Link = __webpack_require__(148).Link;
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  getInitialState() {
-	    return { menuIsActive: false };
-	  },
-
-	  handleMenuClick() {
-	    this.setState( { menuIsActive: !this.state.menuIsActive } );
-	  },
-
-	  render() {
-	    var style = this.state.menuIsActive ? 'is-active' : '';
-
-	    return (
-	      React.createElement("div", null, 
-	        React.createElement("div", {id: "navbar-dimmer", className: style}), 
-	        React.createElement("nav", {className: "hoppist-header"}, 
-	          React.createElement("h1", {className: "branded", onClick: this.handleMenuClick}, "..."), 
-	          React.createElement("h2", {className: "branded"}, "HOPPIST"), 
-	          React.createElement("div", {className: "flourish"}, 
-	            React.createElement("hr", null), 
-	            React.createElement("img", {src: "/images/hop.png"})
-	          )
-	        ), 
-
-	        React.createElement("div", {id: "mobile-navbar", className: style}, 
-	          React.createElement("div", {onClick: this.handleMenuClick}, 
-	            React.createElement("h4", {className: "branded"}, "HOPPIST"), 
-	            React.createElement("h1", {className: "branded"}, "...")
-	          ), 
-	          React.createElement("ul", null, 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "Alex Taylor         ")), 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "REVIEW              ")), 
-	            React.createElement("li", null, React.createElement(Link, {to: "/flavour-map", onClick: this.handleMenuClick}, "FLAVOUR MAP")), 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "MATCH MAKER IS GREAT")), 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "DISCOVER            ")), 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "BEERS               ")), 
-	            React.createElement("li", null, React.createElement("a", {href: "#"}, "BREWERIES           "))
-	          )
-	        )
-	      )
-	    );
-	  },
-	});
-
-
-/***/ },
-/* 202 */
-/***/ function(module, exports) {
-
-	'use strict'
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  render: function() {
-	    return (
-	      React.createElement("h1", null, "Beer Index")
-	    );
-	  }
-	});
-
-
-/***/ },
-/* 203 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	var Link = __webpack_require__(148).Link;
-
-	var Reviews = __webpack_require__(204);
-	var FlavourMap = __webpack_require__(205);
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  getInitialState() {
-	    return { beer: {}, brewery: {} }
-	  },
-
-	  ajaxGetBeer(id) {
-	    // TODO: refactor this url
-	    $.ajax({
-	      method: "GET",
-	      url: `/api/v1/beers/${id}`,
-	      success: (response) => {
-	        var beer      = response.data.attributes;
-	        var brewery   = { id:   response.data.relationships.brewery.data.id,
-	                          name: response.included[0].attributes.name
-	                        };
-	        this.setState({ beer: beer, brewery: brewery });
-	      },
-
-	      error: (obj, msg, err) => {
-	        console.log(`error in request: ${msg} / ${err}`);
-	      }
-	    })
-	  },
-
-	  componentDidMount() {
-	    this.ajaxGetBeer(this.props.params.id);
-	  },
-
-	  render() {
-	    var beerId = this.props.params.id
-
-	    return (
-	      React.createElement("div", {id: "beer-show"}, 
-	        React.createElement("div", {id: "beer-show-header"}, 
-	          /* TODO: fix thumbnail on mobile, it gets squished by the flex layout */
-	          React.createElement("div", {id: "beer-show-header-thumb"}, 
-	            /* TODO: remove hard-coding on beer thumbnail image */
-	            React.createElement("img", {src: "/images/hop_circle.png", className: "img img-thumbnail"})
-	          ), 
-	          React.createElement("div", {id: "beer-show-header-detail"}, 
-	            React.createElement("div", {id: "beer-show-header-detail-title-block"}, 
-	              React.createElement("h2", {className: "flush-with-top"}, 
-	                this.state.beer.name
-	              ), 
-	              React.createElement("h4", null, 
-	                React.createElement(Link, {to: `/breweries/${this.state.brewery.id}`}, this.state.brewery.name)
-	              ), 
-	              React.createElement("p", {className: "indent italicize lighter"}, "ale; 5pct; 45 ibu")
-	            ), 
-	            React.createElement("div", {className: "review-stars"}, 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"})
-	            ), 
-	            React.createElement("p", {className: "indent italicize lighter"}, "out of 15 reviews"), 
-	            React.createElement("p", null, React.createElement("span", {className: "glyphicon glyphicon-grain"}), " growler fills"), 
-	            React.createElement("p", null, React.createElement("span", {className: "glyphicon glyphicon-grain"}), " bottles / cans")
-	          ), 
-	          React.createElement("div", {id: "beer-show-header-actions"}, 
-	            React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), 
-	            React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add")
-	          )
-	        ), 
-
-	        React.createElement("ul", {className: "nav nav-tabs"}, 
-	          /* TODO: figure out a good way to abstract these URLs, maybe with some Rails-style link helpers */
-	          /* TODO: fix the case of the stuck hover state on these tabs */
-	          React.createElement("li", null, React.createElement(Link, {to: `/beers/${beerId}/flavour-map`, activeClassName: "active"}, "Flavour Map")), 
-	          React.createElement("li", null, React.createElement(Link, {to: `/beers/${beerId}/reviews`, activeClassName: "active"}, "Reviews"))
-	        ), 
-
-	        React.createElement("div", {id: "nested-content"}, 
-	          this.props.children
-	        )
-
-
-
-	      )
-	    );
-	  },
-	});
-
-
-/***/ },
-/* 204 */
-/***/ function(module, exports) {
-
-	'use strict'
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  render: function() {
-	    return (
-	      React.createElement("div", {id: "reviews"}, 
-
-	        /* example of a single review: */
-	        React.createElement("div", {className: "beer-card clearfix"}, 
-	          React.createElement("div", {className: "col-review"}, 
-	            React.createElement("h5", null, React.createElement("a", {href: "#"}, "Alex T."), " ", React.createElement("i", null, "on June 15, 2015")), 
-	            React.createElement("div", {className: "review-stars"}, 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"})
-	            ), 
-	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
-	          )
-	        )
-
-	      )
-	    );
-	  }
-	});
-
-
-/***/ },
-/* 205 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	var FlavourMapEmbedded = __webpack_require__(206);
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  render: function() {
-	    // TODO: don't hardcode the hero target
-	    var heroTargetCoords = {x: 300, y: 100};
-
-	    return (
-	      React.createElement(FlavourMapEmbedded, {heroTarget: heroTargetCoords})
-	    );
-	  }
-	});
-
-
-/***/ },
-/* 206 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	var Draggable = __webpack_require__(207);
-	var ReactDOM = __webpack_require__(2); // required here because we're invoking it to get the node width
-	var calculateFlavourMapCoords = __webpack_require__(208);
-	var calculateDbCoords = __webpack_require__(209);
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  propTypes: {
-	    onDragStart: React.PropTypes.func
-	  },
-
-	  getDefaultProps() {
-	    return {
-	      isDraggable: false,
-	      maxWidth: 375,
-	      heroTarget: { x: 6, y: 6 }
-	    };
-
-	  },
-
-	  getInitialState: function() {
-	    // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
-	    var newTargetPos = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, this.props.maxWidth, this.props.maxWidth/1.6);
-	    return {
-	      maxWidth:  this.props.maxWidth,
-	      targetPos: newTargetPos,
-	    };
-	  },
-
-	  componentDidMount() {
-	    // TODO: add event listener for page resize, currently the page must be refreshed
-	    // for this to update after a window size change.
-	    // TODO: this doesn't center properly because of the dynamic screen size
-	    var node                   = ReactDOM.findDOMNode(this);
-	    var nodeRenderedWidth      = node.offsetWidth;
-	    var renderedTargetDiameter = node.childNodes[0].offsetWidth;
-	    var newTargetPos           = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, nodeRenderedWidth, nodeRenderedWidth/1.6);
-	    var newTargetPos           = { x: newTargetPos.x - (renderedTargetDiameter/2), y: newTargetPos.y - (renderedTargetDiameter/2)};
-	    this.setState({ maxWidth: nodeRenderedWidth, targetPos: {newTargetPos} });
-	  },
-
-	  handleTargetStop(event, ui) {
-	    // handle any action the parent component wants to take when the user finishes
-	    // dragging. for the flavour map index page, this results in the welcome message
-	    // disappearing and the beer list appearing. As a result, this will also trigger
-	    // the beer list to re-render.
-
-	    //console.log("Target position: " + this.state.targetPos.x + "," + this.state.targetPos.y);
-
-	    var newCoords = calculateDbCoords(this.state.targetPos.x,
-	                                      this.state.targetPos.y,
-	                                      this.state.maxWidth,
-	                                      this.state.maxWidth/1.6);
-
-	    console.log("Db position: " + newCoords.x + "," + newCoords.y);
-
-	    if(this.props.onDragStop !== undefined) {
-	      this.props.onDragStop(newCoords);
-	    }
-
-	  },
-
-	  handleTargetDrag(event, ui) {
-	    // TODO: this is a hack right now because ui.position on stop is NaN
-	    // for touch events. so instead we continually set the state during drag.
-	    // not ideal?
-	    this.setState({ targetPos: { x: ui.position.left, y: ui.position.top } });
-	  },
-
-	  render() {
-	    var styles = {
-	      width:    "100%",
-	      maxWidth: `${this.state.maxWidth}px`
-	    };
-
-	    return (
-	      React.createElement("div", {id: "flavour-map-embedded", style: styles}, 
-	        React.createElement(Draggable, {
-	          bounds: "parent", 
-	          cancel: this.props.isDraggable ? "" : ".handle", 
-	          handle: ".handle", 
-	          moveOnStartChange: true, 
-	          onDrag: this.handleTargetDrag, 
-	          onStop: this.handleTargetStop, 
-	          start: this.state.targetPos, 
-	          zIndex: 100}, 
-	          React.createElement("div", {id: "target", className: "handle"})
-	        ), 
-	        React.createElement("img", {src: "/images/flavour_map.svg", style: styles, draggable: false})
-	      )
-	    );
-	  },
-	});
-
-
-/***/ },
-/* 207 */
-/***/ function(module, exports, __webpack_require__) {
-
-	(function webpackUniversalModuleDefinition(root, factory) {
-		if(true)
-			module.exports = factory(__webpack_require__(1), __webpack_require__(2));
-		else if(typeof define === 'function' && define.amd)
-			define(["react", "react-dom"], factory);
-		else if(typeof exports === 'object')
-			exports["ReactDraggable"] = factory(require("react"), require("react-dom"));
-		else
-			root["ReactDraggable"] = factory(root["React"], root["ReactDOM"]);
-	})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__) {
-	return /******/ (function(modules) { // webpackBootstrap
-	/******/ 	// The module cache
-	/******/ 	var installedModules = {};
-	/******/
-	/******/ 	// The require function
-	/******/ 	function __webpack_require__(moduleId) {
-	/******/
-	/******/ 		// Check if module is in cache
-	/******/ 		if(installedModules[moduleId])
-	/******/ 			return installedModules[moduleId].exports;
-	/******/
-	/******/ 		// Create a new module (and put it into the cache)
-	/******/ 		var module = installedModules[moduleId] = {
-	/******/ 			exports: {},
-	/******/ 			id: moduleId,
-	/******/ 			loaded: false
-	/******/ 		};
-	/******/
-	/******/ 		// Execute the module function
-	/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-	/******/
-	/******/ 		// Flag the module as loaded
-	/******/ 		module.loaded = true;
-	/******/
-	/******/ 		// Return the exports of the module
-	/******/ 		return module.exports;
-	/******/ 	}
-	/******/
-	/******/
-	/******/ 	// expose the modules object (__webpack_modules__)
-	/******/ 	__webpack_require__.m = modules;
-	/******/
-	/******/ 	// expose the module cache
-	/******/ 	__webpack_require__.c = installedModules;
-	/******/
-	/******/ 	// __webpack_public_path__
-	/******/ 	__webpack_require__.p = "";
-	/******/
-	/******/ 	// Load entry module and return exports
-	/******/ 	return __webpack_require__(0);
-	/******/ })
-	/************************************************************************/
-	/******/ ([
-	/* 0 */
-	/***/ function(module, exports, __webpack_require__) {
-
-		'use strict';
-		
-		module.exports = __webpack_require__(1);
-		module.exports.DraggableCore = __webpack_require__(10);
-
-	/***/ },
-	/* 1 */
-	/***/ function(module, exports, __webpack_require__) {
-
-		'use strict';
-		
-		Object.defineProperty(exports, '__esModule', {
-		  value: true
-		});
-		
-		var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-		
-		var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
-		
-		var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-		
-		var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-		
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-		
-		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-		
-		function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-		
-		var _react = __webpack_require__(2);
-		
-		var _react2 = _interopRequireDefault(_react);
-		
-		var _reactDom = __webpack_require__(3);
-		
-		var _reactDom2 = _interopRequireDefault(_reactDom);
-		
-		var _classnames = __webpack_require__(4);
-		
-		var _classnames2 = _interopRequireDefault(_classnames);
-		
-		var _objectAssign = __webpack_require__(5);
-		
-		var _objectAssign2 = _interopRequireDefault(_objectAssign);
-		
-		var _utilsDomFns = __webpack_require__(6);
-		
-		var _utilsPositionFns = __webpack_require__(9);
-		
-		var _utilsShims = __webpack_require__(7);
-		
-		var _DraggableCore2 = __webpack_require__(10);
-		
-		var _DraggableCore3 = _interopRequireDefault(_DraggableCore2);
-		
-		var _utilsLog = __webpack_require__(11);
-		
-		var _utilsLog2 = _interopRequireDefault(_utilsLog);
-		
-		//
-		// Define <Draggable>
-		//
-		
-		var Draggable = (function (_DraggableCore) {
-		  _inherits(Draggable, _DraggableCore);
-		
-		  function Draggable() {
-		    var _this = this;
-		
-		    _classCallCheck(this, Draggable);
-		
-		    _get(Object.getPrototypeOf(Draggable.prototype), 'constructor', this).apply(this, arguments);
-		
-		    this.state = {
-		      // Whether or not we are currently dragging.
-		      dragging: false,
-		
-		      // Current transform x and y.
-		      clientX: this.props.start.x, clientY: this.props.start.y,
-		
-		      // Can only determine if SVG after mounting
-		      isElementSVG: false
-		    };
-		
-		    this.onDragStart = function (e, coreEvent) {
-		      (0, _utilsLog2['default'])('Draggable: onDragStart: %j', coreEvent.position);
-		
-		      // Short-circuit if user's callback killed it.
-		      var shouldStart = _this.props.onStart(e, (0, _utilsDomFns.createUIEvent)(_this, coreEvent));
-		      // Kills start event on core as well, so move handlers are never bound.
-		      if (shouldStart === false) return false;
-		
-		      _this.setState({ dragging: true });
-		    };
-		
-		    this.onDrag = function (e, coreEvent) {
-		      if (!_this.state.dragging) return false;
-		      (0, _utilsLog2['default'])('Draggable: onDrag: %j', coreEvent.position);
-		
-		      var uiEvent = (0, _utilsDomFns.createUIEvent)(_this, coreEvent);
-		
-		      // Short-circuit if user's callback killed it.
-		      var shouldUpdate = _this.props.onDrag(e, uiEvent);
-		      if (shouldUpdate === false) return false;
-		
-		      var newState = {
-		        clientX: uiEvent.position.left,
-		        clientY: uiEvent.position.top
-		      };
-		
-		      // Keep within bounds.
-		      if (_this.props.bounds) {
-		        var _getBoundPosition = (0, _utilsPositionFns.getBoundPosition)(_this, newState.clientX, newState.clientY);
-		
-		        var _getBoundPosition2 = _slicedToArray(_getBoundPosition, 2);
-		
-		        newState.clientX = _getBoundPosition2[0];
-		        newState.clientY = _getBoundPosition2[1];
-		      }
-		
-		      _this.setState(newState);
-		    };
-		
-		    this.onDragStop = function (e, coreEvent) {
-		      if (!_this.state.dragging) return false;
-		
-		      // Short-circuit if user's callback killed it.
-		      var shouldStop = _this.props.onStop(e, (0, _utilsDomFns.createUIEvent)(_this, coreEvent));
-		      if (shouldStop === false) return false;
-		
-		      (0, _utilsLog2['default'])('Draggable: onDragStop: %j', coreEvent.position);
-		
-		      _this.setState({
-		        dragging: false
-		      });
-		    };
-		  }
-		
-		  _createClass(Draggable, [{
-		    key: 'componentDidMount',
-		    value: function componentDidMount() {
-		      // Check to see if the element passed is an instanceof SVGElement
-		      if (_reactDom2['default'].findDOMNode(this) instanceof SVGElement) {
-		        this.setState({ isElementSVG: true });
-		      }
-		    }
-		  }, {
-		    key: 'render',
-		    value: function render() {
-		      var style = undefined,
-		          svgTransform = null;
-		      // Add a CSS transform to move the element around. This allows us to move the element around
-		      // without worrying about whether or not it is relatively or absolutely positioned.
-		      // If the item you are dragging already has a transform set, wrap it in a <span> so <Draggable>
-		      // has a clean slate.
-		      style = (0, _utilsDomFns.createTransform)({
-		        // Set left if horizontal drag is enabled
-		        x: (0, _utilsPositionFns.canDragX)(this) ? this.state.clientX : this.props.start.x,
-		
-		        // Set top if vertical drag is enabled
-		        y: (0, _utilsPositionFns.canDragY)(this) ? this.state.clientY : this.props.start.y
-		      }, this.state.isElementSVG);
-		
-		      // If this element was SVG, we use the `transform` attribute.
-		      if (this.state.isElementSVG) {
-		        svgTransform = style;
-		        style = {};
-		      }
-		
-		      // zIndex option
-		      if (this.state.dragging && !isNaN(this.props.zIndex)) {
-		        style.zIndex = this.props.zIndex;
-		      }
-		
-		      // Mark with class while dragging
-		      var className = (0, _classnames2['default'])(this.props.children.props.className || '', 'react-draggable', {
-		        'react-draggable-dragging': this.state.dragging,
-		        'react-draggable-dragged': this.state.dragged
-		      });
-		
-		      // Reuse the child provided
-		      // This makes it flexible to use whatever element is wanted (div, ul, etc)
-		      return _react2['default'].createElement(
-		        _DraggableCore3['default'],
-		        _extends({}, this.props, { onStart: this.onDragStart, onDrag: this.onDrag, onStop: this.onDragStop }),
-		        _react2['default'].cloneElement(_react2['default'].Children.only(this.props.children), {
-		          className: className,
-		          style: (0, _objectAssign2['default'])({}, this.props.children.props.style, style),
-		          transform: svgTransform
-		        })
-		      );
-		    }
-		  }], [{
-		    key: 'displayName',
-		    value: 'Draggable',
-		    enumerable: true
-		  }, {
-		    key: 'propTypes',
-		    value: (0, _objectAssign2['default'])({}, _DraggableCore3['default'].propTypes, {
-		      /**
-		       * `axis` determines which axis the draggable can move.
-		       *
-		       * 'both' allows movement horizontally and vertically.
-		       * 'x' limits movement to horizontal axis.
-		       * 'y' limits movement to vertical axis.
-		       *
-		       * Defaults to 'both'.
-		       */
-		      axis: _react.PropTypes.oneOf(['both', 'x', 'y']),
-		
-		      /**
-		       * `bounds` determines the range of movement available to the element.
-		       * Available values are:
-		       *
-		       * 'parent' restricts movement within the Draggable's parent node.
-		       *
-		       * Alternatively, pass an object with the following properties, all of which are optional:
-		       *
-		       * {left: LEFT_BOUND, right: RIGHT_BOUND, bottom: BOTTOM_BOUND, top: TOP_BOUND}
-		       *
-		       * All values are in px.
-		       *
-		       * Example:
-		       *
-		       * ```jsx
-		       *   let App = React.createClass({
-		       *       render: function () {
-		       *         return (
-		       *            <Draggable bounds={{right: 300, bottom: 300}}>
-		       *              <div>Content</div>
-		       *           </Draggable>
-		       *         );
-		       *       }
-		       *   });
-		       * ```
-		       */
-		      bounds: _react.PropTypes.oneOfType([_react.PropTypes.shape({
-		        left: _react.PropTypes.Number,
-		        right: _react.PropTypes.Number,
-		        top: _react.PropTypes.Number,
-		        bottom: _react.PropTypes.Number
-		      }), _react.PropTypes.oneOf(['parent', false])]),
-		
-		      /**
-		       * `start` specifies the x and y that the dragged item should start at
-		       *
-		       * Example:
-		       *
-		       * ```jsx
-		       *      let App = React.createClass({
-		       *          render: function () {
-		       *              return (
-		       *                  <Draggable start={{x: 25, y: 25}}>
-		       *                      <div>I start with transformX: 25px and transformY: 25px;</div>
-		       *                  </Draggable>
-		       *              );
-		       *          }
-		       *      });
-		       * ```
-		       */
-		      start: _react.PropTypes.shape({
-		        x: _react.PropTypes.number,
-		        y: _react.PropTypes.number
-		      }),
-		
-		      /**
-		       * `zIndex` specifies the zIndex to use while dragging.
-		       *
-		       * Example:
-		       *
-		       * ```jsx
-		       *   let App = React.createClass({
-		       *       render: function () {
-		       *           return (
-		       *               <Draggable zIndex={100}>
-		       *                   <div>I have a zIndex</div>
-		       *               </Draggable>
-		       *           );
-		       *       }
-		       *   });
-		       * ```
-		       */
-		      zIndex: _react.PropTypes.number,
-		
-		      /**
-		       * These properties should be defined on the child, not here.
-		       */
-		      className: _utilsShims.dontSetMe,
-		      style: _utilsShims.dontSetMe,
-		      transform: _utilsShims.dontSetMe
-		    }),
-		    enumerable: true
-		  }, {
-		    key: 'defaultProps',
-		    value: (0, _objectAssign2['default'])({}, _DraggableCore3['default'].defaultProps, {
-		      axis: 'both',
-		      bounds: false,
-		      start: { x: 0, y: 0 },
-		      zIndex: NaN
-		    }),
-		    enumerable: true
-		  }]);
-		
-		  return Draggable;
-		})(_DraggableCore3['default']);
-		
-		exports['default'] = Draggable;
-		module.exports = exports['default'];
-
-	/***/ },
-	/* 2 */
-	/***/ function(module, exports) {
-
-		module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
-
-	/***/ },
-	/* 3 */
-	/***/ function(module, exports) {
-
-		module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
-
-	/***/ },
-	/* 4 */
-	/***/ function(module, exports, __webpack_require__) {
-
-		var __WEBPACK_AMD_DEFINE_RESULT__;/*!
-		  Copyright (c) 2015 Jed Watson.
-		  Licensed under the MIT License (MIT), see
-		  http://jedwatson.github.io/classnames
-		*/
-		/* global define */
-		
-		(function () {
-			'use strict';
-		
-			var hasOwn = {}.hasOwnProperty;
-		
-			function classNames () {
-				var classes = '';
-		
-				for (var i = 0; i < arguments.length; i++) {
-					var arg = arguments[i];
-					if (!arg) continue;
-		
-					var argType = typeof arg;
-		
-					if (argType === 'string' || argType === 'number') {
-						classes += ' ' + arg;
-					} else if (Array.isArray(arg)) {
-						classes += ' ' + classNames.apply(null, arg);
-					} else if (argType === 'object') {
-						for (var key in arg) {
-							if (hasOwn.call(arg, key) && arg[key]) {
-								classes += ' ' + key;
-							}
-						}
-					}
-				}
-		
-				return classes.substr(1);
-			}
-		
-			if (typeof module !== 'undefined' && module.exports) {
-				module.exports = classNames;
-			} else if (true) {
-				// register as 'classnames', consistent with npm package name
-				!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
-					return classNames;
-				}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-			} else {
-				window.classNames = classNames;
-			}
-		}());
-
-
-	/***/ },
-	/* 5 */
-	/***/ function(module, exports) {
-
-		/* eslint-disable no-unused-vars */
-		'use strict';
-		var hasOwnProperty = Object.prototype.hasOwnProperty;
-		var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-		
-		function toObject(val) {
-			if (val === null || val === undefined) {
-				throw new TypeError('Object.assign cannot be called with null or undefined');
-			}
-		
-			return Object(val);
-		}
-		
-		module.exports = Object.assign || function (target, source) {
-			var from;
-			var to = toObject(target);
-			var symbols;
-		
-			for (var s = 1; s < arguments.length; s++) {
-				from = Object(arguments[s]);
-		
-				for (var key in from) {
-					if (hasOwnProperty.call(from, key)) {
-						to[key] = from[key];
-					}
-				}
-		
-				if (Object.getOwnPropertySymbols) {
-					symbols = Object.getOwnPropertySymbols(from);
-					for (var i = 0; i < symbols.length; i++) {
-						if (propIsEnumerable.call(from, symbols[i])) {
-							to[symbols[i]] = from[symbols[i]];
-						}
-					}
-				}
-			}
-		
-			return to;
-		};
-
-
-	/***/ },
-	/* 6 */
-	/***/ function(module, exports, __webpack_require__) {
-
-		'use strict';
-		
-		Object.defineProperty(exports, '__esModule', {
-		  value: true
-		});
-		exports.matchesSelector = matchesSelector;
-		exports.addEvent = addEvent;
-		exports.removeEvent = removeEvent;
-		exports.outerHeight = outerHeight;
-		exports.outerWidth = outerWidth;
-		exports.innerHeight = innerHeight;
-		exports.innerWidth = innerWidth;
-		exports.createTransform = createTransform;
-		exports.createCSSTransform = createCSSTransform;
-		exports.createSVGTransform = createSVGTransform;
-		exports.addUserSelectStyles = addUserSelectStyles;
-		exports.removeUserSelectStyles = removeUserSelectStyles;
-		exports.styleHacks = styleHacks;
-		exports.createCoreEvent = createCoreEvent;
-		exports.createUIEvent = createUIEvent;
-		
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-		
-		var _shims = __webpack_require__(7);
-		
-		var _getPrefix = __webpack_require__(8);
-		
-		var _getPrefix2 = _interopRequireDefault(_getPrefix);
-		
-		var _objectAssign = __webpack_require__(5);
-		
-		var _objectAssign2 = _interopRequireDefault(_objectAssign);
-		
-		var _reactDom = __webpack_require__(3);
-		
-		var _reactDom2 = _interopRequireDefault(_reactDom);
-		
-		var matchesSelectorFunc = '';
-		
-		function matchesSelector(el, selector) {
-		  if (!(el instanceof Node)) throw new TypeError('Value of argument \'el\' violates contract, expected Node got ' + (el === null ? 'null' : el instanceof Object && el.constructor ? el.constructor.name : typeof el));
-		  if (typeof selector !== 'string') throw new TypeError('Value of argument \'selector\' violates contract, expected string got ' + (selector === null ? 'null' : selector instanceof Object && selector.constructor ? selector.constructor.name : typeof selector));
-		
-		  if (!matchesSelectorFunc) {
-		    matchesSelectorFunc = (0, _shims.findInArray)(['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector'], function (method) {
-		      return (0, _shims.isFunction)(el[method]);
-		    });
-		  }
-		
-		  return el[matchesSelectorFunc].call(el, selector);
-		}
-		
-		function addEvent(el, event, handler) {
-		  if (el != null && !(el instanceof Node)) throw new TypeError('Value of argument \'el\' violates contract, expected null or Node got ' + (el === null ? 'null' : el instanceof Object && el.constructor ? el.constructor.name : typeof el));
-		  if (typeof event !== 'string') throw new TypeError('Value of argument \'event\' violates contract, expected string got ' + (event === null ? 'null' : event instanceof Object && event.constructor ? event.constructor.name : typeof event));
-		  if (typeof handler !== 'function') throw new TypeError('Value of argument \'handler\' violates contract, expected function got ' + (handler === null ? 'null' : handler instanceof Object && handler.constructor ? handler.constructor.name : typeof handler));
-		
-		  if (!el) {
-		    return;
-		  }
-		  if (el.attachEvent) {
-		    el.attachEvent('on' + event, handler);
-		  } else if (el.addEventListener) {
-		    el.addEventListener(event, handler, true);
-		  } else {
-		    el['on' + event] = handler;
-		  }
-		}
-		
-		function removeEvent(el, event, handler) {
-		  if (el != null && !(el instanceof Node)) throw new TypeError('Value of argument \'el\' violates contract, expected null or Node got ' + (el === null ? 'null' : el instanceof Object && el.constructor ? el.constructor.name : typeof el));
-		  if (typeof event !== 'string') throw new TypeError('Value of argument \'event\' violates contract, expected string got ' + (event === null ? 'null' : event instanceof Object && event.constructor ? event.constructor.name : typeof event));
-		  if (typeof handler !== 'function') throw new TypeError('Value of argument \'handler\' violates contract, expected function got ' + (handler === null ? 'null' : handler instanceof Object && handler.constructor ? handler.constructor.name : typeof handler));
-		
-		  if (!el) {
-		    return;
-		  }
-		  if (el.detachEvent) {
-		    el.detachEvent('on' + event, handler);
-		  } else if (el.removeEventListener) {
-		    el.removeEventListener(event, handler, true);
-		  } else {
-		    el['on' + event] = null;
-		  }
-		}
-		
-		function outerHeight(node) {
-		  if (!(node instanceof Node)) throw new TypeError('Value of argument \'node\' violates contract, expected Node got ' + (node === null ? 'null' : node instanceof Object && node.constructor ? node.constructor.name : typeof node));
-		
-		  // This is deliberately excluding margin for our calculations, since we are using
-		  // offsetTop which is including margin. See getBoundPosition
-		  var height = node.clientHeight;
-		  var computedStyle = window.getComputedStyle(node);
-		  height += (0, _shims.int)(computedStyle.borderTopWidth);
-		  height += (0, _shims.int)(computedStyle.borderBottomWidth);
-		  return height;
-		}
-		
-		function outerWidth(node) {
-		  if (!(node instanceof Node)) throw new TypeError('Value of argument \'node\' violates contract, expected Node got ' + (node === null ? 'null' : node instanceof Object && node.constructor ? node.constructor.name : typeof node));
-		
-		  // This is deliberately excluding margin for our calculations, since we are using
-		  // offsetLeft which is including margin. See getBoundPosition
-		  var width = node.clientWidth;
-		  var computedStyle = window.getComputedStyle(node);
-		  width += (0, _shims.int)(computedStyle.borderLeftWidth);
-		  width += (0, _shims.int)(computedStyle.borderRightWidth);
-		  return width;
-		}
-		
-		function innerHeight(node) {
-		  if (!(node instanceof Node)) throw new TypeError('Value of argument \'node\' violates contract, expected Node got ' + (node === null ? 'null' : node instanceof Object && node.constructor ? node.constructor.name : typeof node));
-		
-		  var height = node.clientHeight;
-		  var computedStyle = window.getComputedStyle(node);
-		  height -= (0, _shims.int)(computedStyle.paddingTop);
-		  height -= (0, _shims.int)(computedStyle.paddingBottom);
-		  return height;
-		}
-		
-		function innerWidth(node) {
-		  if (!(node instanceof Node)) throw new TypeError('Value of argument \'node\' violates contract, expected Node got ' + (node === null ? 'null' : node instanceof Object && node.constructor ? node.constructor.name : typeof node));
-		
-		  var width = node.clientWidth;
-		  var computedStyle = window.getComputedStyle(node);
-		  width -= (0, _shims.int)(computedStyle.paddingLeft);
-		  width -= (0, _shims.int)(computedStyle.paddingRight);
-		  return width;
-		}
-		
-		function createTransform(position, isSVG) {
-		  if (typeof position !== 'object') throw new TypeError('Value of argument \'position\' violates contract, expected object got ' + (position === null ? 'null' : position instanceof Object && position.constructor ? position.constructor.name : typeof position));
-		  if (isSVG != null && typeof isSVG !== 'boolean') throw new TypeError('Value of argument \'isSVG\' violates contract, expected null or boolean got ' + (isSVG === null ? 'null' : isSVG instanceof Object && isSVG.constructor ? isSVG.constructor.name : typeof isSVG));
-		
-		  if (isSVG) return createSVGTransform(position);
-		  return createCSSTransform(position);
-		}
-		
-		function createCSSTransform(_ref) {
-		  var x = _ref.x;
-		  var y = _ref.y;
-		  return (function () {
-		    if ({ x: x, y: y } === null || typeof { x: x, y: y } !== 'object' || typeof { x: x, y: y }.x !== 'number' || typeof { x: x, y: y }.y !== 'number') throw new TypeError('Value of argument \'undefined\' violates contract, expected Object with properties x and y got ' + ({ x: x, y: y } === null ? 'null' : { x: x, y: y } instanceof Object && { x: x, y: y }.constructor ? { x: x, y: y }.constructor.name : typeof { x: x, y: y }));
-		
-		    // Replace unitless items with px
-		    var out = { transform: 'translate(' + x + 'px,' + y + 'px)' };
-		    // Add single prefixed property as well
-		    if (_getPrefix2['default']) {
-		      out[_getPrefix2['default'] + 'Transform'] = out.transform;
-		    }
-		    return out;
-		  })();
-		}
-		
-		function createSVGTransform(_ref2) {
-		  var x = _ref2.x;
-		  var y = _ref2.y;
-		  return (function () {
-		    if ({ x: x, y: y } === null || typeof { x: x, y: y } !== 'object' || typeof { x: x, y: y }.x !== 'number' || typeof { x: x, y: y }.y !== 'number') throw new TypeError('Value of argument \'undefined\' violates contract, expected Object with properties x and y got ' + ({ x: x, y: y } === null ? 'null' : { x: x, y: y } instanceof Object && { x: x, y: y }.constructor ? { x: x, y: y }.constructor.name : typeof { x: x, y: y }));
-		
-		    return 'translate(' + x + ',' + y + ')';
-		  })();
-		}
-		
-		// User-select Hacks:
-		//
-		// Useful for preventing blue highlights all over everything when dragging.
-		var userSelectStyle = ';user-select: none;';
-		if (_getPrefix2['default']) {
-		  userSelectStyle += '-' + _getPrefix2['default'].toLowerCase() + '-user-select: none;';
-		}
-		
-		function addUserSelectStyles() {
-		  var style = document.body.getAttribute('style') || '';
-		  document.body.setAttribute('style', style + userSelectStyle);
-		}
-		
-		function removeUserSelectStyles() {
-		  var style = document.body.getAttribute('style') || '';
-		  document.body.setAttribute('style', style.replace(userSelectStyle, ''));
-		}
-		
-		function styleHacks() {
-		  var childStyle = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-		
-		  // Workaround IE pointer events; see #51
-		  // https://github.com/mzabriskie/react-draggable/issues/51#issuecomment-103488278
-		  var touchHacks = {
-		    touchAction: 'none'
-		  };
-		
-		  return (0, _objectAssign2['default'])(touchHacks, childStyle);
-		}
-		
-		// Create an event exposed by <DraggableCore>
-		
-		function createCoreEvent(draggable, clientX, clientY) {
-		  // State changes are often (but not always!) async. We want the latest value.
-		  var state = draggable._pendingState || draggable.state;
-		  var isStart = !(0, _shims.isNum)(state.lastX);
-		
-		  return {
-		    node: _reactDom2['default'].findDOMNode(draggable),
-		    position: isStart ?
-		    // If this is our first move, use the clientX and clientY as last coords.
-		    {
-		      deltaX: 0, deltaY: 0,
-		      lastX: clientX, lastY: clientY,
-		      clientX: clientX, clientY: clientY
-		    } :
-		    // Otherwise calculate proper values.
-		    {
-		      deltaX: clientX - state.lastX, deltaY: clientY - state.lastY,
-		      lastX: state.lastX, lastY: state.lastY,
-		      clientX: clientX, clientY: clientY
-		    }
-		  };
-		}
-		
-		// Create an event exposed by <Draggable>
-		
-		function createUIEvent(draggable, coreEvent) {
-		  return {
-		    node: _reactDom2['default'].findDOMNode(draggable),
-		    position: {
-		      left: draggable.state.clientX + coreEvent.position.deltaX,
-		      top: draggable.state.clientY + coreEvent.position.deltaY
-		    },
-		    deltaX: coreEvent.position.deltaX,
-		    deltaY: coreEvent.position.deltaY
-		  };
-		}
-
-	/***/ },
-	/* 7 */
-	/***/ function(module, exports) {
-
-		// @credits https://gist.github.com/rogozhnikoff/a43cfed27c41e4e68cdc
-		'use strict';
-		
-		Object.defineProperty(exports, '__esModule', {
-		  value: true
-		});
-		exports.findInArray = findInArray;
-		exports.isFunction = isFunction;
-		exports.isNum = isNum;
-		exports.int = int;
-		exports.dontSetMe = dontSetMe;
-		
-		function findInArray(array, callback) {
-		  for (var i = 0, _length = array.length; i < _length; i++) {
-		    if (callback.apply(callback, [array[i], i, array])) return array[i];
-		  }
-		}
-		
-		function isFunction(func) {
-		  return typeof func === 'function' || Object.prototype.toString.call(func) === '[object Function]';
-		}
-		
-		function isNum(num) {
-		  return typeof num === 'number' && !isNaN(num);
-		}
-		
-		function int(a) {
-		  return parseInt(a, 10);
-		}
-		
-		function dontSetMe(props, propName, componentName) {
-		  if (props[propName]) {
-		    throw new Error('Invalid prop ' + propName + ' passed to ' + componentName + ' - do not set this, set it on the child.');
-		  }
-		}
-
-	/***/ },
-	/* 8 */
-	/***/ function(module, exports) {
-
-		'use strict';
-		
-		Object.defineProperty(exports, '__esModule', {
-		  value: true
-		});
-		
-		exports['default'] = (function () {
-		  // Checking specifically for 'window.document' is for pseudo-browser server-side
-		  // environments that define 'window' as the global context.
-		  // E.g. React-rails (see https://github.com/reactjs/react-rails/pull/84)
-		  if (typeof window === 'undefined' || typeof window.document === 'undefined') return '';
-		
-		  // Thanks David Walsh
-		  var styles = window.getComputedStyle(document.documentElement, ''),
-		      pre = (Array.prototype.slice.call(styles).join('').match(/-(moz|webkit|ms)-/) || styles.OLink === '' && ['', 'o'])[1];
-		  // 'ms' is not titlecased
-		  if (pre === undefined || pre === null) return '';
-		  if (pre === 'ms') return pre;
-		  if (pre === undefined || pre === null) return '';
-		  return pre.slice(0, 1).toUpperCase() + pre.slice(1);
-		})();
-		
-		module.exports = exports['default'];
-
-	/***/ },
-	/* 9 */
-	/***/ function(module, exports, __webpack_require__) {
-
-		'use strict';
-		
-		Object.defineProperty(exports, '__esModule', {
-		  value: true
-		});
-		exports.getBoundPosition = getBoundPosition;
-		exports.snapToGrid = snapToGrid;
-		exports.canDragX = canDragX;
-		exports.canDragY = canDragY;
-		exports.getControlPosition = getControlPosition;
-		
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-		
-		var _shims = __webpack_require__(7);
-		
-		var _reactDom = __webpack_require__(3);
-		
-		var _reactDom2 = _interopRequireDefault(_reactDom);
-		
-		var _domFns = __webpack_require__(6);
-		
-		function getBoundPosition(draggable, clientX, clientY) {
-		  // If no bounds, short-circuit and move on
-		  if (!draggable.props.bounds) return [clientX, clientY];
-		
-		  var bounds = JSON.parse(JSON.stringify(draggable.props.bounds));
-		  var node = _reactDom2['default'].findDOMNode(draggable);
-		  var parent = node.parentNode;
-		
-		  if (bounds === 'parent') {
-		    var nodeStyle = window.getComputedStyle(node);
-		    var parentStyle = window.getComputedStyle(parent);
-		    // Compute bounds. This is a pain with padding and offsets but this gets it exactly right.
-		    bounds = {
-		      left: -node.offsetLeft + (0, _shims.int)(parentStyle.paddingLeft) + (0, _shims.int)(nodeStyle.borderLeftWidth) + (0, _shims.int)(nodeStyle.marginLeft),
-		      top: -node.offsetTop + (0, _shims.int)(parentStyle.paddingTop) + (0, _shims.int)(nodeStyle.borderTopWidth) + (0, _shims.int)(nodeStyle.marginTop),
-		      right: (0, _domFns.innerWidth)(parent) - (0, _domFns.outerWidth)(node) - node.offsetLeft,
-		      bottom: (0, _domFns.innerHeight)(parent) - (0, _domFns.outerHeight)(node) - node.offsetTop
-		    };
-		  }
-		
-		  // Keep x and y below right and bottom limits...
-		  if ((0, _shims.isNum)(bounds.right)) clientX = Math.min(clientX, bounds.right);
-		  if ((0, _shims.isNum)(bounds.bottom)) clientY = Math.min(clientY, bounds.bottom);
-		
-		  // But above left and top limits.
-		  if ((0, _shims.isNum)(bounds.left)) clientX = Math.max(clientX, bounds.left);
-		  if ((0, _shims.isNum)(bounds.top)) clientY = Math.max(clientY, bounds.top);
-		
-		  return [clientX, clientY];
-		}
-		
-		function snapToGrid(grid, pendingX, pendingY) {
-		  var x = Math.round(pendingX / grid[0]) * grid[0];
-		  var y = Math.round(pendingY / grid[1]) * grid[1];
-		  return [x, y];
-		}
-		
-		function canDragX(draggable) {
-		  return draggable.props.axis === 'both' || draggable.props.axis === 'x';
-		}
-		
-		function canDragY(draggable) {
-		  return draggable.props.axis === 'both' || draggable.props.axis === 'y';
-		}
-		
-		// Get {clientX, clientY} positions from event.
-		
-		function getControlPosition(e) {
-		  var position = e.targetTouches && e.targetTouches[0] || e;
-		  return {
-		    clientX: position.clientX,
-		    clientY: position.clientY
-		  };
-		}
-
-	/***/ },
-	/* 10 */
-	/***/ function(module, exports, __webpack_require__) {
-
-		'use strict';
-		
-		Object.defineProperty(exports, '__esModule', {
-		  value: true
-		});
-		
-		var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
-		
-		var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-		
-		var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-		
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-		
-		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-		
-		function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-		
-		var _react = __webpack_require__(2);
-		
-		var _react2 = _interopRequireDefault(_react);
-		
-		var _utilsDomFns = __webpack_require__(6);
-		
-		var _utilsPositionFns = __webpack_require__(9);
-		
-		var _utilsShims = __webpack_require__(7);
-		
-		var _utilsLog = __webpack_require__(11);
-		
-		var _utilsLog2 = _interopRequireDefault(_utilsLog);
-		
-		// Simple abstraction for dragging events names.
-		var eventsFor = {
-		  touch: {
-		    start: 'touchstart',
-		    move: 'touchmove',
-		    stop: 'touchend'
-		  },
-		  mouse: {
-		    start: 'mousedown',
-		    move: 'mousemove',
-		    stop: 'mouseup'
-		  }
-		};
-		
-		// Default to mouse events.
-		var dragEventFor = eventsFor.mouse;
-		
-		//
-		// Define <DraggableCore>.
-		//
-		// <DraggableCore> is for advanced usage of <Draggable>. It maintains minimal internal state so it can
-		// work well with libraries that require more control over the element.
-		//
-		
-		var DraggableCore = (function (_React$Component) {
-		  _inherits(DraggableCore, _React$Component);
-		
-		  function DraggableCore() {
-		    var _this = this;
-		
-		    _classCallCheck(this, DraggableCore);
-		
-		    _get(Object.getPrototypeOf(DraggableCore.prototype), 'constructor', this).apply(this, arguments);
-		
-		    this.state = {
-		      dragging: false,
-		      // Used while dragging to determine deltas.
-		      lastX: null, lastY: null
-		    };
-		
-		    this.handleDragStart = function (e) {
-		      // Make it possible to attach event handlers on top of this one.
-		      _this.props.onMouseDown(e);
-		
-		      // Only accept left-clicks.
-		      if (!_this.props.allowAnyClick && typeof e.button === 'number' && e.button !== 0) return false;
-		
-		      // Short circuit if handle or cancel prop was provided and selector doesn't match.
-		      if (_this.props.disabled || _this.props.handle && !(0, _utilsDomFns.matchesSelector)(e.target, _this.props.handle) || _this.props.cancel && (0, _utilsDomFns.matchesSelector)(e.target, _this.props.cancel)) {
-		        return;
-		      }
-		
-		      // Set touch identifier in component state if this is a touch event. This allows us to
-		      // distinguish between individual touches on multitouch screens by identifying which
-		      // touchpoint was set to this element.
-		      if (e.targetTouches) {
-		        _this.setState({ touchIdentifier: e.targetTouches[0].identifier });
-		      }
-		
-		      // Add a style to the body to disable user-select. This prevents text from
-		      // being selected all over the page.
-		      if (_this.props.enableUserSelectHack) (0, _utilsDomFns.addUserSelectStyles)();
-		
-		      // Get the current drag point from the event. This is used as the offset.
-		
-		      var _getControlPosition = (0, _utilsPositionFns.getControlPosition)(e);
-		
-		      var clientX = _getControlPosition.clientX;
-		      var clientY = _getControlPosition.clientY;
-		
-		      // Create an event object with all the data parents need to make a decision here.
-		      var coreEvent = (0, _utilsDomFns.createCoreEvent)(_this, clientX, clientY);
-		
-		      (0, _utilsLog2['default'])('DraggableCore: handleDragStart: %j', coreEvent.position);
-		
-		      // Call event handler. If it returns explicit false, cancel.
-		      (0, _utilsLog2['default'])('calling', _this.props.onStart);
-		      var shouldUpdate = _this.props.onStart(e, coreEvent);
-		      if (shouldUpdate === false) return;
-		
-		      // Initiate dragging. Set the current x and y as offsets
-		      // so we know how much we've moved during the drag. This allows us
-		      // to drag elements around even if they have been moved, without issue.
-		      _this.setState({
-		        dragging: true,
-		
-		        lastX: clientX,
-		        lastY: clientY,
-		        // Stored so we can adjust our offset if scrolled.
-		        scrollX: document.body.scrollLeft,
-		        scrollY: document.body.scrollTop
-		      });
-		
-		      // Translate el on page scroll.
-		      (0, _utilsDomFns.addEvent)(document, 'scroll', _this.handleScroll);
-		      // Add events to the document directly so we catch when the user's mouse/touch moves outside of
-		      // this element. We use different events depending on whether or not we have detected that this
-		      // is a touch-capable device.
-		      (0, _utilsDomFns.addEvent)(document, dragEventFor.move, _this.handleDrag);
-		      (0, _utilsDomFns.addEvent)(document, dragEventFor.stop, _this.handleDragStop);
-		    };
-		
-		    this.handleDrag = function (e) {
-		      // Return if this is a touch event, but not the correct one for this element
-		      if (e.targetTouches && e.targetTouches[0].identifier !== _this.state.touchIdentifier) return;
-		
-		      var _getControlPosition2 = (0, _utilsPositionFns.getControlPosition)(e);
-		
-		      var clientX = _getControlPosition2.clientX;
-		      var clientY = _getControlPosition2.clientY;
-		
-		      // Snap to grid if prop has been provided
-		      if (Array.isArray(_this.props.grid)) {
-		        var deltaX = clientX - _this.state.lastX,
-		            deltaY = clientY - _this.state.lastY;
-		
-		        var _snapToGrid = (0, _utilsPositionFns.snapToGrid)(_this.props.grid, deltaX, deltaY);
-		
-		        var _snapToGrid2 = _slicedToArray(_snapToGrid, 2);
-		
-		        deltaX = _snapToGrid2[0];
-		        deltaY = _snapToGrid2[1];
-		
-		        if (!deltaX && !deltaY) return; // skip useless drag
-		        clientX = _this.state.lastX + deltaX, clientY = _this.state.lastY + deltaY;
-		      }
-		
-		      var coreEvent = (0, _utilsDomFns.createCoreEvent)(_this, clientX, clientY);
-		
-		      (0, _utilsLog2['default'])('DraggableCore: handleDrag: %j', coreEvent.position);
-		
-		      // Call event handler. If it returns explicit false, trigger end.
-		      var shouldUpdate = _this.props.onDrag(e, coreEvent);
-		      if (shouldUpdate === false) {
-		        _this.handleDragStop({});
-		        return;
-		      }
-		
-		      _this.setState({
-		        lastX: clientX,
-		        lastY: clientY
-		      });
-		    };
-		
-		    this.handleDragStop = function (e) {
-		      if (!_this.state.dragging) return;
-		
-		      // Short circuit if this is not the correct touch event. `changedTouches` contains all
-		      // touch points that have been removed from the surface.
-		      if (e.changedTouches && e.changedTouches[0].identifier !== _this.state.touchIdentifier) return;
-		
-		      // Remove user-select hack
-		      if (_this.props.enableUserSelectHack) (0, _utilsDomFns.removeUserSelectStyles)();
-		
-		      var _getControlPosition3 = (0, _utilsPositionFns.getControlPosition)(e);
-		
-		      var clientX = _getControlPosition3.clientX;
-		      var clientY = _getControlPosition3.clientY;
-		
-		      var coreEvent = (0, _utilsDomFns.createCoreEvent)(_this, clientX, clientY);
-		
-		      (0, _utilsLog2['default'])('DraggableCore: handleDragStop: %j', coreEvent.position);
-		
-		      // Reset the el.
-		      _this.setState({
-		        dragging: false,
-		        lastX: null,
-		        lastY: null
-		      });
-		
-		      // Call event handler
-		      _this.props.onStop(e, coreEvent);
-		
-		      // Remove event handlers
-		      (0, _utilsLog2['default'])('DraggableCore: Removing handlers');
-		      (0, _utilsDomFns.removeEvent)(document, 'scroll', _this.handleScroll);
-		      (0, _utilsDomFns.removeEvent)(document, dragEventFor.move, _this.handleDrag);
-		      (0, _utilsDomFns.removeEvent)(document, dragEventFor.stop, _this.handleDragStop);
-		    };
-		
-		    this.handleScroll = function (e) {
-		      var s = _this.state,
-		          x = document.body.scrollLeft,
-		          y = document.body.scrollTop;
-		
-		      // Create the usual event, but make the scroll offset our deltas.
-		      var coreEvent = (0, _utilsDomFns.createCoreEvent)(_this);
-		      coreEvent.position.deltaX = x - s.scrollX;
-		      coreEvent.position.deltaY = y - s.scrollY;
-		
-		      _this.setState({
-		        lastX: s.lastX + coreEvent.position.deltaX,
-		        lastY: s.lastY + coreEvent.position.deltaY
-		      });
-		
-		      _this.props.onDrag(e, coreEvent);
-		    };
-		
-		    this.onMouseDown = function (e) {
-		      // HACK: Prevent 'ghost click' which happens 300ms after touchstart if the event isn't cancelled.
-		      // We don't cancel the event on touchstart because of #37; we might want to make a scrollable item draggable.
-		      // More on ghost clicks: http://ariatemplates.com/blog/2014/05/ghost-clicks-in-mobile-browsers/
-		      if (dragEventFor === eventsFor.touch) {
-		        return e.preventDefault();
-		      }
-		
-		      return _this.handleDragStart(e);
-		    };
-		
-		    this.onTouchStart = function (e) {
-		      // We're on a touch device now, so change the event handlers
-		      dragEventFor = eventsFor.touch;
-		
-		      return _this.handleDragStart(e);
-		    };
-		  }
-		
-		  _createClass(DraggableCore, [{
-		    key: 'componentWillUnmount',
-		    value: function componentWillUnmount() {
-		      // Remove any leftover event handlers. Remove both touch and mouse handlers in case
-		      // some browser quirk caused a touch event to fire during a mouse move, or vice versa.
-		      (0, _utilsDomFns.removeEvent)(document, eventsFor.mouse.move, this.handleDrag);
-		      (0, _utilsDomFns.removeEvent)(document, eventsFor.touch.move, this.handleDrag);
-		      (0, _utilsDomFns.removeEvent)(document, eventsFor.mouse.stop, this.handleDragStop);
-		      (0, _utilsDomFns.removeEvent)(document, eventsFor.touch.stop, this.handleDragStop);
-		      (0, _utilsDomFns.removeEvent)(document, 'scroll', this.handleScroll);
-		      if (this.props.enableUserSelectHack) (0, _utilsDomFns.removeUserSelectStyles)();
-		    }
-		  }, {
-		    key: 'render',
-		    value: function render() {
-		      // Reuse the child provided
-		      // This makes it flexible to use whatever element is wanted (div, ul, etc)
-		      return _react2['default'].cloneElement(_react2['default'].Children.only(this.props.children), {
-		        style: (0, _utilsDomFns.styleHacks)(this.props.children.props.style),
-		
-		        // Note: mouseMove handler is attached to document so it will still function
-		        // when the user drags quickly and leaves the bounds of the element.
-		        onMouseDown: this.onMouseDown,
-		        onTouchStart: this.onTouchStart,
-		        onMouseUp: this.handleDragStop,
-		        onTouchEnd: this.handleDragStop
-		      });
-		    }
-		  }], [{
-		    key: 'displayName',
-		    value: 'DraggableCore',
-		    enumerable: true
-		  }, {
-		    key: 'propTypes',
-		    value: {
-		      /**
-		       * `allowAnyClick` allows dragging using any mouse button.
-		       * By default, we only accept the left button.
-		       *
-		       * Defaults to `false`.
-		       */
-		      allowAnyClick: _react.PropTypes.bool,
-		
-		      /**
-		       * `disabled`, if true, stops the <Draggable> from dragging. All handlers,
-		       * with the exception of `onMouseDown`, will not fire.
-		       *
-		       * Example:
-		       *
-		       * ```jsx
-		       *   let App = React.createClass({
-		       *       render: function () {
-		       *           return (
-		       *               <Draggable disabled={true}>
-		       *                   <div>I can't be dragged</div>
-		       *               </Draggable>
-		       *           );
-		       *       }
-		       *   });
-		       * ```
-		       */
-		      disabled: _react.PropTypes.bool,
-		
-		      /**
-		       * By default, we add 'user-select:none' attributes to the document body
-		       * to prevent ugly text selection during drag. If this is causing problems
-		       * for your app, set this to `false`.
-		       */
-		      enableUserSelectHack: _react.PropTypes.bool,
-		
-		      /**
-		       * `grid` specifies the x and y that dragging should snap to.
-		       *
-		       * Example:
-		       *
-		       * ```jsx
-		       *   let App = React.createClass({
-		       *       render: function () {
-		       *           return (
-		       *               <Draggable grid={[25, 25]}>
-		       *                   <div>I snap to a 25 x 25 grid</div>
-		       *               </Draggable>
-		       *           );
-		       *       }
-		       *   });
-		       * ```
-		       */
-		      grid: _react.PropTypes.arrayOf(_react.PropTypes.number),
-		
-		      /**
-		       * `handle` specifies a selector to be used as the handle that initiates drag.
-		       *
-		       * Example:
-		       *
-		       * ```jsx
-		       *   let App = React.createClass({
-		       *       render: function () {
-		       *         return (
-		       *            <Draggable handle=".handle">
-		       *              <div>
-		       *                  <div className="handle">Click me to drag</div>
-		       *                  <div>This is some other content</div>
-		       *              </div>
-		       *           </Draggable>
-		       *         );
-		       *       }
-		       *   });
-		       * ```
-		       */
-		      handle: _react.PropTypes.string,
-		
-		      /**
-		       * `cancel` specifies a selector to be used to prevent drag initialization.
-		       *
-		       * Example:
-		       *
-		       * ```jsx
-		       *   let App = React.createClass({
-		       *       render: function () {
-		       *           return(
-		       *               <Draggable cancel=".cancel">
-		       *                   <div>
-		       *                     <div className="cancel">You can't drag from here</div>
-		       *            <div>Dragging here works fine</div>
-		       *                   </div>
-		       *               </Draggable>
-		       *           );
-		       *       }
-		       *   });
-		       * ```
-		       */
-		      cancel: _react.PropTypes.string,
-		
-		      /**
-		       * Called when dragging starts.
-		       * If this function returns the boolean false, dragging will be canceled.
-		       *
-		       * Example:
-		       *
-		       * ```js
-		       *  function (event, ui) {}
-		       * ```
-		       *
-		       * `event` is the Event that was triggered.
-		       * `ui` is an object:
-		       *
-		       * ```js
-		       *  {
-		       *    position: {top: 0, left: 0}
-		       *  }
-		       * ```
-		       */
-		      onStart: _react.PropTypes.func,
-		
-		      /**
-		       * Called while dragging.
-		       * If this function returns the boolean false, dragging will be canceled.
-		       *
-		       * Example:
-		       *
-		       * ```js
-		       *  function (event, ui) {}
-		       * ```
-		       *
-		       * `event` is the Event that was triggered.
-		       * `ui` is an object:
-		       *
-		       * ```js
-		       *  {
-		       *    position: {top: 0, left: 0}
-		       *  }
-		       * ```
-		       */
-		      onDrag: _react.PropTypes.func,
-		
-		      /**
-		       * Called when dragging stops.
-		       *
-		       * Example:
-		       *
-		       * ```js
-		       *  function (event, ui) {}
-		       * ```
-		       *
-		       * `event` is the Event that was triggered.
-		       * `ui` is an object:
-		       *
-		       * ```js
-		       *  {
-		       *    position: {top: 0, left: 0}
-		       *  }
-		       * ```
-		       */
-		      onStop: _react.PropTypes.func,
-		
-		      /**
-		       * A workaround option which can be passed if onMouseDown needs to be accessed,
-		       * since it'll always be blocked (due to that there's internal use of onMouseDown)
-		       */
-		      onMouseDown: _react.PropTypes.func,
-		
-		      /**
-		       * These properties should be defined on the child, not here.
-		       */
-		      className: _utilsShims.dontSetMe,
-		      style: _utilsShims.dontSetMe,
-		      transform: _utilsShims.dontSetMe
-		    },
-		    enumerable: true
-		  }, {
-		    key: 'defaultProps',
-		    value: {
-		      allowAnyClick: false, // by default only accept left click
-		      cancel: null,
-		      disabled: false,
-		      enableUserSelectHack: true,
-		      handle: null,
-		      grid: null,
-		      transform: null,
-		      onStart: function onStart() {},
-		      onDrag: function onDrag() {},
-		      onStop: function onStop() {},
-		      onMouseDown: function onMouseDown() {}
-		    },
-		    enumerable: true
-		  }]);
-		
-		  return DraggableCore;
-		})(_react2['default'].Component);
-		
-		exports['default'] = DraggableCore;
-		module.exports = exports['default'];
-
-		// When the user scrolls, adjust internal state so the draggable moves along the page properly.
-		// This only fires when a drag is active.
-
-		// On mousedown, consider the drag started.
-
-		// Same as onMouseDown (start drag), but now consider this a touch device.
-
-	/***/ },
-	/* 11 */
-	/***/ function(module, exports, __webpack_require__) {
-
-		"use strict";
-		
-		Object.defineProperty(exports, "__esModule", {
-		  value: true
-		});
-		exports["default"] = log;
-		
-		function log() {
-		  if ((undefined)) console.log.apply(console, arguments);
-		}
-		
-		module.exports = exports["default"];
-
-	/***/ }
-	/******/ ])
-	});
-	;
-	//# sourceMappingURL=react-draggable.js.map
-
-/***/ },
-/* 208 */
-/***/ function(module, exports) {
-
-	'use strict'
-	module.exports = function(flavour_x, colour_y, map_width, map_height) {
-	  const FLAVOUR_SCALE = 12;
-	  const COLOUR_SCALE  = 12;
-	  var mapX = (flavour_x/FLAVOUR_SCALE)*map_width;
-	  // we have to invert the value of Y here because the colour is stored in
-	  // the db as light=12, dark=0, but it's the opposite on our map.
-	  var mapY = ((COLOUR_SCALE - colour_y)/12)*map_height;
-	  return {
-	    x: mapX,
-	    y: mapY
-	  };
-	};
-
-
-/***/ },
-/* 209 */
-/***/ function(module, exports) {
-
-	'use strict'
-	// TODO: refactor this and calculate_flavour_map_coords into one class
-	// this would be ideal because they're very similar, and they share constants
-	module.exports = function(flavour_x, colour_y, map_width, map_height) {
-	  const FLAVOUR_SCALE = 12;
-	  const COLOUR_SCALE  = 12;
-	  var dbX = (flavour_x/map_width)*FLAVOUR_SCALE;
-	  // we have to invert the value of Y here because the colour is stored in
-	  // the db as light=12, dark=0, but it's the opposite on our map.
-	  var dbY = COLOUR_SCALE - ((colour_y/map_height)*12)
-	  return {
-	    x: Math.round(dbX),
-	    y: Math.round(dbY)
-	  };
-
-	};
-
-
-/***/ },
-/* 210 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-
-	var BeerList = __webpack_require__(212);
-	var FlavourMapEmbedded = __webpack_require__(206);
-
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  getInitialState() {
-	    return { beers: [], breweries: [], resultsLoading: false }
-	  },
-
-
-	  ajaxPostFlavourMapSearch(searchCoords) {
-	    // TODO: refactor this url
-	    $.ajax({
-	      method: "POST",
-	      url: "/api/v1/flavour_map/search",
-	      data: { coords: searchCoords },
-	      success: (response) => {
-	        var newBeers  = response.data;
-	        var breweries = response.included;
-
-	        // TODO: remove this for production. maybe we can orchestrate webpack to handle this for us.
-	        if (newBeers.length > 0) {
-	          console.log(`Beers found: ${newBeers.length} | first id: ${newBeers[0].id} | last id: ${newBeers[newBeers.length-1].id}`);
-	        } else {
-	          console.log(`Beers found: 0`);
-	        }
-
-	        this.setState({ beers: newBeers, breweries: breweries, resultsLoading: false });
-	      },
-
-	      error: (obj, msg, err) => {
-	        console.log(`error in request: ${msg} / ${err}`);
-	      }
-	    });
-	  },
-
-	  handleDragStop(newCoords) {
-	    this.setState({ resultsLoading: true });
-	    this.ajaxPostFlavourMapSearch(newCoords);
-	  },
-
-	  handleNavigation(params) {
-	    var url = params["url"];
-	    if (url) { this.props.history.push(url); }
-	  },
-
-	  render: function() {
-	    var loading = this.state.resultsLoading;
-	    return (
-	      React.createElement("div", null, 
-	        /* TODO: how to respond to media queries so that we can re-render this at a different res? */
-	        React.createElement(FlavourMapEmbedded, {
-	          heroTarget: {x: 6, y: 6}, 
-	          isDraggable: true, 
-	          maxWidth: 375, 
-	          onDragStop: this.handleDragStop}), 
-	        React.createElement(BeerList, {loading: loading, beers: this.state.beers, breweries: this.state.breweries, onNavigation: this.handleNavigation})
-	      )
-	    );
-	  },
-	});
-
-
-/***/ },
-/* 211 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -34677,184 +32537,2235 @@
 
 
 /***/ },
-/* 212 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict'
-	var BeerCardVitals = __webpack_require__(213);
-	var BeerListIntro = __webpack_require__(214);
-	var LoadingBeers = __webpack_require__(237);
-	var NoBeers = __webpack_require__(215);
-	var ReactCSSTransitionGroup = __webpack_require__(216);
+	'use strict';
 
-	module.exports = React.createClass({displayName: "module.exports",
-	  getInitialState() {
-	    return { display: "intro", beers: [], breweries: [] }
+	var HeaderNavbar = __webpack_require__(200);
+
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { id: 'app' },
+	      React.createElement(HeaderNavbar, null),
+	      this.props.children
+	    );
+	  }
+	});
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Link = __webpack_require__(148).Link;
+
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	  getInitialState: function getInitialState() {
+	    return { menuIsActive: false };
+	  },
+	  handleMenuClick: function handleMenuClick() {
+	    this.setState({ menuIsActive: !this.state.menuIsActive });
+	  },
+	  render: function render() {
+	    var style = this.state.menuIsActive ? 'is-active' : '';
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement('div', { id: 'navbar-dimmer', className: style }),
+	      React.createElement(
+	        'nav',
+	        { className: 'hoppist-header' },
+	        React.createElement(
+	          'h1',
+	          { className: 'branded', onClick: this.handleMenuClick },
+	          '...'
+	        ),
+	        React.createElement(
+	          'h2',
+	          { className: 'branded' },
+	          'HOPPIST'
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'flourish' },
+	          React.createElement('hr', null),
+	          React.createElement('img', { src: '/images/hop.png' })
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { id: 'mobile-navbar', className: style },
+	        React.createElement(
+	          'div',
+	          { onClick: this.handleMenuClick },
+	          React.createElement(
+	            'h4',
+	            { className: 'branded' },
+	            'HOPPIST'
+	          ),
+	          React.createElement(
+	            'h1',
+	            { className: 'branded' },
+	            '...'
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'Alex Taylor         '
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'REVIEW              '
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              Link,
+	              { to: '/flavour-map', onClick: this.handleMenuClick },
+	              'FLAVOUR MAP'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'MATCH MAKER IS GREAT'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'DISCOVER            '
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'BEERS               '
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'BREWERIES           '
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 201 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = React.createClass({
+	  displayName: 'exports',
+
+	  render: function render() {
+	    return React.createElement(
+	      'h1',
+	      null,
+	      'Beer Index'
+	    );
+	  }
+	});
+
+/***/ },
+/* 202 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Link = __webpack_require__(148).Link;
+
+	var Reviews = __webpack_require__(203);
+	var FlavourMap = __webpack_require__(204);
+
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	  getInitialState: function getInitialState() {
+	    return { beer: {}, brewery: {} };
+	  },
+	  ajaxGetBeer: function ajaxGetBeer(id) {
+	    var _this = this;
+
+	    // TODO: refactor this url
+	    $.ajax({
+	      method: "GET",
+	      url: '/api/v1/beers/' + id,
+	      success: function success(response) {
+	        var beer = response.data.attributes;
+	        var brewery = { id: response.data.relationships.brewery.data.id,
+	          name: response.included[0].attributes.name
+	        };
+	        _this.setState({ beer: beer, brewery: brewery });
+	      },
+
+	      error: function error(obj, msg, err) {
+	        console.log('error in request: ' + msg + ' / ' + err);
+	      }
+	    });
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.ajaxGetBeer(this.props.params.id);
+	  },
+	  render: function render() {
+	    var beerId = this.props.params.id;
+
+	    return React.createElement(
+	      'div',
+	      { id: 'beer-show' },
+	      React.createElement(
+	        'div',
+	        { id: 'beer-show-header' },
+	        React.createElement(
+	          'div',
+	          { id: 'beer-show-header-thumb' },
+	          React.createElement('img', { src: '/images/hop_circle.png', className: 'img img-thumbnail' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { id: 'beer-show-header-detail' },
+	          React.createElement(
+	            'div',
+	            { id: 'beer-show-header-detail-title-block' },
+	            React.createElement(
+	              'h2',
+	              { className: 'flush-with-top' },
+	              this.state.beer.name
+	            ),
+	            React.createElement(
+	              'h4',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: '/breweries/' + this.state.brewery.id },
+	                this.state.brewery.name
+	              )
+	            ),
+	            React.createElement(
+	              'p',
+	              { className: 'indent italicize lighter' },
+	              'ale; 5pct; 45 ibu'
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'review-stars' },
+	            React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+	            React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+	            React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+	            React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+	            React.createElement('span', { className: 'glyphicon glyphicon-star' })
+	          ),
+	          React.createElement(
+	            'p',
+	            { className: 'indent italicize lighter' },
+	            'out of 15 reviews'
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            React.createElement('span', { className: 'glyphicon glyphicon-grain' }),
+	            ' growler fills'
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            React.createElement('span', { className: 'glyphicon glyphicon-grain' }),
+	            ' bottles / cans'
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { id: 'beer-show-header-actions' },
+	          React.createElement(
+	            'button',
+	            { href: '#', className: 'btn btn-tabby' },
+	            'rate'
+	          ),
+	          React.createElement(
+	            'button',
+	            { href: '#', className: 'btn btn-tabby' },
+	            'add'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'nav nav-tabs' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: '/beers/' + beerId + '/flavour-map', activeClassName: "active" },
+	            'Flavour Map'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: '/beers/' + beerId + '/reviews', activeClassName: "active" },
+	            'Reviews'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { id: 'nested-content' },
+	        this.props.children
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 203 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = React.createClass({
+	  displayName: "exports",
+
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { id: "reviews" },
+	      React.createElement(
+	        "div",
+	        { className: "beer-card clearfix" },
+	        React.createElement(
+	          "div",
+	          { className: "col-review" },
+	          React.createElement(
+	            "h5",
+	            null,
+	            React.createElement(
+	              "a",
+	              { href: "#" },
+	              "Alex T."
+	            ),
+	            " ",
+	            React.createElement(
+	              "i",
+	              null,
+	              "on June 15, 2015"
+	            )
+	          ),
+	          React.createElement(
+	            "div",
+	            { className: "review-stars" },
+	            React.createElement("span", { className: "glyphicon glyphicon-star" }),
+	            React.createElement("span", { className: "glyphicon glyphicon-star" }),
+	            React.createElement("span", { className: "glyphicon glyphicon-star" }),
+	            React.createElement("span", { className: "glyphicon glyphicon-star" }),
+	            React.createElement("span", { className: "glyphicon glyphicon-star" })
+	          ),
+	          React.createElement(
+	            "p",
+	            null,
+	            "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend..."
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var FlavourMapEmbedded = __webpack_require__(205);
+
+	module.exports = React.createClass({
+	  displayName: "exports",
+
+	  render: function render() {
+	    // TODO: don't hardcode the hero target
+	    var heroTargetCoords = { x: 300, y: 100 };
+
+	    return React.createElement(FlavourMapEmbedded, { heroTarget: heroTargetCoords });
+	  }
+	});
+
+/***/ },
+/* 205 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Draggable = __webpack_require__(206);
+	var ReactDOM = __webpack_require__(2); // required here because we're invoking it to get the node width
+	var calculateFlavourMapCoords = __webpack_require__(207);
+	var calculateDbCoords = __webpack_require__(208);
+
+	module.exports = React.createClass({
+	  displayName: 'exports',
+
+	  propTypes: {
+	    onDragStart: React.PropTypes.func
 	  },
 
-	  componentWillReceiveProps(nextProps) {
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      isDraggable: false,
+	      maxWidth: 375,
+	      heroTarget: { x: 6, y: 6 }
+	    };
+	  },
+
+	  getInitialState: function getInitialState() {
+	    // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
+	    var newTargetPos = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, this.props.maxWidth, this.props.maxWidth / 1.6);
+	    return {
+	      maxWidth: this.props.maxWidth,
+	      targetPos: newTargetPos
+	    };
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    // TODO: add event listener for page resize, currently the page must be refreshed
+	    // for this to update after a window size change.
+	    // TODO: this doesn't center properly because of the dynamic screen size
+	    var node = ReactDOM.findDOMNode(this);
+	    var nodeRenderedWidth = node.offsetWidth;
+	    var renderedTargetDiameter = node.childNodes[0].offsetWidth;
+	    var newTargetPos = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, nodeRenderedWidth, nodeRenderedWidth / 1.6);
+	    var newTargetPos = { x: newTargetPos.x - renderedTargetDiameter / 2, y: newTargetPos.y - renderedTargetDiameter / 2 };
+	    this.setState({ maxWidth: nodeRenderedWidth, targetPos: { newTargetPos: newTargetPos } });
+	  },
+	  handleTargetStop: function handleTargetStop(event, ui) {
+	    // handle any action the parent component wants to take when the user finishes
+	    // dragging. for the flavour map index page, this results in the welcome message
+	    // disappearing and the beer list appearing. As a result, this will also trigger
+	    // the beer list to re-render.
+
+	    //console.log("Target position: " + this.state.targetPos.x + "," + this.state.targetPos.y);
+
+	    var newCoords = calculateDbCoords(this.state.targetPos.x, this.state.targetPos.y, this.state.maxWidth, this.state.maxWidth / 1.6);
+
+	    console.log("Db position: " + newCoords.x + "," + newCoords.y);
+
+	    if (this.props.onDragStop !== undefined) {
+	      this.props.onDragStop(newCoords);
+	    }
+	  },
+	  handleTargetDrag: function handleTargetDrag(event, ui) {
+	    // TODO: this is a hack right now because ui.position on stop is NaN
+	    // for touch events. so instead we continually set the state during drag.
+	    // not ideal?
+	    this.setState({ targetPos: { x: ui.position.left, y: ui.position.top } });
+	  },
+	  render: function render() {
+	    var styles = {
+	      width: "100%",
+	      maxWidth: this.state.maxWidth + 'px'
+	    };
+
+	    return React.createElement(
+	      'div',
+	      { id: 'flavour-map-embedded', style: styles },
+	      React.createElement(
+	        Draggable,
+	        {
+	          bounds: 'parent',
+	          cancel: this.props.isDraggable ? "" : ".handle",
+	          handle: '.handle',
+	          moveOnStartChange: true,
+	          onDrag: this.handleTargetDrag,
+	          onStop: this.handleTargetStop,
+	          start: this.state.targetPos,
+	          zIndex: 100 },
+	        React.createElement('div', { id: 'target', className: 'handle' })
+	      ),
+	      React.createElement('img', { src: '/images/flavour_map.svg', style: styles, draggable: false })
+	    );
+	  }
+	});
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	(function webpackUniversalModuleDefinition(root, factory) {
+		if(true)
+			module.exports = factory(__webpack_require__(1), __webpack_require__(2));
+		else if(typeof define === 'function' && define.amd)
+			define(["react", "react-dom"], factory);
+		else if(typeof exports === 'object')
+			exports["ReactDraggable"] = factory(require("react"), require("react-dom"));
+		else
+			root["ReactDraggable"] = factory(root["React"], root["ReactDOM"]);
+	})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__) {
+	return /******/ (function(modules) { // webpackBootstrap
+	/******/ 	// The module cache
+	/******/ 	var installedModules = {};
+	/******/
+	/******/ 	// The require function
+	/******/ 	function __webpack_require__(moduleId) {
+	/******/
+	/******/ 		// Check if module is in cache
+	/******/ 		if(installedModules[moduleId])
+	/******/ 			return installedModules[moduleId].exports;
+	/******/
+	/******/ 		// Create a new module (and put it into the cache)
+	/******/ 		var module = installedModules[moduleId] = {
+	/******/ 			exports: {},
+	/******/ 			id: moduleId,
+	/******/ 			loaded: false
+	/******/ 		};
+	/******/
+	/******/ 		// Execute the module function
+	/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+	/******/
+	/******/ 		// Flag the module as loaded
+	/******/ 		module.loaded = true;
+	/******/
+	/******/ 		// Return the exports of the module
+	/******/ 		return module.exports;
+	/******/ 	}
+	/******/
+	/******/
+	/******/ 	// expose the modules object (__webpack_modules__)
+	/******/ 	__webpack_require__.m = modules;
+	/******/
+	/******/ 	// expose the module cache
+	/******/ 	__webpack_require__.c = installedModules;
+	/******/
+	/******/ 	// __webpack_public_path__
+	/******/ 	__webpack_require__.p = "";
+	/******/
+	/******/ 	// Load entry module and return exports
+	/******/ 	return __webpack_require__(0);
+	/******/ })
+	/************************************************************************/
+	/******/ ([
+	/* 0 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+		
+		module.exports = __webpack_require__(1);
+		module.exports.DraggableCore = __webpack_require__(10);
+
+	/***/ },
+	/* 1 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+		
+		Object.defineProperty(exports, '__esModule', {
+		  value: true
+		});
+		
+		var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+		
+		var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+		
+		var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+		
+		var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+		
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+		
+		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+		
+		function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+		
+		var _react = __webpack_require__(2);
+		
+		var _react2 = _interopRequireDefault(_react);
+		
+		var _reactDom = __webpack_require__(3);
+		
+		var _reactDom2 = _interopRequireDefault(_reactDom);
+		
+		var _classnames = __webpack_require__(4);
+		
+		var _classnames2 = _interopRequireDefault(_classnames);
+		
+		var _objectAssign = __webpack_require__(5);
+		
+		var _objectAssign2 = _interopRequireDefault(_objectAssign);
+		
+		var _utilsDomFns = __webpack_require__(6);
+		
+		var _utilsPositionFns = __webpack_require__(9);
+		
+		var _utilsShims = __webpack_require__(7);
+		
+		var _DraggableCore2 = __webpack_require__(10);
+		
+		var _DraggableCore3 = _interopRequireDefault(_DraggableCore2);
+		
+		var _utilsLog = __webpack_require__(11);
+		
+		var _utilsLog2 = _interopRequireDefault(_utilsLog);
+		
+		//
+		// Define <Draggable>
+		//
+		
+		var Draggable = (function (_DraggableCore) {
+		  _inherits(Draggable, _DraggableCore);
+		
+		  function Draggable() {
+		    var _this = this;
+		
+		    _classCallCheck(this, Draggable);
+		
+		    _get(Object.getPrototypeOf(Draggable.prototype), 'constructor', this).apply(this, arguments);
+		
+		    this.state = {
+		      // Whether or not we are currently dragging.
+		      dragging: false,
+		
+		      // Current transform x and y.
+		      clientX: this.props.start.x, clientY: this.props.start.y,
+		
+		      // Can only determine if SVG after mounting
+		      isElementSVG: false
+		    };
+		
+		    this.onDragStart = function (e, coreEvent) {
+		      (0, _utilsLog2['default'])('Draggable: onDragStart: %j', coreEvent.position);
+		
+		      // Short-circuit if user's callback killed it.
+		      var shouldStart = _this.props.onStart(e, (0, _utilsDomFns.createUIEvent)(_this, coreEvent));
+		      // Kills start event on core as well, so move handlers are never bound.
+		      if (shouldStart === false) return false;
+		
+		      _this.setState({ dragging: true });
+		    };
+		
+		    this.onDrag = function (e, coreEvent) {
+		      if (!_this.state.dragging) return false;
+		      (0, _utilsLog2['default'])('Draggable: onDrag: %j', coreEvent.position);
+		
+		      var uiEvent = (0, _utilsDomFns.createUIEvent)(_this, coreEvent);
+		
+		      // Short-circuit if user's callback killed it.
+		      var shouldUpdate = _this.props.onDrag(e, uiEvent);
+		      if (shouldUpdate === false) return false;
+		
+		      var newState = {
+		        clientX: uiEvent.position.left,
+		        clientY: uiEvent.position.top
+		      };
+		
+		      // Keep within bounds.
+		      if (_this.props.bounds) {
+		        var _getBoundPosition = (0, _utilsPositionFns.getBoundPosition)(_this, newState.clientX, newState.clientY);
+		
+		        var _getBoundPosition2 = _slicedToArray(_getBoundPosition, 2);
+		
+		        newState.clientX = _getBoundPosition2[0];
+		        newState.clientY = _getBoundPosition2[1];
+		      }
+		
+		      _this.setState(newState);
+		    };
+		
+		    this.onDragStop = function (e, coreEvent) {
+		      if (!_this.state.dragging) return false;
+		
+		      // Short-circuit if user's callback killed it.
+		      var shouldStop = _this.props.onStop(e, (0, _utilsDomFns.createUIEvent)(_this, coreEvent));
+		      if (shouldStop === false) return false;
+		
+		      (0, _utilsLog2['default'])('Draggable: onDragStop: %j', coreEvent.position);
+		
+		      _this.setState({
+		        dragging: false
+		      });
+		    };
+		  }
+		
+		  _createClass(Draggable, [{
+		    key: 'componentDidMount',
+		    value: function componentDidMount() {
+		      // Check to see if the element passed is an instanceof SVGElement
+		      if (_reactDom2['default'].findDOMNode(this) instanceof SVGElement) {
+		        this.setState({ isElementSVG: true });
+		      }
+		    }
+		  }, {
+		    key: 'render',
+		    value: function render() {
+		      var style = undefined,
+		          svgTransform = null;
+		      // Add a CSS transform to move the element around. This allows us to move the element around
+		      // without worrying about whether or not it is relatively or absolutely positioned.
+		      // If the item you are dragging already has a transform set, wrap it in a <span> so <Draggable>
+		      // has a clean slate.
+		      style = (0, _utilsDomFns.createTransform)({
+		        // Set left if horizontal drag is enabled
+		        x: (0, _utilsPositionFns.canDragX)(this) ? this.state.clientX : this.props.start.x,
+		
+		        // Set top if vertical drag is enabled
+		        y: (0, _utilsPositionFns.canDragY)(this) ? this.state.clientY : this.props.start.y
+		      }, this.state.isElementSVG);
+		
+		      // If this element was SVG, we use the `transform` attribute.
+		      if (this.state.isElementSVG) {
+		        svgTransform = style;
+		        style = {};
+		      }
+		
+		      // zIndex option
+		      if (this.state.dragging && !isNaN(this.props.zIndex)) {
+		        style.zIndex = this.props.zIndex;
+		      }
+		
+		      // Mark with class while dragging
+		      var className = (0, _classnames2['default'])(this.props.children.props.className || '', 'react-draggable', {
+		        'react-draggable-dragging': this.state.dragging,
+		        'react-draggable-dragged': this.state.dragged
+		      });
+		
+		      // Reuse the child provided
+		      // This makes it flexible to use whatever element is wanted (div, ul, etc)
+		      return _react2['default'].createElement(
+		        _DraggableCore3['default'],
+		        _extends({}, this.props, { onStart: this.onDragStart, onDrag: this.onDrag, onStop: this.onDragStop }),
+		        _react2['default'].cloneElement(_react2['default'].Children.only(this.props.children), {
+		          className: className,
+		          style: (0, _objectAssign2['default'])({}, this.props.children.props.style, style),
+		          transform: svgTransform
+		        })
+		      );
+		    }
+		  }], [{
+		    key: 'displayName',
+		    value: 'Draggable',
+		    enumerable: true
+		  }, {
+		    key: 'propTypes',
+		    value: (0, _objectAssign2['default'])({}, _DraggableCore3['default'].propTypes, {
+		      /**
+		       * `axis` determines which axis the draggable can move.
+		       *
+		       * 'both' allows movement horizontally and vertically.
+		       * 'x' limits movement to horizontal axis.
+		       * 'y' limits movement to vertical axis.
+		       *
+		       * Defaults to 'both'.
+		       */
+		      axis: _react.PropTypes.oneOf(['both', 'x', 'y']),
+		
+		      /**
+		       * `bounds` determines the range of movement available to the element.
+		       * Available values are:
+		       *
+		       * 'parent' restricts movement within the Draggable's parent node.
+		       *
+		       * Alternatively, pass an object with the following properties, all of which are optional:
+		       *
+		       * {left: LEFT_BOUND, right: RIGHT_BOUND, bottom: BOTTOM_BOUND, top: TOP_BOUND}
+		       *
+		       * All values are in px.
+		       *
+		       * Example:
+		       *
+		       * ```jsx
+		       *   let App = React.createClass({
+		       *       render: function () {
+		       *         return (
+		       *            <Draggable bounds={{right: 300, bottom: 300}}>
+		       *              <div>Content</div>
+		       *           </Draggable>
+		       *         );
+		       *       }
+		       *   });
+		       * ```
+		       */
+		      bounds: _react.PropTypes.oneOfType([_react.PropTypes.shape({
+		        left: _react.PropTypes.Number,
+		        right: _react.PropTypes.Number,
+		        top: _react.PropTypes.Number,
+		        bottom: _react.PropTypes.Number
+		      }), _react.PropTypes.oneOf(['parent', false])]),
+		
+		      /**
+		       * `start` specifies the x and y that the dragged item should start at
+		       *
+		       * Example:
+		       *
+		       * ```jsx
+		       *      let App = React.createClass({
+		       *          render: function () {
+		       *              return (
+		       *                  <Draggable start={{x: 25, y: 25}}>
+		       *                      <div>I start with transformX: 25px and transformY: 25px;</div>
+		       *                  </Draggable>
+		       *              );
+		       *          }
+		       *      });
+		       * ```
+		       */
+		      start: _react.PropTypes.shape({
+		        x: _react.PropTypes.number,
+		        y: _react.PropTypes.number
+		      }),
+		
+		      /**
+		       * `zIndex` specifies the zIndex to use while dragging.
+		       *
+		       * Example:
+		       *
+		       * ```jsx
+		       *   let App = React.createClass({
+		       *       render: function () {
+		       *           return (
+		       *               <Draggable zIndex={100}>
+		       *                   <div>I have a zIndex</div>
+		       *               </Draggable>
+		       *           );
+		       *       }
+		       *   });
+		       * ```
+		       */
+		      zIndex: _react.PropTypes.number,
+		
+		      /**
+		       * These properties should be defined on the child, not here.
+		       */
+		      className: _utilsShims.dontSetMe,
+		      style: _utilsShims.dontSetMe,
+		      transform: _utilsShims.dontSetMe
+		    }),
+		    enumerable: true
+		  }, {
+		    key: 'defaultProps',
+		    value: (0, _objectAssign2['default'])({}, _DraggableCore3['default'].defaultProps, {
+		      axis: 'both',
+		      bounds: false,
+		      start: { x: 0, y: 0 },
+		      zIndex: NaN
+		    }),
+		    enumerable: true
+		  }]);
+		
+		  return Draggable;
+		})(_DraggableCore3['default']);
+		
+		exports['default'] = Draggable;
+		module.exports = exports['default'];
+
+	/***/ },
+	/* 2 */
+	/***/ function(module, exports) {
+
+		module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+	/***/ },
+	/* 3 */
+	/***/ function(module, exports) {
+
+		module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
+
+	/***/ },
+	/* 4 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		var __WEBPACK_AMD_DEFINE_RESULT__;/*!
+		  Copyright (c) 2015 Jed Watson.
+		  Licensed under the MIT License (MIT), see
+		  http://jedwatson.github.io/classnames
+		*/
+		/* global define */
+		
+		(function () {
+			'use strict';
+		
+			var hasOwn = {}.hasOwnProperty;
+		
+			function classNames () {
+				var classes = '';
+		
+				for (var i = 0; i < arguments.length; i++) {
+					var arg = arguments[i];
+					if (!arg) continue;
+		
+					var argType = typeof arg;
+		
+					if (argType === 'string' || argType === 'number') {
+						classes += ' ' + arg;
+					} else if (Array.isArray(arg)) {
+						classes += ' ' + classNames.apply(null, arg);
+					} else if (argType === 'object') {
+						for (var key in arg) {
+							if (hasOwn.call(arg, key) && arg[key]) {
+								classes += ' ' + key;
+							}
+						}
+					}
+				}
+		
+				return classes.substr(1);
+			}
+		
+			if (typeof module !== 'undefined' && module.exports) {
+				module.exports = classNames;
+			} else if (true) {
+				// register as 'classnames', consistent with npm package name
+				!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+					return classNames;
+				}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+			} else {
+				window.classNames = classNames;
+			}
+		}());
+
+
+	/***/ },
+	/* 5 */
+	/***/ function(module, exports) {
+
+		/* eslint-disable no-unused-vars */
+		'use strict';
+		var hasOwnProperty = Object.prototype.hasOwnProperty;
+		var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+		
+		function toObject(val) {
+			if (val === null || val === undefined) {
+				throw new TypeError('Object.assign cannot be called with null or undefined');
+			}
+		
+			return Object(val);
+		}
+		
+		module.exports = Object.assign || function (target, source) {
+			var from;
+			var to = toObject(target);
+			var symbols;
+		
+			for (var s = 1; s < arguments.length; s++) {
+				from = Object(arguments[s]);
+		
+				for (var key in from) {
+					if (hasOwnProperty.call(from, key)) {
+						to[key] = from[key];
+					}
+				}
+		
+				if (Object.getOwnPropertySymbols) {
+					symbols = Object.getOwnPropertySymbols(from);
+					for (var i = 0; i < symbols.length; i++) {
+						if (propIsEnumerable.call(from, symbols[i])) {
+							to[symbols[i]] = from[symbols[i]];
+						}
+					}
+				}
+			}
+		
+			return to;
+		};
+
+
+	/***/ },
+	/* 6 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+		
+		Object.defineProperty(exports, '__esModule', {
+		  value: true
+		});
+		exports.matchesSelector = matchesSelector;
+		exports.addEvent = addEvent;
+		exports.removeEvent = removeEvent;
+		exports.outerHeight = outerHeight;
+		exports.outerWidth = outerWidth;
+		exports.innerHeight = innerHeight;
+		exports.innerWidth = innerWidth;
+		exports.createTransform = createTransform;
+		exports.createCSSTransform = createCSSTransform;
+		exports.createSVGTransform = createSVGTransform;
+		exports.addUserSelectStyles = addUserSelectStyles;
+		exports.removeUserSelectStyles = removeUserSelectStyles;
+		exports.styleHacks = styleHacks;
+		exports.createCoreEvent = createCoreEvent;
+		exports.createUIEvent = createUIEvent;
+		
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+		
+		var _shims = __webpack_require__(7);
+		
+		var _getPrefix = __webpack_require__(8);
+		
+		var _getPrefix2 = _interopRequireDefault(_getPrefix);
+		
+		var _objectAssign = __webpack_require__(5);
+		
+		var _objectAssign2 = _interopRequireDefault(_objectAssign);
+		
+		var _reactDom = __webpack_require__(3);
+		
+		var _reactDom2 = _interopRequireDefault(_reactDom);
+		
+		var matchesSelectorFunc = '';
+		
+		function matchesSelector(el, selector) {
+		  if (!(el instanceof Node)) throw new TypeError('Value of argument \'el\' violates contract, expected Node got ' + (el === null ? 'null' : el instanceof Object && el.constructor ? el.constructor.name : typeof el));
+		  if (typeof selector !== 'string') throw new TypeError('Value of argument \'selector\' violates contract, expected string got ' + (selector === null ? 'null' : selector instanceof Object && selector.constructor ? selector.constructor.name : typeof selector));
+		
+		  if (!matchesSelectorFunc) {
+		    matchesSelectorFunc = (0, _shims.findInArray)(['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector'], function (method) {
+		      return (0, _shims.isFunction)(el[method]);
+		    });
+		  }
+		
+		  return el[matchesSelectorFunc].call(el, selector);
+		}
+		
+		function addEvent(el, event, handler) {
+		  if (el != null && !(el instanceof Node)) throw new TypeError('Value of argument \'el\' violates contract, expected null or Node got ' + (el === null ? 'null' : el instanceof Object && el.constructor ? el.constructor.name : typeof el));
+		  if (typeof event !== 'string') throw new TypeError('Value of argument \'event\' violates contract, expected string got ' + (event === null ? 'null' : event instanceof Object && event.constructor ? event.constructor.name : typeof event));
+		  if (typeof handler !== 'function') throw new TypeError('Value of argument \'handler\' violates contract, expected function got ' + (handler === null ? 'null' : handler instanceof Object && handler.constructor ? handler.constructor.name : typeof handler));
+		
+		  if (!el) {
+		    return;
+		  }
+		  if (el.attachEvent) {
+		    el.attachEvent('on' + event, handler);
+		  } else if (el.addEventListener) {
+		    el.addEventListener(event, handler, true);
+		  } else {
+		    el['on' + event] = handler;
+		  }
+		}
+		
+		function removeEvent(el, event, handler) {
+		  if (el != null && !(el instanceof Node)) throw new TypeError('Value of argument \'el\' violates contract, expected null or Node got ' + (el === null ? 'null' : el instanceof Object && el.constructor ? el.constructor.name : typeof el));
+		  if (typeof event !== 'string') throw new TypeError('Value of argument \'event\' violates contract, expected string got ' + (event === null ? 'null' : event instanceof Object && event.constructor ? event.constructor.name : typeof event));
+		  if (typeof handler !== 'function') throw new TypeError('Value of argument \'handler\' violates contract, expected function got ' + (handler === null ? 'null' : handler instanceof Object && handler.constructor ? handler.constructor.name : typeof handler));
+		
+		  if (!el) {
+		    return;
+		  }
+		  if (el.detachEvent) {
+		    el.detachEvent('on' + event, handler);
+		  } else if (el.removeEventListener) {
+		    el.removeEventListener(event, handler, true);
+		  } else {
+		    el['on' + event] = null;
+		  }
+		}
+		
+		function outerHeight(node) {
+		  if (!(node instanceof Node)) throw new TypeError('Value of argument \'node\' violates contract, expected Node got ' + (node === null ? 'null' : node instanceof Object && node.constructor ? node.constructor.name : typeof node));
+		
+		  // This is deliberately excluding margin for our calculations, since we are using
+		  // offsetTop which is including margin. See getBoundPosition
+		  var height = node.clientHeight;
+		  var computedStyle = window.getComputedStyle(node);
+		  height += (0, _shims.int)(computedStyle.borderTopWidth);
+		  height += (0, _shims.int)(computedStyle.borderBottomWidth);
+		  return height;
+		}
+		
+		function outerWidth(node) {
+		  if (!(node instanceof Node)) throw new TypeError('Value of argument \'node\' violates contract, expected Node got ' + (node === null ? 'null' : node instanceof Object && node.constructor ? node.constructor.name : typeof node));
+		
+		  // This is deliberately excluding margin for our calculations, since we are using
+		  // offsetLeft which is including margin. See getBoundPosition
+		  var width = node.clientWidth;
+		  var computedStyle = window.getComputedStyle(node);
+		  width += (0, _shims.int)(computedStyle.borderLeftWidth);
+		  width += (0, _shims.int)(computedStyle.borderRightWidth);
+		  return width;
+		}
+		
+		function innerHeight(node) {
+		  if (!(node instanceof Node)) throw new TypeError('Value of argument \'node\' violates contract, expected Node got ' + (node === null ? 'null' : node instanceof Object && node.constructor ? node.constructor.name : typeof node));
+		
+		  var height = node.clientHeight;
+		  var computedStyle = window.getComputedStyle(node);
+		  height -= (0, _shims.int)(computedStyle.paddingTop);
+		  height -= (0, _shims.int)(computedStyle.paddingBottom);
+		  return height;
+		}
+		
+		function innerWidth(node) {
+		  if (!(node instanceof Node)) throw new TypeError('Value of argument \'node\' violates contract, expected Node got ' + (node === null ? 'null' : node instanceof Object && node.constructor ? node.constructor.name : typeof node));
+		
+		  var width = node.clientWidth;
+		  var computedStyle = window.getComputedStyle(node);
+		  width -= (0, _shims.int)(computedStyle.paddingLeft);
+		  width -= (0, _shims.int)(computedStyle.paddingRight);
+		  return width;
+		}
+		
+		function createTransform(position, isSVG) {
+		  if (typeof position !== 'object') throw new TypeError('Value of argument \'position\' violates contract, expected object got ' + (position === null ? 'null' : position instanceof Object && position.constructor ? position.constructor.name : typeof position));
+		  if (isSVG != null && typeof isSVG !== 'boolean') throw new TypeError('Value of argument \'isSVG\' violates contract, expected null or boolean got ' + (isSVG === null ? 'null' : isSVG instanceof Object && isSVG.constructor ? isSVG.constructor.name : typeof isSVG));
+		
+		  if (isSVG) return createSVGTransform(position);
+		  return createCSSTransform(position);
+		}
+		
+		function createCSSTransform(_ref) {
+		  var x = _ref.x;
+		  var y = _ref.y;
+		  return (function () {
+		    if ({ x: x, y: y } === null || typeof { x: x, y: y } !== 'object' || typeof { x: x, y: y }.x !== 'number' || typeof { x: x, y: y }.y !== 'number') throw new TypeError('Value of argument \'undefined\' violates contract, expected Object with properties x and y got ' + ({ x: x, y: y } === null ? 'null' : { x: x, y: y } instanceof Object && { x: x, y: y }.constructor ? { x: x, y: y }.constructor.name : typeof { x: x, y: y }));
+		
+		    // Replace unitless items with px
+		    var out = { transform: 'translate(' + x + 'px,' + y + 'px)' };
+		    // Add single prefixed property as well
+		    if (_getPrefix2['default']) {
+		      out[_getPrefix2['default'] + 'Transform'] = out.transform;
+		    }
+		    return out;
+		  })();
+		}
+		
+		function createSVGTransform(_ref2) {
+		  var x = _ref2.x;
+		  var y = _ref2.y;
+		  return (function () {
+		    if ({ x: x, y: y } === null || typeof { x: x, y: y } !== 'object' || typeof { x: x, y: y }.x !== 'number' || typeof { x: x, y: y }.y !== 'number') throw new TypeError('Value of argument \'undefined\' violates contract, expected Object with properties x and y got ' + ({ x: x, y: y } === null ? 'null' : { x: x, y: y } instanceof Object && { x: x, y: y }.constructor ? { x: x, y: y }.constructor.name : typeof { x: x, y: y }));
+		
+		    return 'translate(' + x + ',' + y + ')';
+		  })();
+		}
+		
+		// User-select Hacks:
+		//
+		// Useful for preventing blue highlights all over everything when dragging.
+		var userSelectStyle = ';user-select: none;';
+		if (_getPrefix2['default']) {
+		  userSelectStyle += '-' + _getPrefix2['default'].toLowerCase() + '-user-select: none;';
+		}
+		
+		function addUserSelectStyles() {
+		  var style = document.body.getAttribute('style') || '';
+		  document.body.setAttribute('style', style + userSelectStyle);
+		}
+		
+		function removeUserSelectStyles() {
+		  var style = document.body.getAttribute('style') || '';
+		  document.body.setAttribute('style', style.replace(userSelectStyle, ''));
+		}
+		
+		function styleHacks() {
+		  var childStyle = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+		
+		  // Workaround IE pointer events; see #51
+		  // https://github.com/mzabriskie/react-draggable/issues/51#issuecomment-103488278
+		  var touchHacks = {
+		    touchAction: 'none'
+		  };
+		
+		  return (0, _objectAssign2['default'])(touchHacks, childStyle);
+		}
+		
+		// Create an event exposed by <DraggableCore>
+		
+		function createCoreEvent(draggable, clientX, clientY) {
+		  // State changes are often (but not always!) async. We want the latest value.
+		  var state = draggable._pendingState || draggable.state;
+		  var isStart = !(0, _shims.isNum)(state.lastX);
+		
+		  return {
+		    node: _reactDom2['default'].findDOMNode(draggable),
+		    position: isStart ?
+		    // If this is our first move, use the clientX and clientY as last coords.
+		    {
+		      deltaX: 0, deltaY: 0,
+		      lastX: clientX, lastY: clientY,
+		      clientX: clientX, clientY: clientY
+		    } :
+		    // Otherwise calculate proper values.
+		    {
+		      deltaX: clientX - state.lastX, deltaY: clientY - state.lastY,
+		      lastX: state.lastX, lastY: state.lastY,
+		      clientX: clientX, clientY: clientY
+		    }
+		  };
+		}
+		
+		// Create an event exposed by <Draggable>
+		
+		function createUIEvent(draggable, coreEvent) {
+		  return {
+		    node: _reactDom2['default'].findDOMNode(draggable),
+		    position: {
+		      left: draggable.state.clientX + coreEvent.position.deltaX,
+		      top: draggable.state.clientY + coreEvent.position.deltaY
+		    },
+		    deltaX: coreEvent.position.deltaX,
+		    deltaY: coreEvent.position.deltaY
+		  };
+		}
+
+	/***/ },
+	/* 7 */
+	/***/ function(module, exports) {
+
+		// @credits https://gist.github.com/rogozhnikoff/a43cfed27c41e4e68cdc
+		'use strict';
+		
+		Object.defineProperty(exports, '__esModule', {
+		  value: true
+		});
+		exports.findInArray = findInArray;
+		exports.isFunction = isFunction;
+		exports.isNum = isNum;
+		exports.int = int;
+		exports.dontSetMe = dontSetMe;
+		
+		function findInArray(array, callback) {
+		  for (var i = 0, _length = array.length; i < _length; i++) {
+		    if (callback.apply(callback, [array[i], i, array])) return array[i];
+		  }
+		}
+		
+		function isFunction(func) {
+		  return typeof func === 'function' || Object.prototype.toString.call(func) === '[object Function]';
+		}
+		
+		function isNum(num) {
+		  return typeof num === 'number' && !isNaN(num);
+		}
+		
+		function int(a) {
+		  return parseInt(a, 10);
+		}
+		
+		function dontSetMe(props, propName, componentName) {
+		  if (props[propName]) {
+		    throw new Error('Invalid prop ' + propName + ' passed to ' + componentName + ' - do not set this, set it on the child.');
+		  }
+		}
+
+	/***/ },
+	/* 8 */
+	/***/ function(module, exports) {
+
+		'use strict';
+		
+		Object.defineProperty(exports, '__esModule', {
+		  value: true
+		});
+		
+		exports['default'] = (function () {
+		  // Checking specifically for 'window.document' is for pseudo-browser server-side
+		  // environments that define 'window' as the global context.
+		  // E.g. React-rails (see https://github.com/reactjs/react-rails/pull/84)
+		  if (typeof window === 'undefined' || typeof window.document === 'undefined') return '';
+		
+		  // Thanks David Walsh
+		  var styles = window.getComputedStyle(document.documentElement, ''),
+		      pre = (Array.prototype.slice.call(styles).join('').match(/-(moz|webkit|ms)-/) || styles.OLink === '' && ['', 'o'])[1];
+		  // 'ms' is not titlecased
+		  if (pre === undefined || pre === null) return '';
+		  if (pre === 'ms') return pre;
+		  if (pre === undefined || pre === null) return '';
+		  return pre.slice(0, 1).toUpperCase() + pre.slice(1);
+		})();
+		
+		module.exports = exports['default'];
+
+	/***/ },
+	/* 9 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+		
+		Object.defineProperty(exports, '__esModule', {
+		  value: true
+		});
+		exports.getBoundPosition = getBoundPosition;
+		exports.snapToGrid = snapToGrid;
+		exports.canDragX = canDragX;
+		exports.canDragY = canDragY;
+		exports.getControlPosition = getControlPosition;
+		
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+		
+		var _shims = __webpack_require__(7);
+		
+		var _reactDom = __webpack_require__(3);
+		
+		var _reactDom2 = _interopRequireDefault(_reactDom);
+		
+		var _domFns = __webpack_require__(6);
+		
+		function getBoundPosition(draggable, clientX, clientY) {
+		  // If no bounds, short-circuit and move on
+		  if (!draggable.props.bounds) return [clientX, clientY];
+		
+		  var bounds = JSON.parse(JSON.stringify(draggable.props.bounds));
+		  var node = _reactDom2['default'].findDOMNode(draggable);
+		  var parent = node.parentNode;
+		
+		  if (bounds === 'parent') {
+		    var nodeStyle = window.getComputedStyle(node);
+		    var parentStyle = window.getComputedStyle(parent);
+		    // Compute bounds. This is a pain with padding and offsets but this gets it exactly right.
+		    bounds = {
+		      left: -node.offsetLeft + (0, _shims.int)(parentStyle.paddingLeft) + (0, _shims.int)(nodeStyle.borderLeftWidth) + (0, _shims.int)(nodeStyle.marginLeft),
+		      top: -node.offsetTop + (0, _shims.int)(parentStyle.paddingTop) + (0, _shims.int)(nodeStyle.borderTopWidth) + (0, _shims.int)(nodeStyle.marginTop),
+		      right: (0, _domFns.innerWidth)(parent) - (0, _domFns.outerWidth)(node) - node.offsetLeft,
+		      bottom: (0, _domFns.innerHeight)(parent) - (0, _domFns.outerHeight)(node) - node.offsetTop
+		    };
+		  }
+		
+		  // Keep x and y below right and bottom limits...
+		  if ((0, _shims.isNum)(bounds.right)) clientX = Math.min(clientX, bounds.right);
+		  if ((0, _shims.isNum)(bounds.bottom)) clientY = Math.min(clientY, bounds.bottom);
+		
+		  // But above left and top limits.
+		  if ((0, _shims.isNum)(bounds.left)) clientX = Math.max(clientX, bounds.left);
+		  if ((0, _shims.isNum)(bounds.top)) clientY = Math.max(clientY, bounds.top);
+		
+		  return [clientX, clientY];
+		}
+		
+		function snapToGrid(grid, pendingX, pendingY) {
+		  var x = Math.round(pendingX / grid[0]) * grid[0];
+		  var y = Math.round(pendingY / grid[1]) * grid[1];
+		  return [x, y];
+		}
+		
+		function canDragX(draggable) {
+		  return draggable.props.axis === 'both' || draggable.props.axis === 'x';
+		}
+		
+		function canDragY(draggable) {
+		  return draggable.props.axis === 'both' || draggable.props.axis === 'y';
+		}
+		
+		// Get {clientX, clientY} positions from event.
+		
+		function getControlPosition(e) {
+		  var position = e.targetTouches && e.targetTouches[0] || e;
+		  return {
+		    clientX: position.clientX,
+		    clientY: position.clientY
+		  };
+		}
+
+	/***/ },
+	/* 10 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+		
+		Object.defineProperty(exports, '__esModule', {
+		  value: true
+		});
+		
+		var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+		
+		var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+		
+		var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+		
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+		
+		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+		
+		function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+		
+		var _react = __webpack_require__(2);
+		
+		var _react2 = _interopRequireDefault(_react);
+		
+		var _utilsDomFns = __webpack_require__(6);
+		
+		var _utilsPositionFns = __webpack_require__(9);
+		
+		var _utilsShims = __webpack_require__(7);
+		
+		var _utilsLog = __webpack_require__(11);
+		
+		var _utilsLog2 = _interopRequireDefault(_utilsLog);
+		
+		// Simple abstraction for dragging events names.
+		var eventsFor = {
+		  touch: {
+		    start: 'touchstart',
+		    move: 'touchmove',
+		    stop: 'touchend'
+		  },
+		  mouse: {
+		    start: 'mousedown',
+		    move: 'mousemove',
+		    stop: 'mouseup'
+		  }
+		};
+		
+		// Default to mouse events.
+		var dragEventFor = eventsFor.mouse;
+		
+		//
+		// Define <DraggableCore>.
+		//
+		// <DraggableCore> is for advanced usage of <Draggable>. It maintains minimal internal state so it can
+		// work well with libraries that require more control over the element.
+		//
+		
+		var DraggableCore = (function (_React$Component) {
+		  _inherits(DraggableCore, _React$Component);
+		
+		  function DraggableCore() {
+		    var _this = this;
+		
+		    _classCallCheck(this, DraggableCore);
+		
+		    _get(Object.getPrototypeOf(DraggableCore.prototype), 'constructor', this).apply(this, arguments);
+		
+		    this.state = {
+		      dragging: false,
+		      // Used while dragging to determine deltas.
+		      lastX: null, lastY: null
+		    };
+		
+		    this.handleDragStart = function (e) {
+		      // Make it possible to attach event handlers on top of this one.
+		      _this.props.onMouseDown(e);
+		
+		      // Only accept left-clicks.
+		      if (!_this.props.allowAnyClick && typeof e.button === 'number' && e.button !== 0) return false;
+		
+		      // Short circuit if handle or cancel prop was provided and selector doesn't match.
+		      if (_this.props.disabled || _this.props.handle && !(0, _utilsDomFns.matchesSelector)(e.target, _this.props.handle) || _this.props.cancel && (0, _utilsDomFns.matchesSelector)(e.target, _this.props.cancel)) {
+		        return;
+		      }
+		
+		      // Set touch identifier in component state if this is a touch event. This allows us to
+		      // distinguish between individual touches on multitouch screens by identifying which
+		      // touchpoint was set to this element.
+		      if (e.targetTouches) {
+		        _this.setState({ touchIdentifier: e.targetTouches[0].identifier });
+		      }
+		
+		      // Add a style to the body to disable user-select. This prevents text from
+		      // being selected all over the page.
+		      if (_this.props.enableUserSelectHack) (0, _utilsDomFns.addUserSelectStyles)();
+		
+		      // Get the current drag point from the event. This is used as the offset.
+		
+		      var _getControlPosition = (0, _utilsPositionFns.getControlPosition)(e);
+		
+		      var clientX = _getControlPosition.clientX;
+		      var clientY = _getControlPosition.clientY;
+		
+		      // Create an event object with all the data parents need to make a decision here.
+		      var coreEvent = (0, _utilsDomFns.createCoreEvent)(_this, clientX, clientY);
+		
+		      (0, _utilsLog2['default'])('DraggableCore: handleDragStart: %j', coreEvent.position);
+		
+		      // Call event handler. If it returns explicit false, cancel.
+		      (0, _utilsLog2['default'])('calling', _this.props.onStart);
+		      var shouldUpdate = _this.props.onStart(e, coreEvent);
+		      if (shouldUpdate === false) return;
+		
+		      // Initiate dragging. Set the current x and y as offsets
+		      // so we know how much we've moved during the drag. This allows us
+		      // to drag elements around even if they have been moved, without issue.
+		      _this.setState({
+		        dragging: true,
+		
+		        lastX: clientX,
+		        lastY: clientY,
+		        // Stored so we can adjust our offset if scrolled.
+		        scrollX: document.body.scrollLeft,
+		        scrollY: document.body.scrollTop
+		      });
+		
+		      // Translate el on page scroll.
+		      (0, _utilsDomFns.addEvent)(document, 'scroll', _this.handleScroll);
+		      // Add events to the document directly so we catch when the user's mouse/touch moves outside of
+		      // this element. We use different events depending on whether or not we have detected that this
+		      // is a touch-capable device.
+		      (0, _utilsDomFns.addEvent)(document, dragEventFor.move, _this.handleDrag);
+		      (0, _utilsDomFns.addEvent)(document, dragEventFor.stop, _this.handleDragStop);
+		    };
+		
+		    this.handleDrag = function (e) {
+		      // Return if this is a touch event, but not the correct one for this element
+		      if (e.targetTouches && e.targetTouches[0].identifier !== _this.state.touchIdentifier) return;
+		
+		      var _getControlPosition2 = (0, _utilsPositionFns.getControlPosition)(e);
+		
+		      var clientX = _getControlPosition2.clientX;
+		      var clientY = _getControlPosition2.clientY;
+		
+		      // Snap to grid if prop has been provided
+		      if (Array.isArray(_this.props.grid)) {
+		        var deltaX = clientX - _this.state.lastX,
+		            deltaY = clientY - _this.state.lastY;
+		
+		        var _snapToGrid = (0, _utilsPositionFns.snapToGrid)(_this.props.grid, deltaX, deltaY);
+		
+		        var _snapToGrid2 = _slicedToArray(_snapToGrid, 2);
+		
+		        deltaX = _snapToGrid2[0];
+		        deltaY = _snapToGrid2[1];
+		
+		        if (!deltaX && !deltaY) return; // skip useless drag
+		        clientX = _this.state.lastX + deltaX, clientY = _this.state.lastY + deltaY;
+		      }
+		
+		      var coreEvent = (0, _utilsDomFns.createCoreEvent)(_this, clientX, clientY);
+		
+		      (0, _utilsLog2['default'])('DraggableCore: handleDrag: %j', coreEvent.position);
+		
+		      // Call event handler. If it returns explicit false, trigger end.
+		      var shouldUpdate = _this.props.onDrag(e, coreEvent);
+		      if (shouldUpdate === false) {
+		        _this.handleDragStop({});
+		        return;
+		      }
+		
+		      _this.setState({
+		        lastX: clientX,
+		        lastY: clientY
+		      });
+		    };
+		
+		    this.handleDragStop = function (e) {
+		      if (!_this.state.dragging) return;
+		
+		      // Short circuit if this is not the correct touch event. `changedTouches` contains all
+		      // touch points that have been removed from the surface.
+		      if (e.changedTouches && e.changedTouches[0].identifier !== _this.state.touchIdentifier) return;
+		
+		      // Remove user-select hack
+		      if (_this.props.enableUserSelectHack) (0, _utilsDomFns.removeUserSelectStyles)();
+		
+		      var _getControlPosition3 = (0, _utilsPositionFns.getControlPosition)(e);
+		
+		      var clientX = _getControlPosition3.clientX;
+		      var clientY = _getControlPosition3.clientY;
+		
+		      var coreEvent = (0, _utilsDomFns.createCoreEvent)(_this, clientX, clientY);
+		
+		      (0, _utilsLog2['default'])('DraggableCore: handleDragStop: %j', coreEvent.position);
+		
+		      // Reset the el.
+		      _this.setState({
+		        dragging: false,
+		        lastX: null,
+		        lastY: null
+		      });
+		
+		      // Call event handler
+		      _this.props.onStop(e, coreEvent);
+		
+		      // Remove event handlers
+		      (0, _utilsLog2['default'])('DraggableCore: Removing handlers');
+		      (0, _utilsDomFns.removeEvent)(document, 'scroll', _this.handleScroll);
+		      (0, _utilsDomFns.removeEvent)(document, dragEventFor.move, _this.handleDrag);
+		      (0, _utilsDomFns.removeEvent)(document, dragEventFor.stop, _this.handleDragStop);
+		    };
+		
+		    this.handleScroll = function (e) {
+		      var s = _this.state,
+		          x = document.body.scrollLeft,
+		          y = document.body.scrollTop;
+		
+		      // Create the usual event, but make the scroll offset our deltas.
+		      var coreEvent = (0, _utilsDomFns.createCoreEvent)(_this);
+		      coreEvent.position.deltaX = x - s.scrollX;
+		      coreEvent.position.deltaY = y - s.scrollY;
+		
+		      _this.setState({
+		        lastX: s.lastX + coreEvent.position.deltaX,
+		        lastY: s.lastY + coreEvent.position.deltaY
+		      });
+		
+		      _this.props.onDrag(e, coreEvent);
+		    };
+		
+		    this.onMouseDown = function (e) {
+		      // HACK: Prevent 'ghost click' which happens 300ms after touchstart if the event isn't cancelled.
+		      // We don't cancel the event on touchstart because of #37; we might want to make a scrollable item draggable.
+		      // More on ghost clicks: http://ariatemplates.com/blog/2014/05/ghost-clicks-in-mobile-browsers/
+		      if (dragEventFor === eventsFor.touch) {
+		        return e.preventDefault();
+		      }
+		
+		      return _this.handleDragStart(e);
+		    };
+		
+		    this.onTouchStart = function (e) {
+		      // We're on a touch device now, so change the event handlers
+		      dragEventFor = eventsFor.touch;
+		
+		      return _this.handleDragStart(e);
+		    };
+		  }
+		
+		  _createClass(DraggableCore, [{
+		    key: 'componentWillUnmount',
+		    value: function componentWillUnmount() {
+		      // Remove any leftover event handlers. Remove both touch and mouse handlers in case
+		      // some browser quirk caused a touch event to fire during a mouse move, or vice versa.
+		      (0, _utilsDomFns.removeEvent)(document, eventsFor.mouse.move, this.handleDrag);
+		      (0, _utilsDomFns.removeEvent)(document, eventsFor.touch.move, this.handleDrag);
+		      (0, _utilsDomFns.removeEvent)(document, eventsFor.mouse.stop, this.handleDragStop);
+		      (0, _utilsDomFns.removeEvent)(document, eventsFor.touch.stop, this.handleDragStop);
+		      (0, _utilsDomFns.removeEvent)(document, 'scroll', this.handleScroll);
+		      if (this.props.enableUserSelectHack) (0, _utilsDomFns.removeUserSelectStyles)();
+		    }
+		  }, {
+		    key: 'render',
+		    value: function render() {
+		      // Reuse the child provided
+		      // This makes it flexible to use whatever element is wanted (div, ul, etc)
+		      return _react2['default'].cloneElement(_react2['default'].Children.only(this.props.children), {
+		        style: (0, _utilsDomFns.styleHacks)(this.props.children.props.style),
+		
+		        // Note: mouseMove handler is attached to document so it will still function
+		        // when the user drags quickly and leaves the bounds of the element.
+		        onMouseDown: this.onMouseDown,
+		        onTouchStart: this.onTouchStart,
+		        onMouseUp: this.handleDragStop,
+		        onTouchEnd: this.handleDragStop
+		      });
+		    }
+		  }], [{
+		    key: 'displayName',
+		    value: 'DraggableCore',
+		    enumerable: true
+		  }, {
+		    key: 'propTypes',
+		    value: {
+		      /**
+		       * `allowAnyClick` allows dragging using any mouse button.
+		       * By default, we only accept the left button.
+		       *
+		       * Defaults to `false`.
+		       */
+		      allowAnyClick: _react.PropTypes.bool,
+		
+		      /**
+		       * `disabled`, if true, stops the <Draggable> from dragging. All handlers,
+		       * with the exception of `onMouseDown`, will not fire.
+		       *
+		       * Example:
+		       *
+		       * ```jsx
+		       *   let App = React.createClass({
+		       *       render: function () {
+		       *           return (
+		       *               <Draggable disabled={true}>
+		       *                   <div>I can't be dragged</div>
+		       *               </Draggable>
+		       *           );
+		       *       }
+		       *   });
+		       * ```
+		       */
+		      disabled: _react.PropTypes.bool,
+		
+		      /**
+		       * By default, we add 'user-select:none' attributes to the document body
+		       * to prevent ugly text selection during drag. If this is causing problems
+		       * for your app, set this to `false`.
+		       */
+		      enableUserSelectHack: _react.PropTypes.bool,
+		
+		      /**
+		       * `grid` specifies the x and y that dragging should snap to.
+		       *
+		       * Example:
+		       *
+		       * ```jsx
+		       *   let App = React.createClass({
+		       *       render: function () {
+		       *           return (
+		       *               <Draggable grid={[25, 25]}>
+		       *                   <div>I snap to a 25 x 25 grid</div>
+		       *               </Draggable>
+		       *           );
+		       *       }
+		       *   });
+		       * ```
+		       */
+		      grid: _react.PropTypes.arrayOf(_react.PropTypes.number),
+		
+		      /**
+		       * `handle` specifies a selector to be used as the handle that initiates drag.
+		       *
+		       * Example:
+		       *
+		       * ```jsx
+		       *   let App = React.createClass({
+		       *       render: function () {
+		       *         return (
+		       *            <Draggable handle=".handle">
+		       *              <div>
+		       *                  <div className="handle">Click me to drag</div>
+		       *                  <div>This is some other content</div>
+		       *              </div>
+		       *           </Draggable>
+		       *         );
+		       *       }
+		       *   });
+		       * ```
+		       */
+		      handle: _react.PropTypes.string,
+		
+		      /**
+		       * `cancel` specifies a selector to be used to prevent drag initialization.
+		       *
+		       * Example:
+		       *
+		       * ```jsx
+		       *   let App = React.createClass({
+		       *       render: function () {
+		       *           return(
+		       *               <Draggable cancel=".cancel">
+		       *                   <div>
+		       *                     <div className="cancel">You can't drag from here</div>
+		       *            <div>Dragging here works fine</div>
+		       *                   </div>
+		       *               </Draggable>
+		       *           );
+		       *       }
+		       *   });
+		       * ```
+		       */
+		      cancel: _react.PropTypes.string,
+		
+		      /**
+		       * Called when dragging starts.
+		       * If this function returns the boolean false, dragging will be canceled.
+		       *
+		       * Example:
+		       *
+		       * ```js
+		       *  function (event, ui) {}
+		       * ```
+		       *
+		       * `event` is the Event that was triggered.
+		       * `ui` is an object:
+		       *
+		       * ```js
+		       *  {
+		       *    position: {top: 0, left: 0}
+		       *  }
+		       * ```
+		       */
+		      onStart: _react.PropTypes.func,
+		
+		      /**
+		       * Called while dragging.
+		       * If this function returns the boolean false, dragging will be canceled.
+		       *
+		       * Example:
+		       *
+		       * ```js
+		       *  function (event, ui) {}
+		       * ```
+		       *
+		       * `event` is the Event that was triggered.
+		       * `ui` is an object:
+		       *
+		       * ```js
+		       *  {
+		       *    position: {top: 0, left: 0}
+		       *  }
+		       * ```
+		       */
+		      onDrag: _react.PropTypes.func,
+		
+		      /**
+		       * Called when dragging stops.
+		       *
+		       * Example:
+		       *
+		       * ```js
+		       *  function (event, ui) {}
+		       * ```
+		       *
+		       * `event` is the Event that was triggered.
+		       * `ui` is an object:
+		       *
+		       * ```js
+		       *  {
+		       *    position: {top: 0, left: 0}
+		       *  }
+		       * ```
+		       */
+		      onStop: _react.PropTypes.func,
+		
+		      /**
+		       * A workaround option which can be passed if onMouseDown needs to be accessed,
+		       * since it'll always be blocked (due to that there's internal use of onMouseDown)
+		       */
+		      onMouseDown: _react.PropTypes.func,
+		
+		      /**
+		       * These properties should be defined on the child, not here.
+		       */
+		      className: _utilsShims.dontSetMe,
+		      style: _utilsShims.dontSetMe,
+		      transform: _utilsShims.dontSetMe
+		    },
+		    enumerable: true
+		  }, {
+		    key: 'defaultProps',
+		    value: {
+		      allowAnyClick: false, // by default only accept left click
+		      cancel: null,
+		      disabled: false,
+		      enableUserSelectHack: true,
+		      handle: null,
+		      grid: null,
+		      transform: null,
+		      onStart: function onStart() {},
+		      onDrag: function onDrag() {},
+		      onStop: function onStop() {},
+		      onMouseDown: function onMouseDown() {}
+		    },
+		    enumerable: true
+		  }]);
+		
+		  return DraggableCore;
+		})(_react2['default'].Component);
+		
+		exports['default'] = DraggableCore;
+		module.exports = exports['default'];
+
+		// When the user scrolls, adjust internal state so the draggable moves along the page properly.
+		// This only fires when a drag is active.
+
+		// On mousedown, consider the drag started.
+
+		// Same as onMouseDown (start drag), but now consider this a touch device.
+
+	/***/ },
+	/* 11 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		"use strict";
+		
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports["default"] = log;
+		
+		function log() {
+		  if ((undefined)) console.log.apply(console, arguments);
+		}
+		
+		module.exports = exports["default"];
+
+	/***/ }
+	/******/ ])
+	});
+	;
+	//# sourceMappingURL=react-draggable.js.map
+
+/***/ },
+/* 207 */
+/***/ function(module, exports) {
+
+	module.exports = function(flavour_x, colour_y, map_width, map_height) {
+	  const FLAVOUR_SCALE = 12;
+	  const COLOUR_SCALE  = 12;
+	  var mapX = (flavour_x/FLAVOUR_SCALE)*map_width;
+	  // we have to invert the value of Y here because the colour is stored in
+	  // the db as light=12, dark=0, but it's the opposite on our map.
+	  var mapY = ((COLOUR_SCALE - colour_y)/12)*map_height;
+	  return {
+	    x: mapX,
+	    y: mapY
+	  };
+	};
+
+
+/***/ },
+/* 208 */
+/***/ function(module, exports) {
+
+	// TODO: refactor this and calculate_flavour_map_coords into one class
+	// this would be ideal because they're very similar, and they share constants
+	module.exports = function(flavour_x, colour_y, map_width, map_height) {
+	  const FLAVOUR_SCALE = 12;
+	  const COLOUR_SCALE  = 12;
+	  var dbX = (flavour_x/map_width)*FLAVOUR_SCALE;
+	  // we have to invert the value of Y here because the colour is stored in
+	  // the db as light=12, dark=0, but it's the opposite on our map.
+	  var dbY = COLOUR_SCALE - ((colour_y/map_height)*12)
+	  return {
+	    x: Math.round(dbX),
+	    y: Math.round(dbY)
+	  };
+
+	};
+
+
+/***/ },
+/* 209 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var BeerList = __webpack_require__(210);
+	var FlavourMapEmbedded = __webpack_require__(205);
+
+	module.exports = React.createClass({
+	  displayName: "exports",
+	  getInitialState: function getInitialState() {
+	    return { beers: [], breweries: [], resultsLoading: false };
+	  },
+	  ajaxPostFlavourMapSearch: function ajaxPostFlavourMapSearch(searchCoords) {
+	    var _this = this;
+
+	    // TODO: refactor this url
+	    $.ajax({
+	      method: "POST",
+	      url: "/api/v1/flavour_map/search",
+	      data: { coords: searchCoords },
+	      success: function success(response) {
+	        var newBeers = response.data;
+	        var breweries = response.included;
+
+	        // TODO: remove this for production. maybe we can orchestrate webpack to handle this for us.
+	        if (newBeers.length > 0) {
+	          console.log("Beers found: " + newBeers.length + " | first id: " + newBeers[0].id + " | last id: " + newBeers[newBeers.length - 1].id);
+	        } else {
+	          console.log("Beers found: 0");
+	        }
+
+	        _this.setState({ beers: newBeers, breweries: breweries, resultsLoading: false });
+	      },
+
+	      error: function error(obj, msg, err) {
+	        console.log("error in request: " + msg + " / " + err);
+	      }
+	    });
+	  },
+	  handleDragStop: function handleDragStop(newCoords) {
+	    this.setState({ resultsLoading: true });
+	    this.ajaxPostFlavourMapSearch(newCoords);
+	  },
+	  handleNavigation: function handleNavigation(params) {
+	    var url = params["url"];
+	    if (url) {
+	      this.props.history.push(url);
+	    }
+	  },
+
+	  render: function render() {
+	    var loading = this.state.resultsLoading;
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(FlavourMapEmbedded, {
+	        heroTarget: { x: 6, y: 6 },
+	        isDraggable: true,
+	        maxWidth: 375,
+	        onDragStop: this.handleDragStop }),
+	      React.createElement(BeerList, { loading: loading, beers: this.state.beers, breweries: this.state.breweries, onNavigation: this.handleNavigation })
+	    );
+	  }
+	});
+
+/***/ },
+/* 210 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var BeerCardVitals = __webpack_require__(211);
+	var BeerListIntro = __webpack_require__(212);
+	var LoadingBeers = __webpack_require__(213);
+	var NoBeers = __webpack_require__(214);
+	var ReactCSSTransitionGroup = __webpack_require__(215);
+
+	module.exports = React.createClass({
+	  displayName: "exports",
+	  getInitialState: function getInitialState() {
+	    return { display: "intro", beers: [], breweries: [] };
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    if (nextProps.loading) {
-	      this.setState( { display: "loading" });
+	      this.setState({ display: "loading" });
 	      return;
 	    }
 
 	    if (nextProps.beers.length > 0) {
-	      this.setState( { display: "beerList" });
+	      this.setState({ display: "beerList" });
 	    } else {
-	      this.setState( { display: "noBeers" });
+	      this.setState({ display: "noBeers" });
 	    }
 	  },
+	  render: function render() {
+	    var _this = this;
 
-	  render() {
-	    var beerNodes = this.props.beers.map((beer, idx)=> {
-	      var brewery = this.props.breweries.find(function(el){ return el.id === beer.relationships.brewery.data.id });
-	      return (
-	        React.createElement(BeerCardVitals, {
-	          key: beer.id, 
-	          beer: beer, 
-	          brewery: brewery, 
-	          onNavigation: this.props.onNavigation})
-	      );
+	    var beerNodes = this.props.beers.map(function (beer, idx) {
+	      var brewery = _this.props.breweries.find(function (el) {
+	        return el.id === beer.relationships.brewery.data.id;
+	      });
+	      return React.createElement(BeerCardVitals, {
+	        key: beer.id,
+	        beer: beer,
+	        brewery: brewery,
+	        onNavigation: _this.props.onNavigation });
 	    });
 
-	    var beerList = (
-	      React.createElement("div", null, 
-	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "found ", this.props.beers.length, " beers:")), 
-	        beerNodes
-	      )
+	    var beerList = React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "p",
+	        { className: "text-center lighter" },
+	        React.createElement(
+	          "em",
+	          null,
+	          "found ",
+	          this.props.beers.length,
+	          " beers:"
+	        )
+	      ),
+	      beerNodes
 	    );
 
 	    var nestedContent;
 	    switch (this.state.display) {
 	      case "intro":
-	        nestedContent = (
-	          React.createElement(BeerListIntro, {key: "intro"})
-	        );
+	        nestedContent = React.createElement(BeerListIntro, { key: "intro" });
 	        break;
 	      case "beerList":
 	        nestedContent = beerList;
 	        break;
 	      case "noBeers":
-	        nestedContent = (React.createElement(NoBeers, {key: "nobeers"}));
+	        nestedContent = React.createElement(NoBeers, { key: "nobeers" });
 	        break;
 	      case "loading":
-	        nestedContent = (React.createElement(LoadingBeers, {key: "loadingBeers"}));
+	        nestedContent = React.createElement(LoadingBeers, { key: "loadingBeers" });
 	        break;
 	    }
 
-	    return (
-	      React.createElement("div", {id: "beer-list"}, 
-	        React.createElement("hr", null), 
-	        React.createElement(ReactCSSTransitionGroup, {transitionName: "fade", transitionEnterTimeout: 250, transitionLeaveTimeout: 250}, 
-	          nestedContent
-	        )
+	    return React.createElement(
+	      "div",
+	      { id: "beer-list" },
+	      React.createElement("hr", null),
+	      React.createElement(
+	        ReactCSSTransitionGroup,
+	        { transitionName: "fade", transitionEnterTimeout: 250, transitionLeaveTimeout: 250 },
+	        nestedContent
 	      )
 	    );
 	  }
 	});
 
-
 /***/ },
-/* 213 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict'
+	'use strict';
+
 	var Link = __webpack_require__(148).Link;
 
-	module.exports = React.createClass({displayName: "module.exports",
-	  handleClick() {
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	  handleClick: function handleClick() {
 	    console.log("clicked, navigating..");
 	    // TODO: think about url abstraction. maybe everything could be in a global object
 	    // TODO: friendly URLs
-	    var beerLink = `/beers/${this.props.beer.id}`
-	    this.props.onNavigation({ url: beerLink});
+	    var beerLink = '/beers/' + this.props.beer.id;
+	    this.props.onNavigation({ url: beerLink });
 	  },
-
-	  render() {
-	    var beerLink = (
-	      React.createElement(Link, {
-	        to: `/beers/${this.props.beer.id}`}, 
-	        this.props.beer.attributes.name
-	      )
+	  render: function render() {
+	    var beerLink = React.createElement(
+	      Link,
+	      {
+	        to: '/beers/' + this.props.beer.id },
+	      this.props.beer.attributes.name
 	    );
 
-	    var breweryLink = (
-	      React.createElement(Link, {
-	        to: `/breweries/${this.props.brewery.id}`}, 
-	        this.props.brewery.attributes.name
-	      )
+	    var breweryLink = React.createElement(
+	      Link,
+	      {
+	        to: '/breweries/' + this.props.brewery.id },
+	      this.props.brewery.attributes.name
 	    );
 
-	    return (
-	      React.createElement("div", {className: "beer-card clearfix", onClick: this.handleClick}, 
-
-	        React.createElement("div", {className: "col-image"}, 
-	          React.createElement("div", {className: "img-thumbnail beer-thumb"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "88", height: "105"})
-	          )
-	        ), 
-
-	        React.createElement("div", {className: "col-details"}, 
-	          React.createElement("h3", {className: "flush-with-top"}, beerLink), 
-	          React.createElement("h5", {className: "lighter"}, this.props.brewery.attributes.name), 
-	          React.createElement("div", {className: "review-stars"}, 
-	            React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	            React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	            React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	            React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	            React.createElement("span", {className: "glyphicon glyphicon-star"})
-	          )
+	    return React.createElement(
+	      'div',
+	      { className: 'beer-card clearfix', onClick: this.handleClick },
+	      React.createElement(
+	        'div',
+	        { className: 'col-image' },
+	        React.createElement(
+	          'div',
+	          { className: 'img-thumbnail beer-thumb' },
+	          React.createElement('img', { src: '/images/hop_circle.png', width: '88', height: '105' })
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'col-details' },
+	        React.createElement(
+	          'h3',
+	          { className: 'flush-with-top' },
+	          beerLink
+	        ),
+	        React.createElement(
+	          'h5',
+	          { className: 'lighter' },
+	          this.props.brewery.attributes.name
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'review-stars' },
+	          React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+	          React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+	          React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+	          React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+	          React.createElement('span', { className: 'glyphicon glyphicon-star' })
 	        )
 	      )
 	    );
 	  }
 	});
 
+/***/ },
+/* 212 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = React.createClass({
+	  displayName: "exports",
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "h2",
+	        { className: "text-center" },
+	        "FLAVOUR MAP"
+	      ),
+	      React.createElement(
+	        "p",
+	        { className: "text-center lighter" },
+	        React.createElement(
+	          "em",
+	          null,
+	          "Go ahead — drag the target around the map to discover new dimensions of flavour."
+	        )
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 213 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = React.createClass({
+	  displayName: "exports",
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "p",
+	        { className: "text-center lighter" },
+	        React.createElement(
+	          "em",
+	          null,
+	          "Finding beers..."
+	        )
+	      )
+	    );
+	  }
+	});
 
 /***/ },
 /* 214 */
 /***/ function(module, exports) {
 
-	'use strict'
+	'use strict';
 
-	module.exports = React.createClass({displayName: "module.exports",
-	  render() {
-	    return (
-	      React.createElement("div", null, 
-	        React.createElement("h2", {className: "text-center"}, "FLAVOUR MAP"), 
-	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Go ahead — drag the target around the map to discover new dimensions of flavour."))
+	module.exports = React.createClass({
+	  displayName: "exports",
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "h2",
+	        { className: "text-center" },
+	        "NO BEERS FOUND."
+	      ),
+	      React.createElement(
+	        "p",
+	        { className: "text-center lighter" },
+	        React.createElement(
+	          "em",
+	          null,
+	          "Perhaps you've hit upon the next big flavour."
+	        )
 	      )
 	    );
 	  }
 	});
-
 
 /***/ },
 /* 215 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	'use strict'
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  render() {
-	    return (
-	      React.createElement("div", null, 
-	        React.createElement("h2", {className: "text-center"}, "NO BEERS FOUND."), 
-	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Perhaps you've hit upon the next big flavour."))
-	      )
-	    );
-	  }
-	});
-
+	module.exports = __webpack_require__(216);
 
 /***/ },
 /* 216 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(217);
-
-/***/ },
-/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -34871,12 +34782,12 @@
 
 	'use strict';
 
-	var React = __webpack_require__(218);
+	var React = __webpack_require__(217);
 
 	var assign = __webpack_require__(39);
 
-	var ReactTransitionGroup = __webpack_require__(229);
-	var ReactCSSTransitionGroupChild = __webpack_require__(231);
+	var ReactTransitionGroup = __webpack_require__(228);
+	var ReactCSSTransitionGroupChild = __webpack_require__(230);
 
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -34942,7 +34853,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ },
-/* 218 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -34959,11 +34870,11 @@
 	'use strict';
 
 	var ReactDOM = __webpack_require__(3);
-	var ReactDOMServer = __webpack_require__(219);
-	var ReactIsomorphic = __webpack_require__(223);
+	var ReactDOMServer = __webpack_require__(218);
+	var ReactIsomorphic = __webpack_require__(222);
 
 	var assign = __webpack_require__(39);
-	var deprecated = __webpack_require__(228);
+	var deprecated = __webpack_require__(227);
 
 	// `version` will be added here by ReactIsomorphic.
 	var React = {};
@@ -34987,7 +34898,7 @@
 	module.exports = React;
 
 /***/ },
-/* 219 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -35004,7 +34915,7 @@
 	'use strict';
 
 	var ReactDefaultInjection = __webpack_require__(71);
-	var ReactServerRendering = __webpack_require__(220);
+	var ReactServerRendering = __webpack_require__(219);
 	var ReactVersion = __webpack_require__(146);
 
 	ReactDefaultInjection.inject();
@@ -35018,7 +34929,7 @@
 	module.exports = ReactDOMServer;
 
 /***/ },
-/* 220 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35038,8 +34949,8 @@
 	var ReactElement = __webpack_require__(42);
 	var ReactInstanceHandles = __webpack_require__(45);
 	var ReactMarkupChecksum = __webpack_require__(48);
-	var ReactServerBatchingStrategy = __webpack_require__(221);
-	var ReactServerRenderingTransaction = __webpack_require__(222);
+	var ReactServerBatchingStrategy = __webpack_require__(220);
+	var ReactServerRenderingTransaction = __webpack_require__(221);
 	var ReactUpdates = __webpack_require__(54);
 
 	var emptyObject = __webpack_require__(58);
@@ -35107,7 +35018,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 221 */
+/* 220 */
 /***/ function(module, exports) {
 
 	/**
@@ -35135,7 +35046,7 @@
 	module.exports = ReactServerBatchingStrategy;
 
 /***/ },
-/* 222 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -35227,7 +35138,7 @@
 	module.exports = ReactServerRenderingTransaction;
 
 /***/ },
-/* 223 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35246,14 +35157,14 @@
 	var ReactChildren = __webpack_require__(110);
 	var ReactComponent = __webpack_require__(123);
 	var ReactClass = __webpack_require__(122);
-	var ReactDOMFactories = __webpack_require__(224);
+	var ReactDOMFactories = __webpack_require__(223);
 	var ReactElement = __webpack_require__(42);
-	var ReactElementValidator = __webpack_require__(225);
+	var ReactElementValidator = __webpack_require__(224);
 	var ReactPropTypes = __webpack_require__(107);
 	var ReactVersion = __webpack_require__(146);
 
 	var assign = __webpack_require__(39);
-	var onlyChild = __webpack_require__(227);
+	var onlyChild = __webpack_require__(226);
 
 	var createElement = ReactElement.createElement;
 	var createFactory = ReactElement.createFactory;
@@ -35307,7 +35218,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 224 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35325,9 +35236,9 @@
 	'use strict';
 
 	var ReactElement = __webpack_require__(42);
-	var ReactElementValidator = __webpack_require__(225);
+	var ReactElementValidator = __webpack_require__(224);
 
-	var mapObject = __webpack_require__(226);
+	var mapObject = __webpack_require__(225);
 
 	/**
 	 * Create a factory that creates HTML tag elements.
@@ -35490,7 +35401,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 225 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35777,7 +35688,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 226 */
+/* 225 */
 /***/ function(module, exports) {
 
 	/**
@@ -35833,7 +35744,7 @@
 	module.exports = mapObject;
 
 /***/ },
-/* 227 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35872,7 +35783,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 228 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35926,7 +35837,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 229 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -35942,8 +35853,8 @@
 
 	'use strict';
 
-	var React = __webpack_require__(218);
-	var ReactTransitionChildMapping = __webpack_require__(230);
+	var React = __webpack_require__(217);
+	var ReactTransitionChildMapping = __webpack_require__(229);
 
 	var assign = __webpack_require__(39);
 	var emptyFunction = __webpack_require__(15);
@@ -36136,7 +36047,7 @@
 	module.exports = ReactTransitionGroup;
 
 /***/ },
-/* 230 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36239,7 +36150,7 @@
 	module.exports = ReactTransitionChildMapping;
 
 /***/ },
-/* 231 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36256,13 +36167,13 @@
 
 	'use strict';
 
-	var React = __webpack_require__(218);
+	var React = __webpack_require__(217);
 	var ReactDOM = __webpack_require__(3);
 
-	var CSSCore = __webpack_require__(232);
-	var ReactTransitionEvents = __webpack_require__(233);
+	var CSSCore = __webpack_require__(231);
+	var ReactTransitionEvents = __webpack_require__(232);
 
-	var onlyChild = __webpack_require__(227);
+	var onlyChild = __webpack_require__(226);
 
 	// We don't remove the element from the DOM until we receive an animationend or
 	// transitionend event. If the user screws up and forgets to add an animation
@@ -36409,7 +36320,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ },
-/* 232 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -36512,7 +36423,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 233 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36626,146 +36537,265 @@
 	module.exports = ReactTransitionEvents;
 
 /***/ },
-/* 234 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict'
+	'use strict';
+
 	var Link = __webpack_require__(148).Link;
-	var FlavourMapEmbedded = __webpack_require__(206);
+	var FlavourMapEmbedded = __webpack_require__(205);
 
 	// application layout
-	module.exports = React.createClass({displayName: "module.exports",
-	  render: function() {
+	module.exports = React.createClass({
+	  displayName: 'exports',
+
+	  render: function render() {
 	    // TODO: look into React-Bootstrap
-	    return (
-	      React.createElement("div", null, 
-	        "// HEADINGS", 
-	        React.createElement("h1", {className: "branded"}, "HOPPIST"), 
-	        React.createElement("h2", {className: "branded"}, "HOPPIST"), 
-	        React.createElement("h3", null, "Discover amazing craft beers in your area."), 
-
-
-	        "// FLASH", 
-	        React.createElement("div", {className: "alert alert-success"}, "Welcome back, Alex."), 
-	        React.createElement("div", {className: "alert alert-danger"}, "Invalid credentials."), 
-
-
-	        "// BODY", 
-	        React.createElement("p", null, "Hoppist connects you with local breweries in your area. Discover new flavours, rate your favourite beer, and see what’s currently on tap for samples and fills. Hoppist is the perfect drinking buddy."), 
-	        React.createElement("button", {href: "#", className: "btn btn-default"}, "SIGN UP"), 
-	        React.createElement("hr", null), 
-
-
-	        "// FORMS", 
-	        React.createElement("h3", null, "Sign up for a free account."), 
-	        React.createElement("form", null, 
-	          React.createElement("div", {className: "form-group"}, 
-	            React.createElement("label", {htmlFor: "name"}, "Name:"), 
-	            React.createElement("input", {type: "text", name: "name", className: "form-control"})
-	          ), 
-	          React.createElement("div", {className: "form-group"}, 
-	            React.createElement("label", {htmlFor: "email"}, "E-mail Address:"), 
-	            React.createElement("input", {type: "text", name: "email", className: "form-control"})
-	          ), 
-	          React.createElement("div", {className: "form-group has-error"}, 
-	            React.createElement("label", {htmlFor: "password"}, "Password:"), 
-	            React.createElement("input", {type: "password", name: "password", className: "form-control"}), 
-	            React.createElement("span", {className: "help-block"}, "Your password must be more than 8 characters.")
-	          ), 
-	          React.createElement("div", {className: "form-group"}, 
-	            React.createElement("input", {className: "btn btn-default", type: "submit", value: "SIGN UP"})
+	    return React.createElement(
+	      'div',
+	      null,
+	      '// HEADINGS',
+	      React.createElement(
+	        'h1',
+	        { className: 'branded' },
+	        'HOPPIST'
+	      ),
+	      React.createElement(
+	        'h2',
+	        { className: 'branded' },
+	        'HOPPIST'
+	      ),
+	      React.createElement(
+	        'h3',
+	        null,
+	        'Discover amazing craft beers in your area.'
+	      ),
+	      '// FLASH',
+	      React.createElement(
+	        'div',
+	        { className: 'alert alert-success' },
+	        'Welcome back, Alex.'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'alert alert-danger' },
+	        'Invalid credentials.'
+	      ),
+	      '// BODY',
+	      React.createElement(
+	        'p',
+	        null,
+	        'Hoppist connects you with local breweries in your area. Discover new flavours, rate your favourite beer, and see what’s currently on tap for samples and fills. Hoppist is the perfect drinking buddy.'
+	      ),
+	      React.createElement(
+	        'button',
+	        { href: '#', className: 'btn btn-default' },
+	        'SIGN UP'
+	      ),
+	      React.createElement('hr', null),
+	      '// FORMS',
+	      React.createElement(
+	        'h3',
+	        null,
+	        'Sign up for a free account.'
+	      ),
+	      React.createElement(
+	        'form',
+	        null,
+	        React.createElement(
+	          'div',
+	          { className: 'form-group' },
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'name' },
+	            'Name:'
+	          ),
+	          React.createElement('input', { type: 'text', name: 'name', className: 'form-control' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'form-group' },
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'email' },
+	            'E-mail Address:'
+	          ),
+	          React.createElement('input', { type: 'text', name: 'email', className: 'form-control' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'form-group has-error' },
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'password' },
+	            'Password:'
+	          ),
+	          React.createElement('input', { type: 'password', name: 'password', className: 'form-control' }),
+	          React.createElement(
+	            'span',
+	            { className: 'help-block' },
+	            'Your password must be more than 8 characters.'
 	          )
-	        ), 
-
-
-	        "// PAGE COMPONENTS", 
-	        React.createElement("hr", null), 
-	        React.createElement("img", {src: "/images/alex_avatar.jpg", className: "img img-thumbnail", width: "145"}), 
-	        React.createElement("h2", null, "Alex Taylor"), 
-	        React.createElement("h4", {className: "lighter"}, "Vancouver, B.C."), 
-
-	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "follow"), React.createElement("br", null), 
-	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), React.createElement("br", null), 
-	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add"), 
-
-
-
-	        React.createElement("ul", {className: "nav nav-tabs"}, 
-	          React.createElement("li", {role: "presentation", className: "active"}, React.createElement("a", {href: "#"}, "Favourites")), 
-	          React.createElement("li", {role: "presentation"}, React.createElement("a", {href: "#"}, "Reviews"))
-	        ), 
-	        React.createElement("br", null), 
-
-
-	        "// BEER REVIEW CARD", 
-	        React.createElement("div", {className: "beer-card clearfix"}, 
-
-	          React.createElement("div", {className: "col-image"}, 
-	            React.createElement("div", {className: "img-thumbnail beer-thumb"}, 
-	              React.createElement("img", {src: "/images/hop_circle.png", width: "88", height: "105"})
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'form-group' },
+	          React.createElement('input', { className: 'btn btn-default', type: 'submit', value: 'SIGN UP' })
+	        )
+	      ),
+	      '// PAGE COMPONENTS',
+	      React.createElement('hr', null),
+	      React.createElement('img', { src: '/images/alex_avatar.jpg', className: 'img img-thumbnail', width: '145' }),
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Alex Taylor'
+	      ),
+	      React.createElement(
+	        'h4',
+	        { className: 'lighter' },
+	        'Vancouver, B.C.'
+	      ),
+	      React.createElement(
+	        'button',
+	        { href: '#', className: 'btn btn-tabby' },
+	        'follow'
+	      ),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'button',
+	        { href: '#', className: 'btn btn-tabby' },
+	        'rate'
+	      ),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'button',
+	        { href: '#', className: 'btn btn-tabby' },
+	        'add'
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'nav nav-tabs' },
+	        React.createElement(
+	          'li',
+	          { role: 'presentation', className: 'active' },
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Favourites'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          { role: 'presentation' },
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Reviews'
+	          )
+	        )
+	      ),
+	      React.createElement('br', null),
+	      '// BEER REVIEW CARD',
+	      React.createElement(
+	        'div',
+	        { className: 'beer-card clearfix' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-image' },
+	          React.createElement(
+	            'div',
+	            { className: 'img-thumbnail beer-thumb' },
+	            React.createElement('img', { src: '/images/hop_circle.png', width: '88', height: '105' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'col-review' },
+	          React.createElement(
+	            'h5',
+	            null,
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'Blue Buck'
+	            ),
+	            ' ',
+	            React.createElement(
+	              'i',
+	              null,
+	              'by'
+	            ),
+	            ' ',
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'Phillips Brewing Co.'
 	            )
-	          ), 
-
-	          React.createElement("div", {className: "col-review"}, 
-	            React.createElement("h5", null, React.createElement("a", {href: "#"}, "Blue Buck"), " ", React.createElement("i", null, "by"), " ", React.createElement("a", {href: "#"}, "Phillips Brewing Co.")), 
-	            React.createElement("p", {className: "review-subhead lighter"}, React.createElement("i", null, "June 15, 2015")), 
-	            React.createElement("div", {className: "review-stars"}, 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"})
-	            ), 
-	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
+	          ),
+	          React.createElement(
+	            'p',
+	            { className: 'review-subhead lighter' },
+	            React.createElement(
+	              'i',
+	              null,
+	              'June 15, 2015'
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'review-stars' },
+	            React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+	            React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+	            React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+	            React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+	            React.createElement('span', { className: 'glyphicon glyphicon-star' })
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            'This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...'
 	          )
-	        ), 
-
-	        "// BEER REVIEWS", 
-	        React.createElement("h3", null, "SIXTEEN FAVOURITE BEERS FROM FOUR BREWERIES"), 
-	        React.createElement("div", {className: "beers"}, 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          ), 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          ), 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          ), 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          )
-
-	        ), 
-
-	        React.createElement("br", null), 
-	        React.createElement("br", null), 
-	        React.createElement("br", null), 
-	        "// FLAVOUR MAP", 
-	        React.createElement(FlavourMapEmbedded, null)
-	      ));
-	  },
-	});
-
-
-/***/ },
-/* 235 */,
-/* 236 */,
-/* 237 */
-/***/ function(module, exports) {
-
-	'use strict'
-
-	module.exports = React.createClass({displayName: "module.exports",
-	  render() {
-	    return (
-	      React.createElement("div", null, 
-	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Finding beers..."))
-	      )
+	        )
+	      ),
+	      '// BEER REVIEWS',
+	      React.createElement(
+	        'h3',
+	        null,
+	        'SIXTEEN FAVOURITE BEERS FROM FOUR BREWERIES'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'beers' },
+	        React.createElement(
+	          'div',
+	          { className: 'beer-thumb-large img-thumbnail' },
+	          React.createElement('img', { src: '/images/hop_circle.png', width: '135', height: '161' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'beer-thumb-large img-thumbnail' },
+	          React.createElement('img', { src: '/images/hop_circle.png', width: '135', height: '161' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'beer-thumb-large img-thumbnail' },
+	          React.createElement('img', { src: '/images/hop_circle.png', width: '135', height: '161' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'beer-thumb-large img-thumbnail' },
+	          React.createElement('img', { src: '/images/hop_circle.png', width: '135', height: '161' })
+	        )
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      '// FLAVOUR MAP',
+	      React.createElement(FlavourMapEmbedded, null)
 	    );
 	  }
 	});
-
 
 /***/ }
 /******/ ]);

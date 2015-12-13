@@ -1,4 +1,3 @@
-'use strict'
 module.exports = function(flavour_x, colour_y, map_width, map_height) {
   const FLAVOUR_SCALE = 12;
   const COLOUR_SCALE  = 12;

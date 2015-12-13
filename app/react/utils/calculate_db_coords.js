@@ -1,4 +1,3 @@
-'use strict'
 // TODO: refactor this and calculate_flavour_map_coords into one class
 // this would be ideal because they're very similar, and they share constants
 module.exports = function(flavour_x, colour_y, map_width, map_height) {
