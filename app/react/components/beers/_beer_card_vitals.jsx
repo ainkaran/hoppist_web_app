@@ -3,12 +3,27 @@ var Link = require('react-router').Link;
 
 module.exports = React.createClass({
   handleClick() {
-    console.log("clicked");
+    console.log("clicked, navigating..");
+    // TODO: think about url abstraction. maybe everything could be in a global object
+    // TODO: friendly URLs
+    var beerLink = `/beers/${this.props.beer.id}`
+    this.props.onNavigation({ url: beerLink});
   },
 
   render() {
-    // TODO: think about url abstraction. maybe everything could be in a global object
-    var beerLink = `/breweries/${this.props.brewery.id}/beers/${this.props.beer.id}`
+    var beerLink = (
+      <Link
+        to={`/beers/${this.props.beer.id}`}>
+        {this.props.beer.attributes.name}
+      </Link>
+    );
+
+    var breweryLink = (
+      <Link
+        to={`/breweries/${this.props.brewery.id}`}>
+        {this.props.brewery.attributes.name}
+      </Link>
+    );
 
     return (
       <div className="beer-card clearfix" onClick={this.handleClick}>
@@ -20,7 +35,7 @@ module.exports = React.createClass({
         </div>
 
         <div className="col-details">
-          <h3 className="flush-with-top">{this.props.beer.attributes.name}</h3>
+          <h3 className="flush-with-top">{beerLink}</h3>
           <h5 className="lighter">{this.props.brewery.attributes.name}</h5>
           <div className="review-stars">
             <span className="glyphicon glyphicon-star"></span>

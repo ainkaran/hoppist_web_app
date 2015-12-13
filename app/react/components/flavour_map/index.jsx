@@ -41,6 +41,11 @@ module.exports = React.createClass({
     this.ajaxPostFlavourMapSearch(newCoords);
   },
 
+  handleNavigation(params) {
+    var url = params["url"];
+    if (url) { this.props.history.push(url); }
+  },
+
   render: function() {
     return (
       <div>
@@ -50,7 +55,7 @@ module.exports = React.createClass({
           isDraggable={true}
           maxWidth={375}
           onDragStop={this.handleDragStop} />
-        <BeerList beers={this.state.beers} breweries={this.state.breweries} />
+        <BeerList beers={this.state.beers} breweries={this.state.breweries} onNavigation={this.handleNavigation} />
       </div>
     );
   },
