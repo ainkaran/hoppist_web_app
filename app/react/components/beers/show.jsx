@@ -2,6 +2,7 @@
 var Link = require('react-router').Link;
 
 var Reviews = require("./_reviews");
+var ReviewStars = require("../shared/_review_stars");
 var FlavourMap = require("./_flavour_map");
 
 module.exports = React.createClass({
@@ -53,14 +54,7 @@ module.exports = React.createClass({
               </h4>
               <p className="indent italicize lighter">ale; 5pct; 45 ibu</p>
             </div>
-            <div className="review-stars">
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-            </div>
-            <p className="indent italicize lighter">out of 15 reviews</p>
+            <ReviewStars rating={this.state.beer.avg_star_rating} />
             <p><span className="glyphicon glyphicon-grain"></span> growler fills</p>
             <p><span className="glyphicon glyphicon-grain"></span> bottles / cans</p>
           </div>
