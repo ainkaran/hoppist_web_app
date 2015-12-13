@@ -6,6 +6,9 @@ class Beer < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :brewery, presence: true
 
+  # TODO: make category a table
+  validates :category, presence: true
+
   # TODO: is there a way we could fire this callback only on a newly created review?
   after_touch :recalculate_average_rating
 
