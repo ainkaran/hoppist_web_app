@@ -1,0 +1,2 @@
+# pulls down a copy of the production DB and mounts it locally
+heroku pg:pull DATABASE hoppist_web_app_production --app hoppist
