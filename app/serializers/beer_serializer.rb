@@ -6,7 +6,12 @@ class BeerSerializer < ActiveModel::Serializer
              :name,
              :avg_star_rating,
              :avg_flavour_rating,
-             :avg_colour_rating
+             :avg_colour_rating,
+             :category,
+             :abv,
+             :ibu,
+             :available_in_growlers,
+             :available_in_bottles_cans
 
 
   belongs_to :brewery

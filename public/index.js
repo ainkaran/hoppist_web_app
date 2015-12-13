@@ -33064,6 +33064,33 @@
 	  render: function render() {
 	    var beerId = this.props.params.id;
 
+	    var category = this.state.beer.category ? '' + this.state.beer.category : null;
+	    var abv = this.state.beer.abv ? this.state.beer.abv + 'pct' : null;
+	    var ibu = this.state.beer.ibu ? this.state.beer.ibu + ' ibu' : null;
+
+	    var vitalAttributes = [category, abv, ibu].filter(function (el) {
+	      return el !== null;
+	    }).join("; ");
+
+	    var additionalAttributes = [];
+	    if (this.state.beer.available_in_growlers) {
+	      additionalAttributes.push(React.createElement(
+	        'p',
+	        { key: 'available_in_growlers' },
+	        React.createElement('span', { className: 'glyphicon glyphicon-grain' }),
+	        ' available for growler fills'
+	      ));
+	    }
+
+	    if (this.state.beer.available_in_bottles_cans) {
+	      additionalAttributes.push(React.createElement(
+	        'p',
+	        { key: 'available_in_bottles_cans' },
+	        React.createElement('span', { className: 'glyphicon glyphicon-grain' }),
+	        ' available in bottles / cans'
+	      ));
+	    }
+
 	    return React.createElement(
 	      'div',
 	      { id: 'beer-show' },
@@ -33098,22 +33125,11 @@
 	            React.createElement(
 	              'p',
 	              { className: 'indent italicize lighter' },
-	              'ale; 5pct; 45 ibu'
+	              vitalAttributes
 	            )
 	          ),
 	          React.createElement(ReviewStars, { rating: this.state.beer.avg_star_rating }),
-	          React.createElement(
-	            'p',
-	            null,
-	            React.createElement('span', { className: 'glyphicon glyphicon-grain' }),
-	            ' growler fills'
-	          ),
-	          React.createElement(
-	            'p',
-	            null,
-	            React.createElement('span', { className: 'glyphicon glyphicon-grain' }),
-	            ' bottles / cans'
-	          )
+	          additionalAttributes
 	        ),
 	        React.createElement(
 	          'div',

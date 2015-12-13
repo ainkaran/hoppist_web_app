@@ -36,6 +36,28 @@ module.exports = React.createClass({
   render() {
     var beerId = this.props.params.id
 
+    var category = this.state.beer.category ? `${this.state.beer.category}` : null;
+    var abv      = this.state.beer.abv      ? `${this.state.beer.abv}pct`   : null;
+    var ibu      = this.state.beer.ibu      ? `${this.state.beer.ibu} ibu`  : null;
+
+    var vitalAttributes = [category, abv, ibu]
+                          .filter( function(el) { return el !== null })
+                          .join("; ");
+
+    var additionalAttributes = [];
+    if (this.state.beer.available_in_growlers) {
+      additionalAttributes.push(
+        <p key="available_in_growlers"><span className="glyphicon glyphicon-grain"></span> available for growler fills</p>
+      );
+    }
+
+    if (this.state.beer.available_in_bottles_cans) {
+      additionalAttributes.push(
+        <p key="available_in_bottles_cans"><span className="glyphicon glyphicon-grain"></span> available in bottles / cans</p>
+      );
+    }
+
+
     return (
       <div id="beer-show">
         <div id="beer-show-header">
@@ -50,13 +72,16 @@ module.exports = React.createClass({
                 {this.state.beer.name}
               </h2>
               <h4>
-                <Link to={`/breweries/${this.state.brewery.id}`}>{this.state.brewery.name}</Link>
+                <Link to={`/breweries/${this.state.brewery.id}`}>
+                  {this.state.brewery.name}
+                </Link>
               </h4>
-              <p className="indent italicize lighter">ale; 5pct; 45 ibu</p>
+              <p className="indent italicize lighter">
+                {vitalAttributes}
+              </p>
             </div>
             <ReviewStars rating={this.state.beer.avg_star_rating} />
-            <p><span className="glyphicon glyphicon-grain"></span> growler fills</p>
-            <p><span className="glyphicon glyphicon-grain"></span> bottles / cans</p>
+            {additionalAttributes}
           </div>
           <div id="beer-show-header-actions">
             <button href="#" className="btn btn-tabby">rate</button>
