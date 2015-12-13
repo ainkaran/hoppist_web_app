@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :beer do
     association :brewery, factory: :brewery
-    sequence(:name) { |n| "#{Faker::Lorem.sentence} #{n} #{rand(4)}" }
+    sequence(:name) { |n| "Beer Name #{n}" }
 
     factory :beer_with_ratings do
       sequence(:avg_star_rating) { rand(5) + 1 }
