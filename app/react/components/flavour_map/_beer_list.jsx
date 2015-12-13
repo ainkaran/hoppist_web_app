@@ -19,7 +19,7 @@ module.exports = React.createClass({
 
   render() {
     var beerNodes = this.props.beers.map((beer, idx)=> {
-      var brewery = this.props.breweries[idx];
+      var brewery = this.props.breweries.find(function(el){ return el.id === beer.relationships.brewery.data.id });
       return (<BeerCardVitals key={beer.id} beer={beer} brewery={brewery} />);
     });
 
