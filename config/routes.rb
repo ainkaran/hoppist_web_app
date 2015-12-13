@@ -29,4 +29,15 @@ Rails.application.routes.draw do
     end
     resources :beers, only: [:index]
   end
+
+  # Catch all other requests and redirect it to the UI.
+  # Wildcard matching requires a parameter, even though we're not going to use it
+  # See http://guides.rubyonrails.org/routing.html#route-globbing-and-wildcard-segments
+  # TODO: I think this is a pretty awesome little hack ;)
+  get     '/*react', to: "react#index"
+  post    '/*react', to: "react#index"
+  patch   '/*react', to: "react#index"
+  put     '/*react', to: "react#index"
+  delete  '/*react', to: "react#index"
+
 end

@@ -8,6 +8,7 @@ var ReactDOM = require('react-dom');
 var Router = require('react-router').Router
 var Route = require('react-router').Route
 var IndexRoute = require('react-router').IndexRoute
+var createBrowserHistory = require('history/lib/createBrowserHistory');
 
 // pages
 var App                      = require("./components/app");
@@ -20,7 +21,7 @@ var StyleGuide               = require("./components/style_guide");
 
 
 ReactDOM.render((
-  <Router>
+  <Router history={createBrowserHistory()}>
     <Route path="/" component={App}>
       <Route path="beers" component={BeerIndex} />
       <Route path="beers/:id" component={BeerShow}>
