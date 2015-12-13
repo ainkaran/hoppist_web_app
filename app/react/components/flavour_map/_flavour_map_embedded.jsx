@@ -86,7 +86,7 @@ module.exports = React.createClass({
           zIndex={100}>
           <div id="target" className="handle"></div>
         </Draggable>
-        <img src="/images/flavour_map.svg" style={styles}/>
+        <img src="/images/flavour_map.svg" style={styles} draggable={false}/>
       </div>
     );
   },

@@ -21,6 +21,7 @@ module.exports = React.createClass({
         var newBeers  = response.data;
         var breweries = response.included;
 
+        // TODO: remove this for production. maybe we can orchestrate webpack to handle this for us.
         if (newBeers.length > 0) {
           console.log(`Beers found: ${newBeers.length} | first id: ${newBeers[0].id} | last id: ${newBeers[newBeers.length-1].id}`);
         } else {

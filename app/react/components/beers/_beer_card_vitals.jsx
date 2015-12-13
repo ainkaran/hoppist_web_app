@@ -2,24 +2,16 @@
 var Link = require('react-router').Link;
 
 module.exports = React.createClass({
+  handleClick() {
+    console.log("clicked");
+  },
+
   render() {
     // TODO: think about url abstraction. maybe everything could be in a global object
-    var beerLink = (
-      <Link
-        to={`/breweries/${this.props.brewery.id}/beers/${this.props.beer.id}`}>
-        {this.props.beer.attributes.name}
-      </Link>
-    );
-
-    var breweryLink = (
-      <Link
-        to={`/breweries/${this.props.brewery.id}`}>
-        {this.props.brewery.attributes.name}
-      </Link>
-    );
+    var beerLink = `/breweries/${this.props.brewery.id}/beers/${this.props.beer.id}`
 
     return (
-      <div className="beer-card clearfix">
+      <div className="beer-card clearfix" onClick={this.handleClick}>
 
         <div className="col-image">
           <div className="img-thumbnail beer-thumb">
@@ -28,8 +20,8 @@ module.exports = React.createClass({
         </div>
 
         <div className="col-details">
-          <h5>{beerLink} <em>by</em> {breweryLink}</h5>
-          <p className="indent italicize lighter">ale; 5pct; 45 ibu</p>
+          <h3 className="flush-with-top">{this.props.beer.attributes.name}</h3>
+          <h5 className="lighter">{this.props.brewery.attributes.name}</h5>
           <div className="review-stars">
             <span className="glyphicon glyphicon-star"></span>
             <span className="glyphicon glyphicon-star"></span>
