@@ -19,7 +19,9 @@ var BeerShowReviews          = require("./components/beers/_reviews");
 var FlavourMapIndex          = require("./components/flavour_map/index");
 var StyleGuide               = require("./components/style_guide");
 
-
+// TODO: challenges with react router: the nesting assumes that you're rendering
+// a child in a parent component. so we can't nest beers within breweries for the
+// sake of the url; we have to hardcode the nesting if we want that path.
 ReactDOM.render((
   <Router history={createBrowserHistory()}>
     <Route path="/" component={App}>
