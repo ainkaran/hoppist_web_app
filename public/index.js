@@ -62,7 +62,7 @@
 	var BeerShowFlavourMap       = __webpack_require__(204);
 	var BeerShowReviews          = __webpack_require__(203);
 	var FlavourMapIndex          = __webpack_require__(209);
-	var StyleGuide               = __webpack_require__(229);
+	var StyleGuide               = __webpack_require__(231);
 
 
 	ReactDOM.render((
@@ -25193,7 +25193,7 @@
 	  // TODO: since we're initing an empty beers array, do we even need the display
 	  // state or can we infer it?
 	  getInitialState() {
-	    return { beers: [], display: "intro" }
+	    return { beers: [] }
 	  },
 
 
@@ -25212,7 +25212,7 @@
 	          console.log(`Beers found: 0`);
 	        }
 
-	        this.setState({ beers: newBeers, display: "beerList" });
+	        this.setState({ beers: newBeers });
 	      },
 
 	      error: (obj, msg, err) => {
@@ -25234,7 +25234,7 @@
 	          isDraggable: true, 
 	          maxWidth: 375, 
 	          onDragStop: this.handleDragStop}), 
-	        React.createElement(BeerList, {display: this.state.display, beers: this.state.beers})
+	        React.createElement(BeerList, {beers: this.state.beers})
 	      )
 	    );
 	  },
@@ -25246,62 +25246,56 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
-	var ReactCSSTransitionGroup = __webpack_require__(211);
+	var BeerCardVitals = __webpack_require__(211);
+	var BeerListIntro = __webpack_require__(232);
+	var NoBeers = __webpack_require__(233);
+	var ReactCSSTransitionGroup = __webpack_require__(212);
 
 	module.exports = React.createClass({displayName: "module.exports",
-	  getDefaultProps() {
-	    return {
-	      display: "intro"
-	    };
+	  getInitialState() {
+	    return { display: "intro", beers: [] }
+	  },
+
+	  componentWillReceiveProps(nextProps) {
+	    if (nextProps.beers.length > 0) {
+	      this.setState( { display: "beerList" });
+	    } else {
+	      this.setState( { display: "noBeers" });
+	    }
 	  },
 
 	  render() {
-	    var intro = (
-	      React.createElement("div", {key: "intro"}, 
-	        React.createElement("h2", {className: "text-center"}, "FLAVOUR MAP"), 
-	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Go ahead — drag the target around the map to discover new dimensions of flavour."))
-	      )
-	    );
-
-	    var beers = this.props.beers.map((beer)=> {
-	      return (
-	        React.createElement("div", {className: "beer-card clearfix", key: beer.id}, 
-
-	          React.createElement("div", {className: "col-image"}, 
-	            React.createElement("div", {className: "img-thumbnail beer-thumb"}, 
-	              React.createElement("img", {src: "/images/hop_circle.png", width: "88", height: "105"})
-	            )
-	          ), 
-
-	          React.createElement("div", {className: "col-details"}, 
-	            React.createElement("h5", null, React.createElement("a", {href: "#"}, beer.attributes.name), " ", React.createElement("i", null, "by"), " ", React.createElement("a", {href: "#"}, "brewery goes here")), 
-	            React.createElement("p", {className: "indent italicize lighter"}, "ale; 5pct; 45 ibu"), 
-	            React.createElement("div", {className: "review-stars"}, 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"})
-	            )
-	          )
-	        )
-	      );
+	    var beerNodes = this.props.beers.map((beer)=> {
+	      return (React.createElement(BeerCardVitals, {key: beer.id, beer: beer}));
 	    });
 
 	    var beerList = (
-	      React.createElement("div", {key: "beerList"}, 
-	        React.createElement("hr", null), 
-	        beers, 
-	        React.createElement("br", null)
+	      React.createElement("div", null, 
+	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "found ", this.props.beers.length, " beers:")), 
+	        beerNodes
 	      )
 	    );
 
-	    var display = this.props.display === "intro" ? intro : beerList
+	    var nestedContent;
+	    switch (this.state.display) {
+	      case "intro":
+	        nestedContent = (
+	          React.createElement(BeerListIntro, {key: "intro"})
+	        );
+	        break;
+	      case "beerList":
+	        nestedContent = beerList;
+	        break;
+	      case "noBeers":
+	        nestedContent = (React.createElement(NoBeers, {key: "nobeers"}));
+	        break;
+	    }
 
 	    return (
 	      React.createElement("div", {id: "beer-list"}, 
+	        React.createElement("hr", null), 
 	        React.createElement(ReactCSSTransitionGroup, {transitionName: "fade", transitionEnterTimeout: 250, transitionLeaveTimeout: 250}, 
-	          display
+	          nestedContent
 	        )
 	      )
 	    );
@@ -25311,12 +25305,46 @@
 
 /***/ },
 /* 211 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	module.exports = __webpack_require__(212);
+	'use strict'
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  render() {
+	    return (
+	      React.createElement("div", {className: "beer-card clearfix"}, 
+
+	        React.createElement("div", {className: "col-image"}, 
+	          React.createElement("div", {className: "img-thumbnail beer-thumb"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "88", height: "105"})
+	          )
+	        ), 
+
+	        React.createElement("div", {className: "col-details"}, 
+	          React.createElement("h5", null, React.createElement("a", {href: "#"}, this.props.beer.attributes.name), " ", React.createElement("i", null, "by"), " ", React.createElement("a", {href: "#"}, "brewery goes here")), 
+	          React.createElement("p", {className: "indent italicize lighter"}, "ale; 5pct; 45 ibu"), 
+	          React.createElement("div", {className: "review-stars"}, 
+	            React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	            React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	            React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	            React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	            React.createElement("span", {className: "glyphicon glyphicon-star"})
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
 
 /***/ },
 /* 212 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(213);
+
+/***/ },
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25333,12 +25361,12 @@
 
 	'use strict';
 
-	var React = __webpack_require__(213);
+	var React = __webpack_require__(214);
 
 	var assign = __webpack_require__(39);
 
-	var ReactTransitionGroup = __webpack_require__(224);
-	var ReactCSSTransitionGroupChild = __webpack_require__(226);
+	var ReactTransitionGroup = __webpack_require__(225);
+	var ReactCSSTransitionGroupChild = __webpack_require__(227);
 
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -25404,7 +25432,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25421,11 +25449,11 @@
 	'use strict';
 
 	var ReactDOM = __webpack_require__(3);
-	var ReactDOMServer = __webpack_require__(214);
-	var ReactIsomorphic = __webpack_require__(218);
+	var ReactDOMServer = __webpack_require__(215);
+	var ReactIsomorphic = __webpack_require__(219);
 
 	var assign = __webpack_require__(39);
-	var deprecated = __webpack_require__(223);
+	var deprecated = __webpack_require__(224);
 
 	// `version` will be added here by ReactIsomorphic.
 	var React = {};
@@ -25449,7 +25477,7 @@
 	module.exports = React;
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25466,7 +25494,7 @@
 	'use strict';
 
 	var ReactDefaultInjection = __webpack_require__(71);
-	var ReactServerRendering = __webpack_require__(215);
+	var ReactServerRendering = __webpack_require__(216);
 	var ReactVersion = __webpack_require__(146);
 
 	ReactDefaultInjection.inject();
@@ -25480,7 +25508,7 @@
 	module.exports = ReactDOMServer;
 
 /***/ },
-/* 215 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25500,8 +25528,8 @@
 	var ReactElement = __webpack_require__(42);
 	var ReactInstanceHandles = __webpack_require__(45);
 	var ReactMarkupChecksum = __webpack_require__(48);
-	var ReactServerBatchingStrategy = __webpack_require__(216);
-	var ReactServerRenderingTransaction = __webpack_require__(217);
+	var ReactServerBatchingStrategy = __webpack_require__(217);
+	var ReactServerRenderingTransaction = __webpack_require__(218);
 	var ReactUpdates = __webpack_require__(54);
 
 	var emptyObject = __webpack_require__(58);
@@ -25569,7 +25597,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 216 */
+/* 217 */
 /***/ function(module, exports) {
 
 	/**
@@ -25597,7 +25625,7 @@
 	module.exports = ReactServerBatchingStrategy;
 
 /***/ },
-/* 217 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25689,7 +25717,7 @@
 	module.exports = ReactServerRenderingTransaction;
 
 /***/ },
-/* 218 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25708,14 +25736,14 @@
 	var ReactChildren = __webpack_require__(110);
 	var ReactComponent = __webpack_require__(123);
 	var ReactClass = __webpack_require__(122);
-	var ReactDOMFactories = __webpack_require__(219);
+	var ReactDOMFactories = __webpack_require__(220);
 	var ReactElement = __webpack_require__(42);
-	var ReactElementValidator = __webpack_require__(220);
+	var ReactElementValidator = __webpack_require__(221);
 	var ReactPropTypes = __webpack_require__(107);
 	var ReactVersion = __webpack_require__(146);
 
 	var assign = __webpack_require__(39);
-	var onlyChild = __webpack_require__(222);
+	var onlyChild = __webpack_require__(223);
 
 	var createElement = ReactElement.createElement;
 	var createFactory = ReactElement.createFactory;
@@ -25769,7 +25797,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25787,9 +25815,9 @@
 	'use strict';
 
 	var ReactElement = __webpack_require__(42);
-	var ReactElementValidator = __webpack_require__(220);
+	var ReactElementValidator = __webpack_require__(221);
 
-	var mapObject = __webpack_require__(221);
+	var mapObject = __webpack_require__(222);
 
 	/**
 	 * Create a factory that creates HTML tag elements.
@@ -25952,7 +25980,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26239,7 +26267,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports) {
 
 	/**
@@ -26295,7 +26323,7 @@
 	module.exports = mapObject;
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26334,7 +26362,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 223 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26388,7 +26416,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26404,8 +26432,8 @@
 
 	'use strict';
 
-	var React = __webpack_require__(213);
-	var ReactTransitionChildMapping = __webpack_require__(225);
+	var React = __webpack_require__(214);
+	var ReactTransitionChildMapping = __webpack_require__(226);
 
 	var assign = __webpack_require__(39);
 	var emptyFunction = __webpack_require__(15);
@@ -26598,7 +26626,7 @@
 	module.exports = ReactTransitionGroup;
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26701,7 +26729,7 @@
 	module.exports = ReactTransitionChildMapping;
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26718,13 +26746,13 @@
 
 	'use strict';
 
-	var React = __webpack_require__(213);
+	var React = __webpack_require__(214);
 	var ReactDOM = __webpack_require__(3);
 
-	var CSSCore = __webpack_require__(227);
-	var ReactTransitionEvents = __webpack_require__(228);
+	var CSSCore = __webpack_require__(228);
+	var ReactTransitionEvents = __webpack_require__(229);
 
-	var onlyChild = __webpack_require__(222);
+	var onlyChild = __webpack_require__(223);
 
 	// We don't remove the element from the DOM until we receive an animationend or
 	// transitionend event. If the user screws up and forgets to add an animation
@@ -26871,7 +26899,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26974,7 +27002,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -27086,129 +27114,6 @@
 	};
 
 	module.exports = ReactTransitionEvents;
-
-/***/ },
-/* 229 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	var Link = __webpack_require__(148).Link;
-	var FlavourMapEmbedded = __webpack_require__(205);
-
-	// application layout
-	module.exports = React.createClass({displayName: "module.exports",
-	  render: function() {
-	    // TODO: look into React-Bootstrap
-	    return (
-	      React.createElement("div", null, 
-	        "// HEADINGS", 
-	        React.createElement("h1", {className: "branded"}, "HOPPIST"), 
-	        React.createElement("h2", {className: "branded"}, "HOPPIST"), 
-	        React.createElement("h3", null, "Discover amazing craft beers in your area."), 
-
-
-	        "// FLASH", 
-	        React.createElement("div", {className: "alert alert-success"}, "Welcome back, Alex."), 
-	        React.createElement("div", {className: "alert alert-danger"}, "Invalid credentials."), 
-
-
-	        "// BODY", 
-	        React.createElement("p", null, "Hoppist connects you with local breweries in your area. Discover new flavours, rate your favourite beer, and see what’s currently on tap for samples and fills. Hoppist is the perfect drinking buddy."), 
-	        React.createElement("button", {href: "#", className: "btn btn-default"}, "SIGN UP"), 
-	        React.createElement("hr", null), 
-
-
-	        "// FORMS", 
-	        React.createElement("h3", null, "Sign up for a free account."), 
-	        React.createElement("form", null, 
-	          React.createElement("div", {className: "form-group"}, 
-	            React.createElement("label", {htmlFor: "name"}, "Name:"), 
-	            React.createElement("input", {type: "text", name: "name", className: "form-control"})
-	          ), 
-	          React.createElement("div", {className: "form-group"}, 
-	            React.createElement("label", {htmlFor: "email"}, "E-mail Address:"), 
-	            React.createElement("input", {type: "text", name: "email", className: "form-control"})
-	          ), 
-	          React.createElement("div", {className: "form-group has-error"}, 
-	            React.createElement("label", {htmlFor: "password"}, "Password:"), 
-	            React.createElement("input", {type: "password", name: "password", className: "form-control"}), 
-	            React.createElement("span", {className: "help-block"}, "Your password must be more than 8 characters.")
-	          ), 
-	          React.createElement("div", {className: "form-group"}, 
-	            React.createElement("input", {className: "btn btn-default", type: "submit", value: "SIGN UP"})
-	          )
-	        ), 
-
-
-	        "// PAGE COMPONENTS", 
-	        React.createElement("hr", null), 
-	        React.createElement("img", {src: "/images/alex_avatar.jpg", className: "img img-thumbnail", width: "145"}), 
-	        React.createElement("h2", null, "Alex Taylor"), 
-	        React.createElement("h4", {className: "lighter"}, "Vancouver, B.C."), 
-
-	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "follow"), React.createElement("br", null), 
-	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), React.createElement("br", null), 
-	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add"), 
-
-
-
-	        React.createElement("ul", {className: "nav nav-tabs"}, 
-	          React.createElement("li", {role: "presentation", className: "active"}, React.createElement("a", {href: "#"}, "Favourites")), 
-	          React.createElement("li", {role: "presentation"}, React.createElement("a", {href: "#"}, "Reviews"))
-	        ), 
-	        React.createElement("br", null), 
-
-
-	        "// BEER REVIEW CARD", 
-	        React.createElement("div", {className: "beer-card clearfix"}, 
-
-	          React.createElement("div", {className: "col-image"}, 
-	            React.createElement("div", {className: "img-thumbnail beer-thumb"}, 
-	              React.createElement("img", {src: "/images/hop_circle.png", width: "88", height: "105"})
-	            )
-	          ), 
-
-	          React.createElement("div", {className: "col-review"}, 
-	            React.createElement("h5", null, React.createElement("a", {href: "#"}, "Blue Buck"), " ", React.createElement("i", null, "by"), " ", React.createElement("a", {href: "#"}, "Phillips Brewing Co.")), 
-	            React.createElement("p", {className: "review-subhead lighter"}, React.createElement("i", null, "June 15, 2015")), 
-	            React.createElement("div", {className: "review-stars"}, 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
-	              React.createElement("span", {className: "glyphicon glyphicon-star"})
-	            ), 
-	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
-	          )
-	        ), 
-
-	        "// BEER REVIEWS", 
-	        React.createElement("h3", null, "SIXTEEN FAVOURITE BEERS FROM FOUR BREWERIES"), 
-	        React.createElement("div", {className: "beers"}, 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          ), 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          ), 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          ), 
-	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
-	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
-	          )
-
-	        ), 
-
-	        React.createElement("br", null), 
-	        React.createElement("br", null), 
-	        React.createElement("br", null), 
-	        "// FLAVOUR MAP", 
-	        React.createElement(FlavourMapEmbedded, null)
-	      ));
-	  },
-	});
-
 
 /***/ },
 /* 230 */
@@ -36424,6 +36329,165 @@
 	return jQuery;
 
 	}));
+
+
+/***/ },
+/* 231 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	var Link = __webpack_require__(148).Link;
+	var FlavourMapEmbedded = __webpack_require__(205);
+
+	// application layout
+	module.exports = React.createClass({displayName: "module.exports",
+	  render: function() {
+	    // TODO: look into React-Bootstrap
+	    return (
+	      React.createElement("div", null, 
+	        "// HEADINGS", 
+	        React.createElement("h1", {className: "branded"}, "HOPPIST"), 
+	        React.createElement("h2", {className: "branded"}, "HOPPIST"), 
+	        React.createElement("h3", null, "Discover amazing craft beers in your area."), 
+
+
+	        "// FLASH", 
+	        React.createElement("div", {className: "alert alert-success"}, "Welcome back, Alex."), 
+	        React.createElement("div", {className: "alert alert-danger"}, "Invalid credentials."), 
+
+
+	        "// BODY", 
+	        React.createElement("p", null, "Hoppist connects you with local breweries in your area. Discover new flavours, rate your favourite beer, and see what’s currently on tap for samples and fills. Hoppist is the perfect drinking buddy."), 
+	        React.createElement("button", {href: "#", className: "btn btn-default"}, "SIGN UP"), 
+	        React.createElement("hr", null), 
+
+
+	        "// FORMS", 
+	        React.createElement("h3", null, "Sign up for a free account."), 
+	        React.createElement("form", null, 
+	          React.createElement("div", {className: "form-group"}, 
+	            React.createElement("label", {htmlFor: "name"}, "Name:"), 
+	            React.createElement("input", {type: "text", name: "name", className: "form-control"})
+	          ), 
+	          React.createElement("div", {className: "form-group"}, 
+	            React.createElement("label", {htmlFor: "email"}, "E-mail Address:"), 
+	            React.createElement("input", {type: "text", name: "email", className: "form-control"})
+	          ), 
+	          React.createElement("div", {className: "form-group has-error"}, 
+	            React.createElement("label", {htmlFor: "password"}, "Password:"), 
+	            React.createElement("input", {type: "password", name: "password", className: "form-control"}), 
+	            React.createElement("span", {className: "help-block"}, "Your password must be more than 8 characters.")
+	          ), 
+	          React.createElement("div", {className: "form-group"}, 
+	            React.createElement("input", {className: "btn btn-default", type: "submit", value: "SIGN UP"})
+	          )
+	        ), 
+
+
+	        "// PAGE COMPONENTS", 
+	        React.createElement("hr", null), 
+	        React.createElement("img", {src: "/images/alex_avatar.jpg", className: "img img-thumbnail", width: "145"}), 
+	        React.createElement("h2", null, "Alex Taylor"), 
+	        React.createElement("h4", {className: "lighter"}, "Vancouver, B.C."), 
+
+	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "follow"), React.createElement("br", null), 
+	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "rate"), React.createElement("br", null), 
+	        React.createElement("button", {href: "#", className: "btn btn-tabby"}, "add"), 
+
+
+
+	        React.createElement("ul", {className: "nav nav-tabs"}, 
+	          React.createElement("li", {role: "presentation", className: "active"}, React.createElement("a", {href: "#"}, "Favourites")), 
+	          React.createElement("li", {role: "presentation"}, React.createElement("a", {href: "#"}, "Reviews"))
+	        ), 
+	        React.createElement("br", null), 
+
+
+	        "// BEER REVIEW CARD", 
+	        React.createElement("div", {className: "beer-card clearfix"}, 
+
+	          React.createElement("div", {className: "col-image"}, 
+	            React.createElement("div", {className: "img-thumbnail beer-thumb"}, 
+	              React.createElement("img", {src: "/images/hop_circle.png", width: "88", height: "105"})
+	            )
+	          ), 
+
+	          React.createElement("div", {className: "col-review"}, 
+	            React.createElement("h5", null, React.createElement("a", {href: "#"}, "Blue Buck"), " ", React.createElement("i", null, "by"), " ", React.createElement("a", {href: "#"}, "Phillips Brewing Co.")), 
+	            React.createElement("p", {className: "review-subhead lighter"}, React.createElement("i", null, "June 15, 2015")), 
+	            React.createElement("div", {className: "review-stars"}, 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"}), 
+	              React.createElement("span", {className: "glyphicon glyphicon-star"})
+	            ), 
+	            React.createElement("p", null, "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend...")
+	          )
+	        ), 
+
+	        "// BEER REVIEWS", 
+	        React.createElement("h3", null, "SIXTEEN FAVOURITE BEERS FROM FOUR BREWERIES"), 
+	        React.createElement("div", {className: "beers"}, 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          ), 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          ), 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          ), 
+	          React.createElement("div", {className: "beer-thumb-large img-thumbnail"}, 
+	            React.createElement("img", {src: "/images/hop_circle.png", width: "135", height: "161"})
+	          )
+
+	        ), 
+
+	        React.createElement("br", null), 
+	        React.createElement("br", null), 
+	        React.createElement("br", null), 
+	        "// FLAVOUR MAP", 
+	        React.createElement(FlavourMapEmbedded, null)
+	      ));
+	  },
+	});
+
+
+/***/ },
+/* 232 */
+/***/ function(module, exports) {
+
+	'use strict'
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  render() {
+	    return (
+	      React.createElement("div", null, 
+	        React.createElement("h2", {className: "text-center"}, "FLAVOUR MAP"), 
+	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Go ahead — drag the target around the map to discover new dimensions of flavour."))
+	      )
+	    );
+	  }
+	});
+
+
+/***/ },
+/* 233 */
+/***/ function(module, exports) {
+
+	'use strict'
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  render() {
+	    return (
+	      React.createElement("div", null, 
+	        React.createElement("h2", {className: "text-center"}, "NO BEERS FOUND."), 
+	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Perhaps you've hit upon the next big flavour profile."))
+	      )
+	    );
+	  }
+	});
 
 
 /***/ }

@@ -9,7 +9,7 @@ module.exports = React.createClass({
   // TODO: since we're initing an empty beers array, do we even need the display
   // state or can we infer it?
   getInitialState() {
-    return { beers: [], display: "intro" }
+    return { beers: [] }
   },
 
 
@@ -28,7 +28,7 @@ module.exports = React.createClass({
           console.log(`Beers found: 0`);
         }
 
-        this.setState({ beers: newBeers, display: "beerList" });
+        this.setState({ beers: newBeers });
       },
 
       error: (obj, msg, err) => {
@@ -50,7 +50,7 @@ module.exports = React.createClass({
           isDraggable={true}
           maxWidth={375}
           onDragStop={this.handleDragStop} />
-        <BeerList display={this.state.display} beers={this.state.beers} />
+        <BeerList beers={this.state.beers} />
       </div>
     );
   },
