@@ -6,6 +6,6 @@ class Api::V1::BeersController < Api::BaseController
 
   def show
     beer = Beer.find(params[:id])
-    render json: beer
+    render json: beer, include: 'brewery'
   end
 end

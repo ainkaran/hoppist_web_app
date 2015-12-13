@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :beers
+      resources :breweries
       resources :flavour_map, only: [] do
         post "search", on: :collection
       end
