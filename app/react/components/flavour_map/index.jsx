@@ -8,7 +8,7 @@ var Link = require('react-router').Link;
 
 module.exports = React.createClass({
   getInitialState() {
-    return { beers: [], breweries: [] }
+    return { beers: [], breweries: [], resultsLoading: false }
   },
 
 
@@ -28,7 +28,7 @@ module.exports = React.createClass({
           console.log(`Beers found: 0`);
         }
 
-        this.setState({ beers: newBeers, breweries: breweries });
+        this.setState({ beers: newBeers, breweries: breweries, resultsLoading: false });
       },
 
       error: (obj, msg, err) => {
@@ -38,6 +38,7 @@ module.exports = React.createClass({
   },
 
   handleDragStop(newCoords) {
+    this.setState({ resultsLoading: true });
     this.ajaxPostFlavourMapSearch(newCoords);
   },
 
@@ -47,6 +48,7 @@ module.exports = React.createClass({
   },
 
   render: function() {
+    var loading = this.state.resultsLoading;
     return (
       <div>
         {/* TODO: how to respond to media queries so that we can re-render this at a different res? */}
@@ -55,7 +57,7 @@ module.exports = React.createClass({
           isDraggable={true}
           maxWidth={375}
           onDragStop={this.handleDragStop} />
-        <BeerList beers={this.state.beers} breweries={this.state.breweries} onNavigation={this.handleNavigation} />
+        <BeerList loading={loading} beers={this.state.beers} breweries={this.state.breweries} onNavigation={this.handleNavigation} />
       </div>
     );
   },

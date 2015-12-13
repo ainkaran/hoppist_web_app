@@ -1,6 +1,7 @@
 'use strict'
 var BeerCardVitals = require("../beers/_beer_card_vitals");
 var BeerListIntro = require("./_beer_list_intro");
+var LoadingBeers = require("./_loading_beers");
 var NoBeers = require("./_beer_list_no_beers");
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
@@ -10,6 +11,11 @@ module.exports = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.loading) {
+      this.setState( { display: "loading" });
+      return;
+    }
+
     if (nextProps.beers.length > 0) {
       this.setState( { display: "beerList" });
     } else {
@@ -48,6 +54,9 @@ module.exports = React.createClass({
         break;
       case "noBeers":
         nestedContent = (<NoBeers key="nobeers" />);
+        break;
+      case "loading":
+        nestedContent = (<LoadingBeers key="loadingBeers" />);
         break;
     }
 
