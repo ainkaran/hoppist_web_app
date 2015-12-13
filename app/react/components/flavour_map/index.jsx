@@ -1,9 +1,7 @@
 'use strict'
 
-var $ = require("jquery");
 var BeerList = require("./_beer_list");
 var FlavourMapEmbedded = require("./_flavour_map_embedded");
-var Link = require('react-router').Link;
 
 
 module.exports = React.createClass({
@@ -13,6 +11,7 @@ module.exports = React.createClass({
 
 
   ajaxPostFlavourMapSearch(searchCoords) {
+    // TODO: refactor this url
     $.ajax({
       method: "POST",
       url: "/api/v1/flavour_map/search",

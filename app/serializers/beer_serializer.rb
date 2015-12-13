@@ -8,5 +8,6 @@ class BeerSerializer < ActiveModel::Serializer
              :avg_flavour_rating,
              :avg_colour_rating
 
+
   belongs_to :brewery
 end

@@ -47,7 +47,6 @@
 	'use strict'
 	// react
 	var React = __webpack_require__(1);
-
 	var ReactDOM = __webpack_require__(2);
 
 	// react-router
@@ -55,6 +54,9 @@
 	var Route = __webpack_require__(148).Route
 	var IndexRoute = __webpack_require__(148).IndexRoute
 	var createBrowserHistory = __webpack_require__(199);
+
+	// libraries
+	var $ = __webpack_require__(211);
 
 	// pages
 	var App                      = __webpack_require__(200);
@@ -65,7 +67,9 @@
 	var FlavourMapIndex          = __webpack_require__(210);
 	var StyleGuide               = __webpack_require__(234);
 
-
+	// TODO: challenges with react router: the nesting assumes that you're rendering
+	// a child in a parent component. so we can't nest beers within breweries for the
+	// sake of the url; we have to hardcode the nesting if we want that path.
 	ReactDOM.render((
 	  React.createElement(Router, {history: createBrowserHistory()}, 
 	    React.createElement(Route, {path: "/", component: App}, 
@@ -23730,6 +23734,32 @@
 	var FlavourMap = __webpack_require__(205);
 
 	module.exports = React.createClass({displayName: "module.exports",
+	  getInitialState() {
+	    return { beer: {}, brewery: {} }
+	  },
+
+	  ajaxGetBeer(id) {
+	    // TODO: refactor this url
+	    $.ajax({
+	      method: "GET",
+	      url: `/api/v1/beers/${id}`,
+	      success: (response) => {
+	        var beer      = response.data.attributes;
+	        var brewery   = { id:   response.data.relationships.brewery.data.id,
+	                          name: response.included[0].attributes.name
+	                        };
+	        this.setState({ beer: beer, brewery: brewery });
+	      },
+
+	      error: (obj, msg, err) => {
+	        console.log(`error in request: ${msg} / ${err}`);
+	      }
+	    })
+	  },
+
+	  componentDidMount() {
+	    this.ajaxGetBeer(this.props.params.id);
+	  },
 
 	  render() {
 	    var beerId = this.props.params.id
@@ -23744,8 +23774,12 @@
 	          ), 
 	          React.createElement("div", {id: "beer-show-header-detail"}, 
 	            React.createElement("div", {id: "beer-show-header-detail-title-block"}, 
-	              React.createElement("h2", {className: "flush-with-top"}, "Big Long Beer Name It’s Great"), 
-	              React.createElement("h4", null, React.createElement("a", {href: "#"}, "Phillips Brewing Co.")), 
+	              React.createElement("h2", {className: "flush-with-top"}, 
+	                this.state.beer.name
+	              ), 
+	              React.createElement("h4", null, 
+	                React.createElement(Link, {to: `/breweries/${this.state.brewery.id}`}, this.state.brewery.name)
+	              ), 
 	              React.createElement("p", {className: "indent italicize lighter"}, "ale; 5pct; 45 ibu")
 	            ), 
 	            React.createElement("div", {className: "review-stars"}, 
@@ -25363,19 +25397,18 @@
 
 	'use strict'
 
-	var $ = __webpack_require__(211);
 	var BeerList = __webpack_require__(212);
 	var FlavourMapEmbedded = __webpack_require__(206);
-	var Link = __webpack_require__(148).Link;
 
 
 	module.exports = React.createClass({displayName: "module.exports",
 	  getInitialState() {
-	    return { beers: [], breweries: [] }
+	    return { beers: [], breweries: [], resultsLoading: false }
 	  },
 
 
 	  ajaxPostFlavourMapSearch(searchCoords) {
+	    // TODO: refactor this url
 	    $.ajax({
 	      method: "POST",
 	      url: "/api/v1/flavour_map/search",
@@ -25391,7 +25424,7 @@
 	          console.log(`Beers found: 0`);
 	        }
 
-	        this.setState({ beers: newBeers, breweries: breweries });
+	        this.setState({ beers: newBeers, breweries: breweries, resultsLoading: false });
 	      },
 
 	      error: (obj, msg, err) => {
@@ -25401,6 +25434,7 @@
 	  },
 
 	  handleDragStop(newCoords) {
+	    this.setState({ resultsLoading: true });
 	    this.ajaxPostFlavourMapSearch(newCoords);
 	  },
 
@@ -25410,6 +25444,7 @@
 	  },
 
 	  render: function() {
+	    var loading = this.state.resultsLoading;
 	    return (
 	      React.createElement("div", null, 
 	        /* TODO: how to respond to media queries so that we can re-render this at a different res? */
@@ -25418,7 +25453,7 @@
 	          isDraggable: true, 
 	          maxWidth: 375, 
 	          onDragStop: this.handleDragStop}), 
-	        React.createElement(BeerList, {beers: this.state.beers, breweries: this.state.breweries, onNavigation: this.handleNavigation})
+	        React.createElement(BeerList, {loading: loading, beers: this.state.beers, breweries: this.state.breweries, onNavigation: this.handleNavigation})
 	      )
 	    );
 	  },
@@ -34648,6 +34683,7 @@
 	'use strict'
 	var BeerCardVitals = __webpack_require__(213);
 	var BeerListIntro = __webpack_require__(214);
+	var LoadingBeers = __webpack_require__(237);
 	var NoBeers = __webpack_require__(215);
 	var ReactCSSTransitionGroup = __webpack_require__(216);
 
@@ -34657,6 +34693,11 @@
 	  },
 
 	  componentWillReceiveProps(nextProps) {
+	    if (nextProps.loading) {
+	      this.setState( { display: "loading" });
+	      return;
+	    }
+
 	    if (nextProps.beers.length > 0) {
 	      this.setState( { display: "beerList" });
 	    } else {
@@ -34695,6 +34736,9 @@
 	        break;
 	      case "noBeers":
 	        nestedContent = (React.createElement(NoBeers, {key: "nobeers"}));
+	        break;
+	      case "loading":
+	        nestedContent = (React.createElement(LoadingBeers, {key: "loadingBeers"}));
 	        break;
 	    }
 
@@ -36701,6 +36745,25 @@
 	        React.createElement(FlavourMapEmbedded, null)
 	      ));
 	  },
+	});
+
+
+/***/ },
+/* 235 */,
+/* 236 */,
+/* 237 */
+/***/ function(module, exports) {
+
+	'use strict'
+
+	module.exports = React.createClass({displayName: "module.exports",
+	  render() {
+	    return (
+	      React.createElement("div", null, 
+	        React.createElement("p", {className: "text-center lighter"}, React.createElement("em", null, "Finding beers..."))
+	      )
+	    );
+	  }
 	});
 
 

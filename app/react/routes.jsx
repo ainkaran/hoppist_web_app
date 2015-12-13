@@ -1,7 +1,6 @@
 'use strict'
 // react
 var React = require('react');
-
 var ReactDOM = require('react-dom');
 
 // react-router
@@ -9,6 +8,9 @@ var Router = require('react-router').Router
 var Route = require('react-router').Route
 var IndexRoute = require('react-router').IndexRoute
 var createBrowserHistory = require('history/lib/createBrowserHistory');
+
+// libraries
+var $ = require("jquery");
 
 // pages
 var App                      = require("./components/app");

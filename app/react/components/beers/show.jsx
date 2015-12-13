@@ -5,6 +5,32 @@ var Reviews = require("./_reviews");
 var FlavourMap = require("./_flavour_map");
 
 module.exports = React.createClass({
+  getInitialState() {
+    return { beer: {}, brewery: {} }
+  },
+
+  ajaxGetBeer(id) {
+    // TODO: refactor this url
+    $.ajax({
+      method: "GET",
+      url: `/api/v1/beers/${id}`,
+      success: (response) => {
+        var beer      = response.data.attributes;
+        var brewery   = { id:   response.data.relationships.brewery.data.id,
+                          name: response.included[0].attributes.name
+                        };
+        this.setState({ beer: beer, brewery: brewery });
+      },
+
+      error: (obj, msg, err) => {
+        console.log(`error in request: ${msg} / ${err}`);
+      }
+    })
+  },
+
+  componentDidMount() {
+    this.ajaxGetBeer(this.props.params.id);
+  },
 
   render() {
     var beerId = this.props.params.id
@@ -19,8 +45,12 @@ module.exports = React.createClass({
           </div>
           <div id="beer-show-header-detail">
             <div id="beer-show-header-detail-title-block">
-              <h2 className="flush-with-top">Big Long Beer Name It’s Great</h2>
-              <h4><a href="#">Phillips Brewing Co.</a></h4>
+              <h2 className="flush-with-top">
+                {this.state.beer.name}
+              </h2>
+              <h4>
+                <Link to={`/breweries/${this.state.brewery.id}`}>{this.state.brewery.name}</Link>
+              </h4>
               <p className="indent italicize lighter">ale; 5pct; 45 ibu</p>
             </div>
             <div className="review-stars">
