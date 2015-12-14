@@ -1,6 +1,18 @@
 'use strict'
 
 module.exports = React.createClass({
+  propTypes: {
+    displayReviewCount: React.PropTypes.bool
+  },
+
+  getDefaultProps() {
+    return {
+      rating: 0,
+      displayReviewCount: true
+    }
+  },
+
+
   // TODO: replace glyphicons with SVGs so we're not having to hack glyphicons.
   // TODO: refactor the star calculation, it's ugly as sin
   render() {
@@ -26,8 +38,8 @@ module.exports = React.createClass({
 
     return (
       <div className="review-stars" title={`${rating}/5`}>
-        {stars }
-        <p className="indent italicize lighter">{num_reviews}</p>
+        {stars}
+        { this.props.displayReviewCount ? <p className="indent italicize lighter">{num_reviews}</p> : ""}
       </div>
     );
   },

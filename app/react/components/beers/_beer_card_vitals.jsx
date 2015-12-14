@@ -1,5 +1,6 @@
 'use strict'
 var Link = require('react-router').Link;
+var ReviewStars = require("../shared/_review_stars");
 
 module.exports = React.createClass({
   handleClick() {
@@ -37,13 +38,9 @@ module.exports = React.createClass({
         <div className="col-details">
           <h3 className="flush-with-top">{beerLink}</h3>
           <h5 className="lighter">{this.props.brewery.attributes.name}</h5>
-          <div className="review-stars">
-            <span className="glyphicon glyphicon-star"></span>
-            <span className="glyphicon glyphicon-star"></span>
-            <span className="glyphicon glyphicon-star"></span>
-            <span className="glyphicon glyphicon-star"></span>
-            <span className="glyphicon glyphicon-star"></span>
-          </div>
+          <ReviewStars
+            rating={this.props.beer.attributes.avg_star_rating}
+            displayReviewCount={false} />
         </div>
       </div>
     );

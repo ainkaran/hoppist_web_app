@@ -162,3 +162,12 @@ $nav-tabs-border-color:      #EBEBEB;
   font-size:                 20px;
   color:                     #FFE299;
 }
+
+.review-stars span {
+  font-size:               25px;
+
+  &.half-star {
+    width:                 12.5px;
+    overflow:              hidden;
+  }
+}

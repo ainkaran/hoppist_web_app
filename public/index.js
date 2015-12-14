@@ -33254,6 +33254,17 @@
 	module.exports = React.createClass({
 	  displayName: "exports",
 
+	  propTypes: {
+	    displayReviewCount: React.PropTypes.bool
+	  },
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      rating: 0,
+	      displayReviewCount: true
+	    };
+	  },
+
 	  // TODO: replace glyphicons with SVGs so we're not having to hack glyphicons.
 	  // TODO: refactor the star calculation, it's ugly as sin
 	  render: function render() {
@@ -33279,11 +33290,11 @@
 	      "div",
 	      { className: "review-stars", title: rating + "/5" },
 	      stars,
-	      React.createElement(
+	      this.props.displayReviewCount ? React.createElement(
 	        "p",
 	        { className: "indent italicize lighter" },
 	        num_reviews
-	      )
+	      ) : ""
 	    );
 	  }
 	});
@@ -35025,6 +35036,7 @@
 	'use strict';
 
 	var Link = __webpack_require__(148).Link;
+	var ReviewStars = __webpack_require__(206);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -35075,15 +35087,9 @@
 	          { className: 'lighter' },
 	          this.props.brewery.attributes.name
 	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'review-stars' },
-	          React.createElement('span', { className: 'glyphicon glyphicon-star' }),
-	          React.createElement('span', { className: 'glyphicon glyphicon-star' }),
-	          React.createElement('span', { className: 'glyphicon glyphicon-star' }),
-	          React.createElement('span', { className: 'glyphicon glyphicon-star' }),
-	          React.createElement('span', { className: 'glyphicon glyphicon-star' })
-	        )
+	        React.createElement(ReviewStars, {
+	          rating: this.props.beer.attributes.avg_star_rating,
+	          displayReviewCount: false })
 	      )
 	    );
 	  }
