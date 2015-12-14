@@ -15,5 +15,11 @@ class BeerSerializer < ActiveModel::Serializer
              :available_in_bottles_cans
 
 
+  has_many :reviews
   belongs_to :brewery
+
+  def num_reviews
+    object.reviews.count
+  end
+
 end
