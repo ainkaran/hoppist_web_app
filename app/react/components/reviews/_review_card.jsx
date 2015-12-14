@@ -8,12 +8,23 @@ module.exports = React.createClass({
   },
 
   render() {
+    var flavour_profile;
+
+    if (this.props.review.colour_rating && this.props.review.flavour_rating) {
+      flavour_profile  = (
+        <p className="lightest small italicize" style={{marginBottom: 0}}>
+          LIGHTNESS: {this.props.review.colour_rating} / 12
+          &nbsp; &middot; &nbsp;
+          HOPPINESS: {this.props.review.flavour_rating} / 12
+        </p>
+      );
+    }
 
     return (
       <div className="beer-card clearfix">
         <div className="col-review">
-          <h5>
-            <Link to={`/users/${this.props.review.author_id}`}>{this.props.review.author_name}</Link> on <em>{this.props.review.date}</em>
+          <h5 className="flush-with-top">
+            <Link to={`/users/${this.props.review.author_id}`}>{this.props.review.author_name}</Link> <span className="lighter">on <em>{this.props.review.date}</em></span>
           </h5>
 
           <ReviewStars
@@ -22,6 +33,7 @@ module.exports = React.createClass({
 
           {/* TODO: allow markdown formatting or something here */}
           <p>{this.props.review.body}</p>
+          {flavour_profile}
         </div>
       </div>
     );

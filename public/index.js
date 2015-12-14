@@ -37246,6 +37246,19 @@
 	  },
 
 	  render: function render() {
+	    var flavour_profile;
+
+	    if (this.props.review.colour_rating && this.props.review.flavour_rating) {
+	      flavour_profile = React.createElement(
+	        'p',
+	        { className: 'lightest small italicize', style: { marginBottom: 0 } },
+	        'LIGHTNESS: ',
+	        this.props.review.colour_rating,
+	        ' / 12   ·   HOPPINESS: ',
+	        this.props.review.flavour_rating,
+	        ' / 12'
+	      );
+	    }
 
 	    return React.createElement(
 	      'div',
@@ -37255,17 +37268,22 @@
 	        { className: 'col-review' },
 	        React.createElement(
 	          'h5',
-	          null,
+	          { className: 'flush-with-top' },
 	          React.createElement(
 	            Link,
 	            { to: '/users/' + this.props.review.author_id },
 	            this.props.review.author_name
 	          ),
-	          ' on ',
+	          ' ',
 	          React.createElement(
-	            'em',
-	            null,
-	            this.props.review.date
+	            'span',
+	            { className: 'lighter' },
+	            'on ',
+	            React.createElement(
+	              'em',
+	              null,
+	              this.props.review.date
+	            )
 	          )
 	        ),
 	        React.createElement(ReviewStars, {
@@ -37275,7 +37293,8 @@
 	          'p',
 	          null,
 	          this.props.review.body
-	        )
+	        ),
+	        flavour_profile
 	      )
 	    );
 	  }
