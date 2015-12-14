@@ -9,8 +9,8 @@ module.exports = React.createClass({
 
   getDefaultProps() {
     return {
-      rating: 0,
-      numReviews: 0,
+      rating: null,
+      numReviews: null,
       displayReviewCount: true
     }
   },
@@ -21,7 +21,7 @@ module.exports = React.createClass({
   render() {
     var rating = this.props.rating;
     var stars = [];
-    if (rating !== undefined) {
+    if (rating > 0) {
       for (var i = 0; i < parseInt(rating); i++) {
         stars.push(
           <span className="glyphicon glyphicon-star" key={i}></span>

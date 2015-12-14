@@ -16,7 +16,9 @@ module.exports = React.createClass({
             <Link to={`/users/${this.props.review.author_id}`}>{this.props.review.author_name}</Link> on <em>{this.props.review.date}</em>
           </h5>
 
-          <ReviewStars rating={this.props.review.star_rating} />
+          <ReviewStars
+            rating={this.props.review.star_rating}
+            displayReviewCount={false} />
 
           {/* TODO: allow markdown formatting or something here */}
           <p>{this.props.review.body}</p>

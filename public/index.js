@@ -33228,7 +33228,9 @@
 
 	    if (this.context.reviews) {
 	      reviews = this.context.reviews.map(function (review) {
-	        return React.createElement(Review, { review: review.attributes, key: review.id });
+	        return React.createElement(Review, {
+	          review: review.attributes,
+	          key: review.id });
 	      });
 	    } else {
 	      reviews = React.createElement(
@@ -33267,8 +33269,8 @@
 
 	  getDefaultProps: function getDefaultProps() {
 	    return {
-	      rating: 0,
-	      numReviews: 0,
+	      rating: null,
+	      numReviews: null,
 	      displayReviewCount: true
 	    };
 	  },
@@ -33278,7 +33280,7 @@
 	  render: function render() {
 	    var rating = this.props.rating;
 	    var stars = [];
-	    if (rating !== undefined) {
+	    if (rating > 0) {
 	      for (var i = 0; i < parseInt(rating); i++) {
 	        stars.push(React.createElement("span", { className: "glyphicon glyphicon-star", key: i }));
 	      };
@@ -37266,7 +37268,9 @@
 	            this.props.review.date
 	          )
 	        ),
-	        React.createElement(ReviewStars, { rating: this.props.review.star_rating }),
+	        React.createElement(ReviewStars, {
+	          rating: this.props.review.star_rating,
+	          displayReviewCount: false }),
 	        React.createElement(
 	          'p',
 	          null,
