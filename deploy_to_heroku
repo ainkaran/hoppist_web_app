@@ -12,7 +12,7 @@ if [ $? -eq 0 ]
   echo "--- All tests passed! Deploying..."
 
   # Delete local assets in order to force compilation on Heroku
-  rm -rf public/assets
+  rm -rvf /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/public/assets
 
   cd /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app
   # Git push
