@@ -1,5 +1,5 @@
 class Api::V1::FlavourMapController < Api::BaseController
-  DEFAULT_SEARCH_RADIUS = 1
+  DEFAULT_SEARCH_RADIUS = 1.25
 
   def search
     radius = params[:radius].nil? ? DEFAULT_SEARCH_RADIUS : params[:radius].to_i

@@ -14,7 +14,9 @@ module.exports = React.createClass({
                   y: this.context.beer.avg_colour_rating};
     console.log(`coords: ${coords.x},${coords.y}`);
     return (
-      <FlavourMapEmbedded heroTarget={coords}/>
+      <FlavourMapEmbedded
+        targetPos={coords}
+        isDraggable={false}/>
     );
   }
 });

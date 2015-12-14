@@ -47,12 +47,13 @@ module.exports = React.createClass({
   },
 
   render: function() {
+    console.log("flavour_map_index render()");
     var loading = this.state.resultsLoading;
     return (
       <div>
         {/* TODO: how to respond to media queries so that we can re-render this at a different res? */}
         <FlavourMapEmbedded
-          heroTarget={{x: 6, y: 6}}
+          targetPos={{x: 6, y: 6}}
           isDraggable={true}
           maxWidth={375}
           onDragStop={this.handleDragStop} />

@@ -5,6 +5,11 @@ var calculateFlavourMapCoords = require("../../utils/calculate_flavour_map_coord
 var calculateDbCoords = require("../../utils/calculate_db_coords");
 
 module.exports = React.createClass({
+  /*
+    TODO: this is a much-improved version of the flavour map in terms of consistent
+    and predictable updating of target position, but from the flavour index it
+    ends up calling render one too many times. Look into this.
+  */
   propTypes: {
     onDragStart: React.PropTypes.func
   },
@@ -13,17 +18,25 @@ module.exports = React.createClass({
     return {
       isDraggable: false,
       maxWidth: 375,
-      heroTarget: { x: 6, y: 6 }
+      targetPos: { x: 6, y: 6 }
     };
 
   },
 
+  toKey(coords) {
+    return `${coords.x}_${coords.y}`;
+  },
+
   getInitialState: function() {
     // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
-    var newTargetPos = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, this.props.maxWidth, this.props.maxWidth/1.6);
+    var newTargetPos = calculateFlavourMapCoords(this.props.targetPos.x,
+                                                 this.props.targetPos.y,
+                                                 this.props.maxWidth,
+                                                 this.props.maxWidth/1.6);
     return {
       maxWidth:  this.props.maxWidth,
       targetPos: newTargetPos,
+      mapKey: this.toKey(newTargetPos)
     };
   },
 
@@ -34,9 +47,35 @@ module.exports = React.createClass({
     var node                   = ReactDOM.findDOMNode(this);
     var nodeRenderedWidth      = node.offsetWidth;
     var renderedTargetDiameter = node.childNodes[0].offsetWidth;
-    var newTargetPos           = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, nodeRenderedWidth, nodeRenderedWidth/1.6);
+    var newTargetPos           = calculateFlavourMapCoords(this.props.targetPos.x, this.props.targetPos.y, nodeRenderedWidth, nodeRenderedWidth/1.6);
     var newTargetPos           = { x: newTargetPos.x - (renderedTargetDiameter/2), y: newTargetPos.y - (renderedTargetDiameter/2)};
-    this.setState({ maxWidth: nodeRenderedWidth, targetPos: {newTargetPos} });
+
+    console.log(`_flavour_map_embedded componentDidMount() setState -> targetPos=${newTargetPos.x},${newTargetPos.y}`);
+    this.setState({
+      maxWidth: nodeRenderedWidth,
+      targetPos: newTargetPos,
+      mapKey: this.toKey(newTargetPos)
+    });
+  },
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.targetPos.x !== this.props.targetPos.x ||
+       nextProps.targetPos.y !== this.props.targetPos.y ||
+       nextProps.maxWidth    !== this.props.maxWidth) {
+
+       // TODO: DRY up this code here and in componentDidMount
+       var node                   = ReactDOM.findDOMNode(this);
+       var nodeRenderedWidth      = node.offsetWidth;
+       var renderedTargetDiameter = node.childNodes[0].offsetWidth;
+       var newTargetPos           = calculateFlavourMapCoords(nextProps.targetPos.x, nextProps.targetPos.y, nodeRenderedWidth, nodeRenderedWidth/1.6);
+       var newTargetPos           = { x: newTargetPos.x - (renderedTargetDiameter/2), y: newTargetPos.y - (renderedTargetDiameter/2)};
+       console.log(`_flavour_map_embedded componentDidMount() setState -> targetPos=${newTargetPos.x},${newTargetPos.y}`);
+       this.setState({
+         maxWidth: nodeRenderedWidth,
+         targetPos: newTargetPos,
+         mapKey: this.toKey(newTargetPos)
+       });
+    } // if nextProps != this.props
   },
 
   handleTargetStop(event, ui) {
@@ -72,14 +111,13 @@ module.exports = React.createClass({
       width:    "100%",
       maxWidth: `${this.state.maxWidth}px`
     };
-
+    console.log(`_flavour_map_embedded render() targetPos=${this.state.targetPos.x},${this.state.targetPos.y}`);
     return (
-      <div id="flavour-map-embedded" style={styles}>
+      <div id="flavour-map-embedded" style={styles} key={this.state.mapKey}>
         <Draggable
           bounds="parent"
           cancel={this.props.isDraggable ? "" : ".handle"}
           handle=".handle"
-          moveOnStartChange={true}
           onDrag={this.handleTargetDrag}
           onStop={this.handleTargetStop}
           start={this.state.targetPos}

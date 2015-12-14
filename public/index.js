@@ -33035,6 +33035,20 @@
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
+
+	  /*
+	    TODO: investigate Context further: https://facebook.github.io/react/docs/context.html
+	    I find this to be a pretty elegant solution to this issue, where we want to pass
+	    objects down to an arbitrary child component. Perhaps something like Flux or Redux
+	    would be better for this, but for small cases this is much easier.
+	  */
+	  childContextTypes: {
+	    beer: React.PropTypes.object
+	  },
+
+	  getChildContext: function getChildContext() {
+	    return { beer: this.state.beer };
+	  },
 	  getInitialState: function getInitialState() {
 	    return { beer: {}, brewery: {} };
 	  },
@@ -33285,11 +33299,19 @@
 	module.exports = React.createClass({
 	  displayName: "exports",
 
-	  render: function render() {
-	    // TODO: don't hardcode the hero target
-	    var heroTargetCoords = { x: 300, y: 100 };
+	  contextTypes: {
+	    beer: React.PropTypes.object
+	  },
 
-	    return React.createElement(FlavourMapEmbedded, { heroTarget: heroTargetCoords });
+	  render: function render() {
+	    // TODO: too many functions know about constructing coordinates.
+	    // make a function that takes in {flavor: , color:}, and returns {x:, y:}
+	    var coords = { x: this.context.beer.avg_flavour_rating,
+	      y: this.context.beer.avg_colour_rating };
+	    console.log("coords: " + coords.x + "," + coords.y);
+	    return React.createElement(FlavourMapEmbedded, {
+	      targetPos: coords,
+	      isDraggable: false });
 	  }
 	});
 
@@ -33307,6 +33329,11 @@
 	module.exports = React.createClass({
 	  displayName: 'exports',
 
+	  /*
+	    TODO: this is a much-improved version of the flavour map in terms of consistent
+	    and predictable updating of target position, but from the flavour index it
+	    ends up calling render one too many times. Look into this.
+	  */
 	  propTypes: {
 	    onDragStart: React.PropTypes.func
 	  },
@@ -33315,16 +33342,20 @@
 	    return {
 	      isDraggable: false,
 	      maxWidth: 375,
-	      heroTarget: { x: 6, y: 6 }
+	      targetPos: { x: 6, y: 6 }
 	    };
+	  },
+	  toKey: function toKey(coords) {
+	    return coords.x + '_' + coords.y;
 	  },
 
 	  getInitialState: function getInitialState() {
 	    // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
-	    var newTargetPos = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, this.props.maxWidth, this.props.maxWidth / 1.6);
+	    var newTargetPos = calculateFlavourMapCoords(this.props.targetPos.x, this.props.targetPos.y, this.props.maxWidth, this.props.maxWidth / 1.6);
 	    return {
 	      maxWidth: this.props.maxWidth,
-	      targetPos: newTargetPos
+	      targetPos: newTargetPos,
+	      mapKey: this.toKey(newTargetPos)
 	    };
 	  },
 
@@ -33335,9 +33366,32 @@
 	    var node = ReactDOM.findDOMNode(this);
 	    var nodeRenderedWidth = node.offsetWidth;
 	    var renderedTargetDiameter = node.childNodes[0].offsetWidth;
-	    var newTargetPos = calculateFlavourMapCoords(this.props.heroTarget.x, this.props.heroTarget.y, nodeRenderedWidth, nodeRenderedWidth / 1.6);
+	    var newTargetPos = calculateFlavourMapCoords(this.props.targetPos.x, this.props.targetPos.y, nodeRenderedWidth, nodeRenderedWidth / 1.6);
 	    var newTargetPos = { x: newTargetPos.x - renderedTargetDiameter / 2, y: newTargetPos.y - renderedTargetDiameter / 2 };
-	    this.setState({ maxWidth: nodeRenderedWidth, targetPos: { newTargetPos: newTargetPos } });
+
+	    console.log('_flavour_map_embedded componentDidMount() setState -> targetPos=' + newTargetPos.x + ',' + newTargetPos.y);
+	    this.setState({
+	      maxWidth: nodeRenderedWidth,
+	      targetPos: newTargetPos,
+	      mapKey: this.toKey(newTargetPos)
+	    });
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    if (nextProps.targetPos.x !== this.props.targetPos.x || nextProps.targetPos.y !== this.props.targetPos.y || nextProps.maxWidth !== this.props.maxWidth) {
+
+	      // TODO: DRY up this code here and in componentDidMount
+	      var node = ReactDOM.findDOMNode(this);
+	      var nodeRenderedWidth = node.offsetWidth;
+	      var renderedTargetDiameter = node.childNodes[0].offsetWidth;
+	      var newTargetPos = calculateFlavourMapCoords(nextProps.targetPos.x, nextProps.targetPos.y, nodeRenderedWidth, nodeRenderedWidth / 1.6);
+	      var newTargetPos = { x: newTargetPos.x - renderedTargetDiameter / 2, y: newTargetPos.y - renderedTargetDiameter / 2 };
+	      console.log('_flavour_map_embedded componentDidMount() setState -> targetPos=' + newTargetPos.x + ',' + newTargetPos.y);
+	      this.setState({
+	        maxWidth: nodeRenderedWidth,
+	        targetPos: newTargetPos,
+	        mapKey: this.toKey(newTargetPos)
+	      });
+	    } // if nextProps != this.props
 	  },
 	  handleTargetStop: function handleTargetStop(event, ui) {
 	    // handle any action the parent component wants to take when the user finishes
@@ -33366,17 +33420,16 @@
 	      width: "100%",
 	      maxWidth: this.state.maxWidth + 'px'
 	    };
-
+	    console.log('_flavour_map_embedded render() targetPos=' + this.state.targetPos.x + ',' + this.state.targetPos.y);
 	    return React.createElement(
 	      'div',
-	      { id: 'flavour-map-embedded', style: styles },
+	      { id: 'flavour-map-embedded', style: styles, key: this.state.mapKey },
 	      React.createElement(
 	        Draggable,
 	        {
 	          bounds: 'parent',
 	          cancel: this.props.isDraggable ? "" : ".handle",
 	          handle: '.handle',
-	          moveOnStartChange: true,
 	          onDrag: this.handleTargetDrag,
 	          onStop: this.handleTargetStop,
 	          start: this.state.targetPos,
@@ -34861,12 +34914,13 @@
 	  },
 
 	  render: function render() {
+	    console.log("flavour_map_index render()");
 	    var loading = this.state.resultsLoading;
 	    return React.createElement(
 	      "div",
 	      null,
 	      React.createElement(FlavourMapEmbedded, {
-	        heroTarget: { x: 6, y: 6 },
+	        targetPos: { x: 6, y: 6 },
 	        isDraggable: true,
 	        maxWidth: 375,
 	        onDragStop: this.handleDragStop }),
