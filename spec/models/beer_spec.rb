@@ -43,11 +43,10 @@ RSpec.describe Beer, type: :model do
 
     it "should update its average ratings when a review is saved" do
       beer = FactoryGirl.create(:beer)
-      expect do
-        FactoryGirl.create(:review, beer: beer)
-      end.to change  { beer.avg_star_rating }
-         .and change { beer.avg_flavour_rating }
-         .and change { beer.avg_colour_rating }
+      FactoryGirl.create(:review, beer: beer, star_rating: 5, colour_rating: 3, flavour_rating: 11)
+      expect(beer.avg_star_rating).to eq(5)
+      expect(beer.avg_colour_rating).to eq(3)
+      expect(beer.avg_flavour_rating).to eq(11)
     end
   end
 end
