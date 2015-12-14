@@ -7,6 +7,7 @@ class BeerSerializer < ActiveModel::Serializer
              :avg_star_rating,
              :avg_flavour_rating,
              :avg_colour_rating,
+             :num_reviews,
              :category,
              :abv,
              :ibu,

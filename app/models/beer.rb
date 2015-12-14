@@ -12,6 +12,10 @@ class Beer < ActiveRecord::Base
   # TODO: is there a way we could fire this callback only on a newly created review?
   after_touch :recalculate_average_rating
 
+  def num_reviews
+    reviews.count
+  end
+
   private
   def recalculate_average_rating
     star_rating             = reviews.average(:star_rating)
