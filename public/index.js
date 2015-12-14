@@ -33041,13 +33041,21 @@
 	    I find this to be a pretty elegant solution to this issue, where we want to pass
 	    objects down to an arbitrary child component. Perhaps something like Flux or Redux
 	    would be better for this, but for small cases this is much easier.
-	  */
+	     Also look into this (https://github.com/rackt/react-router/issues/1369#issuecomment-113699310):
+	      React.cloneElement(this.props.children, { appState: this.state });
+	           Sounds like we could use it in place of rendering this.props.children in order to
+	    merge new props in.
+	   */
 	  childContextTypes: {
-	    beer: React.PropTypes.object
+	    beer: React.PropTypes.object,
+	    reviews: React.PropTypes.array
 	  },
 
 	  getChildContext: function getChildContext() {
-	    return { beer: this.state.beer };
+	    return {
+	      beer: this.state.beer,
+	      reviews: this.state.reviews
+	    };
 	  },
 	  getInitialState: function getInitialState() {
 	    return { beer: {}, brewery: {} };
@@ -33064,7 +33072,14 @@
 	        var brewery = { id: response.data.relationships.brewery.data.id,
 	          name: response.included[0].attributes.name
 	        };
-	        _this.setState({ beer: beer, brewery: brewery });
+	        var reviews = response.included.filter(function (el) {
+	          return el.type === "reviews";
+	        });
+
+	        _this.setState({
+	          beer: beer,
+	          brewery: brewery,
+	          reviews: reviews });
 	      },
 
 	      error: function error(obj, msg, err) {
@@ -33142,7 +33157,9 @@
 	              vitalAttributes
 	            )
 	          ),
-	          React.createElement(ReviewStars, { rating: this.state.beer.avg_star_rating }),
+	          React.createElement(ReviewStars, {
+	            rating: this.state.beer.avg_star_rating,
+	            numReviews: this.state.beer.num_reviews }),
 	          additionalAttributes
 	        ),
 	        React.createElement(
@@ -33193,54 +33210,42 @@
 
 /***/ },
 /* 205 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	var Review = __webpack_require__(237);
 
 	module.exports = React.createClass({
 	  displayName: "exports",
 
+	  contextTypes: {
+	    reviews: React.PropTypes.array
+	  },
+
 	  render: function render() {
+	    var reviews = [];
+
+	    if (this.context.reviews) {
+	      reviews = this.context.reviews.map(function (review) {
+	        return React.createElement(Review, { review: review.attributes, key: review.id });
+	      });
+	    } else {
+	      reviews = React.createElement(
+	        "p",
+	        { className: "lighter text-center" },
+	        React.createElement(
+	          "em",
+	          null,
+	          "No reviews yet."
+	        )
+	      );
+	    }
+
 	    return React.createElement(
 	      "div",
 	      { id: "reviews" },
-	      React.createElement(
-	        "div",
-	        { className: "beer-card clearfix" },
-	        React.createElement(
-	          "div",
-	          { className: "col-review" },
-	          React.createElement(
-	            "h5",
-	            null,
-	            React.createElement(
-	              "a",
-	              { href: "#" },
-	              "Alex T."
-	            ),
-	            " ",
-	            React.createElement(
-	              "i",
-	              null,
-	              "on June 15, 2015"
-	            )
-	          ),
-	          React.createElement(
-	            "div",
-	            { className: "review-stars" },
-	            React.createElement("span", { className: "glyphicon glyphicon-star" }),
-	            React.createElement("span", { className: "glyphicon glyphicon-star" }),
-	            React.createElement("span", { className: "glyphicon glyphicon-star" }),
-	            React.createElement("span", { className: "glyphicon glyphicon-star" }),
-	            React.createElement("span", { className: "glyphicon glyphicon-star" })
-	          ),
-	          React.createElement(
-	            "p",
-	            null,
-	            "This beer is one of my favourites, really nice session ale with a crisp flavour. Would recommend..."
-	          )
-	        )
-	      )
+	      reviews
 	    );
 	  }
 	});
@@ -33255,12 +33260,15 @@
 	  displayName: "exports",
 
 	  propTypes: {
+	    rating: React.PropTypes.number,
+	    numReviews: React.PropTypes.number,
 	    displayReviewCount: React.PropTypes.bool
 	  },
 
 	  getDefaultProps: function getDefaultProps() {
 	    return {
 	      rating: 0,
+	      numReviews: 0,
 	      displayReviewCount: true
 	    };
 	  },
@@ -33284,7 +33292,7 @@
 	      stars.push(React.createElement("span", { className: "glyphicon glyphicon-star half-star", key: 'xtra' }));
 	    }
 
-	    var num_reviews = stars.length > 0 ? "out of " + stars.length + " reviews" : "no reviews yet.";
+	    var displayNumReviews = this.props.numReviews > 0 ? "out of " + this.props.numReviews + " reviews" : "no reviews yet.";
 
 	    return React.createElement(
 	      "div",
@@ -33293,7 +33301,7 @@
 	      this.props.displayReviewCount ? React.createElement(
 	        "p",
 	        { className: "indent italicize lighter" },
-	        num_reviews
+	        displayNumReviews
 	      ) : ""
 	    );
 	  }
@@ -37215,6 +37223,56 @@
 	      React.createElement('br', null),
 	      '// FLAVOUR MAP',
 	      React.createElement(FlavourMapEmbedded, null)
+	    );
+	  }
+	});
+
+/***/ },
+/* 237 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Link = __webpack_require__(148).Link;
+	var ReviewStars = __webpack_require__(206);
+
+	module.exports = React.createClass({
+	  displayName: 'exports',
+
+	  propTypes: {
+	    review: React.PropTypes.object
+	  },
+
+	  render: function render() {
+
+	    return React.createElement(
+	      'div',
+	      { className: 'beer-card clearfix' },
+	      React.createElement(
+	        'div',
+	        { className: 'col-review' },
+	        React.createElement(
+	          'h5',
+	          null,
+	          React.createElement(
+	            Link,
+	            { to: '/users/' + this.props.review.author_id },
+	            this.props.review.author_name
+	          ),
+	          ' on ',
+	          React.createElement(
+	            'em',
+	            null,
+	            this.props.review.date
+	          )
+	        ),
+	        React.createElement(ReviewStars, { rating: this.props.review.star_rating }),
+	        React.createElement(
+	          'p',
+	          null,
+	          this.props.review.body
+	        )
+	      )
 	    );
 	  }
 	});

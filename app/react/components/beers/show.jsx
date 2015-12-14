@@ -11,13 +11,24 @@ module.exports = React.createClass({
     I find this to be a pretty elegant solution to this issue, where we want to pass
     objects down to an arbitrary child component. Perhaps something like Flux or Redux
     would be better for this, but for small cases this is much easier.
+
+    Also look into this (https://github.com/rackt/react-router/issues/1369#issuecomment-113699310):
+      React.cloneElement(this.props.children, { appState: this.state });
+
+          Sounds like we could use it in place of rendering this.props.children in order to
+    merge new props in.
+
   */
   childContextTypes: {
-    beer: React.PropTypes.object
+    beer:    React.PropTypes.object,
+    reviews: React.PropTypes.array
   },
 
   getChildContext() {
-    return { beer: this.state.beer }
+    return {
+      beer:    this.state.beer,
+      reviews: this.state.reviews
+    }
   },
 
   getInitialState() {
@@ -35,7 +46,12 @@ module.exports = React.createClass({
         var brewery   = { id:   response.data.relationships.brewery.data.id,
                           name: response.included[0].attributes.name
                         };
-        this.setState({ beer: beer, brewery: brewery });
+        var reviews   = response.included.filter((el)=> { return el.type === "reviews" });
+
+        this.setState({
+          beer: beer,
+          brewery: brewery,
+          reviews: reviews });
       },
 
       error: (obj, msg, err) => {
@@ -95,7 +111,9 @@ module.exports = React.createClass({
                 {vitalAttributes}
               </p>
             </div>
-            <ReviewStars rating={this.state.beer.avg_star_rating} />
+            <ReviewStars
+              rating={this.state.beer.avg_star_rating}
+              numReviews={this.state.beer.num_reviews} />
             {additionalAttributes}
           </div>
           <div id="beer-show-header-actions">

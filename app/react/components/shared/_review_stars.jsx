@@ -2,12 +2,15 @@
 
 module.exports = React.createClass({
   propTypes: {
+    rating: React.PropTypes.number,
+    numReviews: React.PropTypes.number,
     displayReviewCount: React.PropTypes.bool
   },
 
   getDefaultProps() {
     return {
       rating: 0,
+      numReviews: 0,
       displayReviewCount: true
     }
   },
@@ -34,12 +37,12 @@ module.exports = React.createClass({
       stars.push(<span className="glyphicon glyphicon-star half-star" key={'xtra'}></span>);
     }
 
-    var num_reviews = stars.length > 0 ? `out of ${stars.length} reviews` : `no reviews yet.`
+    var displayNumReviews = this.props.numReviews > 0 ? `out of ${this.props.numReviews} reviews` : `no reviews yet.`
 
     return (
       <div className="review-stars" title={`${rating}/5`}>
         {stars}
-        { this.props.displayReviewCount ? <p className="indent italicize lighter">{num_reviews}</p> : ""}
+        { this.props.displayReviewCount ? <p className="indent italicize lighter">{displayNumReviews}</p> : ""}
       </div>
     );
   },
