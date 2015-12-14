@@ -6,9 +6,24 @@ var ReviewStars = require("../shared/_review_stars");
 var FlavourMap = require("./_flavour_map");
 
 module.exports = React.createClass({
+  /*
+    TODO: investigate Context further: https://facebook.github.io/react/docs/context.html
+    I find this to be a pretty elegant solution to this issue, where we want to pass
+    objects down to an arbitrary child component. Perhaps something like Flux or Redux
+    would be better for this, but for small cases this is much easier.
+  */
+  childContextTypes: {
+    beer: React.PropTypes.object
+  },
+
+  getChildContext() {
+    return { beer: this.state.beer }
+  },
+
   getInitialState() {
     return { beer: {}, brewery: {} }
   },
+
 
   ajaxGetBeer(id) {
     // TODO: refactor this url
