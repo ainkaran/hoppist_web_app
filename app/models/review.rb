@@ -6,4 +6,21 @@ class Review < ActiveRecord::Base
   validates :beer, presence: true
   validates :user_id, uniqueness: { scope: :beer_id }
 
+  # reviews can just consist of a star rating...
+  validates :star_rating, presence: true, numericality: { greater_than: 0, less_than: 6 }
+
+  # if the review has a body, it must be valid
+  validates :body, length: { minimum: 10 }, if: "body.present?"
+
+  # a review can optionally include a colour/flavour rating, but not one or the other
+  with_options if: :includes_flavour_or_colour do |review|
+    review.validates :flavour_rating, presence: true, numericality: { greater_than: 0, less_than: 13 }
+    review.validates :colour_rating,  presence: true, numericality: { greater_than: 0, less_than: 13 }
+  end
+
+  private
+  def includes_flavour_or_colour
+    flavour_rating.present? || colour_rating.present?
+  end
+
 end
