@@ -2,13 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::BeersController, type: :controller do
   before do
-    begin
-      10.times do
-        b = FactoryGirl.build(:beer)
-        b.save
-      end
-    rescue
-      byebug
+    10.times do
+      b = FactoryGirl.create(:beer)
     end
   end
 
