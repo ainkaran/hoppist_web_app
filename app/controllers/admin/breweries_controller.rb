@@ -1,4 +1,6 @@
 class Admin::BreweriesController < Admin::BaseController
+  before_action :brewery_by_id, only: [:show, :edit, :update]
+
   def new
     @breweries = Brewery.all.order(:name)
     @brewery = Brewery.new
@@ -20,16 +22,27 @@ class Admin::BreweriesController < Admin::BaseController
   end
 
   def show
-    @brewery = Brewery.find(params[:id])
+
   end
 
-
-  def admin_show
-    @brewery = Brewery.find(params[:id])
+  def edit
   end
+
+  def update
+    if @brewery.update(brewery_params)
+      redirect_to admin_brewery_path(@brewery)
+    else
+      render :edit
+    end
+  end
+
 
   private
+  def brewery_by_id
+    @brewery = Brewery.find(params[:id])
+  end
+
   def brewery_params
-    params.require(:brewery).permit([:name])
+    params.require(:brewery).permit([:name, :description])
   end
 end
