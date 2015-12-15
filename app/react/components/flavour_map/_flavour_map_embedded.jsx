@@ -1,4 +1,5 @@
 'use strict'
+var React = require('react');
 var Draggable = require('react-draggable');
 var ReactDOM = require('react-dom'); // required here because we're invoking it to get the node width
 var calculateFlavourMapCoords = require("../../utils/calculate_flavour_map_coords");

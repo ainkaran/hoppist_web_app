@@ -1,12 +1,17 @@
 'use strict'
+var React = require('react');
 var Link = require('react-router').Link;
 var ReviewStars = require("../shared/_review_stars");
 
 module.exports = React.createClass({
   handleClick() {
     console.log("clicked, navigating..");
-    // TODO: think about url abstraction. maybe everything could be in a global object
-    // TODO: friendly URLs
+    /*
+      TODO: grab the URLs from the API requests. based on the JSON API standard, each
+      request can return URLs to navigate around the resources. the app could
+      initially receive a response from the endpoint (/) that gives it the links
+      it needs to build the routes.
+    */
     var beerLink = `/beers/${this.props.beer.id}`
     this.props.onNavigation({ url: beerLink});
   },

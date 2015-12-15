@@ -26,6 +26,7 @@ var StyleGuide               = require("./components/style_guide");
 // a child in a parent component. so we can't nest beers within breweries for the
 // sake of the url; we have to hardcode the nesting if we want that path.
 ReactDOM.render((
+
   <Router history={createBrowserHistory()}>
     <Route path="/" component={App}>
       <Route path="beers" component={BeerIndex} />

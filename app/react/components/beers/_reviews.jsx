@@ -1,16 +1,13 @@
 'use strict'
+var React = require('react');
 var Review = require("../reviews/_review_card");
 
 module.exports = React.createClass({
-  contextTypes: {
-    reviews: React.PropTypes.array
-  },
-
   render() {
     var reviews = [];
 
-    if (this.context.reviews) {
-      reviews = this.context.reviews.map((review)=>{
+    if (this.props.reviews) {
+      reviews = this.props.reviews.map((review)=>{
         return (<Review
                   review={review.attributes}
                   key={review.id}/>);

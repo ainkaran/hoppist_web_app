@@ -1,4 +1,5 @@
 'use strict'
+var React = require('react');
 var BeerCardVitals = require("../beers/_beer_card_vitals");
 var BeerListIntro = require("./_beer_list_intro");
 var LoadingBeers = require("./_loading_beers");

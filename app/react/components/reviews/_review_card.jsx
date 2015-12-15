@@ -1,4 +1,5 @@
 'use strict'
+var React = require('react');
 var Link = require('react-router').Link;
 var ReviewStars = require("../shared/_review_stars");
 

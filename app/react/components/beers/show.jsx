@@ -1,4 +1,5 @@
 'use strict'
+var React = require('react');
 var Link = require('react-router').Link;
 
 var Reviews = require("./_reviews");
@@ -6,30 +7,6 @@ var ReviewStars = require("../shared/_review_stars");
 var FlavourMap = require("./_flavour_map");
 
 module.exports = React.createClass({
-  /*
-    TODO: investigate Context further: https://facebook.github.io/react/docs/context.html
-    I find this to be a pretty elegant solution to this issue, where we want to pass
-    objects down to an arbitrary child component. Perhaps something like Flux or Redux
-    would be better for this, but for small cases this is much easier.
-
-    Also look into this (https://github.com/rackt/react-router/issues/1369#issuecomment-113699310):
-      React.cloneElement(this.props.children, { appState: this.state });
-
-          Sounds like we could use it in place of rendering this.props.children in order to
-    merge new props in.
-
-  */
-  childContextTypes: {
-    beer:    React.PropTypes.object,
-    reviews: React.PropTypes.array
-  },
-
-  getChildContext() {
-    return {
-      beer:    this.state.beer,
-      reviews: this.state.reviews
-    }
-  },
 
   getInitialState() {
     return { beer: {}, brewery: {} }
@@ -78,16 +55,25 @@ module.exports = React.createClass({
     var additionalAttributes = [];
     if (this.state.beer.available_in_growlers) {
       additionalAttributes.push(
-        <p key="available_in_growlers"><span className="glyphicon glyphicon-grain"></span> available for growler fills</p>
+        <p key="available_in_growlers">
+          <span className="glyphicon glyphicon-grain"></span> available for growler fills
+        </p>
       );
     }
 
     if (this.state.beer.available_in_bottles_cans) {
       additionalAttributes.push(
-        <p key="available_in_bottles_cans"><span className="glyphicon glyphicon-grain"></span> available in bottles / cans</p>
+        <p key="available_in_bottles_cans">
+          <span className="glyphicon glyphicon-grain"></span> available in bottles / cans
+        </p>
       );
     }
 
+    // A solution for passing props down to the children, without relying on Context (or Redux/Flux)
+    // See https://facebook.github.io/react/blog/2015/03/03/react-v0.13-rc2.html#react.cloneelement
+    var newChildren = React.Children.map(this.props.children, (child)=> {
+      return React.cloneElement(child, { beer: this.state.beer, reviews: this.state.reviews });
+    });
 
     return (
       <div id="beer-show">
@@ -130,7 +116,7 @@ module.exports = React.createClass({
         </ul>
 
         <div id="nested-content">
-          {this.props.children}
+          {newChildren}
         </div>
 
 
