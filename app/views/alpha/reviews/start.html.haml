@@ -1,6 +1,10 @@
 .container.container-fluid
   %h3.branded HOPPIST alpha
 
+  - if flash[:notice]
+    .alert.alert-notice
+      = flash[:notice]
+
   %h2 Let's review some beers.
   %h2 What's your name?
 

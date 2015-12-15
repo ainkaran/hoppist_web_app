@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151215012747) do
+ActiveRecord::Schema.define(version: 20151215023446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,21 +24,28 @@ ActiveRecord::Schema.define(version: 20151215012747) do
     t.float    "avg_flavour_rating"
     t.float    "avg_colour_rating"
     t.float    "avg_star_rating"
-    t.string   "category"
     t.float    "abv"
     t.integer  "ibu"
     t.boolean  "available_in_growlers"
     t.boolean  "available_in_bottles_cans"
     t.string   "label_image"
+    t.integer  "category_id"
   end
 
   add_index "beers", ["brewery_id"], name: "index_beers_on_brewery_id", using: :btree
+  add_index "beers", ["category_id"], name: "index_beers_on_category_id", using: :btree
 
   create_table "breweries", force: :cascade do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -66,6 +73,7 @@ ActiveRecord::Schema.define(version: 20151215012747) do
   end
 
   add_foreign_key "beers", "breweries"
+  add_foreign_key "beers", "categories"
   add_foreign_key "reviews", "beers"
   add_foreign_key "reviews", "users"
 end

@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :beer do
     association :brewery, factory: :brewery
+    association :category, factory: :category
     sequence(:name) { |n| "Beer Name #{n}" }
-    category "pale ale"
     abv 5.6
     ibu 55
     available_in_growlers true

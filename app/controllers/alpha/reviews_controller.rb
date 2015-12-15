@@ -14,8 +14,12 @@ class Alpha::ReviewsController < ApplicationController
 
     if !user
       user = User.new(first_name: first_name, last_name: last_name)
+      user.password = SecureRandom.hex(32)
       user.save
       if !user.save
+        flash[:notice] = "Error saving user"
+        byebug
+        Rails.logger.error user.errors.messages.inspect
         render :start
         return
       end

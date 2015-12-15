@@ -4,17 +4,6 @@ class Admin::BeersController < Admin::BaseController
   def new
     @beer = Beer.new
     @breweries = Brewery.all.order(:name) # for the form dropdown
-
-    # TODO: this should come from a model
-    @categories = ["stout",
-                   "porter",
-                   "ale",
-                   "IPA",
-                   "lager",
-                   "pilsner",
-                   "bock",
-                   "sour",
-                   "other"]
   end
 
   def create
@@ -46,6 +35,7 @@ class Admin::BeersController < Admin::BaseController
       flash[:notice] = "Beer updated."
       redirect_to admin_beer_path(@beer)
     else
+      flash[:alert] = "Couldn't save beer: #{@beer.errors.messages.inspect}"
       render :edit
     end
   end
@@ -58,7 +48,7 @@ class Admin::BeersController < Admin::BaseController
   def beer_params
     params.require(:beer).permit([:name,
                                   :brewery_id,
-                                  :category,
+                                  :category_id,
                                   :abv,
                                   :ibu,
                                   :available_in_growlers,
