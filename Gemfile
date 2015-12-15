@@ -26,7 +26,7 @@ gem 'cancancan'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'simple_form'
-
+gem 'fog'
 
 group :development, :test do
   gem 'byebug'
