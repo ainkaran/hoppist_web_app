@@ -28,7 +28,14 @@ class Alpha::BeersController < ApplicationController
 
   private
   def beer_params
-    params.require(:beer).permit([:name, :brewery])
+    params.require(:beer).permit([:brewery,
+                                  :name,
+                                  :category,
+                                  :abv,
+                                  :ibu,
+                                  :available_in_growlers,
+                                  :available_in_bottles_cans,
+                                  :label_image])
   end
 
 end

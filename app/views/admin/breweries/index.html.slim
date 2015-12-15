@@ -1,0 +1,4 @@
+h2 Breweries
+ul
+- @breweries.each do |brewery|
+  li = link_to brewery.name, admin_brewery_path(brewery)

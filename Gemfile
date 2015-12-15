@@ -16,11 +16,15 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'haml-rails'
+gem 'haml-rails' # for the alpha site
+gem 'slim-rails' # for the admin site
 gem 'rails-api'
 # using the GitHub version to get built-in support for JSON API 1.0
 gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers.git'
 # gem 'bcrypt', '~> 3.1.7'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'simple_form'
 
 group :development, :test do
   gem 'byebug'

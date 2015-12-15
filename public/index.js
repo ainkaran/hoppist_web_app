@@ -63,10 +63,10 @@
 	var App = __webpack_require__(201);
 	var BeerIndex = __webpack_require__(203);
 	var BeerShow = __webpack_require__(204);
-	var BeerShowFlavourMap = __webpack_require__(207);
+	var BeerShowFlavourMap = __webpack_require__(208);
 	var BeerShowReviews = __webpack_require__(205);
-	var FlavourMapIndex = __webpack_require__(212);
-	var StyleGuide = __webpack_require__(236);
+	var FlavourMapIndex = __webpack_require__(213);
+	var StyleGuide = __webpack_require__(237);
 
 	// TODO: challenges with react router: the nesting assumes that you're rendering
 	// a child in a parent component. so we can't nest beers within breweries for the
@@ -33030,8 +33030,8 @@
 	var Link = __webpack_require__(148).Link;
 
 	var Reviews = __webpack_require__(205);
-	var ReviewStars = __webpack_require__(206);
-	var FlavourMap = __webpack_require__(207);
+	var ReviewStars = __webpack_require__(207);
+	var FlavourMap = __webpack_require__(208);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -33214,7 +33214,7 @@
 
 	'use strict';
 
-	var Review = __webpack_require__(237);
+	var Review = __webpack_require__(206);
 
 	module.exports = React.createClass({
 	  displayName: "exports",
@@ -33254,6 +33254,77 @@
 
 /***/ },
 /* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Link = __webpack_require__(148).Link;
+	var ReviewStars = __webpack_require__(207);
+
+	module.exports = React.createClass({
+	  displayName: 'exports',
+
+	  propTypes: {
+	    review: React.PropTypes.object
+	  },
+
+	  render: function render() {
+	    var flavour_profile;
+
+	    if (this.props.review.colour_rating && this.props.review.flavour_rating) {
+	      flavour_profile = React.createElement(
+	        'p',
+	        { className: 'lightest small italicize', style: { marginBottom: 0 } },
+	        'LIGHTNESS: ',
+	        this.props.review.colour_rating,
+	        ' / 12   ·   HOPPINESS: ',
+	        this.props.review.flavour_rating,
+	        ' / 12'
+	      );
+	    }
+
+	    return React.createElement(
+	      'div',
+	      { className: 'beer-card clearfix' },
+	      React.createElement(
+	        'div',
+	        { className: 'col-review' },
+	        React.createElement(
+	          'h5',
+	          { className: 'flush-with-top' },
+	          React.createElement(
+	            Link,
+	            { to: '/users/' + this.props.review.author_id },
+	            this.props.review.author_name
+	          ),
+	          ' ',
+	          React.createElement(
+	            'span',
+	            { className: 'lighter' },
+	            'on ',
+	            React.createElement(
+	              'em',
+	              null,
+	              this.props.review.date
+	            )
+	          )
+	        ),
+	        React.createElement(ReviewStars, {
+	          rating: this.props.review.star_rating,
+	          displayReviewCount: false }),
+	        React.createElement(
+	          'p',
+	          null,
+	          this.props.review.body
+	        ),
+	        flavour_profile
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 207 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -33310,12 +33381,12 @@
 	});
 
 /***/ },
-/* 207 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var FlavourMapEmbedded = __webpack_require__(208);
+	var FlavourMapEmbedded = __webpack_require__(209);
 
 	module.exports = React.createClass({
 	  displayName: "exports",
@@ -33337,15 +33408,15 @@
 	});
 
 /***/ },
-/* 208 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Draggable = __webpack_require__(209);
+	var Draggable = __webpack_require__(210);
 	var ReactDOM = __webpack_require__(2); // required here because we're invoking it to get the node width
-	var calculateFlavourMapCoords = __webpack_require__(210);
-	var calculateDbCoords = __webpack_require__(211);
+	var calculateFlavourMapCoords = __webpack_require__(211);
+	var calculateDbCoords = __webpack_require__(212);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -33463,7 +33534,7 @@
 	});
 
 /***/ },
-/* 209 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
@@ -34844,7 +34915,7 @@
 	//# sourceMappingURL=react-draggable.js.map
 
 /***/ },
-/* 210 */
+/* 211 */
 /***/ function(module, exports) {
 
 	module.exports = function(flavour_x, colour_y, map_width, map_height) {
@@ -34862,7 +34933,7 @@
 
 
 /***/ },
-/* 211 */
+/* 212 */
 /***/ function(module, exports) {
 
 	// TODO: refactor this and calculate_flavour_map_coords into one class
@@ -34883,13 +34954,13 @@
 
 
 /***/ },
-/* 212 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var BeerList = __webpack_require__(213);
-	var FlavourMapEmbedded = __webpack_require__(208);
+	var BeerList = __webpack_require__(214);
+	var FlavourMapEmbedded = __webpack_require__(209);
 
 	module.exports = React.createClass({
 	  displayName: "exports",
@@ -34951,16 +35022,16 @@
 	});
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var BeerCardVitals = __webpack_require__(214);
-	var BeerListIntro = __webpack_require__(215);
-	var LoadingBeers = __webpack_require__(216);
-	var NoBeers = __webpack_require__(217);
-	var ReactCSSTransitionGroup = __webpack_require__(218);
+	var BeerCardVitals = __webpack_require__(215);
+	var BeerListIntro = __webpack_require__(216);
+	var LoadingBeers = __webpack_require__(217);
+	var NoBeers = __webpack_require__(218);
+	var ReactCSSTransitionGroup = __webpack_require__(219);
 
 	module.exports = React.createClass({
 	  displayName: "exports",
@@ -35040,13 +35111,13 @@
 	});
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var Link = __webpack_require__(148).Link;
-	var ReviewStars = __webpack_require__(206);
+	var ReviewStars = __webpack_require__(207);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -35106,7 +35177,7 @@
 	});
 
 /***/ },
-/* 215 */
+/* 216 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -35136,7 +35207,7 @@
 	});
 
 /***/ },
-/* 216 */
+/* 217 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -35161,7 +35232,7 @@
 	});
 
 /***/ },
-/* 217 */
+/* 218 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -35191,13 +35262,13 @@
 	});
 
 /***/ },
-/* 218 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(219);
+	module.exports = __webpack_require__(220);
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -35214,12 +35285,12 @@
 
 	'use strict';
 
-	var React = __webpack_require__(220);
+	var React = __webpack_require__(221);
 
 	var assign = __webpack_require__(39);
 
-	var ReactTransitionGroup = __webpack_require__(231);
-	var ReactCSSTransitionGroupChild = __webpack_require__(233);
+	var ReactTransitionGroup = __webpack_require__(232);
+	var ReactCSSTransitionGroupChild = __webpack_require__(234);
 
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -35285,7 +35356,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -35302,11 +35373,11 @@
 	'use strict';
 
 	var ReactDOM = __webpack_require__(3);
-	var ReactDOMServer = __webpack_require__(221);
-	var ReactIsomorphic = __webpack_require__(225);
+	var ReactDOMServer = __webpack_require__(222);
+	var ReactIsomorphic = __webpack_require__(226);
 
 	var assign = __webpack_require__(39);
-	var deprecated = __webpack_require__(230);
+	var deprecated = __webpack_require__(231);
 
 	// `version` will be added here by ReactIsomorphic.
 	var React = {};
@@ -35330,7 +35401,7 @@
 	module.exports = React;
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -35347,7 +35418,7 @@
 	'use strict';
 
 	var ReactDefaultInjection = __webpack_require__(71);
-	var ReactServerRendering = __webpack_require__(222);
+	var ReactServerRendering = __webpack_require__(223);
 	var ReactVersion = __webpack_require__(146);
 
 	ReactDefaultInjection.inject();
@@ -35361,7 +35432,7 @@
 	module.exports = ReactDOMServer;
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35381,8 +35452,8 @@
 	var ReactElement = __webpack_require__(42);
 	var ReactInstanceHandles = __webpack_require__(45);
 	var ReactMarkupChecksum = __webpack_require__(48);
-	var ReactServerBatchingStrategy = __webpack_require__(223);
-	var ReactServerRenderingTransaction = __webpack_require__(224);
+	var ReactServerBatchingStrategy = __webpack_require__(224);
+	var ReactServerRenderingTransaction = __webpack_require__(225);
 	var ReactUpdates = __webpack_require__(54);
 
 	var emptyObject = __webpack_require__(58);
@@ -35450,7 +35521,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 223 */
+/* 224 */
 /***/ function(module, exports) {
 
 	/**
@@ -35478,7 +35549,7 @@
 	module.exports = ReactServerBatchingStrategy;
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -35570,7 +35641,7 @@
 	module.exports = ReactServerRenderingTransaction;
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35589,14 +35660,14 @@
 	var ReactChildren = __webpack_require__(110);
 	var ReactComponent = __webpack_require__(123);
 	var ReactClass = __webpack_require__(122);
-	var ReactDOMFactories = __webpack_require__(226);
+	var ReactDOMFactories = __webpack_require__(227);
 	var ReactElement = __webpack_require__(42);
-	var ReactElementValidator = __webpack_require__(227);
+	var ReactElementValidator = __webpack_require__(228);
 	var ReactPropTypes = __webpack_require__(107);
 	var ReactVersion = __webpack_require__(146);
 
 	var assign = __webpack_require__(39);
-	var onlyChild = __webpack_require__(229);
+	var onlyChild = __webpack_require__(230);
 
 	var createElement = ReactElement.createElement;
 	var createFactory = ReactElement.createFactory;
@@ -35650,7 +35721,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35668,9 +35739,9 @@
 	'use strict';
 
 	var ReactElement = __webpack_require__(42);
-	var ReactElementValidator = __webpack_require__(227);
+	var ReactElementValidator = __webpack_require__(228);
 
-	var mapObject = __webpack_require__(228);
+	var mapObject = __webpack_require__(229);
 
 	/**
 	 * Create a factory that creates HTML tag elements.
@@ -35833,7 +35904,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -36120,7 +36191,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports) {
 
 	/**
@@ -36176,7 +36247,7 @@
 	module.exports = mapObject;
 
 /***/ },
-/* 229 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -36215,7 +36286,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 230 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -36269,7 +36340,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 231 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36285,8 +36356,8 @@
 
 	'use strict';
 
-	var React = __webpack_require__(220);
-	var ReactTransitionChildMapping = __webpack_require__(232);
+	var React = __webpack_require__(221);
+	var ReactTransitionChildMapping = __webpack_require__(233);
 
 	var assign = __webpack_require__(39);
 	var emptyFunction = __webpack_require__(15);
@@ -36479,7 +36550,7 @@
 	module.exports = ReactTransitionGroup;
 
 /***/ },
-/* 232 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36582,7 +36653,7 @@
 	module.exports = ReactTransitionChildMapping;
 
 /***/ },
-/* 233 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36599,13 +36670,13 @@
 
 	'use strict';
 
-	var React = __webpack_require__(220);
+	var React = __webpack_require__(221);
 	var ReactDOM = __webpack_require__(3);
 
-	var CSSCore = __webpack_require__(234);
-	var ReactTransitionEvents = __webpack_require__(235);
+	var CSSCore = __webpack_require__(235);
+	var ReactTransitionEvents = __webpack_require__(236);
 
-	var onlyChild = __webpack_require__(229);
+	var onlyChild = __webpack_require__(230);
 
 	// We don't remove the element from the DOM until we receive an animationend or
 	// transitionend event. If the user screws up and forgets to add an animation
@@ -36752,7 +36823,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ },
-/* 234 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -36855,7 +36926,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 235 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36969,13 +37040,13 @@
 	module.exports = ReactTransitionEvents;
 
 /***/ },
-/* 236 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var Link = __webpack_require__(148).Link;
-	var FlavourMapEmbedded = __webpack_require__(208);
+	var FlavourMapEmbedded = __webpack_require__(209);
 
 	// application layout
 	module.exports = React.createClass({
@@ -37225,77 +37296,6 @@
 	      React.createElement('br', null),
 	      '// FLAVOUR MAP',
 	      React.createElement(FlavourMapEmbedded, null)
-	    );
-	  }
-	});
-
-/***/ },
-/* 237 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var Link = __webpack_require__(148).Link;
-	var ReviewStars = __webpack_require__(206);
-
-	module.exports = React.createClass({
-	  displayName: 'exports',
-
-	  propTypes: {
-	    review: React.PropTypes.object
-	  },
-
-	  render: function render() {
-	    var flavour_profile;
-
-	    if (this.props.review.colour_rating && this.props.review.flavour_rating) {
-	      flavour_profile = React.createElement(
-	        'p',
-	        { className: 'lightest small italicize', style: { marginBottom: 0 } },
-	        'LIGHTNESS: ',
-	        this.props.review.colour_rating,
-	        ' / 12   ·   HOPPINESS: ',
-	        this.props.review.flavour_rating,
-	        ' / 12'
-	      );
-	    }
-
-	    return React.createElement(
-	      'div',
-	      { className: 'beer-card clearfix' },
-	      React.createElement(
-	        'div',
-	        { className: 'col-review' },
-	        React.createElement(
-	          'h5',
-	          { className: 'flush-with-top' },
-	          React.createElement(
-	            Link,
-	            { to: '/users/' + this.props.review.author_id },
-	            this.props.review.author_name
-	          ),
-	          ' ',
-	          React.createElement(
-	            'span',
-	            { className: 'lighter' },
-	            'on ',
-	            React.createElement(
-	              'em',
-	              null,
-	              this.props.review.date
-	            )
-	          )
-	        ),
-	        React.createElement(ReviewStars, {
-	          rating: this.props.review.star_rating,
-	          displayReviewCount: false }),
-	        React.createElement(
-	          'p',
-	          null,
-	          this.props.review.body
-	        ),
-	        flavour_profile
-	      )
 	    );
 	  }
 	});

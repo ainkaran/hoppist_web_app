@@ -12,6 +12,12 @@ Rails.application.routes.draw do
     end
   end
 
+
+  namespace :admin do
+    resources :breweries
+    resources :beers
+  end
+
   # For the 'survey' microsite.
   namespace :alpha do
     get "/beer_reviewer" => "reviews#start"
@@ -19,9 +25,9 @@ Rails.application.routes.draw do
     get "/end" => "reviews#end"
 
     # admin
-    get  "/admin/breweries/new" => "breweries#new"
-    post "/admin/breweries" => "breweries#create"
-    get  "/admin/breweries/:id" => "breweries#admin_show", as: :admin_brewery_show
+    # get  "/admin/breweries/new" => "breweries#new"
+    # post "/admin/breweries" => "breweries#create"
+    # get  "/admin/breweries/:id" => "breweries#admin_show", as: :admin_brewery_show
 
     resources :reviews, only: [:new, :create]
     resources :breweries, only: [:index, :show] do

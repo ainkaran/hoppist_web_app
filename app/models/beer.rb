@@ -6,11 +6,17 @@ class Beer < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :brewery, presence: true
 
+  mount_uploader :label_image, BeerLabelUploader
+
   # TODO: make category a table
   validates :category, presence: true
 
   # TODO: is there a way we could fire this callback only on a newly created review?
   after_touch :recalculate_average_rating
+
+  def beer_label_filename
+    name.parameterize
+  end
 
   private
   def recalculate_average_rating

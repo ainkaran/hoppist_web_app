@@ -1,0 +1,27 @@
+.row
+  .col-md-12
+    h2 = @brewery.name
+    hr
+.row
+  .col-md-6
+    p Created at #{@brewery.created_at}
+    p Updated at #{@brewery.updated_at}
+    p Description: #{@brewery.description}
+
+  .col-md-4
+    h5 Image
+    p <em>No image yet.</em>
+
+  .col-md-2
+    h5 Actions
+    p = link_to "edit brewery", edit_admin_brewery_path(@brewery)
+
+.row
+  .col-md-12
+    .panel.panel-success
+      .panel-heading
+        h4 Beers
+      .panel-body
+        ul
+        - @brewery.beers.each do |beer|
+          li = link_to beer.name, admin_beer_path(beer)

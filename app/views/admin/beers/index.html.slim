@@ -1,0 +1,4 @@
+h2 Beers
+ul
+- @beers.each do |beer|
+  li = link_to "#{beer.name} by #{beer.brewery.name}", admin_beer_path(beer) 

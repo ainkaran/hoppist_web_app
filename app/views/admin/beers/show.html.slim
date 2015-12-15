@@ -1,0 +1,47 @@
+.row
+  .col-md-12
+    h2 = @beer.name
+    hr
+.row
+  .col-md-6
+    p Created at #{@beer.created_at}
+    p Updated at #{@beer.updated_at}
+    p Brewery: #{link_to @beer.brewery.name, admin_brewery_path(@beer.brewery)}
+    p Style/Category: #{@beer.category}
+    p ABV: #{@beer.abv}
+    p IBU: #{@beer.ibu}
+    p Available in growlers: #{@beer.available_in_growlers}
+    p Available in bottles/cans: #{@beer.available_in_bottles_cans}
+
+  .col-md-4
+    h5 Image
+    - if @beer.label_image.present?
+      = link_to(image_tag(@beer.label_image.url(:gallery), class: "img-thumbnail"), image_path(@beer.label_image.url))
+    - else
+      p <em>No image yet.</em>
+
+  .col-md-2
+    h5 Actions
+    p = link_to "edit beer", edit_admin_beer_path(@beer)
+
+  hr
+
+.row
+  .col-md-12
+    .panel.panel-success
+      .panel-heading
+        h4 Reviews
+      .panel-body
+        p Total reviews: #{@beer.reviews.count}
+        p Avg star rating: #{@beer.avg_star_rating} / 5
+        p Avg colour: #{@beer.avg_colour_rating} / 12
+        p Avg flavour: #{@beer.avg_flavour_rating} / 12
+      .panel-footer
+        h4 Full Reviews
+        - @beer.reviews.each do |review|
+          p User: #{review.user.display_name}
+          p Star Rating: #{review.star_rating} / 5
+          p Colour Rating: #{review.colour_rating} / 12
+          p Flavour Rating: #{review.flavour_rating} / 12
+          p Body: #{review.body}
+          hr
