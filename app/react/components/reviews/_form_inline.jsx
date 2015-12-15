@@ -1,11 +1,18 @@
 'use strict'
 var React = require('react');
-var ReviewStars = require("../shared/_review_stars");
+var ReviewStars = require('../shared/_review_stars');
+var Slider = require('./_slider');
 
 module.exports = React.createClass({
   handleSubmit(ev) {
     ev.preventDefault();
-    debugger
+    // set the star rating to 'undefined' unless a value has been chosen
+    var starRating    = this.refs.reviewStars.state.value > 0 ? this.refs.reviewStars.state.value : undefined;
+    var colourRating  = this.refs.reviewColourRating.state.value;
+    var flavourRating = this.refs.reviewFlavourRating.state.value;
+    var body          = this.refs.reviewBody.value
+    // TODO perform validation
+    // TODO submit to server and handle response. should this be done by app?
   },
 
   render() {
@@ -21,28 +28,23 @@ module.exports = React.createClass({
               <ReviewStars
                 displayReviewCount={false}
                 interactive={true}
-                rating={5}
                 ref="reviewStars"
                 starsClassName="large-stars"
                 />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="colour_rating">Appearance (dark/light)</label>
-              <div id="colour-gradient">
-                <p id="colour-rating-display">~</p>
-              </div>
-            </div>
+            <Slider
+              ref="reviewColourRating"
+              title="Appearance (dark/light)"
+              type="colour-gradient" />
 
-            <div className="form-group">
-              <label htmlFor="flavour_rating">Taste (malty/hoppy)</label>
-              <div id="flavour-gradient">
-                <p id="flavour-rating-display">~</p>
-              </div>
-            </div>
+            <Slider
+              ref="reviewFlavourRating"
+              title="Appearance (dark/light)"
+              type="flavour-gradient" />
 
             <div>
-              <textarea ref="review_body" placeholder="Write a short review"></textarea>
+              <textarea ref="reviewBody" placeholder="Write a short review"></textarea>
             </div>
             <input type="submit" className="btn btn-primary" value="REVIEW" />
 

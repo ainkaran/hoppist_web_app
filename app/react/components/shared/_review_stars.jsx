@@ -1,5 +1,6 @@
 'use strict'
 var React = require('react');
+
 module.exports = React.createClass({
   propTypes: {
     displayReviewCount: React.PropTypes.bool,
@@ -19,8 +20,13 @@ module.exports = React.createClass({
     }
   },
 
+  getInitialState() {
+    return { value: 0 }
+  },
+
   handleStarClick(ev) {
     var starClicked = parseInt(ev.target.id,10);
+    this.setState({ value: starClicked });
   },
 
   renderStars(rating) {
@@ -33,14 +39,21 @@ module.exports = React.createClass({
     var stars    = [];
 
     if (this.props.interactive) {
-      classes.push('unfilled')
       numStars = 5;
     }
 
     for (var i = 0; i < numStars; i++) {
+      var state;
+
+      if ((i+1) > this.state.value) {
+        state = 'unfilled';
+      } else {
+        state = 'filled';
+      }
+
       stars.push(
         <span
-          className={classes.join(" ")}
+          className={`${classes.join(" ")} ${state}`}
           key={i}
           onClick={this.props.interactive ? this.handleStarClick : null}
           id={i+1}

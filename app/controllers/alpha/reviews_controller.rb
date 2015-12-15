@@ -1,4 +1,6 @@
 class Alpha::ReviewsController < ApplicationController
+  layout "alpha"
+
   def start
     redirect_to new_alpha_review_path if session[:user_id]
   end

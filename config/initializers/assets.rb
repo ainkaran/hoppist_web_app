@@ -14,3 +14,5 @@ Rails.application.config.assets.version = '1.0'
 # not compiled by default.
 # See: http://stackoverflow.com/a/22976830/2100285
 Rails.application.config.assets.precompile += %w( application_admin.js )
+Rails.application.config.assets.precompile += %w( application_alpha.js )
+Rails.application.config.assets.precompile += %w( application_alpha.css )

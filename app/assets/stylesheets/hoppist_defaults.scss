@@ -162,29 +162,3 @@ $nav-tabs-border-color:      #EBEBEB;
     cursor:                  default;
   }
 }
-
-
-
-/* Stars */
-.glyphicon-star {
-  font-size:                 20px;
-  color:                     $brand-orange;
-}
-
-.glyphicon-star-empty {
-  font-size:                 20px;
-  color:                     #FFE299;
-}
-
-.large-stars {
-  font-size:                 3.5em!important;
-}
-
-.review-stars span {
-  font-size:               25px;
-
-  &.half-star {
-    width:                 12.5px;
-    overflow:              hidden;
-  }
-}

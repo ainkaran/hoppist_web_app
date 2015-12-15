@@ -10,7 +10,8 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//  removed jquery because we're using React
+//= require jquery
 //  removed jquery_ujs because we're using React
 //= require bootstrap-sprockets
 //  removed turbolinks because we're using React
+//= require alpha_review_new

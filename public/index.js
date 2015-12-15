@@ -33894,6 +33894,7 @@
 
 	'use strict';
 
+	var $ = __webpack_require__(209);
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
 
@@ -34189,6 +34190,7 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+
 	module.exports = React.createClass({
 	  displayName: 'exports',
 
@@ -34209,8 +34211,12 @@
 	      starsClassName: ""
 	    };
 	  },
+	  getInitialState: function getInitialState() {
+	    return { value: 0 };
+	  },
 	  handleStarClick: function handleStarClick(ev) {
 	    var starClicked = parseInt(ev.target.id, 10);
+	    this.setState({ value: starClicked });
 	  },
 	  renderStars: function renderStars(rating) {
 	    var classes = ['glyphicon', 'glyphicon-star'];
@@ -34222,13 +34228,20 @@
 	    var stars = [];
 
 	    if (this.props.interactive) {
-	      classes.push('unfilled');
 	      numStars = 5;
 	    }
 
 	    for (var i = 0; i < numStars; i++) {
+	      var state;
+
+	      if (i + 1 > this.state.value) {
+	        state = 'unfilled';
+	      } else {
+	        state = 'filled';
+	      }
+
 	      stars.push(React.createElement('span', {
-	        className: classes.join(" "),
+	        className: classes.join(" ") + ' ' + state,
 	        key: i,
 	        onClick: this.props.interactive ? this.handleStarClick : null,
 	        id: i + 1
@@ -35846,6 +35859,7 @@
 
 	'use strict';
 
+	var $ = __webpack_require__(209);
 	var React = __webpack_require__(1);
 	var BeerList = __webpack_require__(223);
 	var FlavourMapEmbedded = __webpack_require__(218);
@@ -37226,12 +37240,19 @@
 
 	var React = __webpack_require__(1);
 	var ReviewStars = __webpack_require__(216);
+	var Slider = __webpack_require__(237);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
 	  handleSubmit: function handleSubmit(ev) {
 	    ev.preventDefault();
-	    debugger;
+	    // set the star rating to 'undefined' unless a value has been chosen
+	    var starRating = this.refs.reviewStars.state.value > 0 ? this.refs.reviewStars.state.value : undefined;
+	    var colourRating = this.refs.reviewColourRating.state.value;
+	    var flavourRating = this.refs.reviewFlavourRating.state.value;
+	    var body = this.refs.reviewBody.value;
+	    // TODO perform validation
+	    // TODO submit to server and handle response. should this be done by app?
 	  },
 	  render: function render() {
 	    return React.createElement(
@@ -37258,53 +37279,108 @@
 	            React.createElement(ReviewStars, {
 	              displayReviewCount: false,
 	              interactive: true,
-	              rating: 5,
 	              ref: 'reviewStars',
 	              starsClassName: 'large-stars'
 	            })
 	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            React.createElement(
-	              'label',
-	              { htmlFor: 'colour_rating' },
-	              'Appearance (dark/light)'
-	            ),
-	            React.createElement(
-	              'div',
-	              { id: 'colour-gradient' },
-	              React.createElement(
-	                'p',
-	                { id: 'colour-rating-display' },
-	                '~'
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            React.createElement(
-	              'label',
-	              { htmlFor: 'flavour_rating' },
-	              'Taste (malty/hoppy)'
-	            ),
-	            React.createElement(
-	              'div',
-	              { id: 'flavour-gradient' },
-	              React.createElement(
-	                'p',
-	                { id: 'flavour-rating-display' },
-	                '~'
-	              )
-	            )
-	          ),
+	          React.createElement(Slider, {
+	            ref: 'reviewColourRating',
+	            title: 'Appearance (dark/light)',
+	            type: 'colour-gradient' }),
+	          React.createElement(Slider, {
+	            ref: 'reviewFlavourRating',
+	            title: 'Appearance (dark/light)',
+	            type: 'flavour-gradient' }),
 	          React.createElement(
 	            'div',
 	            null,
-	            React.createElement('textarea', { ref: 'review_body', placeholder: 'Write a short review' })
+	            React.createElement('textarea', { ref: 'reviewBody', placeholder: 'Write a short review' })
 	          ),
 	          React.createElement('input', { type: 'submit', className: 'btn btn-primary', value: 'REVIEW' })
+	        )
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 237 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158); // required here because we're invoking it to get the node width
+	var Draggable = __webpack_require__(219);
+	var calculateDbCoords = __webpack_require__(221);
+
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	  getInitialState: function getInitialState() {
+	    // these values are a best-guess at what it will probably be, but they'll get
+	    // set properly once the component mounts.
+	    /* TODO: the starting target coords are hardcoded based on this formula:
+	       gradient_height = 60px (from CSS)
+	       target_diamter = 28px (calculated from 2em in CSS)
+	       y_offset = (gradient_height/2)-(target_diamter/2)
+	    */
+
+	    return {
+	      activated: false,
+	      width: 308,
+	      height: 60,
+	      targetDiameter: 28,
+	      targetPos: { x: 0, y: 16 } };
+	  },
+	  setGradientRenderedState: function setGradientRenderedState(c) {
+	    this.setState({ width: c.offsetWidth, height: c.offsetHeight });
+	  },
+	  setTargetRenderedState: function setTargetRenderedState(c) {
+	    this.setState({ targetDiameter: c.offsetWidth });
+	  },
+	  handleTargetDragStart: function handleTargetDragStart() {
+	    this.setState({ activated: true });
+	  },
+	  handleTargetStop: function handleTargetStop(event, ui) {
+	    var newCoords = calculateDbCoords(this.state.targetPos.x, this.state.targetPos.y, this.state.width, this.state.height);
+	    // without doing this we get min=0, max=11
+	    newCoords.x += 1;
+	    this.setState({ value: newCoords.x });
+	  },
+	  handleTargetDrag: function handleTargetDrag(event, ui) {
+	    // TODO: this is a hack right now because ui.position on stop is NaN
+	    // for touch events. so instead we continually set the state during drag.
+	    // not ideal?
+	    this.setState({ targetPos: { x: ui.position.left, y: ui.position.top } });
+	  },
+	  render: function render() {
+	    var opacity = this.state.activated ? "1.0" : "0.25";
+
+	    return React.createElement(
+	      'div',
+	      { className: 'form-group' },
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'colour_rating' },
+	        this.props.title
+	      ),
+	      React.createElement(
+	        'div',
+	        { ref: this.setGradientRenderedState,
+	          id: this.props.type,
+	          style: { position: 'relative', opacity: opacity } },
+	        React.createElement(
+	          Draggable,
+	          {
+	            axis: 'x',
+	            bounds: 'parent',
+	            handle: '.handle',
+	            onStart: this.handleTargetDragStart,
+	            onDrag: this.handleTargetDrag,
+	            onStop: this.handleTargetStop,
+	            start: { x: 0, y: 16 },
+	            zIndex: 100 },
+	          React.createElement('div', { ref: this.setTargetRenderedState, id: 'target', className: 'handle' })
 	        )
 	      )
 	    );
