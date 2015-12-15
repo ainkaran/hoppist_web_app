@@ -12,11 +12,21 @@ class BeerSerializer < ActiveModel::Serializer
              :abv,
              :ibu,
              :available_in_growlers,
-             :available_in_bottles_cans
+             :available_in_bottles_cans,
+             :images
+
 
 
   has_many :reviews
   belongs_to :brewery
+
+  def images
+    object.label_image
+  end
+
+  def category
+    object.category.name || "Other"
+  end
 
   def num_reviews
     object.reviews.count

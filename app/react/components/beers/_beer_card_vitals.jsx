@@ -12,39 +12,42 @@ module.exports = React.createClass({
       initially receive a response from the endpoint (/) that gives it the links
       it needs to build the routes.
     */
-    var beerLink = `/beers/${this.props.beer.id}`
+    var beerLink = `/ui/beers/${this.props.beer.id}`
     this.props.onNavigation({ url: beerLink});
   },
 
   render() {
     var beerLink = (
       <Link
-        to={`/beers/${this.props.beer.id}`}>
-        {this.props.beer.attributes.name}
+        to={`/ui/beers/${this.props.beer.id}`}>
+        {this.props.beer.name}
       </Link>
     );
 
     var breweryLink = (
       <Link
-        to={`/breweries/${this.props.brewery.id}`}>
-        {this.props.brewery.attributes.name}
+        to={`/ui/breweries/${this.props.brewery.id}`}>
+        {this.props.brewery.name}
       </Link>
     );
+
+    // TODO: replace this with proper a loading routine (see beer/show.jsx)
+    var beerImgUrl = this.props.beer.images ? `${this.props.beer.images.label_image.beer_card.url}` : null;
 
     return (
       <div className="beer-card clearfix" onClick={this.handleClick}>
 
         <div className="col-image">
           <div className="img-thumbnail beer-thumb">
-            <img src="/images/hop_circle.png" width="88" height="105" />
+            <img src={beerImgUrl} width="88" height="105" />
           </div>
         </div>
 
         <div className="col-details">
           <h3 className="flush-with-top">{beerLink}</h3>
-          <h5 className="lighter">{this.props.brewery.attributes.name}</h5>
+          <h5 className="lighter">{this.props.brewery.name}</h5>
           <ReviewStars
-            rating={this.props.beer.attributes.avg_star_rating}
+            rating={this.props.beer.avg_star_rating}
             displayReviewCount={false} />
         </div>
       </div>

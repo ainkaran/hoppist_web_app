@@ -4,9 +4,10 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 // react-router
+var IndexRoute = require('react-router').IndexRoute
+var Redirect = require('react-router').Redirect
 var Router = require('react-router').Router
 var Route = require('react-router').Route
-var IndexRoute = require('react-router').IndexRoute
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 
 // libraries
@@ -28,7 +29,8 @@ var StyleGuide               = require("./components/style_guide");
 ReactDOM.render((
 
   <Router history={createBrowserHistory()}>
-    <Route path="/" component={App}>
+    <Redirect from="/" to="/ui" />
+    <Route path="/ui" component={App}>
       <Route path="beers" component={BeerIndex} />
       <Route path="beers/:id" component={BeerShow}>
         <IndexRoute component={BeerShowFlavourMap} />

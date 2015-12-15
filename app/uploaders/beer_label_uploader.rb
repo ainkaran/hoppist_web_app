@@ -41,6 +41,11 @@ class BeerLabelUploader < CarrierWave::Uploader::Base
 
   version :profile do
     process :convert_to_jpg
+    process :resize_to_fill => [PROFILE_MAX_WIDTH, PROFILE_MAX_WIDTH/NARROW_ASPECT]
+  end
+
+  version :beer_card do
+    process :convert_to_jpg
     process :resize_to_fill => [BEER_CARD_MAX_WIDTH, BEER_CARD_MAX_WIDTH/NARROW_ASPECT]
   end
 

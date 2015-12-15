@@ -51,9 +51,10 @@
 	var ReactDOM = __webpack_require__(158);
 
 	// react-router
+	var IndexRoute = __webpack_require__(159).IndexRoute;
+	var Redirect = __webpack_require__(159).Redirect;
 	var Router = __webpack_require__(159).Router;
 	var Route = __webpack_require__(159).Route;
-	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var createBrowserHistory = __webpack_require__(208);
 
 	// libraries
@@ -74,9 +75,10 @@
 	ReactDOM.render(React.createElement(
 	  Router,
 	  { history: createBrowserHistory() },
+	  React.createElement(Redirect, { from: '/', to: '/ui' }),
 	  React.createElement(
 	    Route,
-	    { path: '/', component: App },
+	    { path: '/ui', component: App },
 	    React.createElement(Route, { path: 'beers', component: BeerIndex }),
 	    React.createElement(
 	      Route,
@@ -33821,7 +33823,7 @@
 	            null,
 	            React.createElement(
 	              Link,
-	              { to: '/flavour-map', onClick: this.handleMenuClick },
+	              { to: '/ui/flavour-map', onClick: this.handleMenuClick },
 	              'FLAVOUR MAP'
 	            )
 	          ),
@@ -33937,8 +33939,12 @@
 	  render: function render() {
 	    var _this2 = this;
 
+	    /* TODO: work out a method of using a loading screen to hide some of the ajax calls.
+	       this would allow us to improve some of this code slightly; perhaps we could
+	       even just create a state object `hasLoadedResource` or something...
+	    */
 	    var beerId = this.props.params.id;
-
+	    var beerImgUrl = this.state.beer.images ? '' + this.state.beer.images.label_image.profile.url : null;
 	    var category = this.state.beer.category ? '' + this.state.beer.category : null;
 	    var abv = this.state.beer.abv ? this.state.beer.abv + 'pct' : null;
 	    var ibu = this.state.beer.ibu ? this.state.beer.ibu + ' ibu' : null;
@@ -33981,7 +33987,7 @@
 	        React.createElement(
 	          'div',
 	          { id: 'beer-show-header-thumb' },
-	          React.createElement('img', { src: '/images/hop_circle.png', className: 'img img-thumbnail' })
+	          React.createElement('img', { src: '' + beerImgUrl, className: 'img img-thumbnail' })
 	        ),
 	        React.createElement(
 	          'div',
@@ -33999,7 +34005,7 @@
 	              null,
 	              React.createElement(
 	                Link,
-	                { to: '/breweries/' + this.state.brewery.id },
+	                { to: '/ui/breweries/' + this.state.brewery.id },
 	                this.state.brewery.name
 	              )
 	            ),
@@ -34037,7 +34043,7 @@
 	          null,
 	          React.createElement(
 	            Link,
-	            { to: '/beers/' + beerId + '/flavour-map', activeClassName: "active" },
+	            { to: '/ui/beers/' + beerId + '/flavour-map', activeClassName: "active" },
 	            'Flavour Map'
 	          )
 	        ),
@@ -34046,7 +34052,7 @@
 	          null,
 	          React.createElement(
 	            Link,
-	            { to: '/beers/' + beerId + '/reviews', activeClassName: "active" },
+	            { to: '/ui/beers/' + beerId + '/reviews', activeClassName: "active" },
 	            'Reviews'
 	          )
 	        )
@@ -34143,7 +34149,7 @@
 	          { className: 'flush-with-top' },
 	          React.createElement(
 	            Link,
-	            { to: '/users/' + this.props.review.author_id },
+	            { to: '/ui/users/' + this.props.review.author_id },
 	            this.props.review.author_name
 	          ),
 	          ' ',
@@ -35908,10 +35914,11 @@
 	      var brewery = _this.props.breweries.find(function (el) {
 	        return el.id === beer.relationships.brewery.data.id;
 	      });
+	      beer.attributes.id = beer.id;
 	      return React.createElement(BeerCardVitals, {
 	        key: beer.id,
-	        beer: beer,
-	        brewery: brewery,
+	        beer: beer.attributes,
+	        brewery: brewery.attributes,
 	        onNavigation: _this.props.onNavigation });
 	    });
 
@@ -35981,23 +35988,26 @@
 	      initially receive a response from the endpoint (/) that gives it the links
 	      it needs to build the routes.
 	    */
-	    var beerLink = '/beers/' + this.props.beer.id;
+	    var beerLink = '/ui/beers/' + this.props.beer.id;
 	    this.props.onNavigation({ url: beerLink });
 	  },
 	  render: function render() {
 	    var beerLink = React.createElement(
 	      Link,
 	      {
-	        to: '/beers/' + this.props.beer.id },
-	      this.props.beer.attributes.name
+	        to: '/ui/beers/' + this.props.beer.id },
+	      this.props.beer.name
 	    );
 
 	    var breweryLink = React.createElement(
 	      Link,
 	      {
-	        to: '/breweries/' + this.props.brewery.id },
-	      this.props.brewery.attributes.name
+	        to: '/ui/breweries/' + this.props.brewery.id },
+	      this.props.brewery.name
 	    );
+
+	    // TODO: replace this with proper a loading routine (see beer/show.jsx)
+	    var beerImgUrl = this.props.beer.images ? '' + this.props.beer.images.label_image.beer_card.url : null;
 
 	    return React.createElement(
 	      'div',
@@ -36008,7 +36018,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'img-thumbnail beer-thumb' },
-	          React.createElement('img', { src: '/images/hop_circle.png', width: '88', height: '105' })
+	          React.createElement('img', { src: beerImgUrl, width: '88', height: '105' })
 	        )
 	      ),
 	      React.createElement(
@@ -36022,10 +36032,10 @@
 	        React.createElement(
 	          'h5',
 	          { className: 'lighter' },
-	          this.props.brewery.attributes.name
+	          this.props.brewery.name
 	        ),
 	        React.createElement(ReviewStars, {
-	          rating: this.props.beer.attributes.avg_star_rating,
+	          rating: this.props.beer.avg_star_rating,
 	          displayReviewCount: false })
 	      )
 	    );

@@ -27,11 +27,12 @@ module.exports = React.createClass({
   render() {
     var beerNodes = this.props.beers.map((beer, idx)=> {
       var brewery = this.props.breweries.find(function(el){ return el.id === beer.relationships.brewery.data.id });
+      beer.attributes.id = beer.id;
       return (
         <BeerCardVitals
           key={beer.id}
-          beer={beer}
-          brewery={brewery}
+          beer={beer.attributes}
+          brewery={brewery.attributes}
           onNavigation={this.props.onNavigation} />
       );
     });

@@ -42,11 +42,15 @@ module.exports = React.createClass({
   },
 
   render() {
-    var beerId = this.props.params.id
-
-    var category = this.state.beer.category ? `${this.state.beer.category}` : null;
-    var abv      = this.state.beer.abv      ? `${this.state.beer.abv}pct`   : null;
-    var ibu      = this.state.beer.ibu      ? `${this.state.beer.ibu} ibu`  : null;
+    /* TODO: work out a method of using a loading screen to hide some of the ajax calls.
+       this would allow us to improve some of this code slightly; perhaps we could
+       even just create a state object `hasLoadedResource` or something...
+    */
+    var beerId     = this.props.params.id
+    var beerImgUrl = this.state.beer.images ? `${this.state.beer.images.label_image.profile.url}` : null;
+    var category   = this.state.beer.category ? `${this.state.beer.category}` : null;
+    var abv        = this.state.beer.abv      ? `${this.state.beer.abv}pct`   : null;
+    var ibu        = this.state.beer.ibu      ? `${this.state.beer.ibu} ibu`  : null;
 
     var vitalAttributes = [category, abv, ibu]
                           .filter( function(el) { return el !== null })
@@ -80,8 +84,7 @@ module.exports = React.createClass({
         <div id="beer-show-header">
           {/* TODO: fix thumbnail on mobile, it gets squished by the flex layout */}
           <div id="beer-show-header-thumb">
-            {/* TODO: remove hard-coding on beer thumbnail image */}
-            <img src="/images/hop_circle.png" className="img img-thumbnail" />
+            <img src={`${beerImgUrl}`} className="img img-thumbnail" />
           </div>
           <div id="beer-show-header-detail">
             <div id="beer-show-header-detail-title-block">
@@ -89,7 +92,7 @@ module.exports = React.createClass({
                 {this.state.beer.name}
               </h2>
               <h4>
-                <Link to={`/breweries/${this.state.brewery.id}`}>
+                <Link to={`/ui/breweries/${this.state.brewery.id}`}>
                   {this.state.brewery.name}
                 </Link>
               </h4>
@@ -111,8 +114,8 @@ module.exports = React.createClass({
         <ul className="nav nav-tabs">
           {/* TODO: figure out a good way to abstract these URLs, maybe with some Rails-style link helpers */}
           {/* TODO: fix the case of the stuck hover state on these tabs */}
-          <li><Link to={`/beers/${beerId}/flavour-map`} activeClassName={"active"}>Flavour Map</Link></li>
-          <li><Link to={`/beers/${beerId}/reviews`} activeClassName={"active"}>Reviews</Link></li>
+          <li><Link to={`/ui/beers/${beerId}/flavour-map`} activeClassName={"active"}>Flavour Map</Link></li>
+          <li><Link to={`/ui/beers/${beerId}/reviews`} activeClassName={"active"}>Reviews</Link></li>
         </ul>
 
         <div id="nested-content">

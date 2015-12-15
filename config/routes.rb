@@ -40,14 +40,14 @@ Rails.application.routes.draw do
     resources :beers, only: [:index]
   end
 
-  # Catch all other requests and redirect it to the UI.
+  # Catch /ui requests and redirect it to React.
   # Wildcard matching requires a parameter, even though we're not going to use it
   # See http://guides.rubyonrails.org/routing.html#route-globbing-and-wildcard-segments
   # TODO: I think this is a pretty awesome little hack ;)
-  get     '/*react', to: "react#index"
-  post    '/*react', to: "react#index"
-  patch   '/*react', to: "react#index"
-  put     '/*react', to: "react#index"
-  delete  '/*react', to: "react#index"
+  get     '/ui/*react', to: "react#index"
+  post    '/ui/*react', to: "react#index"
+  patch   '/ui/*react', to: "react#index"
+  put     '/ui/*react', to: "react#index"
+  delete  '/ui/*react', to: "react#index"
 
 end

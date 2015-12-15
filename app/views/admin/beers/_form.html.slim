@@ -2,6 +2,7 @@
   = f.label "Brewery: "
   = f.collection_select :brewery_id, Brewery.all, :id, :name
   = f.input :name
+  = f.label "Category: "
   = f.collection_select :category_id, Category.all, :id, :name
   = f.input :abv, label: "abv (e.g. 5.6)"
   = f.input :ibu, label: "ibu (e.g. 45)"
