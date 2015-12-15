@@ -33777,7 +33777,7 @@
 	          'div',
 	          { className: 'flourish' },
 	          React.createElement('hr', null),
-	          React.createElement('img', { src: '/images/hop.png' })
+	          React.createElement('img', { src: '/images/hoppist-vector.svg', draggable: false })
 	        )
 	      ),
 	      React.createElement(

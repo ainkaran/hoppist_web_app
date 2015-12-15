@@ -22,7 +22,7 @@ module.exports = React.createClass({
           <h2 className="branded">HOPPIST</h2>
           <div className="flourish">
             <hr />
-            <img src="/images/hop.png" />
+            <img src="/images/hoppist-vector.svg" draggable={false}/>
           </div>
         </nav>
 
