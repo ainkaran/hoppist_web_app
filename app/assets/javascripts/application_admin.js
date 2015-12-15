@@ -11,7 +11,6 @@
 // about supported directives.
 //
 //= require jquery
-//  removed jquery_ujs because we're using React
+//= require jquery_ujs
 //= require bootstrap-sprockets
-//  removed turbolinks because we're using React
-//= require alpha_review_new
+//= require turbolinks

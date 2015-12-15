@@ -14,8 +14,12 @@ Rails.application.routes.draw do
 
 
   namespace :admin do
+    get "/" => "breweries#index"
     resources :breweries
     resources :beers
+    resources :sessions, only: [:new, :create] do
+      delete :destroy, on: :collection
+    end
   end
 
   # For the 'survey' microsite.

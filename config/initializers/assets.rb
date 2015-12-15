@@ -9,3 +9,8 @@ Rails.application.config.assets.version = '1.0'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( search.js )
+
+# We added this because we need to include this for the admin layout, but it's
+# not compiled by default.
+# See: http://stackoverflow.com/a/22976830/2100285
+Rails.application.config.assets.precompile += %w( application_admin.js )
