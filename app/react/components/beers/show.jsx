@@ -106,7 +106,7 @@ module.exports = React.createClass({
             {additionalAttributes}
           </div>
           <div id="beer-show-header-actions">
-            <button href="#" className="btn btn-tabby">rate</button>
+            <Link to={`/ui/beers/${beerId}/reviews`} className="btn btn-tabby">review</Link>
             <button href="#" className="btn btn-tabby">add</button>
           </div>
         </div>

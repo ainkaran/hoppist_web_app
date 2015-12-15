@@ -34024,9 +34024,9 @@
 	          'div',
 	          { id: 'beer-show-header-actions' },
 	          React.createElement(
-	            'button',
-	            { href: '#', className: 'btn btn-tabby' },
-	            'rate'
+	            Link,
+	            { to: '/ui/beers/' + beerId + '/reviews', className: 'btn btn-tabby' },
+	            'review'
 	          ),
 	          React.createElement(
 	            'button',
@@ -34074,10 +34074,13 @@
 
 	var React = __webpack_require__(1);
 	var Review = __webpack_require__(215);
+	var ReviewFormInline = __webpack_require__(236);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
 	  render: function render() {
+	    var newReview = React.createElement(ReviewFormInline, null);
+
 	    var reviews = [];
 
 	    if (this.props.reviews) {
@@ -34101,6 +34104,7 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'reviews' },
+	      newReview,
 	      reviews
 	    );
 	  }
@@ -34189,37 +34193,65 @@
 	  displayName: 'exports',
 
 	  propTypes: {
-	    rating: React.PropTypes.number,
+	    displayReviewCount: React.PropTypes.bool,
+	    interactive: React.PropTypes.bool,
 	    numReviews: React.PropTypes.number,
-	    displayReviewCount: React.PropTypes.bool
+	    rating: React.PropTypes.number,
+	    starsClassName: React.PropTypes.string
 	  },
 
 	  getDefaultProps: function getDefaultProps() {
 	    return {
-	      rating: null,
+	      displayReviewCount: true,
+	      interactive: false,
 	      numReviews: null,
-	      displayReviewCount: true
+	      rating: null,
+	      starsClassName: ""
 	    };
+	  },
+	  handleStarClick: function handleStarClick(ev) {
+	    var starClicked = parseInt(ev.target.id, 10);
+	  },
+	  renderStars: function renderStars(rating) {
+	    var classes = ['glyphicon', 'glyphicon-star'];
+	    if (this.props.starsClassName) {
+	      classes.push('' + this.props.starsClassName);
+	    }
+
+	    var numStars = parseInt(rating, 10);
+	    var stars = [];
+
+	    if (this.props.interactive) {
+	      classes.push('unfilled');
+	      numStars = 5;
+	    }
+
+	    for (var i = 0; i < numStars; i++) {
+	      stars.push(React.createElement('span', {
+	        className: classes.join(" "),
+	        key: i,
+	        onClick: this.props.interactive ? this.handleStarClick : null,
+	        id: i + 1
+	      }));
+	    };
+
+	    // add a half star if needed
+	    var x = rating % 1;
+	    if (x > 0.95) {
+	      stars.push(React.createElement('span', { className: classes.join(" "), key: 'xtra' }));
+	    } else if (x > 0.49) {
+	      classes.push('half-star');
+	      stars.push(React.createElement('span', { className: classes.join(" "), key: 'xtra' }));
+	    }
+
+	    return stars;
 	  },
 
 	  // TODO: replace glyphicons with SVGs so we're not having to hack glyphicons.
 	  // TODO: refactor the star calculation, it's ugly as sin
 	  render: function render() {
 	    var rating = this.props.rating;
-	    var stars = [];
-	    if (rating > 0) {
-	      for (var i = 0; i < parseInt(rating); i++) {
-	        stars.push(React.createElement('span', { className: 'glyphicon glyphicon-star', key: i }));
-	      };
-	    }
-
-	    // add a half star if needed
-	    var x = rating % 1;
-	    if (x > 0.95) {
-	      stars.push(React.createElement('span', { className: 'glyphicon glyphicon-star', key: 'xtra' }));
-	    } else if (x > 0.49) {
-	      stars.push(React.createElement('span', { className: 'glyphicon glyphicon-star half-star', key: 'xtra' }));
-	    }
+	    var stars = this.renderStars(rating);
 
 	    var displayNumReviews = this.props.numReviews > 0 ? 'out of ' + this.props.numReviews + ' reviews' : 'no reviews yet.';
 
@@ -37182,6 +37214,99 @@
 	      React.createElement('br', null),
 	      '// FLAVOUR MAP',
 	      React.createElement(FlavourMapEmbedded, null)
+	    );
+	  }
+	});
+
+/***/ },
+/* 236 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var ReviewStars = __webpack_require__(216);
+
+	module.exports = React.createClass({
+	  displayName: 'exports',
+	  handleSubmit: function handleSubmit(ev) {
+	    ev.preventDefault();
+	    debugger;
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'beer-card clearfix' },
+	      React.createElement(
+	        'div',
+	        { className: 'col-review' },
+	        React.createElement(
+	          'h5',
+	          { className: 'flush-with-top lighter italicize' },
+	          React.createElement(
+	            'em',
+	            null,
+	            'What do you think of Beer Name?'
+	          )
+	        ),
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.handleSubmit },
+	          React.createElement(
+	            'div',
+	            null,
+	            React.createElement(ReviewStars, {
+	              displayReviewCount: false,
+	              interactive: true,
+	              rating: 5,
+	              ref: 'reviewStars',
+	              starsClassName: 'large-stars'
+	            })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            React.createElement(
+	              'label',
+	              { htmlFor: 'colour_rating' },
+	              'Appearance (dark/light)'
+	            ),
+	            React.createElement(
+	              'div',
+	              { id: 'colour-gradient' },
+	              React.createElement(
+	                'p',
+	                { id: 'colour-rating-display' },
+	                '~'
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            React.createElement(
+	              'label',
+	              { htmlFor: 'flavour_rating' },
+	              'Taste (malty/hoppy)'
+	            ),
+	            React.createElement(
+	              'div',
+	              { id: 'flavour-gradient' },
+	              React.createElement(
+	                'p',
+	                { id: 'flavour-rating-display' },
+	                '~'
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            null,
+	            React.createElement('textarea', { ref: 'review_body', placeholder: 'Write a short review' })
+	          ),
+	          React.createElement('input', { type: 'submit', className: 'btn btn-primary', value: 'REVIEW' })
+	        )
+	      )
 	    );
 	  }
 	});

@@ -1,3 +1,4 @@
+/* TODO: some of these styles are used on more than the user profile page. refactor. */
 /* A beer card for user reviews on the user's profile page. */
 div.beer-card {
   background:                #FFFFFF;
@@ -7,7 +8,6 @@ div.beer-card {
   display:                   flex;
   margin-bottom:             15px;
   padding:                   16px 10px 16px 10px;
-
 
   div.review-stars {
     margin-bottom:           10px;
@@ -23,6 +23,10 @@ div.beer-card {
 
   p.review-subhead {
     margin-bottom:           2px;
+  }
+
+  .col-review {
+    width:                   100%;
   }
 }
 

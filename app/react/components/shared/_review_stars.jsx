@@ -2,17 +2,63 @@
 var React = require('react');
 module.exports = React.createClass({
   propTypes: {
-    rating: React.PropTypes.number,
+    displayReviewCount: React.PropTypes.bool,
+    interactive: React.PropTypes.bool,
     numReviews: React.PropTypes.number,
-    displayReviewCount: React.PropTypes.bool
+    rating: React.PropTypes.number,
+    starsClassName: React.PropTypes.string
   },
 
   getDefaultProps() {
     return {
-      rating: null,
+      displayReviewCount: true,
+      interactive: false,
       numReviews: null,
-      displayReviewCount: true
+      rating: null,
+      starsClassName: ""
     }
+  },
+
+  handleStarClick(ev) {
+    var starClicked = parseInt(ev.target.id,10);
+  },
+
+  renderStars(rating) {
+    var classes  = ['glyphicon','glyphicon-star'];
+    if (this.props.starsClassName) {
+      classes.push(`${this.props.starsClassName}`)
+    }
+
+    var numStars = parseInt(rating, 10);
+    var stars    = [];
+
+    if (this.props.interactive) {
+      classes.push('unfilled')
+      numStars = 5;
+    }
+
+    for (var i = 0; i < numStars; i++) {
+      stars.push(
+        <span
+          className={classes.join(" ")}
+          key={i}
+          onClick={this.props.interactive ? this.handleStarClick : null}
+          id={i+1}
+          ></span>
+      );
+    };
+
+    // add a half star if needed
+    var x = (rating % 1);
+    if (x > 0.95) {
+      stars.push(<span className={classes.join(" ")} key={'xtra'}></span>);
+    } else if (x > 0.49) {
+      classes.push('half-star')
+      stars.push(<span className={classes.join(" ")} key={'xtra'}></span>);
+    }
+
+
+    return stars;
   },
 
 
@@ -20,22 +66,7 @@ module.exports = React.createClass({
   // TODO: refactor the star calculation, it's ugly as sin
   render() {
     var rating = this.props.rating;
-    var stars = [];
-    if (rating > 0) {
-      for (var i = 0; i < parseInt(rating); i++) {
-        stars.push(
-          <span className="glyphicon glyphicon-star" key={i}></span>
-        );
-      };
-    }
-
-    // add a half star if needed
-    var x = (rating % 1);
-    if (x > 0.95) {
-      stars.push(<span className="glyphicon glyphicon-star" key={'xtra'}></span>);
-    } else if (x > 0.49) {
-      stars.push(<span className="glyphicon glyphicon-star half-star" key={'xtra'}></span>);
-    }
+    var stars = this.renderStars(rating);
 
     var displayNumReviews = this.props.numReviews > 0 ? `out of ${this.props.numReviews} reviews` : `no reviews yet.`
 

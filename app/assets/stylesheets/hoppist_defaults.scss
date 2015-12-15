@@ -63,6 +63,10 @@ $font-size-h5:               14px;
   height:                    50px!important;
   padding-left:              1em!important;
   padding-right:             1em!important;
+
+  &:active {
+    box-shadow: none!important;
+  }
 }
 
 .btn-default:hover {
@@ -78,6 +82,11 @@ $font-size-h5:               14px;
   font-family:               $font-family-sans-serif!important;
   font-style:                italic;
   margin-bottom:             8px!important;
+
+  &:hover {
+    background-color:        #D2C4A3;
+    color:                   white!important;
+  }
 }
 
 $btn-default-color:          $brand-primary;
@@ -156,7 +165,7 @@ $nav-tabs-border-color:      #EBEBEB;
 
 
 
-/* Misc */
+/* Stars */
 .glyphicon-star {
   font-size:                 20px;
   color:                     $brand-orange;
@@ -165,6 +174,10 @@ $nav-tabs-border-color:      #EBEBEB;
 .glyphicon-star-empty {
   font-size:                 20px;
   color:                     #FFE299;
+}
+
+.large-stars {
+  font-size:                 3.5em!important;
 }
 
 .review-stars span {
