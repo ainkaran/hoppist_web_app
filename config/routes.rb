@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   # Wildcard matching requires a parameter, even though we're not going to use it
   # See http://guides.rubyonrails.org/routing.html#route-globbing-and-wildcard-segments
   # TODO: I think this is a pretty awesome little hack ;)
+  get     '/ui',        to: "react#index"
   get     '/ui/*react', to: "react#index"
   post    '/ui/*react', to: "react#index"
   patch   '/ui/*react', to: "react#index"
