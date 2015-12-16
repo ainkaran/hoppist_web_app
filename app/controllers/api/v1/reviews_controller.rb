@@ -1,4 +1,4 @@
-class Api::V1::ReviewsController < ApplicationController
+class Api::V1::ReviewsController < Api::BaseController
   def create
     review       = Review.new(review_params)
     review.user  = User.first # TODO: replace with current_user
@@ -6,7 +6,8 @@ class Api::V1::ReviewsController < ApplicationController
     if review.save
       render json: review
     else
-      render json: review.errors.messages
+      # TODO: This doesn't follow JSON API 1.0 spec. Wouldn't it be nice ;)
+      render json: review.errors, status: :bad_request
     end
   end
 
