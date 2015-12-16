@@ -16,16 +16,19 @@ class BeerSerializer < ActiveModel::Serializer
              :images
 
 
-
   has_many :reviews
   belongs_to :brewery
+
+  def reviews
+    object.reviews.order("created_at DESC")
+  end
 
   def images
     object.label_image
   end
 
   def category
-    object.category ? object.category.name : "Unknown" 
+    object.category ? object.category.name : "Unknown"
   end
 
   def num_reviews
