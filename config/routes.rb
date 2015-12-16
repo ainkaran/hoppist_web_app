@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :flavour_map, only: [] do
         post "search", on: :collection
       end
+      resources :reviews, only: [:create]
     end
   end
 
