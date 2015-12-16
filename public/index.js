@@ -64,10 +64,11 @@
 	var App = __webpack_require__(210);
 	var BeerIndex = __webpack_require__(212);
 	var BeerShow = __webpack_require__(213);
-	var BeerShowFlavourMap = __webpack_require__(217);
+	var BeerShowFlavourMap = __webpack_require__(221);
 	var BeerShowReviews = __webpack_require__(214);
-	var FlavourMapIndex = __webpack_require__(222);
-	var StyleGuide = __webpack_require__(235);
+	var HomePageGuest = __webpack_require__(224);
+	var FlavourMapIndex = __webpack_require__(225);
+	var StyleGuide = __webpack_require__(238);
 
 	// TODO: challenges with react router: the nesting assumes that you're rendering
 	// a child in a parent component. so we can't nest beers within breweries for the
@@ -79,6 +80,7 @@
 	  React.createElement(
 	    Route,
 	    { path: '/ui', component: App },
+	    React.createElement(IndexRoute, { component: HomePageGuest }),
 	    React.createElement(Route, { path: 'beers', component: BeerIndex }),
 	    React.createElement(
 	      Route,
@@ -33722,6 +33724,7 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var Footer = __webpack_require__(239);
 	var HeaderNavbar = __webpack_require__(211);
 
 	module.exports = React.createClass({
@@ -33731,7 +33734,8 @@
 	      'div',
 	      { id: 'app' },
 	      React.createElement(HeaderNavbar, null),
-	      this.props.children
+	      this.props.children,
+	      React.createElement(Footer, null)
 	    );
 	  }
 	});
@@ -33900,7 +33904,7 @@
 
 	var Reviews = __webpack_require__(214);
 	var ReviewStars = __webpack_require__(216);
-	var FlavourMap = __webpack_require__(217);
+	var FlavourMap = __webpack_require__(221);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -34119,7 +34123,7 @@
 
 	var React = __webpack_require__(1);
 	var Review = __webpack_require__(215);
-	var ReviewFormInline = __webpack_require__(236);
+	var ReviewFormInline = __webpack_require__(217);
 
 	module.exports = React.createClass({
 	  displayName: "BeerReviews",
@@ -34345,22 +34349,168 @@
 
 	'use strict';
 
+	var $ = __webpack_require__(209);
 	var React = __webpack_require__(1);
-	var FlavourMapEmbedded = __webpack_require__(218);
+	var ReviewStars = __webpack_require__(216);
+	var Slider = __webpack_require__(218);
 
 	module.exports = React.createClass({
-	  displayName: 'exports',
+	  displayName: "ReviewFormInline",
 
+	  getInitialState: function getInitialState() {
+	    return { reviews: [], errors: {} };
+	  },
+	  handleSubmit: function handleSubmit(ev) {
+	    ev.preventDefault();
+	    // set the star rating to 'undefined' unless a value has been chosen
+	    var beer = this.props.beer;
+	    var starRating = this.refs.reviewStars.state.value > 0 ? this.refs.reviewStars.state.value : undefined;
+	    var colourRating = this.refs.reviewColourRating.state.value;
+	    var flavourRating = this.refs.reviewFlavourRating.state.value;
+	    var body = this.refs.reviewBody.value;
+
+	    var review = {
+	      author_id: 0,
+	      author_name: "...",
+	      beer_id: beer.id,
+	      body: body,
+	      colour_rating: colourRating,
+	      date: "...",
+	      flavour_rating: flavourRating,
+	      star_rating: starRating
+	    };
+
+	    /* TODO: React challenge: there's some duplicated work here because we're recreating Rails'
+	       validation for the review. Is there a way around this? */
+	    var valid = this.performValidations(review);
+
+	    // TODO: add the real date, author_name, author_id to review object
+	    if (valid) {
+	      this.props.onReviewSubmit(review);
+	    }
+	  },
+	  performValidations: function performValidations(review) {
+	    var BODY_MIN_LENGTH = 10;
+	    var errors = {};
+
+	    /* star must be present always */
+	    if (!review.star_rating) {
+	      errors.star = 'Each review requires a star rating. Other fields are optional.';
+	    }
+
+	    /* if the body is present it, must be longer than the min */
+	    if (review.body && review.body.length < BODY_MIN_LENGTH) {
+	      errors.body = 'must be more than ' + BODY_MIN_LENGTH + ' characters';
+	    }
+
+	    /* if the flavour rating OR the colour rating is present, then BOTH
+	       should be present */
+	    if (review.flavour_rating || review.colour_rating) {
+	      if (!review.flavour_rating || !review.colour_rating) {
+	        errors.colour_flavour = "both must be present";
+	      }
+	    }
+
+	    if (Object.keys(errors).length === 0) {
+	      return true;
+	    } else {
+	      this.setState({ errors: errors });
+	      return false;
+	    }
+	  },
 	  render: function render() {
-	    /* TODO: too many functions know about constructing coordinates.
-	       make a function that takes in {flavor: , color:}, and returns {x:, y:}
-	     */
-	    var coords = { x: this.props.beer.avg_flavour_rating,
-	      y: this.props.beer.avg_colour_rating };
-	    console.log('coords: ' + coords.x + ',' + coords.y);
-	    return React.createElement(FlavourMapEmbedded, {
-	      targetPos: coords,
-	      isDraggable: false });
+	    var errorGeneral = this.state.errors.general ? React.createElement(
+	      'p',
+	      null,
+	      React.createElement(
+	        'span',
+	        { className: 'errorText' },
+	        'Uh-oh. An unknown error occured.'
+	      )
+	    ) : null;
+	    // TODO: there's a bug that sets the star rating to 5 after reloading the page with an error.
+	    var errorStar = this.state.errors.star ? React.createElement(
+	      'p',
+	      null,
+	      React.createElement(
+	        'span',
+	        { className: 'errorText' },
+	        this.state.errors.star
+	      )
+	    ) : null;
+	    var errorBody = this.state.errors.body ? React.createElement(
+	      'span',
+	      { className: 'errorText' },
+	      'Review ',
+	      this.state.errors.body
+	    ) : null;
+	    var errorColourFlavour = this.state.errors.colour_flavour ? React.createElement(
+	      'p',
+	      null,
+	      React.createElement(
+	        'span',
+	        { className: 'errorText' },
+	        'If you\'d like to rate the appearance and flavour, you must rate ',
+	        React.createElement(
+	          'em',
+	          null,
+	          'both'
+	        ),
+	        '.'
+	      )
+	    ) : null;
+
+	    return React.createElement(
+	      'div',
+	      { className: 'beer-card clearfix' },
+	      React.createElement(
+	        'div',
+	        { className: 'col-review' },
+	        React.createElement(
+	          'h3',
+	          { className: 'flush-with-top lighter italicize' },
+	          React.createElement(
+	            'em',
+	            null,
+	            'What do you think of ',
+	            this.props.beer.name,
+	            '?'
+	          )
+	        ),
+	        errorGeneral,
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.handleSubmit },
+	          React.createElement(
+	            'div',
+	            null,
+	            React.createElement(ReviewStars, {
+	              displayReviewCount: false,
+	              interactive: true,
+	              ref: 'reviewStars',
+	              starsClassName: 'large-stars'
+	            }),
+	            errorStar
+	          ),
+	          React.createElement(Slider, {
+	            ref: 'reviewColourRating',
+	            title: 'Appearance (dark/light)',
+	            type: 'colour-gradient' }),
+	          React.createElement(Slider, {
+	            ref: 'reviewFlavourRating',
+	            title: 'Flavour (malty/hoppy)',
+	            type: 'flavour-gradient' }),
+	          errorColourFlavour,
+	          React.createElement(
+	            'div',
+	            null,
+	            React.createElement('textarea', { ref: 'reviewBody', placeholder: 'Write a short review' }),
+	            errorBody
+	          ),
+	          React.createElement('input', { type: 'submit', className: 'btn btn-primary', value: 'REVIEW' })
+	        )
+	      )
+	    );
 	  }
 	});
 
@@ -34371,93 +34521,50 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Draggable = __webpack_require__(219);
 	var ReactDOM = __webpack_require__(158); // required here because we're invoking it to get the node width
-	var calculateFlavourMapCoords = __webpack_require__(220);
-	var calculateDbCoords = __webpack_require__(221);
+	var Draggable = __webpack_require__(219);
+	var calculateDbCoords = __webpack_require__(220);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
-
-	  /*
-	    TODO: this is a much-improved version of the flavour map in terms of consistent
-	    and predictable updating of target position, but from the flavour index it
-	    ends up calling render one too many times. Look into this.
-	  */
-	  propTypes: {
-	    onDragStart: React.PropTypes.func
-	  },
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      isDraggable: false,
-	      maxWidth: 375,
-	      targetPos: { x: 6, y: 6 }
-	    };
-	  },
-	  toKey: function toKey(coords) {
-	    return coords.x + '_' + coords.y;
-	  },
-
 	  getInitialState: function getInitialState() {
-	    // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
-	    var newTargetPos = calculateFlavourMapCoords(this.props.targetPos.x, this.props.targetPos.y, this.props.maxWidth, this.props.maxWidth / 1.6);
+	    // these values are a best-guess at what it will probably be, but they'll get
+	    // set properly once the component mounts.
+	    /* TODO: the starting target coords are hardcoded based on this formula:
+	       gradient_height = 60px (from CSS)
+	       target_diamter = 28px (calculated from 2em in CSS)
+	       y_offset = (gradient_height/2)-(target_diamter/2)
+	    */
+
 	    return {
-	      maxWidth: this.props.maxWidth,
-	      targetPos: newTargetPos,
-	      mapKey: this.toKey(newTargetPos)
-	    };
+	      activated: false,
+	      width: 308,
+	      height: 60,
+	      targetDiameter: 28,
+	      targetPos: { x: 0, y: 16 } };
 	  },
-
-	  componentDidMount: function componentDidMount() {
-	    // TODO: add event listener for page resize, currently the page must be refreshed
-	    // for this to update after a window size change.
-	    // TODO: this doesn't center properly because of the dynamic screen size
-	    var node = ReactDOM.findDOMNode(this);
-	    var nodeRenderedWidth = node.offsetWidth;
-	    var renderedTargetDiameter = node.childNodes[0].offsetWidth;
-	    var newTargetPos = calculateFlavourMapCoords(this.props.targetPos.x, this.props.targetPos.y, nodeRenderedWidth, nodeRenderedWidth / 1.6);
-	    var newTargetPos = { x: newTargetPos.x - renderedTargetDiameter / 2, y: newTargetPos.y - renderedTargetDiameter / 2 };
-
-	    console.log('_flavour_map_embedded componentDidMount() setState -> targetPos=' + newTargetPos.x + ',' + newTargetPos.y);
-	    this.setState({
-	      maxWidth: nodeRenderedWidth,
-	      targetPos: newTargetPos,
-	      mapKey: this.toKey(newTargetPos)
-	    });
+	  setGradientRenderedState: function setGradientRenderedState(c) {
+	    /* When a ref is a callback, the callback will be invoked with 'null' upon
+	       unmounting the object. So we need to check if c exists before continuing.
+	       See https://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute
+	    */
+	    if (c) {
+	      this.setState({ width: c.offsetWidth, height: c.offsetHeight });
+	    }
 	  },
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    if (nextProps.targetPos.x !== this.props.targetPos.x || nextProps.targetPos.y !== this.props.targetPos.y || nextProps.maxWidth !== this.props.maxWidth) {
-
-	      // TODO: DRY up this code here and in componentDidMount
-	      var node = ReactDOM.findDOMNode(this);
-	      var nodeRenderedWidth = node.offsetWidth;
-	      var renderedTargetDiameter = node.childNodes[0].offsetWidth;
-	      var newTargetPos = calculateFlavourMapCoords(nextProps.targetPos.x, nextProps.targetPos.y, nodeRenderedWidth, nodeRenderedWidth / 1.6);
-	      var newTargetPos = { x: newTargetPos.x - renderedTargetDiameter / 2, y: newTargetPos.y - renderedTargetDiameter / 2 };
-	      console.log('_flavour_map_embedded componentDidMount() setState -> targetPos=' + newTargetPos.x + ',' + newTargetPos.y);
-	      this.setState({
-	        maxWidth: nodeRenderedWidth,
-	        targetPos: newTargetPos,
-	        mapKey: this.toKey(newTargetPos)
-	      });
-	    } // if nextProps != this.props
+	  setTargetRenderedState: function setTargetRenderedState(c) {
+	    if (c) {
+	      this.setState({ targetDiameter: c.offsetWidth });
+	    }
+	  },
+	  handleTargetDragStart: function handleTargetDragStart() {
+	    this.setState({ activated: true });
 	  },
 	  handleTargetStop: function handleTargetStop(event, ui) {
-	    // handle any action the parent component wants to take when the user finishes
-	    // dragging. for the flavour map index page, this results in the welcome message
-	    // disappearing and the beer list appearing. As a result, this will also trigger
-	    // the beer list to re-render.
-
-	    //console.log("Target position: " + this.state.targetPos.x + "," + this.state.targetPos.y);
-
-	    var newCoords = calculateDbCoords(this.state.targetPos.x, this.state.targetPos.y, this.state.maxWidth, this.state.maxWidth / 1.6);
-
-	    console.log("Db position: " + newCoords.x + "," + newCoords.y);
-
-	    if (this.props.onDragStop !== undefined) {
-	      this.props.onDragStop(newCoords);
-	    }
+	    var newCoords = calculateDbCoords(this.state.targetPos.x, this.state.targetPos.y, this.state.width, this.state.height);
+	    // without doing this we get min=0, max=11
+	    newCoords.x += 1;
+	    this.setState({ value: newCoords.x });
 	  },
 	  handleTargetDrag: function handleTargetDrag(event, ui) {
 	    // TODO: this is a hack right now because ui.position on stop is NaN
@@ -34466,27 +34573,35 @@
 	    this.setState({ targetPos: { x: ui.position.left, y: ui.position.top } });
 	  },
 	  render: function render() {
-	    var styles = {
-	      width: "100%",
-	      maxWidth: this.state.maxWidth + 'px'
-	    };
-	    console.log('_flavour_map_embedded render() targetPos=' + this.state.targetPos.x + ',' + this.state.targetPos.y);
+	    var opacity = this.state.activated ? "1.0" : "0.25";
+
 	    return React.createElement(
 	      'div',
-	      { id: 'flavour-map-embedded', style: styles, key: this.state.mapKey },
+	      { className: 'form-group' },
 	      React.createElement(
-	        Draggable,
-	        {
-	          bounds: 'parent',
-	          cancel: this.props.isDraggable ? "" : ".handle",
-	          handle: '.handle',
-	          onDrag: this.handleTargetDrag,
-	          onStop: this.handleTargetStop,
-	          start: this.state.targetPos,
-	          zIndex: 100 },
-	        React.createElement('div', { id: 'target', className: 'handle' })
+	        'label',
+	        { htmlFor: 'colour_rating' },
+	        this.props.title
 	      ),
-	      React.createElement('img', { src: '/images/flavour_map.svg', style: styles, draggable: false })
+	      React.createElement(
+	        'div',
+	        { ref: this.setGradientRenderedState,
+	          id: this.props.type,
+	          style: { position: 'relative', opacity: opacity } },
+	        React.createElement(
+	          Draggable,
+	          {
+	            axis: 'x',
+	            bounds: 'parent',
+	            handle: '.handle',
+	            onStart: this.handleTargetDragStart,
+	            onDrag: this.handleTargetDrag,
+	            onStop: this.handleTargetStop,
+	            start: { x: 0, y: 16 },
+	            zIndex: 100 },
+	          React.createElement('div', { ref: this.setTargetRenderedState, id: 'target', className: 'handle' })
+	        )
+	      )
 	    );
 	  }
 	});
@@ -35876,24 +35991,6 @@
 /* 220 */
 /***/ function(module, exports) {
 
-	module.exports = function(flavour_x, colour_y, map_width, map_height) {
-	  const FLAVOUR_SCALE = 12;
-	  const COLOUR_SCALE  = 12;
-	  var mapX = (flavour_x/FLAVOUR_SCALE)*map_width;
-	  // we have to invert the value of Y here because the colour is stored in
-	  // the db as light=12, dark=0, but it's the opposite on our map.
-	  var mapY = ((COLOUR_SCALE - colour_y)/12)*map_height;
-	  return {
-	    x: mapX,
-	    y: mapY
-	  };
-	};
-
-
-/***/ },
-/* 221 */
-/***/ function(module, exports) {
-
 	// TODO: refactor this and calculate_flavour_map_coords into one class
 	// this would be ideal because they're very similar, and they share constants
 	module.exports = function(flavour_x, colour_y, map_width, map_height) {
@@ -35912,15 +36009,329 @@
 
 
 /***/ },
+/* 221 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var FlavourMapEmbedded = __webpack_require__(222);
+
+	module.exports = React.createClass({
+	  displayName: 'exports',
+
+	  render: function render() {
+	    /* TODO: too many functions know about constructing coordinates.
+	       make a function that takes in {flavor: , color:}, and returns {x:, y:}
+	     */
+	    var coords = { x: this.props.beer.avg_flavour_rating,
+	      y: this.props.beer.avg_colour_rating };
+	    console.log('coords: ' + coords.x + ',' + coords.y);
+	    return React.createElement(FlavourMapEmbedded, {
+	      targetPos: coords,
+	      isDraggable: false });
+	  }
+	});
+
+/***/ },
 /* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Draggable = __webpack_require__(219);
+	var ReactDOM = __webpack_require__(158); // required here because we're invoking it to get the node width
+	var calculateFlavourMapCoords = __webpack_require__(223);
+	var calculateDbCoords = __webpack_require__(220);
+
+	module.exports = React.createClass({
+	  displayName: 'exports',
+
+	  /*
+	    TODO: this is a much-improved version of the flavour map in terms of consistent
+	    and predictable updating of target position, but from the flavour index it
+	    ends up calling render one too many times. Look into this.
+	  */
+	  propTypes: {
+	    onDragStart: React.PropTypes.func
+	  },
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      isDraggable: false,
+	      maxWidth: 375,
+	      targetPos: { x: 6, y: 6 }
+	    };
+	  },
+	  toKey: function toKey(coords) {
+	    return coords.x + '_' + coords.y;
+	  },
+
+	  getInitialState: function getInitialState() {
+	    // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
+	    var newTargetPos = calculateFlavourMapCoords(this.props.targetPos.x, this.props.targetPos.y, this.props.maxWidth, this.props.maxWidth / 1.6);
+	    return {
+	      maxWidth: this.props.maxWidth,
+	      targetPos: newTargetPos,
+	      mapKey: this.toKey(newTargetPos)
+	    };
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    // TODO: add event listener for page resize, currently the page must be refreshed
+	    // for this to update after a window size change.
+	    // TODO: this doesn't center properly because of the dynamic screen size
+	    var node = ReactDOM.findDOMNode(this);
+	    var nodeRenderedWidth = node.offsetWidth;
+	    var renderedTargetDiameter = node.childNodes[0].offsetWidth;
+	    var newTargetPos = calculateFlavourMapCoords(this.props.targetPos.x, this.props.targetPos.y, nodeRenderedWidth, nodeRenderedWidth / 1.6);
+	    var newTargetPos = { x: newTargetPos.x - renderedTargetDiameter / 2, y: newTargetPos.y - renderedTargetDiameter / 2 };
+
+	    console.log('_flavour_map_embedded componentDidMount() setState -> targetPos=' + newTargetPos.x + ',' + newTargetPos.y);
+	    this.setState({
+	      maxWidth: nodeRenderedWidth,
+	      targetPos: newTargetPos,
+	      mapKey: this.toKey(newTargetPos)
+	    });
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    if (nextProps.targetPos.x !== this.props.targetPos.x || nextProps.targetPos.y !== this.props.targetPos.y || nextProps.maxWidth !== this.props.maxWidth) {
+
+	      // TODO: DRY up this code here and in componentDidMount
+	      var node = ReactDOM.findDOMNode(this);
+	      var nodeRenderedWidth = node.offsetWidth;
+	      var renderedTargetDiameter = node.childNodes[0].offsetWidth;
+	      var newTargetPos = calculateFlavourMapCoords(nextProps.targetPos.x, nextProps.targetPos.y, nodeRenderedWidth, nodeRenderedWidth / 1.6);
+	      var newTargetPos = { x: newTargetPos.x - renderedTargetDiameter / 2, y: newTargetPos.y - renderedTargetDiameter / 2 };
+	      console.log('_flavour_map_embedded componentDidMount() setState -> targetPos=' + newTargetPos.x + ',' + newTargetPos.y);
+	      this.setState({
+	        maxWidth: nodeRenderedWidth,
+	        targetPos: newTargetPos,
+	        mapKey: this.toKey(newTargetPos)
+	      });
+	    } // if nextProps != this.props
+	  },
+	  handleTargetStop: function handleTargetStop(event, ui) {
+	    // handle any action the parent component wants to take when the user finishes
+	    // dragging. for the flavour map index page, this results in the welcome message
+	    // disappearing and the beer list appearing. As a result, this will also trigger
+	    // the beer list to re-render.
+
+	    //console.log("Target position: " + this.state.targetPos.x + "," + this.state.targetPos.y);
+
+	    var newCoords = calculateDbCoords(this.state.targetPos.x, this.state.targetPos.y, this.state.maxWidth, this.state.maxWidth / 1.6);
+
+	    console.log("Db position: " + newCoords.x + "," + newCoords.y);
+
+	    if (this.props.onDragStop !== undefined) {
+	      this.props.onDragStop(newCoords);
+	    }
+	  },
+	  handleTargetDrag: function handleTargetDrag(event, ui) {
+	    // TODO: this is a hack right now because ui.position on stop is NaN
+	    // for touch events. so instead we continually set the state during drag.
+	    // not ideal?
+	    this.setState({ targetPos: { x: ui.position.left, y: ui.position.top } });
+	  },
+	  render: function render() {
+	    var styles = {
+	      width: "100%",
+	      maxWidth: this.state.maxWidth + 'px'
+	    };
+	    console.log('_flavour_map_embedded render() targetPos=' + this.state.targetPos.x + ',' + this.state.targetPos.y);
+	    return React.createElement(
+	      'div',
+	      { id: 'flavour-map-embedded', style: styles, key: this.state.mapKey },
+	      React.createElement(
+	        Draggable,
+	        {
+	          bounds: 'parent',
+	          cancel: this.props.isDraggable ? "" : ".handle",
+	          handle: '.handle',
+	          onDrag: this.handleTargetDrag,
+	          onStop: this.handleTargetStop,
+	          start: this.state.targetPos,
+	          zIndex: 100 },
+	        React.createElement('div', { id: 'target', className: 'handle' })
+	      ),
+	      React.createElement('img', { src: '/images/flavour_map.svg', style: styles, draggable: false })
+	    );
+	  }
+	});
+
+/***/ },
+/* 223 */
+/***/ function(module, exports) {
+
+	module.exports = function(flavour_x, colour_y, map_width, map_height) {
+	  const FLAVOUR_SCALE = 12;
+	  const COLOUR_SCALE  = 12;
+	  var mapX = (flavour_x/FLAVOUR_SCALE)*map_width;
+	  // we have to invert the value of Y here because the colour is stored in
+	  // the db as light=12, dark=0, but it's the opposite on our map.
+	  var mapY = ((COLOUR_SCALE - colour_y)/12)*map_height;
+	  return {
+	    x: mapX,
+	    y: mapY
+	  };
+	};
+
+
+/***/ },
+/* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
+
+	module.exports = React.createClass({
+	  displayName: 'HomePageGuest',
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        { className: 'branded text-center' },
+	        'WELCOME TO HOPPIST.'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'center-block', style: { maxWidth: "26em" } },
+	        React.createElement('hr', null),
+	        React.createElement(
+	          'p',
+	          { style: { fontSize: "1.15em" } },
+	          'Hoppist connects you with local breweries in your area. Discover new flavours, rate your favourite beer, and see what’s currently on tap for samples and fills. Hoppist is the perfect drinking buddy.'
+	        )
+	      ),
+	      React.createElement('hr', null),
+	      React.createElement(
+	        'div',
+	        { className: 'site-feature row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-sm-4' },
+	          React.createElement('img', { className: 'img img-thumbnail pull-right', style: { width: "240px", height: "auto" }, src: '/images/welcome-DISCOVER.png' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'col-sm-8' },
+	          React.createElement(
+	            'h2',
+	            { className: 'branded flush-with-top' },
+	            'DISCOVER.'
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            React.createElement(
+	              'small',
+	              { className: 'branded' },
+	              'HOPPIST'
+	            ),
+	            ' is a recommendation site for craft beer. We think you should discover beer like you discover movies — by asking yourself what you’re in the mood for. Check out our innovative ',
+	            React.createElement(
+	              Link,
+	              { to: '/ui/flavour-map' },
+	              'Flavour Map'
+	            ),
+	            ' to discover your next favourite brew. Or, try out our ',
+	            React.createElement(
+	              Link,
+	              { to: '/ui/match-maker' },
+	              'Match Maker'
+	            ),
+	            ' if you’re looking for something curated to your favourite tastes.'
+	          )
+	        )
+	      ),
+	      React.createElement('hr', null),
+	      React.createElement(
+	        'div',
+	        { className: 'site-feature row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-sm-4' },
+	          React.createElement(
+	            'a',
+	            { dataFlickrEmbed: 'true', href: 'https://www.flickr.com/photos/128012202@N05/14969468914/in/photolist-oNNrzC-cRbGPE-cRbwzL-cRbzDs-cRbxKA-eZWdV9-iiKxEJ-mYj3mK-r6aMwg-xVs7fJ-opN9WF-oGfYm5-c3aYkm-s4RPq2-c3b1gY-xERsxv-mYDrCZ-9kWMxV-atqASr-8H8o5L-sxQwvx-opNEzr-opN9SH-c3b2J9-nEgnfA-c3b2VN-dz7YZ3-8H5eYH-gmaziu-8EqLcg-qaq5My-esVLor-oipyAt-8EtVJW-8EqNk4-q6CQ6z-sRdJBv-8EqNwZ-8EtYdb-8EqNtn-8EtUob-8EtWnS-8EqKU4-8EqNUM-8EtXWq-8EqNZi-8EqMDe-8EqMe8-8EqMT4-8EtWNy', title: 'Flight of Beers, Vancouver, British Columbia, Canada' },
+	            React.createElement('img', { className: 'img img-thumbnail pull-right', style: { width: "240px", height: "auto" }, src: 'https://farm4.staticflickr.com/3945/14969468914_d822dc06e4_m.jpg', alt: 'Flight of Beers, Vancouver, British Columbia, Canada' })
+	          ),
+	          React.createElement('script', { async: true, src: '//embedr.flickr.com/assets/client-code.js', charSet: 'utf-8' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'col-sm-8' },
+	          React.createElement(
+	            'h2',
+	            { className: 'branded flush-with-top' },
+	            'DISCERN.'
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            React.createElement(
+	              'small',
+	              { className: 'branded' },
+	              'HOPPIST'
+	            ),
+	            ' is driven by you. Sign up and start rating the beers you love - and the ones you don\'t. In addition to rating the quality, you can also profile the appearance and flavour - you\'ll help drive our flavour map and recommendation engine.'
+	          )
+	        )
+	      ),
+	      React.createElement('hr', null),
+	      React.createElement(
+	        'div',
+	        { className: 'site-feature row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-sm-4' },
+	          React.createElement(
+	            'a',
+	            { dataFlickrEmbed: 'true', href: 'https://www.flickr.com/photos/stankus/7162768685/', title: 'Odell Kölsch' },
+	            React.createElement('img', { className: 'img img-thumbnail pull-right', style: { width: "240px", height: "auto" }, src: 'https://farm8.staticflickr.com/7214/7162768685_c4fb50fc6b_n.jpg', width: '234', height: '320', alt: 'Odell Kölsch' })
+	          ),
+	          React.createElement('script', { async: true, src: '//embedr.flickr.com/assets/client-code.js', charSet: 'utf-8' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'col-sm-8' },
+	          React.createElement(
+	            'h2',
+	            { className: 'branded flush-with-top' },
+	            'DRINK.'
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            'Beer should be social. ',
+	            React.createElement(
+	              'small',
+	              { className: 'branded' },
+	              'HOPPIST'
+	            ),
+	            ' gives you a beautiful space to showcase your favourite brews, and see what your friends are drinking. Follow your favourite breweries to get their latest social media updates.'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(209);
 	var React = __webpack_require__(1);
-	var BeerList = __webpack_require__(223);
-	var FlavourMapEmbedded = __webpack_require__(218);
+	var BeerList = __webpack_require__(226);
+	var FlavourMapEmbedded = __webpack_require__(222);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -35982,17 +36393,17 @@
 	});
 
 /***/ },
-/* 223 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var BeerCardVitals = __webpack_require__(224);
-	var BeerListIntro = __webpack_require__(225);
-	var LoadingBeers = __webpack_require__(226);
-	var NoBeers = __webpack_require__(227);
-	var ReactCSSTransitionGroup = __webpack_require__(228);
+	var BeerCardVitals = __webpack_require__(227);
+	var BeerListIntro = __webpack_require__(228);
+	var LoadingBeers = __webpack_require__(229);
+	var NoBeers = __webpack_require__(230);
+	var ReactCSSTransitionGroup = __webpack_require__(231);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -36073,7 +36484,7 @@
 	});
 
 /***/ },
-/* 224 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36147,7 +36558,7 @@
 	});
 
 /***/ },
-/* 225 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36178,7 +36589,7 @@
 	});
 
 /***/ },
-/* 226 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36204,7 +36615,7 @@
 	});
 
 /***/ },
-/* 227 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36235,13 +36646,13 @@
 	});
 
 /***/ },
-/* 228 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(229);
+	module.exports = __webpack_require__(232);
 
 /***/ },
-/* 229 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36262,8 +36673,8 @@
 
 	var assign = __webpack_require__(39);
 
-	var ReactTransitionGroup = __webpack_require__(230);
-	var ReactCSSTransitionGroupChild = __webpack_require__(232);
+	var ReactTransitionGroup = __webpack_require__(233);
+	var ReactCSSTransitionGroupChild = __webpack_require__(235);
 
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -36329,7 +36740,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ },
-/* 230 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36346,7 +36757,7 @@
 	'use strict';
 
 	var React = __webpack_require__(2);
-	var ReactTransitionChildMapping = __webpack_require__(231);
+	var ReactTransitionChildMapping = __webpack_require__(234);
 
 	var assign = __webpack_require__(39);
 	var emptyFunction = __webpack_require__(15);
@@ -36539,7 +36950,7 @@
 	module.exports = ReactTransitionGroup;
 
 /***/ },
-/* 231 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36642,7 +37053,7 @@
 	module.exports = ReactTransitionChildMapping;
 
 /***/ },
-/* 232 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36662,8 +37073,8 @@
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(3);
 
-	var CSSCore = __webpack_require__(233);
-	var ReactTransitionEvents = __webpack_require__(234);
+	var CSSCore = __webpack_require__(236);
+	var ReactTransitionEvents = __webpack_require__(237);
 
 	var onlyChild = __webpack_require__(156);
 
@@ -36812,7 +37223,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ },
-/* 233 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -36915,7 +37326,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 234 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -37029,14 +37440,14 @@
 	module.exports = ReactTransitionEvents;
 
 /***/ },
-/* 235 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
-	var FlavourMapEmbedded = __webpack_require__(218);
+	var FlavourMapEmbedded = __webpack_require__(222);
 
 	// application layout
 	module.exports = React.createClass({
@@ -37291,262 +37702,41 @@
 	});
 
 /***/ },
-/* 236 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var $ = __webpack_require__(209);
 	var React = __webpack_require__(1);
-	var ReviewStars = __webpack_require__(216);
-	var Slider = __webpack_require__(237);
+	var Link = __webpack_require__(159).Link;
 
 	module.exports = React.createClass({
-	  displayName: "ReviewFormInline",
+	  displayName: "Footer",
 
-	  getInitialState: function getInitialState() {
-	    return { reviews: [], errors: {} };
-	  },
-	  handleSubmit: function handleSubmit(ev) {
-	    ev.preventDefault();
-	    // set the star rating to 'undefined' unless a value has been chosen
-	    var beer = this.props.beer;
-	    var starRating = this.refs.reviewStars.state.value > 0 ? this.refs.reviewStars.state.value : undefined;
-	    var colourRating = this.refs.reviewColourRating.state.value;
-	    var flavourRating = this.refs.reviewFlavourRating.state.value;
-	    var body = this.refs.reviewBody.value;
-
-	    var review = {
-	      author_id: 0,
-	      author_name: "...",
-	      beer_id: beer.id,
-	      body: body,
-	      colour_rating: colourRating,
-	      date: "...",
-	      flavour_rating: flavourRating,
-	      star_rating: starRating
-	    };
-
-	    /* TODO: React challenge: there's some duplicated work here because we're recreating Rails'
-	       validation for the review. Is there a way around this? */
-	    var valid = this.performValidations(review);
-
-	    // TODO: add the real date, author_name, author_id to review object
-	    if (valid) {
-	      this.props.onReviewSubmit(review);
-	    }
-	  },
-	  performValidations: function performValidations(review) {
-	    var BODY_MIN_LENGTH = 10;
-	    var errors = {};
-
-	    /* star must be present always */
-	    if (!review.star_rating) {
-	      errors.star = 'Each review requires a star rating. Other fields are optional.';
-	    }
-
-	    /* if the body is present it, must be longer than the min */
-	    if (review.body && review.body.length < BODY_MIN_LENGTH) {
-	      errors.body = 'must be more than ' + BODY_MIN_LENGTH + ' characters';
-	    }
-
-	    /* if the flavour rating OR the colour rating is present, then BOTH
-	       should be present */
-	    if (review.flavour_rating || review.colour_rating) {
-	      if (!review.flavour_rating || !review.colour_rating) {
-	        errors.colour_flavour = "both must be present";
-	      }
-	    }
-
-	    if (Object.keys(errors).length === 0) {
-	      return true;
-	    } else {
-	      this.setState({ errors: errors });
-	      return false;
-	    }
-	  },
 	  render: function render() {
-	    var errorGeneral = this.state.errors.general ? React.createElement(
-	      'p',
-	      null,
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
 	      React.createElement(
-	        'span',
-	        { className: 'errorText' },
-	        'Uh-oh. An unknown error occured.'
-	      )
-	    ) : null;
-	    // TODO: there's a bug that sets the star rating to 5 after reloading the page with an error.
-	    var errorStar = this.state.errors.star ? React.createElement(
-	      'p',
-	      null,
-	      React.createElement(
-	        'span',
-	        { className: 'errorText' },
-	        this.state.errors.star
-	      )
-	    ) : null;
-	    var errorBody = this.state.errors.body ? React.createElement(
-	      'span',
-	      { className: 'errorText' },
-	      'Review ',
-	      this.state.errors.body
-	    ) : null;
-	    var errorColourFlavour = this.state.errors.colour_flavour ? React.createElement(
-	      'p',
-	      null,
-	      React.createElement(
-	        'span',
-	        { className: 'errorText' },
-	        'If you\'d like to rate the appearance and flavour, you must rate ',
+	        'div',
+	        { id: 'footer' },
+	        React.createElement('hr', null),
 	        React.createElement(
-	          'em',
+	          'div',
 	          null,
-	          'both'
-	        ),
-	        '.'
-	      )
-	    ) : null;
-
-	    return React.createElement(
-	      'div',
-	      { className: 'beer-card clearfix' },
-	      React.createElement(
-	        'div',
-	        { className: 'col-review' },
-	        React.createElement(
-	          'h3',
-	          { className: 'flush-with-top lighter italicize' },
 	          React.createElement(
-	            'em',
-	            null,
-	            'What do you think of ',
-	            this.props.beer.name,
-	            '?'
+	            'p',
+	            { style: { fontSize: "0.8em" } },
+	            '© ',
+	            new Date().getFullYear(),
+	            ' ',
+	            React.createElement(
+	              'a',
+	              { href: 'https://twitter.com/mctaylorpants' },
+	              '@mctaylorpants'
+	            ),
+	            '. All images copyright their respective owners. We\'re in beta right now; keep checking back for new and exciting updates!'
 	          )
-	        ),
-	        errorGeneral,
-	        React.createElement(
-	          'form',
-	          { onSubmit: this.handleSubmit },
-	          React.createElement(
-	            'div',
-	            null,
-	            React.createElement(ReviewStars, {
-	              displayReviewCount: false,
-	              interactive: true,
-	              ref: 'reviewStars',
-	              starsClassName: 'large-stars'
-	            }),
-	            errorStar
-	          ),
-	          React.createElement(Slider, {
-	            ref: 'reviewColourRating',
-	            title: 'Appearance (dark/light)',
-	            type: 'colour-gradient' }),
-	          React.createElement(Slider, {
-	            ref: 'reviewFlavourRating',
-	            title: 'Flavour (malty/hoppy)',
-	            type: 'flavour-gradient' }),
-	          errorColourFlavour,
-	          React.createElement(
-	            'div',
-	            null,
-	            React.createElement('textarea', { ref: 'reviewBody', placeholder: 'Write a short review' }),
-	            errorBody
-	          ),
-	          React.createElement('input', { type: 'submit', className: 'btn btn-primary', value: 'REVIEW' })
-	        )
-	      )
-	    );
-	  }
-	});
-
-/***/ },
-/* 237 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158); // required here because we're invoking it to get the node width
-	var Draggable = __webpack_require__(219);
-	var calculateDbCoords = __webpack_require__(221);
-
-	module.exports = React.createClass({
-	  displayName: 'exports',
-	  getInitialState: function getInitialState() {
-	    // these values are a best-guess at what it will probably be, but they'll get
-	    // set properly once the component mounts.
-	    /* TODO: the starting target coords are hardcoded based on this formula:
-	       gradient_height = 60px (from CSS)
-	       target_diamter = 28px (calculated from 2em in CSS)
-	       y_offset = (gradient_height/2)-(target_diamter/2)
-	    */
-
-	    return {
-	      activated: false,
-	      width: 308,
-	      height: 60,
-	      targetDiameter: 28,
-	      targetPos: { x: 0, y: 16 } };
-	  },
-	  setGradientRenderedState: function setGradientRenderedState(c) {
-	    /* When a ref is a callback, the callback will be invoked with 'null' upon
-	       unmounting the object. So we need to check if c exists before continuing.
-	       See https://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute
-	    */
-	    if (c) {
-	      this.setState({ width: c.offsetWidth, height: c.offsetHeight });
-	    }
-	  },
-	  setTargetRenderedState: function setTargetRenderedState(c) {
-	    if (c) {
-	      this.setState({ targetDiameter: c.offsetWidth });
-	    }
-	  },
-	  handleTargetDragStart: function handleTargetDragStart() {
-	    this.setState({ activated: true });
-	  },
-	  handleTargetStop: function handleTargetStop(event, ui) {
-	    var newCoords = calculateDbCoords(this.state.targetPos.x, this.state.targetPos.y, this.state.width, this.state.height);
-	    // without doing this we get min=0, max=11
-	    newCoords.x += 1;
-	    this.setState({ value: newCoords.x });
-	  },
-	  handleTargetDrag: function handleTargetDrag(event, ui) {
-	    // TODO: this is a hack right now because ui.position on stop is NaN
-	    // for touch events. so instead we continually set the state during drag.
-	    // not ideal?
-	    this.setState({ targetPos: { x: ui.position.left, y: ui.position.top } });
-	  },
-	  render: function render() {
-	    var opacity = this.state.activated ? "1.0" : "0.25";
-
-	    return React.createElement(
-	      'div',
-	      { className: 'form-group' },
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'colour_rating' },
-	        this.props.title
-	      ),
-	      React.createElement(
-	        'div',
-	        { ref: this.setGradientRenderedState,
-	          id: this.props.type,
-	          style: { position: 'relative', opacity: opacity } },
-	        React.createElement(
-	          Draggable,
-	          {
-	            axis: 'x',
-	            bounds: 'parent',
-	            handle: '.handle',
-	            onStart: this.handleTargetDragStart,
-	            onDrag: this.handleTargetDrag,
-	            onStop: this.handleTargetStop,
-	            start: { x: 0, y: 16 },
-	            zIndex: 100 },
-	          React.createElement('div', { ref: this.setTargetRenderedState, id: 'target', className: 'handle' })
 	        )
 	      )
 	    );

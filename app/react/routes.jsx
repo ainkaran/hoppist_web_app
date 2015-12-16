@@ -19,6 +19,7 @@ var BeerIndex                = require("./components/beers/index");
 var BeerShow                 = require("./components/beers/show");
 var BeerShowFlavourMap       = require("./components/beers/_flavour_map");
 var BeerShowReviews          = require("./components/beers/_reviews");
+var HomePageGuest            = require("./components/home/guest");
 var FlavourMapIndex          = require("./components/flavour_map/index");
 var StyleGuide               = require("./components/style_guide");
 
@@ -31,6 +32,7 @@ ReactDOM.render((
   <Router history={createBrowserHistory()}>
     <Redirect from="/" to="/ui" />
     <Route path="/ui" component={App}>
+      <IndexRoute component={HomePageGuest} />
       <Route path="beers" component={BeerIndex} />
       <Route path="beers/:id" component={BeerShow}>
         <IndexRoute component={BeerShowFlavourMap} />
