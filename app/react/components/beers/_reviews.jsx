@@ -4,8 +4,26 @@ var Review = require("../reviews/_review_card");
 var ReviewFormInline = require("../reviews/_form_inline");
 
 module.exports = React.createClass({
+  displayName: "BeerReviews",
+
+  getInitialState() {
+    return { showNewReviewForm: true }
+  },
+
+  handleReviewSubmit(review) {
+    this.props.onReviewSubmit(review)
+    this.setState({ showNewReviewForm: false })
+  },
+
   render() {
-    var newReview = (<ReviewFormInline />);
+    var newReview;
+    if (this.state.showNewReviewForm) {
+      newReview = (<ReviewFormInline
+          beer={this.props.beer}
+          onReviewSubmit={this.handleReviewSubmit}
+          />
+        );
+    }
 
     var reviews = [];
 

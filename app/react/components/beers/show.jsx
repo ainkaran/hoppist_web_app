@@ -13,6 +13,53 @@ module.exports = React.createClass({
     return { beer: {}, brewery: {} }
   },
 
+  handleReviewSubmit(review) {
+    this.ajaxPostReviewSubmit(review);
+  },
+
+  ajaxPostReviewSubmit(review) {
+    // eager loading
+    var newReview = { id: `tmp_${Math.floor(Math.random()*1000)}`, attributes: review };
+    var prevReviews = this.state.reviews;
+    var nextReviews = [newReview].concat(prevReviews);
+    this.setState({ reviews: nextReviews })
+
+    $.ajax({
+      method: "POST",
+      url: "/api/v1/reviews",
+      data: { review: review },
+      success: (response) => {
+        this.hydrateBeerData(response);
+      },
+
+      error: (obj, msg, err) => {
+        // TODO better error handling
+        debugger
+        var errors = obj.responseJSON;
+        if (errors.beer || errors.user) {
+          errors.general = true
+        }
+
+        this.setState({ errors })
+      }
+    });
+  },
+
+  /* since we're populating this from the initial GET request AND potentially
+     a new review submission, the logic goes here. */
+  hydrateBeerData(response) {
+    var beer      = response.data.attributes;
+    beer.id       = response.data.id;
+    var brewery   = { id:   response.data.relationships.brewery.data.id,
+                      name: response.included[0].attributes.name
+                    };
+    var reviews   = response.included.filter((el)=> { return el.type === "reviews" });
+
+    this.setState({
+      beer: beer,
+      brewery: brewery,
+      reviews: reviews });
+  },
 
   ajaxGetBeer(id) {
     // TODO: refactor this url
@@ -20,19 +67,12 @@ module.exports = React.createClass({
       method: "GET",
       url: `/api/v1/beers/${id}`,
       success: (response) => {
-        var beer      = response.data.attributes;
-        var brewery   = { id:   response.data.relationships.brewery.data.id,
-                          name: response.included[0].attributes.name
-                        };
-        var reviews   = response.included.filter((el)=> { return el.type === "reviews" });
-
-        this.setState({
-          beer: beer,
-          brewery: brewery,
-          reviews: reviews });
+        this.hydrateBeerData(response);
       },
 
       error: (obj, msg, err) => {
+        // TODO: improve this
+        alert("Uh oh! Error submiting to server. Check the logs.")
         console.log(`error in request: ${msg} / ${err}`);
       }
     })
@@ -77,7 +117,10 @@ module.exports = React.createClass({
     // A solution for passing props down to the children, without relying on Context (or Redux/Flux)
     // See https://facebook.github.io/react/blog/2015/03/03/react-v0.13-rc2.html#react.cloneelement
     var newChildren = React.Children.map(this.props.children, (child)=> {
-      return React.cloneElement(child, { beer: this.state.beer, reviews: this.state.reviews });
+      return React.cloneElement(child, {
+        beer: this.state.beer,
+        reviews: this.state.reviews,
+        onReviewSubmit: this.handleReviewSubmit });
     });
 
     return (

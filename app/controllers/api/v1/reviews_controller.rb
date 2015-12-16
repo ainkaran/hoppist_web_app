@@ -2,9 +2,12 @@ class Api::V1::ReviewsController < Api::BaseController
   def create
     review       = Review.new(review_params)
     review.user  = User.first # TODO: replace with current_user
+    beer         = review.beer
 
     if review.save
-      render json: review
+      # TODO: will this redirect actually return the json response? hopefully..
+      redirect_to api_v1_beer_path(beer)
+      #render json: review
     else
       # TODO: This doesn't follow JSON API 1.0 spec. Wouldn't it be nice ;)
       render json: review.errors, status: :bad_request

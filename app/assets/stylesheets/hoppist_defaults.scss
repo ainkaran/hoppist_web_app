@@ -126,6 +126,12 @@ label {
   }
 }
 
+/* TODO: added as a quick way to get validations working on review form_inline.
+   consider changing. */
+.errorText {
+  color:                     $state-danger-text
+}
+
 /* Alerts */
 $alert-success-bg:           none;
 $alert-danger-bg:            none;

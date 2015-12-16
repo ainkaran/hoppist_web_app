@@ -33907,29 +33907,70 @@
 	  getInitialState: function getInitialState() {
 	    return { beer: {}, brewery: {} };
 	  },
-	  ajaxGetBeer: function ajaxGetBeer(id) {
+	  handleReviewSubmit: function handleReviewSubmit(review) {
+	    this.ajaxPostReviewSubmit(review);
+	  },
+	  ajaxPostReviewSubmit: function ajaxPostReviewSubmit(review) {
 	    var _this = this;
+
+	    // eager loading
+	    var newReview = { id: 'tmp_' + Math.floor(Math.random() * 1000), attributes: review };
+	    var prevReviews = this.state.reviews;
+	    var nextReviews = [newReview].concat(prevReviews);
+	    this.setState({ reviews: nextReviews });
+
+	    $.ajax({
+	      method: "POST",
+	      url: "/api/v1/reviews",
+	      data: { review: review },
+	      success: function success(response) {
+	        _this.hydrateBeerData(response);
+	      },
+
+	      error: function error(obj, msg, err) {
+	        // TODO better error handling
+	        debugger;
+	        var errors = obj.responseJSON;
+	        if (errors.beer || errors.user) {
+	          errors.general = true;
+	        }
+
+	        _this.setState({ errors: errors });
+	      }
+	    });
+	  },
+
+	  /* since we're populating this from the initial GET request AND potentially
+	     a new review submission, the logic goes here. */
+	  hydrateBeerData: function hydrateBeerData(response) {
+	    var beer = response.data.attributes;
+	    beer.id = response.data.id;
+	    var brewery = { id: response.data.relationships.brewery.data.id,
+	      name: response.included[0].attributes.name
+	    };
+	    var reviews = response.included.filter(function (el) {
+	      return el.type === "reviews";
+	    });
+
+	    this.setState({
+	      beer: beer,
+	      brewery: brewery,
+	      reviews: reviews });
+	  },
+	  ajaxGetBeer: function ajaxGetBeer(id) {
+	    var _this2 = this;
 
 	    // TODO: refactor this url
 	    $.ajax({
 	      method: "GET",
 	      url: '/api/v1/beers/' + id,
 	      success: function success(response) {
-	        var beer = response.data.attributes;
-	        var brewery = { id: response.data.relationships.brewery.data.id,
-	          name: response.included[0].attributes.name
-	        };
-	        var reviews = response.included.filter(function (el) {
-	          return el.type === "reviews";
-	        });
-
-	        _this.setState({
-	          beer: beer,
-	          brewery: brewery,
-	          reviews: reviews });
+	        _this2.hydrateBeerData(response);
 	      },
 
 	      error: function error(obj, msg, err) {
+	        // TODO: improve this
+	        alert("Uh oh! Error submiting to server. Check the logs.");
 	        console.log('error in request: ' + msg + ' / ' + err);
 	      }
 	    });
@@ -33938,7 +33979,7 @@
 	    this.ajaxGetBeer(this.props.params.id);
 	  },
 	  render: function render() {
-	    var _this2 = this;
+	    var _this3 = this;
 
 	    /* TODO: work out a method of using a loading screen to hide some of the ajax calls.
 	       this would allow us to improve some of this code slightly; perhaps we could
@@ -33976,7 +34017,10 @@
 	    // A solution for passing props down to the children, without relying on Context (or Redux/Flux)
 	    // See https://facebook.github.io/react/blog/2015/03/03/react-v0.13-rc2.html#react.cloneelement
 	    var newChildren = React.Children.map(this.props.children, function (child) {
-	      return React.cloneElement(child, { beer: _this2.state.beer, reviews: _this2.state.reviews });
+	      return React.cloneElement(child, {
+	        beer: _this3.state.beer,
+	        reviews: _this3.state.reviews,
+	        onReviewSubmit: _this3.handleReviewSubmit });
 	    });
 
 	    return React.createElement(
@@ -34078,9 +34122,23 @@
 	var ReviewFormInline = __webpack_require__(236);
 
 	module.exports = React.createClass({
-	  displayName: 'exports',
+	  displayName: "BeerReviews",
+
+	  getInitialState: function getInitialState() {
+	    return { showNewReviewForm: true };
+	  },
+	  handleReviewSubmit: function handleReviewSubmit(review) {
+	    this.props.onReviewSubmit(review);
+	    this.setState({ showNewReviewForm: false });
+	  },
 	  render: function render() {
-	    var newReview = React.createElement(ReviewFormInline, null);
+	    var newReview;
+	    if (this.state.showNewReviewForm) {
+	      newReview = React.createElement(ReviewFormInline, {
+	        beer: this.props.beer,
+	        onReviewSubmit: this.handleReviewSubmit
+	      });
+	    }
 
 	    var reviews = [];
 
@@ -37238,23 +37296,117 @@
 
 	'use strict';
 
+	var $ = __webpack_require__(209);
 	var React = __webpack_require__(1);
 	var ReviewStars = __webpack_require__(216);
 	var Slider = __webpack_require__(237);
 
 	module.exports = React.createClass({
-	  displayName: 'exports',
+	  displayName: "ReviewFormInline",
+
+	  getInitialState: function getInitialState() {
+	    return { reviews: [], errors: {} };
+	  },
 	  handleSubmit: function handleSubmit(ev) {
 	    ev.preventDefault();
 	    // set the star rating to 'undefined' unless a value has been chosen
+	    var beer = this.props.beer;
 	    var starRating = this.refs.reviewStars.state.value > 0 ? this.refs.reviewStars.state.value : undefined;
 	    var colourRating = this.refs.reviewColourRating.state.value;
 	    var flavourRating = this.refs.reviewFlavourRating.state.value;
 	    var body = this.refs.reviewBody.value;
-	    // TODO perform validation
-	    // TODO submit to server and handle response. should this be done by app?
+
+	    var review = {
+	      author_id: 0,
+	      author_name: "...",
+	      beer_id: beer.id,
+	      body: body,
+	      colour_rating: colourRating,
+	      date: "...",
+	      flavour_rating: flavourRating,
+	      star_rating: starRating
+	    };
+
+	    /* TODO: React challenge: there's some duplicated work here because we're recreating Rails'
+	       validation for the review. Is there a way around this? */
+	    var valid = this.performValidations(review);
+
+	    // TODO: add the real date, author_name, author_id to review object
+	    if (valid) {
+	      this.props.onReviewSubmit(review);
+	    }
+	  },
+	  performValidations: function performValidations(review) {
+	    var BODY_MIN_LENGTH = 10;
+	    var errors = {};
+
+	    /* star must be present always */
+	    if (!review.star_rating) {
+	      errors.star = 'Each review requires a star rating. Other fields are optional.';
+	    }
+
+	    /* if the body is present it, must be longer than the min */
+	    if (review.body && review.body.length < BODY_MIN_LENGTH) {
+	      errors.body = 'must be more than ' + BODY_MIN_LENGTH + ' characters';
+	    }
+
+	    /* if the flavour rating OR the colour rating is present, then BOTH
+	       should be present */
+	    if (review.flavour_rating || review.colour_rating) {
+	      if (!review.flavour_rating || !review.colour_rating) {
+	        errors.colour_flavour = "both must be present";
+	      }
+	    }
+
+	    if (Object.keys(errors).length === 0) {
+	      return true;
+	    } else {
+	      this.setState({ errors: errors });
+	      return false;
+	    }
 	  },
 	  render: function render() {
+	    var errorGeneral = this.state.errors.general ? React.createElement(
+	      'p',
+	      null,
+	      React.createElement(
+	        'span',
+	        { className: 'errorText' },
+	        'Uh-oh. An unknown error occured.'
+	      )
+	    ) : null;
+	    // TODO: there's a bug that sets the star rating to 5 after reloading the page with an error.
+	    var errorStar = this.state.errors.star ? React.createElement(
+	      'p',
+	      null,
+	      React.createElement(
+	        'span',
+	        { className: 'errorText' },
+	        this.state.errors.star
+	      )
+	    ) : null;
+	    var errorBody = this.state.errors.body ? React.createElement(
+	      'span',
+	      { className: 'errorText' },
+	      'Review ',
+	      this.state.errors.body
+	    ) : null;
+	    var errorColourFlavour = this.state.errors.colour_flavour ? React.createElement(
+	      'p',
+	      null,
+	      React.createElement(
+	        'span',
+	        { className: 'errorText' },
+	        'If you\'d like to rate the appearance and flavour, you must rate ',
+	        React.createElement(
+	          'em',
+	          null,
+	          'both'
+	        ),
+	        '.'
+	      )
+	    ) : null;
+
 	    return React.createElement(
 	      'div',
 	      { className: 'beer-card clearfix' },
@@ -37262,14 +37414,17 @@
 	        'div',
 	        { className: 'col-review' },
 	        React.createElement(
-	          'h5',
+	          'h3',
 	          { className: 'flush-with-top lighter italicize' },
 	          React.createElement(
 	            'em',
 	            null,
-	            'What do you think of Beer Name?'
+	            'What do you think of ',
+	            this.props.beer.name,
+	            '?'
 	          )
 	        ),
+	        errorGeneral,
 	        React.createElement(
 	          'form',
 	          { onSubmit: this.handleSubmit },
@@ -37281,7 +37436,8 @@
 	              interactive: true,
 	              ref: 'reviewStars',
 	              starsClassName: 'large-stars'
-	            })
+	            }),
+	            errorStar
 	          ),
 	          React.createElement(Slider, {
 	            ref: 'reviewColourRating',
@@ -37289,12 +37445,14 @@
 	            type: 'colour-gradient' }),
 	          React.createElement(Slider, {
 	            ref: 'reviewFlavourRating',
-	            title: 'Appearance (dark/light)',
+	            title: 'Flavour (malty/hoppy)',
 	            type: 'flavour-gradient' }),
+	          errorColourFlavour,
 	          React.createElement(
 	            'div',
 	            null,
-	            React.createElement('textarea', { ref: 'reviewBody', placeholder: 'Write a short review' })
+	            React.createElement('textarea', { ref: 'reviewBody', placeholder: 'Write a short review' }),
+	            errorBody
 	          ),
 	          React.createElement('input', { type: 'submit', className: 'btn btn-primary', value: 'REVIEW' })
 	        )
@@ -37333,10 +37491,18 @@
 	      targetPos: { x: 0, y: 16 } };
 	  },
 	  setGradientRenderedState: function setGradientRenderedState(c) {
-	    this.setState({ width: c.offsetWidth, height: c.offsetHeight });
+	    /* When a ref is a callback, the callback will be invoked with 'null' upon
+	       unmounting the object. So we need to check if c exists before continuing.
+	       See https://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute
+	    */
+	    if (c) {
+	      this.setState({ width: c.offsetWidth, height: c.offsetHeight });
+	    }
 	  },
 	  setTargetRenderedState: function setTargetRenderedState(c) {
-	    this.setState({ targetDiameter: c.offsetWidth });
+	    if (c) {
+	      this.setState({ targetDiameter: c.offsetWidth });
+	    }
 	  },
 	  handleTargetDragStart: function handleTargetDragStart() {
 	    this.setState({ activated: true });

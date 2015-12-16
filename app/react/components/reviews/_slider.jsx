@@ -23,11 +23,19 @@ module.exports = React.createClass({
   },
 
   setGradientRenderedState(c) {
-    this.setState({ width: c.offsetWidth, height: c.offsetHeight });
+    /* When a ref is a callback, the callback will be invoked with 'null' upon
+       unmounting the object. So we need to check if c exists before continuing.
+       See https://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute
+   */
+    if (c) {
+      this.setState({ width: c.offsetWidth, height: c.offsetHeight });
+    }
   },
 
   setTargetRenderedState(c) {
-    this.setState({ targetDiameter: c.offsetWidth });
+    if (c) {
+      this.setState({ targetDiameter: c.offsetWidth });
+    }
   },
 
   handleTargetDragStart() {
