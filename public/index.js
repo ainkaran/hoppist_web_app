@@ -36104,7 +36104,7 @@
 	  getDefaultProps: function getDefaultProps() {
 	    return {
 	      isDraggable: false,
-	      maxWidth: 475,
+	      maxWidth: 400,
 	      targetPos: { x: 6, y: 6 }
 	    };
 	  },
@@ -36425,14 +36425,22 @@
 	    var loading = this.state.resultsLoading;
 	    return React.createElement(
 	      'div',
-	      null,
-	      React.createElement(FlavourMapEmbedded, {
-	        targetPos: { x: 6, y: 6 },
-	        isDraggable: true,
-	        onDragStop: this.handleDragStop,
-	        className: 'center-block img img-thumbnail'
-	      }),
-	      React.createElement(BeerList, { loading: loading, beers: this.state.beers, breweries: this.state.breweries, onNavigation: this.handleNavigation })
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { className: 'col-sm-7' },
+	        React.createElement(FlavourMapEmbedded, {
+	          targetPos: { x: 6, y: 6 },
+	          isDraggable: true,
+	          onDragStop: this.handleDragStop,
+	          className: 'fixed center-block img img-thumbnail'
+	        })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'col-sm-5' },
+	        React.createElement(BeerList, { loading: loading, beers: this.state.beers, breweries: this.state.breweries, onNavigation: this.handleNavigation })
+	      )
 	    );
 	  }
 	});

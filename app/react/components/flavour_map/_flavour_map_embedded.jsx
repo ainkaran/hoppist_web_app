@@ -18,7 +18,7 @@ module.exports = React.createClass({
   getDefaultProps() {
     return {
       isDraggable: false,
-      maxWidth: 475,
+      maxWidth: 400,
       targetPos: { x: 6, y: 6 }
     };
 
