@@ -36104,7 +36104,7 @@
 	  getDefaultProps: function getDefaultProps() {
 	    return {
 	      isDraggable: false,
-	      maxWidth: 375,
+	      maxWidth: 475,
 	      targetPos: { x: 6, y: 6 }
 	    };
 	  },
@@ -36186,7 +36186,7 @@
 	    console.log('_flavour_map_embedded render() targetPos=' + this.state.targetPos.x + ',' + this.state.targetPos.y);
 	    return React.createElement(
 	      'div',
-	      { id: 'flavour-map-embedded', style: styles, key: this.state.mapKey },
+	      { id: 'flavour-map-embedded', className: this.props.className, style: styles, key: this.state.mapKey },
 	      React.createElement(
 	        Draggable,
 	        {
@@ -36429,8 +36429,9 @@
 	      React.createElement(FlavourMapEmbedded, {
 	        targetPos: { x: 6, y: 6 },
 	        isDraggable: true,
-	        maxWidth: 375,
-	        onDragStop: this.handleDragStop }),
+	        onDragStop: this.handleDragStop,
+	        className: 'center-block img img-thumbnail'
+	      }),
 	      React.createElement(BeerList, { loading: loading, beers: this.state.beers, breweries: this.state.breweries, onNavigation: this.handleNavigation })
 	    );
 	  }

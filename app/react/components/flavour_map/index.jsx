@@ -53,11 +53,13 @@ module.exports = React.createClass({
     return (
       <div>
         {/* TODO: how to respond to media queries so that we can re-render this at a different res? */}
+
         <FlavourMapEmbedded
           targetPos={{x: 6, y: 6}}
           isDraggable={true}
-          maxWidth={375}
-          onDragStop={this.handleDragStop} />
+          onDragStop={this.handleDragStop}
+          className="center-block img img-thumbnail"
+          />
         <BeerList loading={loading} beers={this.state.beers} breweries={this.state.breweries} onNavigation={this.handleNavigation} />
       </div>
     );

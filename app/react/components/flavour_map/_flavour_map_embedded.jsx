@@ -18,7 +18,7 @@ module.exports = React.createClass({
   getDefaultProps() {
     return {
       isDraggable: false,
-      maxWidth: 375,
+      maxWidth: 475,
       targetPos: { x: 6, y: 6 }
     };
 
@@ -114,7 +114,7 @@ module.exports = React.createClass({
     };
     console.log(`_flavour_map_embedded render() targetPos=${this.state.targetPos.x},${this.state.targetPos.y}`);
     return (
-      <div id="flavour-map-embedded" style={styles} key={this.state.mapKey}>
+      <div id="flavour-map-embedded" className={this.props.className} style={styles} key={this.state.mapKey}>
         <Draggable
           bounds="parent"
           cancel={this.props.isDraggable ? "" : ".handle"}
