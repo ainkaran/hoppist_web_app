@@ -45,7 +45,7 @@ module.exports = React.createClass({
     for (var i = 0; i < numStars; i++) {
       var state;
 
-      if ((i+1) > this.state.value) {
+      if (this.props.interactive && (i+1) > this.state.value) {
         state = 'unfilled';
       } else {
         state = 'filled';
