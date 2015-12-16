@@ -33759,7 +33759,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement('div', { id: 'navbar-dimmer', className: style }),
+	      React.createElement('div', { id: 'navbar-dimmer', onClick: this.handleMenuClick, className: style }),
 	      React.createElement(
 	        'nav',
 	        { className: 'hoppist-header' },

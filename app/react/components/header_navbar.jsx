@@ -16,7 +16,7 @@ module.exports = React.createClass({
 
     return (
       <div>
-        <div id="navbar-dimmer" className={style}></div>
+        <div id="navbar-dimmer" onClick={this.handleMenuClick} className={style}></div>
         <nav className="hoppist-header">
           <h1 className="branded" onClick={this.handleMenuClick}>...</h1>
           <h2 className="branded">HOPPIST</h2>
