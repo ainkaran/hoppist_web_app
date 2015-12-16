@@ -1,5 +1,6 @@
 /* Slides out from left, all cool-like. */
 #mobile-navbar {
+  $mobile-navbar-transform:  translateX(-101%); // 101 will hide the shadow, too
   background-color:          white;
   box-shadow:                0px 2px 4px 0px rgba(0,0,0,0.50);
   left:                      0;
@@ -7,13 +8,18 @@
   padding:                   15px;
   position:                  fixed;
   top:                       0;
-  transform:                 translateX(-101%); // 101 will hide the shadow, too
+    -ms-transform:           $mobile-navbar-transform;
+    -webkit-transform:       $mobile-navbar-transform;
+  transform:                 $mobile-navbar-transform;
   transition:                transform 200ms;
   width:                     160px;
   z-index:                   999;
 
   &.is-active {
-    transform:               translateX(0);
+    $mobile-navbar-show:     translateX(0);
+      -ms-transform:         $mobile-navbar-show;
+      -webkit-transform:     $mobile-navbar-show;
+    transform:               $mobile-navbar-show;
   }
 
   h1 {
