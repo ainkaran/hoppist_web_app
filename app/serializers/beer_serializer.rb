@@ -28,7 +28,7 @@ class BeerSerializer < ActiveModel::Serializer
   end
 
   def category
-    object.category ? object.category.name : "Unknown"
+    object.category.name
   end
 
   def num_reviews

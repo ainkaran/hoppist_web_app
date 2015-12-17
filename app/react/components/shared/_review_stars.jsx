@@ -81,7 +81,7 @@ module.exports = React.createClass({
     var rating = this.props.rating;
     var stars = this.renderStars(rating);
 
-    var displayNumReviews = this.props.numReviews > 0 ? `out of ${this.props.numReviews} reviews` : `no reviews yet.`
+    var displayNumReviews = this.props.rating ? `out of ${this.props.numReviews} reviews` : `no ratings yet.`
 
     return (
       <div className="review-stars" title={`${rating}/5`}>
