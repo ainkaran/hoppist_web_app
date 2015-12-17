@@ -1,4 +1,24 @@
 h2 Beers
-ul
-- @beers.each do |beer|
-  li = link_to "#{beer.name} by #{beer.brewery.name}", admin_beer_path(beer) 
+table.table.table-striped
+  thead
+    tr
+      th Beer Name
+      th Avg Star Rating
+      th Avg Colour Rating
+      th Avg Flavour Rating
+
+  tbody
+    - @beers.each do |beer|
+      - if beer.avg_colour_rating.nil? || beer.avg_flavour_rating.nil?
+        tr.danger
+          td = link_to "#{beer.name} by #{beer.brewery.name}", admin_beer_path(beer)
+          td = beer.avg_star_rating
+          td = beer.avg_colour_rating
+          td = beer.avg_flavour_rating
+
+      - else
+        tr
+          td = link_to "#{beer.name} by #{beer.brewery.name}", admin_beer_path(beer)
+          td = beer.avg_star_rating
+          td = beer.avg_colour_rating
+          td = beer.avg_flavour_rating

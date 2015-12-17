@@ -1,7 +1,7 @@
 class Api::V1::ReviewsController < Api::BaseController
   def create
     review       = Review.new(review_params)
-    review.user  = User.first # TODO: replace with current_user
+    review.user  = User.last # TODO: replace with current_user
     beer         = review.beer
 
     if review.save
