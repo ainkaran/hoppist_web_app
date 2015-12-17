@@ -36132,7 +36132,6 @@
 	    var newTargetPos = calculateFlavourMapCoords(this.props.targetPos.x, this.props.targetPos.y, nodeRenderedWidth, nodeRenderedWidth / 1.6);
 	    var newTargetPos = { x: newTargetPos.x - renderedTargetDiameter / 2, y: newTargetPos.y - renderedTargetDiameter / 2 };
 
-	    console.log('_flavour_map_embedded componentDidMount() setState -> targetPos=' + newTargetPos.x + ',' + newTargetPos.y);
 	    this.setState({
 	      maxWidth: nodeRenderedWidth,
 	      targetPos: newTargetPos,
@@ -36148,7 +36147,6 @@
 	      var renderedTargetDiameter = node.childNodes[0].offsetWidth;
 	      var newTargetPos = calculateFlavourMapCoords(nextProps.targetPos.x, nextProps.targetPos.y, nodeRenderedWidth, nodeRenderedWidth / 1.6);
 	      var newTargetPos = { x: newTargetPos.x - renderedTargetDiameter / 2, y: newTargetPos.y - renderedTargetDiameter / 2 };
-	      console.log('_flavour_map_embedded componentDidMount() setState -> targetPos=' + newTargetPos.x + ',' + newTargetPos.y);
 	      this.setState({
 	        maxWidth: nodeRenderedWidth,
 	        targetPos: newTargetPos,
@@ -36166,8 +36164,6 @@
 
 	    var newCoords = calculateDbCoords(this.state.targetPos.x, this.state.targetPos.y, this.state.maxWidth, this.state.maxWidth / 1.6);
 
-	    console.log("Db position: " + newCoords.x + "," + newCoords.y);
-
 	    if (this.props.onDragStop !== undefined) {
 	      this.props.onDragStop(newCoords);
 	    }
@@ -36183,7 +36179,6 @@
 	      width: "100%",
 	      maxWidth: this.state.maxWidth + 'px'
 	    };
-	    console.log('_flavour_map_embedded render() targetPos=' + this.state.targetPos.x + ',' + this.state.targetPos.y);
 	    return React.createElement(
 	      'div',
 	      { id: 'flavour-map-embedded', className: this.props.className, style: styles, key: this.state.mapKey },
@@ -36379,8 +36374,17 @@
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
+
+	  MEDIA_QUERY_MEDIUM: 992, // Matches Bootstrap's 'medium' media query
+	  resizeTimeout: null, // for the resizeThrottler below
+
 	  getInitialState: function getInitialState() {
-	    return { beers: [], breweries: [], resultsLoading: false };
+	    return {
+	      beers: [],
+	      breweries: [],
+	      flavourMapMaxWidth: 400,
+	      resultsLoading: false,
+	      windowWidth: window.innerWidth };
 	  },
 	  ajaxPostFlavourMapSearch: function ajaxPostFlavourMapSearch(searchCoords) {
 	    var _this = this;
@@ -36409,6 +36413,27 @@
 	      }
 	    });
 	  },
+	  resizeThrottler: function resizeThrottler() {
+	    var _this2 = this;
+
+	    // we're throttling the resize calls using setTimeout.
+	    // https://developer.mozilla.org/en-US/docs/Web/Events/resize
+	    if (!this.resizeTimeout) {
+	      this.resizeTimeout = setTimeout(function () {
+	        _this2.resizeTimeout = null;
+	        _this2.handleResize();
+	      }, 66);
+	    }
+	  },
+	  handleResize: function handleResize() {
+	    this.setState({ windowWidth: window.innerWidth });
+	  },
+	  componentDidMount: function componentDidMount() {
+	    window.addEventListener('resize', this.resizeThrottler);
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    window.removeEventListener('resize', this.resizeThrottler);
+	  },
 	  handleDragStop: function handleDragStop(newCoords) {
 	    this.setState({ resultsLoading: true });
 	    this.ajaxPostFlavourMapSearch(newCoords);
@@ -36423,22 +36448,29 @@
 	  render: function render() {
 	    console.log("flavour_map_index render()");
 	    var loading = this.state.resultsLoading;
+	    var classes = ["center-block", "img", "img-thumbnail"];
+	    if (this.state.windowWidth >= this.MEDIA_QUERY_MEDIUM) {
+	      classes.push("fixed");
+	    }
+
+	    // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
 	    return React.createElement(
 	      'div',
-	      { className: 'row' },
+	      { className: 'row', style: { minHeight: this.state.flavourMapMaxWidth / 1.6 } },
 	      React.createElement(
 	        'div',
-	        { className: 'col-sm-7' },
+	        { className: 'col-sm-6' },
 	        React.createElement(FlavourMapEmbedded, {
-	          targetPos: { x: 6, y: 6 },
+	          className: classes.join(" "),
 	          isDraggable: true,
+	          maxWidth: this.state.flavourMapMaxWidth,
 	          onDragStop: this.handleDragStop,
-	          className: 'fixed center-block img img-thumbnail'
+	          targetPos: { x: 6, y: 6 }
 	        })
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'col-sm-5' },
+	        { className: 'col-sm-6' },
 	        React.createElement(BeerList, { loading: loading, beers: this.state.beers, breweries: this.state.breweries, onNavigation: this.handleNavigation })
 	      )
 	    );
@@ -36526,7 +36558,6 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'beer-list' },
-	      React.createElement('hr', null),
 	      React.createElement(
 	        ReactCSSTransitionGroup,
 	        { transitionName: 'fade', transitionEnterTimeout: 250, transitionLeaveTimeout: 250 },

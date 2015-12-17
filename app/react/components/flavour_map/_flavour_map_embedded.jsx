@@ -51,7 +51,6 @@ module.exports = React.createClass({
     var newTargetPos           = calculateFlavourMapCoords(this.props.targetPos.x, this.props.targetPos.y, nodeRenderedWidth, nodeRenderedWidth/1.6);
     var newTargetPos           = { x: newTargetPos.x - (renderedTargetDiameter/2), y: newTargetPos.y - (renderedTargetDiameter/2)};
 
-    console.log(`_flavour_map_embedded componentDidMount() setState -> targetPos=${newTargetPos.x},${newTargetPos.y}`);
     this.setState({
       maxWidth: nodeRenderedWidth,
       targetPos: newTargetPos,
@@ -70,7 +69,6 @@ module.exports = React.createClass({
        var renderedTargetDiameter = node.childNodes[0].offsetWidth;
        var newTargetPos           = calculateFlavourMapCoords(nextProps.targetPos.x, nextProps.targetPos.y, nodeRenderedWidth, nodeRenderedWidth/1.6);
        var newTargetPos           = { x: newTargetPos.x - (renderedTargetDiameter/2), y: newTargetPos.y - (renderedTargetDiameter/2)};
-       console.log(`_flavour_map_embedded componentDidMount() setState -> targetPos=${newTargetPos.x},${newTargetPos.y}`);
        this.setState({
          maxWidth: nodeRenderedWidth,
          targetPos: newTargetPos,
@@ -92,7 +90,6 @@ module.exports = React.createClass({
                                       this.state.maxWidth,
                                       this.state.maxWidth/1.6);
 
-    console.log("Db position: " + newCoords.x + "," + newCoords.y);
 
     if(this.props.onDragStop !== undefined) {
       this.props.onDragStop(newCoords);
@@ -112,7 +109,6 @@ module.exports = React.createClass({
       width:    "100%",
       maxWidth: `${this.state.maxWidth}px`
     };
-    console.log(`_flavour_map_embedded render() targetPos=${this.state.targetPos.x},${this.state.targetPos.y}`);
     return (
       <div id="flavour-map-embedded" className={this.props.className} style={styles} key={this.state.mapKey}>
         <Draggable

@@ -6,8 +6,16 @@ var FlavourMapEmbedded = require("./_flavour_map_embedded");
 
 
 module.exports = React.createClass({
+  MEDIA_QUERY_MEDIUM: 992, // Matches Bootstrap's 'medium' media query
+  resizeTimeout: null, // for the resizeThrottler below
+
   getInitialState() {
-    return { beers: [], breweries: [], resultsLoading: false }
+    return {
+             beers: [],
+             breweries: [],
+             flavourMapMaxWidth: 400,
+             resultsLoading: false,
+             windowWidth: window.innerWidth }
   },
 
 
@@ -37,6 +45,29 @@ module.exports = React.createClass({
     });
   },
 
+  resizeThrottler() {
+    // we're throttling the resize calls using setTimeout.
+    // https://developer.mozilla.org/en-US/docs/Web/Events/resize
+    if (!this.resizeTimeout) {
+      this.resizeTimeout = setTimeout(()=> {
+        this.resizeTimeout = null;
+        this.handleResize();
+      }, 66);
+    }
+  },
+
+  handleResize() {
+    this.setState({ windowWidth: window.innerWidth });
+  },
+
+  componentDidMount() {
+     window.addEventListener('resize', this.resizeThrottler);
+  },
+
+  componentWillUnmount() {
+     window.removeEventListener('resize', this.resizeThrottler);
+  },
+
   handleDragStop(newCoords) {
     this.setState({ resultsLoading: true });
     this.ajaxPostFlavourMapSearch(newCoords);
@@ -50,19 +81,24 @@ module.exports = React.createClass({
   render: function() {
     console.log("flavour_map_index render()");
     var loading = this.state.resultsLoading;
-    return (
-      <div className="row">
-        <div className="col-sm-7">
-          {/* TODO: how to respond to media queries so that we can re-render this at a different res? */}
+    var classes = ["center-block","img","img-thumbnail"];
+    if (this.state.windowWidth >= this.MEDIA_QUERY_MEDIUM) {
+      classes.push("fixed");
+    }
 
+    // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
+    return (
+      <div className="row" style={{minHeight: this.state.flavourMapMaxWidth/1.6}}>
+        <div className="col-sm-6">
           <FlavourMapEmbedded
-            targetPos={{x: 6, y: 6}}
+            className={classes.join(" ")}
             isDraggable={true}
+            maxWidth={this.state.flavourMapMaxWidth}
             onDragStop={this.handleDragStop}
-            className="fixed center-block img img-thumbnail"
+            targetPos={{x: 6, y: 6}}
             />
         </div>
-        <div className="col-sm-5">
+        <div className="col-sm-6">
           <BeerList loading={loading} beers={this.state.beers} breweries={this.state.breweries} onNavigation={this.handleNavigation} />
         </div>
       </div>

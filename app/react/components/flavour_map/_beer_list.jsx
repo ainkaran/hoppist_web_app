@@ -64,7 +64,6 @@ module.exports = React.createClass({
 
     return (
       <div id="beer-list">
-        <hr />
         <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={250} transitionLeaveTimeout={250}>
           {nestedContent}
         </ReactCSSTransitionGroup>
