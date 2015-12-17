@@ -3,6 +3,7 @@ table.table.table-striped
   thead
     tr
       th Beer Name
+      th Photo
       th Avg Star Rating
       th Avg Colour Rating
       th Avg Flavour Rating
@@ -12,6 +13,7 @@ table.table.table-striped
       - if beer.avg_colour_rating.nil? || beer.avg_flavour_rating.nil?
         tr.danger
           td = link_to "#{beer.name} by #{beer.brewery.name}", admin_beer_path(beer)
+          td = image_tag beer.label_image.url, width: "45px"
           td = beer.avg_star_rating
           td = beer.avg_colour_rating
           td = beer.avg_flavour_rating
@@ -19,6 +21,7 @@ table.table.table-striped
       - else
         tr
           td = link_to "#{beer.name} by #{beer.brewery.name}", admin_beer_path(beer)
+          td = image_tag beer.label_image.url, width: "45px"
           td = beer.avg_star_rating
           td = beer.avg_colour_rating
           td = beer.avg_flavour_rating

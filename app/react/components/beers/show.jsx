@@ -163,6 +163,7 @@ module.exports = React.createClass({
         </ul>
 
         <div id="nested-content">
+          {/*TODO: look into spread for this on this.props.children */}
           {newChildren}
         </div>
 

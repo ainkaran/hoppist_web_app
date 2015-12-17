@@ -19,7 +19,13 @@ class Admin::BeersController < Admin::BaseController
   end
 
   def index
-    @beers = Beer.all.order(:name)
+    case params[:mode]
+    when "missing_photo"
+      # find all beers that have a colour/flavour rating but no photo
+      @beers = Beer.where("label_image IS NULL AND avg_flavour_rating IS NOT NULL AND avg_colour_rating IS NOT NULL");
+    else
+      @beers = Beer.all.order(:name)
+    end
   end
 
   def show

@@ -27,6 +27,8 @@ var StyleGuide               = require("./components/style_guide");
 // TODO: challenges with react router: the nesting assumes that you're rendering
 // a child in a parent component. so we can't nest beers within breweries for the
 // sake of the url; we have to hardcode the nesting if we want that path.
+// TODO: pass the review/flavour map tabs as a param in router, then you can
+//access it in beer show
 ReactDOM.render((
 
   <Router history={createBrowserHistory()}>

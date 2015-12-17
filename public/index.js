@@ -62,17 +62,19 @@
 
 	// pages
 	var App = __webpack_require__(210);
-	var BeerIndex = __webpack_require__(212);
-	var BeerShow = __webpack_require__(213);
-	var BeerShowFlavourMap = __webpack_require__(221);
-	var BeerShowReviews = __webpack_require__(214);
-	var HomePageGuest = __webpack_require__(224);
-	var FlavourMapIndex = __webpack_require__(225);
-	var StyleGuide = __webpack_require__(238);
+	var BeerIndex = __webpack_require__(213);
+	var BeerShow = __webpack_require__(214);
+	var BeerShowFlavourMap = __webpack_require__(222);
+	var BeerShowReviews = __webpack_require__(215);
+	var HomePageGuest = __webpack_require__(225);
+	var FlavourMapIndex = __webpack_require__(226);
+	var StyleGuide = __webpack_require__(239);
 
 	// TODO: challenges with react router: the nesting assumes that you're rendering
 	// a child in a parent component. so we can't nest beers within breweries for the
 	// sake of the url; we have to hardcode the nesting if we want that path.
+	// TODO: pass the review/flavour map tabs as a param in router, then you can
+	//access it in beer show
 	ReactDOM.render(React.createElement(
 	  Router,
 	  { history: createBrowserHistory() },
@@ -33724,8 +33726,8 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Footer = __webpack_require__(239);
-	var HeaderNavbar = __webpack_require__(211);
+	var Footer = __webpack_require__(211);
+	var HeaderNavbar = __webpack_require__(212);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -33742,6 +33744,48 @@
 
 /***/ },
 /* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
+
+	module.exports = React.createClass({
+	  displayName: "Footer",
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { id: 'footer' },
+	        React.createElement('hr', null),
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'p',
+	            { style: { fontSize: "0.8em" } },
+	            '© ',
+	            new Date().getFullYear(),
+	            ' ',
+	            React.createElement(
+	              'a',
+	              { href: 'https://twitter.com/mctaylorpants' },
+	              '@mctaylorpants'
+	            ),
+	            '. All images copyright their respective owners. We\'re in beta right now; keep checking back for new and exciting updates!'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33874,7 +33918,7 @@
 	});
 
 /***/ },
-/* 212 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33893,7 +33937,7 @@
 	});
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33902,9 +33946,9 @@
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
 
-	var Reviews = __webpack_require__(214);
-	var ReviewStars = __webpack_require__(216);
-	var FlavourMap = __webpack_require__(221);
+	var Reviews = __webpack_require__(215);
+	var ReviewStars = __webpack_require__(217);
+	var FlavourMap = __webpack_require__(222);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -34116,14 +34160,14 @@
 	});
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Review = __webpack_require__(215);
-	var ReviewFormInline = __webpack_require__(217);
+	var Review = __webpack_require__(216);
+	var ReviewFormInline = __webpack_require__(218);
 
 	module.exports = React.createClass({
 	  displayName: "BeerReviews",
@@ -34174,14 +34218,14 @@
 	});
 
 /***/ },
-/* 215 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
-	var ReviewStars = __webpack_require__(216);
+	var ReviewStars = __webpack_require__(217);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -34246,7 +34290,7 @@
 	});
 
 /***/ },
-/* 216 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34344,15 +34388,15 @@
 	});
 
 /***/ },
-/* 217 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(209);
 	var React = __webpack_require__(1);
-	var ReviewStars = __webpack_require__(216);
-	var Slider = __webpack_require__(218);
+	var ReviewStars = __webpack_require__(217);
+	var Slider = __webpack_require__(219);
 
 	module.exports = React.createClass({
 	  displayName: "ReviewFormInline",
@@ -34515,15 +34559,15 @@
 	});
 
 /***/ },
-/* 218 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158); // required here because we're invoking it to get the node width
-	var Draggable = __webpack_require__(219);
-	var calculateDbCoords = __webpack_require__(220);
+	var Draggable = __webpack_require__(220);
+	var calculateDbCoords = __webpack_require__(221);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -34607,7 +34651,7 @@
 	});
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
@@ -35988,7 +36032,7 @@
 	//# sourceMappingURL=react-draggable.js.map
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports) {
 
 	// TODO: refactor this and calculate_flavour_map_coords into one class
@@ -36009,13 +36053,13 @@
 
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var FlavourMapEmbedded = __webpack_require__(222);
+	var FlavourMapEmbedded = __webpack_require__(223);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -36034,16 +36078,16 @@
 	});
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Draggable = __webpack_require__(219);
+	var Draggable = __webpack_require__(220);
 	var ReactDOM = __webpack_require__(158); // required here because we're invoking it to get the node width
-	var calculateFlavourMapCoords = __webpack_require__(223);
-	var calculateDbCoords = __webpack_require__(220);
+	var calculateFlavourMapCoords = __webpack_require__(224);
+	var calculateDbCoords = __webpack_require__(221);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -36161,7 +36205,7 @@
 	});
 
 /***/ },
-/* 223 */
+/* 224 */
 /***/ function(module, exports) {
 
 	module.exports = function(flavour_x, colour_y, map_width, map_height) {
@@ -36179,7 +36223,7 @@
 
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36323,15 +36367,15 @@
 	});
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(209);
 	var React = __webpack_require__(1);
-	var BeerList = __webpack_require__(226);
-	var FlavourMapEmbedded = __webpack_require__(222);
+	var BeerList = __webpack_require__(227);
+	var FlavourMapEmbedded = __webpack_require__(223);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -36393,17 +36437,17 @@
 	});
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var BeerCardVitals = __webpack_require__(227);
-	var BeerListIntro = __webpack_require__(228);
-	var LoadingBeers = __webpack_require__(229);
-	var NoBeers = __webpack_require__(230);
-	var ReactCSSTransitionGroup = __webpack_require__(231);
+	var BeerCardVitals = __webpack_require__(228);
+	var BeerListIntro = __webpack_require__(229);
+	var LoadingBeers = __webpack_require__(230);
+	var NoBeers = __webpack_require__(231);
+	var ReactCSSTransitionGroup = __webpack_require__(232);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -36484,14 +36528,14 @@
 	});
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
-	var ReviewStars = __webpack_require__(216);
+	var ReviewStars = __webpack_require__(217);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -36558,7 +36602,7 @@
 	});
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36589,7 +36633,7 @@
 	});
 
 /***/ },
-/* 229 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36615,7 +36659,7 @@
 	});
 
 /***/ },
-/* 230 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36646,13 +36690,13 @@
 	});
 
 /***/ },
-/* 231 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(232);
+	module.exports = __webpack_require__(233);
 
 /***/ },
-/* 232 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36673,8 +36717,8 @@
 
 	var assign = __webpack_require__(39);
 
-	var ReactTransitionGroup = __webpack_require__(233);
-	var ReactCSSTransitionGroupChild = __webpack_require__(235);
+	var ReactTransitionGroup = __webpack_require__(234);
+	var ReactCSSTransitionGroupChild = __webpack_require__(236);
 
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -36740,7 +36784,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ },
-/* 233 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36757,7 +36801,7 @@
 	'use strict';
 
 	var React = __webpack_require__(2);
-	var ReactTransitionChildMapping = __webpack_require__(234);
+	var ReactTransitionChildMapping = __webpack_require__(235);
 
 	var assign = __webpack_require__(39);
 	var emptyFunction = __webpack_require__(15);
@@ -36950,7 +36994,7 @@
 	module.exports = ReactTransitionGroup;
 
 /***/ },
-/* 234 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -37053,7 +37097,7 @@
 	module.exports = ReactTransitionChildMapping;
 
 /***/ },
-/* 235 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -37073,8 +37117,8 @@
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(3);
 
-	var CSSCore = __webpack_require__(236);
-	var ReactTransitionEvents = __webpack_require__(237);
+	var CSSCore = __webpack_require__(237);
+	var ReactTransitionEvents = __webpack_require__(238);
 
 	var onlyChild = __webpack_require__(156);
 
@@ -37223,7 +37267,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ },
-/* 236 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -37326,7 +37370,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 237 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -37440,14 +37484,14 @@
 	module.exports = ReactTransitionEvents;
 
 /***/ },
-/* 238 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
-	var FlavourMapEmbedded = __webpack_require__(222);
+	var FlavourMapEmbedded = __webpack_require__(223);
 
 	// application layout
 	module.exports = React.createClass({
@@ -37697,48 +37741,6 @@
 	      React.createElement('br', null),
 	      '// FLAVOUR MAP',
 	      React.createElement(FlavourMapEmbedded, null)
-	    );
-	  }
-	});
-
-/***/ },
-/* 239 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(159).Link;
-
-	module.exports = React.createClass({
-	  displayName: "Footer",
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { className: 'row' },
-	      React.createElement(
-	        'div',
-	        { id: 'footer' },
-	        React.createElement('hr', null),
-	        React.createElement(
-	          'div',
-	          null,
-	          React.createElement(
-	            'p',
-	            { style: { fontSize: "0.8em" } },
-	            '© ',
-	            new Date().getFullYear(),
-	            ' ',
-	            React.createElement(
-	              'a',
-	              { href: 'https://twitter.com/mctaylorpants' },
-	              '@mctaylorpants'
-	            ),
-	            '. All images copyright their respective owners. We\'re in beta right now; keep checking back for new and exciting updates!'
-	          )
-	        )
-	      )
 	    );
 	  }
 	});
