@@ -39,7 +39,7 @@ module.exports = React.createClass({
 
         <div className="col-image">
           <div className="img-thumbnail beer-thumb">
-            <img src={beerImgUrl} style={{width: "88px", height: "auto"}} />
+            <img src={beerImgUrl} style={{width: "88px", height: "auto", minHeight: "138px"}} />
           </div>
         </div>
 

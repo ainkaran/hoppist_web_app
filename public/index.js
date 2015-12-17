@@ -36577,7 +36577,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'img-thumbnail beer-thumb' },
-	          React.createElement('img', { src: beerImgUrl, style: { width: "88px", height: "auto" } })
+	          React.createElement('img', { src: beerImgUrl, style: { width: "88px", height: "auto", minHeight: "138px" } })
 	        )
 	      ),
 	      React.createElement(
