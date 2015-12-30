@@ -31,6 +31,10 @@ gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'
 gem 'jwt'
 
+# Required for Omniauth with Google (and possibly others).
+# See https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview#openssl
+gem 'certified'
+
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'

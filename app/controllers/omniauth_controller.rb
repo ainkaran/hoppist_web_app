@@ -26,6 +26,7 @@ class OmniauthController < ApplicationController
   end
 
   def auth_hash
+    Rails.logger.info request.env['omniauth.auth'] if Rails.env.development?
     request.env['omniauth.auth']
   end
 
