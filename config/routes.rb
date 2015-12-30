@@ -2,6 +2,14 @@ Rails.application.routes.draw do
   # This is the entry point for React.
   root "react#index"
 
+  # Omniauth callback routes
+  if Rails.env.development?
+    # The POST route is only needed for developer mode
+    post "/auth/:provider/callback", to: "omniauth#callback"
+  end
+  get  "/auth/:provider/callback", to: "omniauth#callback"
+
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :beers
