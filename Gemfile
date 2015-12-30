@@ -27,6 +27,9 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'simple_form'
 gem 'fog'
+gem 'omniauth-twitter'
+gem 'omniauth-google-oauth2'
+gem 'jwt'
 
 group :development, :test do
   gem 'byebug'

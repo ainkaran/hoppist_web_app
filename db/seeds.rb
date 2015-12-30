@@ -18,6 +18,7 @@ categories.each do |cat|
   Category.create!(name: cat)
 end
 
+
 25.times do
   brewery = FactoryGirl.create(:brewery)
 
