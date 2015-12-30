@@ -1,3 +1,6 @@
+# Updates the certified gem (recommended to do this often)
+bundle exec certified-update
+
 cd /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app
 
 # run tests
