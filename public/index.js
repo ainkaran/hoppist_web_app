@@ -62,13 +62,13 @@
 
 	// pages
 	var App = __webpack_require__(210);
-	var BeerIndex = __webpack_require__(213);
-	var BeerShow = __webpack_require__(214);
-	var BeerShowFlavourMap = __webpack_require__(222);
-	var BeerShowReviews = __webpack_require__(215);
-	var HomePageGuest = __webpack_require__(225);
-	var FlavourMapIndex = __webpack_require__(226);
-	var StyleGuide = __webpack_require__(239);
+	var BeerIndex = __webpack_require__(216);
+	var BeerShow = __webpack_require__(217);
+	var BeerShowFlavourMap = __webpack_require__(225);
+	var BeerShowReviews = __webpack_require__(218);
+	var HomePageGuest = __webpack_require__(228);
+	var FlavourMapIndex = __webpack_require__(229);
+	var StyleGuide = __webpack_require__(242);
 
 	// TODO: challenges with react router: the nesting assumes that you're rendering
 	// a child in a parent component. so we can't nest beers within breweries for the
@@ -33728,15 +33728,66 @@
 	var React = __webpack_require__(1);
 	var Footer = __webpack_require__(211);
 	var HeaderNavbar = __webpack_require__(212);
+	var Uri = __webpack_require__(213);
+	var Reqwest = __webpack_require__(214);
 
 	module.exports = React.createClass({
-	  displayName: 'exports',
+	  displayName: "App",
+
+	  API_ENDPOINT: '/api/v1/',
+
+	  getInitialState: function getInitialState() {
+	    return { signedIn: false, currentUser: {} };
+	  },
+	  componentWillMount: function componentWillMount() {
+	    var jwt = new Uri(location.search).getQueryParamValue('jwt');
+	    if (jwt) {
+	      sessionStorage.setItem('jwt', jwt);
+	    }
+	  },
+	  componentDidMount: function componentDidMount() {
+	    if (sessionStorage.getItem('jwt')) {
+	      this.getCurrentUser();
+	    }
+	  },
+	  getData: function getData(url, success) {
+	    // Handle relative and absolute URLs
+	    if (url[0] !== '/') {
+	      url = this.API_ENDPOINT + '/' + url;
+	    }
+
+	    Reqwest({
+	      url: url,
+	      type: 'json',
+	      method: 'get',
+	      contentType: 'application/json',
+	      headers: { 'Authorization': sessionStorage.getItem('jwt') },
+	      success: success,
+	      error: function error(_error) {
+	        console.error(url, _error['response']);
+	        location = '/';
+	      }
+	    });
+	  },
+	  postData: function postData() {},
+	  getCurrentUser: function getCurrentUser() {
+	    var _this = this;
+
+	    this.getData('/api/current_user', function (user) {
+	      console.log("getCurrentUser SUCCESS");
+	      _this.setState({
+	        signedIn: true,
+	        currentUser: user
+	      });
+	    });
+	  },
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      { id: 'app' },
 	      React.createElement(HeaderNavbar, null),
-	      this.props.children,
+	      React.cloneElement(this.props.children, { getData: this.getData,
+	        postData: this.postData }),
 	      React.createElement(Footer, null)
 	    );
 	  }
@@ -33921,6 +33972,1114 @@
 /* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	 * jsUri
+	 * https://github.com/derek-watson/jsUri
+	 *
+	 * Copyright 2013, Derek Watson
+	 * Released under the MIT license.
+	 *
+	 * Includes parseUri regular expressions
+	 * http://blog.stevenlevithan.com/archives/parseuri
+	 * Copyright 2007, Steven Levithan
+	 * Released under the MIT license.
+	 */
+
+	 /*globals define, module */
+
+	(function(global) {
+
+	  var re = {
+	    starts_with_slashes: /^\/+/,
+	    ends_with_slashes: /\/+$/,
+	    pluses: /\+/g,
+	    query_separator: /[&;]/,
+	    uri_parser: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@\/]*)(?::([^:@]*))?)?@)?(\[[0-9a-fA-F:.]+\]|[^:\/?#]*)(?::(\d+|(?=:)))?(:)?)((((?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+	  };
+
+	  /**
+	   * Define forEach for older js environments
+	   * @see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/forEach#Compatibility
+	   */
+	  if (!Array.prototype.forEach) {
+	    Array.prototype.forEach = function(callback, thisArg) {
+	      var T, k;
+
+	      if (this == null) {
+	        throw new TypeError(' this is null or not defined');
+	      }
+
+	      var O = Object(this);
+	      var len = O.length >>> 0;
+
+	      if (typeof callback !== "function") {
+	        throw new TypeError(callback + ' is not a function');
+	      }
+
+	      if (arguments.length > 1) {
+	        T = thisArg;
+	      }
+
+	      k = 0;
+
+	      while (k < len) {
+	        var kValue;
+	        if (k in O) {
+	          kValue = O[k];
+	          callback.call(T, kValue, k, O);
+	        }
+	        k++;
+	      }
+	    };
+	  }
+
+	  /**
+	   * unescape a query param value
+	   * @param  {string} s encoded value
+	   * @return {string}   decoded value
+	   */
+	  function decode(s) {
+	    if (s) {
+	        s = s.toString().replace(re.pluses, '%20');
+	        s = decodeURIComponent(s);
+	    }
+	    return s;
+	  }
+
+	  /**
+	   * Breaks a uri string down into its individual parts
+	   * @param  {string} str uri
+	   * @return {object}     parts
+	   */
+	  function parseUri(str) {
+	    var parser = re.uri_parser;
+	    var parserKeys = ["source", "protocol", "authority", "userInfo", "user", "password", "host", "port", "isColonUri", "relative", "path", "directory", "file", "query", "anchor"];
+	    var m = parser.exec(str || '');
+	    var parts = {};
+
+	    parserKeys.forEach(function(key, i) {
+	      parts[key] = m[i] || '';
+	    });
+
+	    return parts;
+	  }
+
+	  /**
+	   * Breaks a query string down into an array of key/value pairs
+	   * @param  {string} str query
+	   * @return {array}      array of arrays (key/value pairs)
+	   */
+	  function parseQuery(str) {
+	    var i, ps, p, n, k, v, l;
+	    var pairs = [];
+
+	    if (typeof(str) === 'undefined' || str === null || str === '') {
+	      return pairs;
+	    }
+
+	    if (str.indexOf('?') === 0) {
+	      str = str.substring(1);
+	    }
+
+	    ps = str.toString().split(re.query_separator);
+
+	    for (i = 0, l = ps.length; i < l; i++) {
+	      p = ps[i];
+	      n = p.indexOf('=');
+
+	      if (n !== 0) {
+	        k = decode(p.substring(0, n));
+	        v = decode(p.substring(n + 1));
+	        pairs.push(n === -1 ? [p, null] : [k, v]);
+	      }
+
+	    }
+	    return pairs;
+	  }
+
+	  /**
+	   * Creates a new Uri object
+	   * @constructor
+	   * @param {string} str
+	   */
+	  function Uri(str) {
+	    this.uriParts = parseUri(str);
+	    this.queryPairs = parseQuery(this.uriParts.query);
+	    this.hasAuthorityPrefixUserPref = null;
+	  }
+
+	  /**
+	   * Define getter/setter methods
+	   */
+	  ['protocol', 'userInfo', 'host', 'port', 'path', 'anchor'].forEach(function(key) {
+	    Uri.prototype[key] = function(val) {
+	      if (typeof val !== 'undefined') {
+	        this.uriParts[key] = val;
+	      }
+	      return this.uriParts[key];
+	    };
+	  });
+
+	  /**
+	   * if there is no protocol, the leading // can be enabled or disabled
+	   * @param  {Boolean}  val
+	   * @return {Boolean}
+	   */
+	  Uri.prototype.hasAuthorityPrefix = function(val) {
+	    if (typeof val !== 'undefined') {
+	      this.hasAuthorityPrefixUserPref = val;
+	    }
+
+	    if (this.hasAuthorityPrefixUserPref === null) {
+	      return (this.uriParts.source.indexOf('//') !== -1);
+	    } else {
+	      return this.hasAuthorityPrefixUserPref;
+	    }
+	  };
+
+	  Uri.prototype.isColonUri = function (val) {
+	    if (typeof val !== 'undefined') {
+	      this.uriParts.isColonUri = !!val;
+	    } else {
+	      return !!this.uriParts.isColonUri;
+	    }
+	  };
+
+	  /**
+	   * Serializes the internal state of the query pairs
+	   * @param  {string} [val]   set a new query string
+	   * @return {string}         query string
+	   */
+	  Uri.prototype.query = function(val) {
+	    var s = '', i, param, l;
+
+	    if (typeof val !== 'undefined') {
+	      this.queryPairs = parseQuery(val);
+	    }
+
+	    for (i = 0, l = this.queryPairs.length; i < l; i++) {
+	      param = this.queryPairs[i];
+	      if (s.length > 0) {
+	        s += '&';
+	      }
+	      if (param[1] === null) {
+	        s += param[0];
+	      } else {
+	        s += param[0];
+	        s += '=';
+	        if (typeof param[1] !== 'undefined') {
+	          s += encodeURIComponent(param[1]);
+	        }
+	      }
+	    }
+	    return s.length > 0 ? '?' + s : s;
+	  };
+
+	  /**
+	   * returns the first query param value found for the key
+	   * @param  {string} key query key
+	   * @return {string}     first value found for key
+	   */
+	  Uri.prototype.getQueryParamValue = function (key) {
+	    var param, i, l;
+	    for (i = 0, l = this.queryPairs.length; i < l; i++) {
+	      param = this.queryPairs[i];
+	      if (key === param[0]) {
+	        return param[1];
+	      }
+	    }
+	  };
+
+	  /**
+	   * returns an array of query param values for the key
+	   * @param  {string} key query key
+	   * @return {array}      array of values
+	   */
+	  Uri.prototype.getQueryParamValues = function (key) {
+	    var arr = [], i, param, l;
+	    for (i = 0, l = this.queryPairs.length; i < l; i++) {
+	      param = this.queryPairs[i];
+	      if (key === param[0]) {
+	        arr.push(param[1]);
+	      }
+	    }
+	    return arr;
+	  };
+
+	  /**
+	   * removes query parameters
+	   * @param  {string} key     remove values for key
+	   * @param  {val}    [val]   remove a specific value, otherwise removes all
+	   * @return {Uri}            returns self for fluent chaining
+	   */
+	  Uri.prototype.deleteQueryParam = function (key, val) {
+	    var arr = [], i, param, keyMatchesFilter, valMatchesFilter, l;
+
+	    for (i = 0, l = this.queryPairs.length; i < l; i++) {
+
+	      param = this.queryPairs[i];
+	      keyMatchesFilter = decode(param[0]) === decode(key);
+	      valMatchesFilter = param[1] === val;
+
+	      if ((arguments.length === 1 && !keyMatchesFilter) || (arguments.length === 2 && (!keyMatchesFilter || !valMatchesFilter))) {
+	        arr.push(param);
+	      }
+	    }
+
+	    this.queryPairs = arr;
+
+	    return this;
+	  };
+
+	  /**
+	   * adds a query parameter
+	   * @param  {string}  key        add values for key
+	   * @param  {string}  val        value to add
+	   * @param  {integer} [index]    specific index to add the value at
+	   * @return {Uri}                returns self for fluent chaining
+	   */
+	  Uri.prototype.addQueryParam = function (key, val, index) {
+	    if (arguments.length === 3 && index !== -1) {
+	      index = Math.min(index, this.queryPairs.length);
+	      this.queryPairs.splice(index, 0, [key, val]);
+	    } else if (arguments.length > 0) {
+	      this.queryPairs.push([key, val]);
+	    }
+	    return this;
+	  };
+
+	  /**
+	   * test for the existence of a query parameter
+	   * @param  {string}  key        add values for key
+	   * @param  {string}  val        value to add
+	   * @param  {integer} [index]    specific index to add the value at
+	   * @return {Uri}                returns self for fluent chaining
+	   */
+	  Uri.prototype.hasQueryParam = function (key) {
+	    var i, len = this.queryPairs.length;
+	    for (i = 0; i < len; i++) {
+	      if (this.queryPairs[i][0] == key)
+	        return true;
+	    }
+	    return false;
+	  };
+
+	  /**
+	   * replaces query param values
+	   * @param  {string} key         key to replace value for
+	   * @param  {string} newVal      new value
+	   * @param  {string} [oldVal]    replace only one specific value (otherwise replaces all)
+	   * @return {Uri}                returns self for fluent chaining
+	   */
+	  Uri.prototype.replaceQueryParam = function (key, newVal, oldVal) {
+	    var index = -1, len = this.queryPairs.length, i, param;
+
+	    if (arguments.length === 3) {
+	      for (i = 0; i < len; i++) {
+	        param = this.queryPairs[i];
+	        if (decode(param[0]) === decode(key) && decodeURIComponent(param[1]) === decode(oldVal)) {
+	          index = i;
+	          break;
+	        }
+	      }
+	      if (index >= 0) {
+	        this.deleteQueryParam(key, decode(oldVal)).addQueryParam(key, newVal, index);
+	      }
+	    } else {
+	      for (i = 0; i < len; i++) {
+	        param = this.queryPairs[i];
+	        if (decode(param[0]) === decode(key)) {
+	          index = i;
+	          break;
+	        }
+	      }
+	      this.deleteQueryParam(key);
+	      this.addQueryParam(key, newVal, index);
+	    }
+	    return this;
+	  };
+
+	  /**
+	   * Define fluent setter methods (setProtocol, setHasAuthorityPrefix, etc)
+	   */
+	  ['protocol', 'hasAuthorityPrefix', 'isColonUri', 'userInfo', 'host', 'port', 'path', 'query', 'anchor'].forEach(function(key) {
+	    var method = 'set' + key.charAt(0).toUpperCase() + key.slice(1);
+	    Uri.prototype[method] = function(val) {
+	      this[key](val);
+	      return this;
+	    };
+	  });
+
+	  /**
+	   * Scheme name, colon and doubleslash, as required
+	   * @return {string} http:// or possibly just //
+	   */
+	  Uri.prototype.scheme = function() {
+	    var s = '';
+
+	    if (this.protocol()) {
+	      s += this.protocol();
+	      if (this.protocol().indexOf(':') !== this.protocol().length - 1) {
+	        s += ':';
+	      }
+	      s += '//';
+	    } else {
+	      if (this.hasAuthorityPrefix() && this.host()) {
+	        s += '//';
+	      }
+	    }
+
+	    return s;
+	  };
+
+	  /**
+	   * Same as Mozilla nsIURI.prePath
+	   * @return {string} scheme://user:password@host:port
+	   * @see  https://developer.mozilla.org/en/nsIURI
+	   */
+	  Uri.prototype.origin = function() {
+	    var s = this.scheme();
+
+	    if (this.userInfo() && this.host()) {
+	      s += this.userInfo();
+	      if (this.userInfo().indexOf('@') !== this.userInfo().length - 1) {
+	        s += '@';
+	      }
+	    }
+
+	    if (this.host()) {
+	      s += this.host();
+	      if (this.port() || (this.path() && this.path().substr(0, 1).match(/[0-9]/))) {
+	        s += ':' + this.port();
+	      }
+	    }
+
+	    return s;
+	  };
+
+	  /**
+	   * Adds a trailing slash to the path
+	   */
+	  Uri.prototype.addTrailingSlash = function() {
+	    var path = this.path() || '';
+
+	    if (path.substr(-1) !== '/') {
+	      this.path(path + '/');
+	    }
+
+	    return this;
+	  };
+
+	  /**
+	   * Serializes the internal state of the Uri object
+	   * @return {string}
+	   */
+	  Uri.prototype.toString = function() {
+	    var path, s = this.origin();
+
+	    if (this.isColonUri()) {
+	      if (this.path()) {
+	        s += ':'+this.path();
+	      }
+	    } else if (this.path()) {
+	      path = this.path();
+	      if (!(re.ends_with_slashes.test(s) || re.starts_with_slashes.test(path))) {
+	        s += '/';
+	      } else {
+	        if (s) {
+	          s.replace(re.ends_with_slashes, '/');
+	        }
+	        path = path.replace(re.starts_with_slashes, '/');
+	      }
+	      s += path;
+	    } else {
+	      if (this.host() && (this.query().toString() || this.anchor())) {
+	        s += '/';
+	      }
+	    }
+	    if (this.query().toString()) {
+	      s += this.query().toString();
+	    }
+
+	    if (this.anchor()) {
+	      if (this.anchor().indexOf('#') !== 0) {
+	        s += '#';
+	      }
+	      s += this.anchor();
+	    }
+
+	    return s;
+	  };
+
+	  /**
+	   * Clone a Uri object
+	   * @return {Uri} duplicate copy of the Uri
+	   */
+	  Uri.prototype.clone = function() {
+	    return new Uri(this.toString());
+	  };
+
+	  /**
+	   * export via AMD or CommonJS, otherwise leak a global
+	   */
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+	      return Uri;
+	    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+	    module.exports = Uri;
+	  } else {
+	    global.Uri = Uri;
+	  }
+	}(this));
+
+
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  * Reqwest! A general purpose XHR connection manager
+	  * license MIT (c) Dustin Diaz 2015
+	  * https://github.com/ded/reqwest
+	  */
+
+	!function (name, context, definition) {
+	  if (typeof module != 'undefined' && module.exports) module.exports = definition()
+	  else if (true) !(__WEBPACK_AMD_DEFINE_FACTORY__ = (definition), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+	  else context[name] = definition()
+	}('reqwest', this, function () {
+
+	  var context = this
+
+	  if ('window' in context) {
+	    var doc = document
+	      , byTag = 'getElementsByTagName'
+	      , head = doc[byTag]('head')[0]
+	  } else {
+	    var XHR2
+	    try {
+	      XHR2 = __webpack_require__(215)
+	    } catch (ex) {
+	      throw new Error('Peer dependency `xhr2` required! Please npm install xhr2')
+	    }
+	  }
+
+
+	  var httpsRe = /^http/
+	    , protocolRe = /(^\w+):\/\//
+	    , twoHundo = /^(20\d|1223)$/ //http://stackoverflow.com/questions/10046972/msie-returns-status-code-of-1223-for-ajax-request
+	    , readyState = 'readyState'
+	    , contentType = 'Content-Type'
+	    , requestedWith = 'X-Requested-With'
+	    , uniqid = 0
+	    , callbackPrefix = 'reqwest_' + (+new Date())
+	    , lastValue // data stored by the most recent JSONP callback
+	    , xmlHttpRequest = 'XMLHttpRequest'
+	    , xDomainRequest = 'XDomainRequest'
+	    , noop = function () {}
+
+	    , isArray = typeof Array.isArray == 'function'
+	        ? Array.isArray
+	        : function (a) {
+	            return a instanceof Array
+	          }
+
+	    , defaultHeaders = {
+	          'contentType': 'application/x-www-form-urlencoded'
+	        , 'requestedWith': xmlHttpRequest
+	        , 'accept': {
+	              '*':  'text/javascript, text/html, application/xml, text/xml, */*'
+	            , 'xml':  'application/xml, text/xml'
+	            , 'html': 'text/html'
+	            , 'text': 'text/plain'
+	            , 'json': 'application/json, text/javascript'
+	            , 'js':   'application/javascript, text/javascript'
+	          }
+	      }
+
+	    , xhr = function(o) {
+	        // is it x-domain
+	        if (o['crossOrigin'] === true) {
+	          var xhr = context[xmlHttpRequest] ? new XMLHttpRequest() : null
+	          if (xhr && 'withCredentials' in xhr) {
+	            return xhr
+	          } else if (context[xDomainRequest]) {
+	            return new XDomainRequest()
+	          } else {
+	            throw new Error('Browser does not support cross-origin requests')
+	          }
+	        } else if (context[xmlHttpRequest]) {
+	          return new XMLHttpRequest()
+	        } else if (XHR2) {
+	          return new XHR2()
+	        } else {
+	          return new ActiveXObject('Microsoft.XMLHTTP')
+	        }
+	      }
+	    , globalSetupOptions = {
+	        dataFilter: function (data) {
+	          return data
+	        }
+	      }
+
+	  function succeed(r) {
+	    var protocol = protocolRe.exec(r.url)
+	    protocol = (protocol && protocol[1]) || context.location.protocol
+	    return httpsRe.test(protocol) ? twoHundo.test(r.request.status) : !!r.request.response
+	  }
+
+	  function handleReadyState(r, success, error) {
+	    return function () {
+	      // use _aborted to mitigate against IE err c00c023f
+	      // (can't read props on aborted request objects)
+	      if (r._aborted) return error(r.request)
+	      if (r._timedOut) return error(r.request, 'Request is aborted: timeout')
+	      if (r.request && r.request[readyState] == 4) {
+	        r.request.onreadystatechange = noop
+	        if (succeed(r)) success(r.request)
+	        else
+	          error(r.request)
+	      }
+	    }
+	  }
+
+	  function setHeaders(http, o) {
+	    var headers = o['headers'] || {}
+	      , h
+
+	    headers['Accept'] = headers['Accept']
+	      || defaultHeaders['accept'][o['type']]
+	      || defaultHeaders['accept']['*']
+
+	    var isAFormData = typeof FormData !== 'undefined' && (o['data'] instanceof FormData);
+	    // breaks cross-origin requests with legacy browsers
+	    if (!o['crossOrigin'] && !headers[requestedWith]) headers[requestedWith] = defaultHeaders['requestedWith']
+	    if (!headers[contentType] && !isAFormData) headers[contentType] = o['contentType'] || defaultHeaders['contentType']
+	    for (h in headers)
+	      headers.hasOwnProperty(h) && 'setRequestHeader' in http && http.setRequestHeader(h, headers[h])
+	  }
+
+	  function setCredentials(http, o) {
+	    if (typeof o['withCredentials'] !== 'undefined' && typeof http.withCredentials !== 'undefined') {
+	      http.withCredentials = !!o['withCredentials']
+	    }
+	  }
+
+	  function generalCallback(data) {
+	    lastValue = data
+	  }
+
+	  function urlappend (url, s) {
+	    return url + (/\?/.test(url) ? '&' : '?') + s
+	  }
+
+	  function handleJsonp(o, fn, err, url) {
+	    var reqId = uniqid++
+	      , cbkey = o['jsonpCallback'] || 'callback' // the 'callback' key
+	      , cbval = o['jsonpCallbackName'] || reqwest.getcallbackPrefix(reqId)
+	      , cbreg = new RegExp('((^|\\?|&)' + cbkey + ')=([^&]+)')
+	      , match = url.match(cbreg)
+	      , script = doc.createElement('script')
+	      , loaded = 0
+	      , isIE10 = navigator.userAgent.indexOf('MSIE 10.0') !== -1
+
+	    if (match) {
+	      if (match[3] === '?') {
+	        url = url.replace(cbreg, '$1=' + cbval) // wildcard callback func name
+	      } else {
+	        cbval = match[3] // provided callback func name
+	      }
+	    } else {
+	      url = urlappend(url, cbkey + '=' + cbval) // no callback details, add 'em
+	    }
+
+	    context[cbval] = generalCallback
+
+	    script.type = 'text/javascript'
+	    script.src = url
+	    script.async = true
+	    if (typeof script.onreadystatechange !== 'undefined' && !isIE10) {
+	      // need this for IE due to out-of-order onreadystatechange(), binding script
+	      // execution to an event listener gives us control over when the script
+	      // is executed. See http://jaubourg.net/2010/07/loading-script-as-onclick-handler-of.html
+	      script.htmlFor = script.id = '_reqwest_' + reqId
+	    }
+
+	    script.onload = script.onreadystatechange = function () {
+	      if ((script[readyState] && script[readyState] !== 'complete' && script[readyState] !== 'loaded') || loaded) {
+	        return false
+	      }
+	      script.onload = script.onreadystatechange = null
+	      script.onclick && script.onclick()
+	      // Call the user callback with the last value stored and clean up values and scripts.
+	      fn(lastValue)
+	      lastValue = undefined
+	      head.removeChild(script)
+	      loaded = 1
+	    }
+
+	    // Add the script to the DOM head
+	    head.appendChild(script)
+
+	    // Enable JSONP timeout
+	    return {
+	      abort: function () {
+	        script.onload = script.onreadystatechange = null
+	        err({}, 'Request is aborted: timeout', {})
+	        lastValue = undefined
+	        head.removeChild(script)
+	        loaded = 1
+	      }
+	    }
+	  }
+
+	  function getRequest(fn, err) {
+	    var o = this.o
+	      , method = (o['method'] || 'GET').toUpperCase()
+	      , url = typeof o === 'string' ? o : o['url']
+	      // convert non-string objects to query-string form unless o['processData'] is false
+	      , data = (o['processData'] !== false && o['data'] && typeof o['data'] !== 'string')
+	        ? reqwest.toQueryString(o['data'])
+	        : (o['data'] || null)
+	      , http
+	      , sendWait = false
+
+	    // if we're working on a GET request and we have data then we should append
+	    // query string to end of URL and not post data
+	    if ((o['type'] == 'jsonp' || method == 'GET') && data) {
+	      url = urlappend(url, data)
+	      data = null
+	    }
+
+	    if (o['type'] == 'jsonp') return handleJsonp(o, fn, err, url)
+
+	    // get the xhr from the factory if passed
+	    // if the factory returns null, fall-back to ours
+	    http = (o.xhr && o.xhr(o)) || xhr(o)
+
+	    http.open(method, url, o['async'] === false ? false : true)
+	    setHeaders(http, o)
+	    setCredentials(http, o)
+	    if (context[xDomainRequest] && http instanceof context[xDomainRequest]) {
+	        http.onload = fn
+	        http.onerror = err
+	        // NOTE: see
+	        // http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/30ef3add-767c-4436-b8a9-f1ca19b4812e
+	        http.onprogress = function() {}
+	        sendWait = true
+	    } else {
+	      http.onreadystatechange = handleReadyState(this, fn, err)
+	    }
+	    o['before'] && o['before'](http)
+	    if (sendWait) {
+	      setTimeout(function () {
+	        http.send(data)
+	      }, 200)
+	    } else {
+	      http.send(data)
+	    }
+	    return http
+	  }
+
+	  function Reqwest(o, fn) {
+	    this.o = o
+	    this.fn = fn
+
+	    init.apply(this, arguments)
+	  }
+
+	  function setType(header) {
+	    // json, javascript, text/plain, text/html, xml
+	    if (header === null) return undefined; //In case of no content-type.
+	    if (header.match('json')) return 'json'
+	    if (header.match('javascript')) return 'js'
+	    if (header.match('text')) return 'html'
+	    if (header.match('xml')) return 'xml'
+	  }
+
+	  function init(o, fn) {
+
+	    this.url = typeof o == 'string' ? o : o['url']
+	    this.timeout = null
+
+	    // whether request has been fulfilled for purpose
+	    // of tracking the Promises
+	    this._fulfilled = false
+	    // success handlers
+	    this._successHandler = function(){}
+	    this._fulfillmentHandlers = []
+	    // error handlers
+	    this._errorHandlers = []
+	    // complete (both success and fail) handlers
+	    this._completeHandlers = []
+	    this._erred = false
+	    this._responseArgs = {}
+
+	    var self = this
+
+	    fn = fn || function () {}
+
+	    if (o['timeout']) {
+	      this.timeout = setTimeout(function () {
+	        timedOut()
+	      }, o['timeout'])
+	    }
+
+	    if (o['success']) {
+	      this._successHandler = function () {
+	        o['success'].apply(o, arguments)
+	      }
+	    }
+
+	    if (o['error']) {
+	      this._errorHandlers.push(function () {
+	        o['error'].apply(o, arguments)
+	      })
+	    }
+
+	    if (o['complete']) {
+	      this._completeHandlers.push(function () {
+	        o['complete'].apply(o, arguments)
+	      })
+	    }
+
+	    function complete (resp) {
+	      o['timeout'] && clearTimeout(self.timeout)
+	      self.timeout = null
+	      while (self._completeHandlers.length > 0) {
+	        self._completeHandlers.shift()(resp)
+	      }
+	    }
+
+	    function success (resp) {
+	      var type = o['type'] || resp && setType(resp.getResponseHeader('Content-Type')) // resp can be undefined in IE
+	      resp = (type !== 'jsonp') ? self.request : resp
+	      // use global data filter on response text
+	      var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type)
+	        , r = filteredResponse
+	      try {
+	        resp.responseText = r
+	      } catch (e) {
+	        // can't assign this in IE<=8, just ignore
+	      }
+	      if (r) {
+	        switch (type) {
+	        case 'json':
+	          try {
+	            resp = context.JSON ? context.JSON.parse(r) : eval('(' + r + ')')
+	          } catch (err) {
+	            return error(resp, 'Could not parse JSON in response', err)
+	          }
+	          break
+	        case 'js':
+	          resp = eval(r)
+	          break
+	        case 'html':
+	          resp = r
+	          break
+	        case 'xml':
+	          resp = resp.responseXML
+	              && resp.responseXML.parseError // IE trololo
+	              && resp.responseXML.parseError.errorCode
+	              && resp.responseXML.parseError.reason
+	            ? null
+	            : resp.responseXML
+	          break
+	        }
+	      }
+
+	      self._responseArgs.resp = resp
+	      self._fulfilled = true
+	      fn(resp)
+	      self._successHandler(resp)
+	      while (self._fulfillmentHandlers.length > 0) {
+	        resp = self._fulfillmentHandlers.shift()(resp)
+	      }
+
+	      complete(resp)
+	    }
+
+	    function timedOut() {
+	      self._timedOut = true
+	      self.request.abort()
+	    }
+
+	    function error(resp, msg, t) {
+	      resp = self.request
+	      self._responseArgs.resp = resp
+	      self._responseArgs.msg = msg
+	      self._responseArgs.t = t
+	      self._erred = true
+	      while (self._errorHandlers.length > 0) {
+	        self._errorHandlers.shift()(resp, msg, t)
+	      }
+	      complete(resp)
+	    }
+
+	    this.request = getRequest.call(this, success, error)
+	  }
+
+	  Reqwest.prototype = {
+	    abort: function () {
+	      this._aborted = true
+	      this.request.abort()
+	    }
+
+	  , retry: function () {
+	      init.call(this, this.o, this.fn)
+	    }
+
+	    /**
+	     * Small deviation from the Promises A CommonJs specification
+	     * http://wiki.commonjs.org/wiki/Promises/A
+	     */
+
+	    /**
+	     * `then` will execute upon successful requests
+	     */
+	  , then: function (success, fail) {
+	      success = success || function () {}
+	      fail = fail || function () {}
+	      if (this._fulfilled) {
+	        this._responseArgs.resp = success(this._responseArgs.resp)
+	      } else if (this._erred) {
+	        fail(this._responseArgs.resp, this._responseArgs.msg, this._responseArgs.t)
+	      } else {
+	        this._fulfillmentHandlers.push(success)
+	        this._errorHandlers.push(fail)
+	      }
+	      return this
+	    }
+
+	    /**
+	     * `always` will execute whether the request succeeds or fails
+	     */
+	  , always: function (fn) {
+	      if (this._fulfilled || this._erred) {
+	        fn(this._responseArgs.resp)
+	      } else {
+	        this._completeHandlers.push(fn)
+	      }
+	      return this
+	    }
+
+	    /**
+	     * `fail` will execute when the request fails
+	     */
+	  , fail: function (fn) {
+	      if (this._erred) {
+	        fn(this._responseArgs.resp, this._responseArgs.msg, this._responseArgs.t)
+	      } else {
+	        this._errorHandlers.push(fn)
+	      }
+	      return this
+	    }
+	  , 'catch': function (fn) {
+	      return this.fail(fn)
+	    }
+	  }
+
+	  function reqwest(o, fn) {
+	    return new Reqwest(o, fn)
+	  }
+
+	  // normalize newline variants according to spec -> CRLF
+	  function normalize(s) {
+	    return s ? s.replace(/\r?\n/g, '\r\n') : ''
+	  }
+
+	  function serial(el, cb) {
+	    var n = el.name
+	      , t = el.tagName.toLowerCase()
+	      , optCb = function (o) {
+	          // IE gives value="" even where there is no value attribute
+	          // 'specified' ref: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-862529273
+	          if (o && !o['disabled'])
+	            cb(n, normalize(o['attributes']['value'] && o['attributes']['value']['specified'] ? o['value'] : o['text']))
+	        }
+	      , ch, ra, val, i
+
+	    // don't serialize elements that are disabled or without a name
+	    if (el.disabled || !n) return
+
+	    switch (t) {
+	    case 'input':
+	      if (!/reset|button|image|file/i.test(el.type)) {
+	        ch = /checkbox/i.test(el.type)
+	        ra = /radio/i.test(el.type)
+	        val = el.value
+	        // WebKit gives us "" instead of "on" if a checkbox has no value, so correct it here
+	        ;(!(ch || ra) || el.checked) && cb(n, normalize(ch && val === '' ? 'on' : val))
+	      }
+	      break
+	    case 'textarea':
+	      cb(n, normalize(el.value))
+	      break
+	    case 'select':
+	      if (el.type.toLowerCase() === 'select-one') {
+	        optCb(el.selectedIndex >= 0 ? el.options[el.selectedIndex] : null)
+	      } else {
+	        for (i = 0; el.length && i < el.length; i++) {
+	          el.options[i].selected && optCb(el.options[i])
+	        }
+	      }
+	      break
+	    }
+	  }
+
+	  // collect up all form elements found from the passed argument elements all
+	  // the way down to child elements; pass a '<form>' or form fields.
+	  // called with 'this'=callback to use for serial() on each element
+	  function eachFormElement() {
+	    var cb = this
+	      , e, i
+	      , serializeSubtags = function (e, tags) {
+	          var i, j, fa
+	          for (i = 0; i < tags.length; i++) {
+	            fa = e[byTag](tags[i])
+	            for (j = 0; j < fa.length; j++) serial(fa[j], cb)
+	          }
+	        }
+
+	    for (i = 0; i < arguments.length; i++) {
+	      e = arguments[i]
+	      if (/input|select|textarea/i.test(e.tagName)) serial(e, cb)
+	      serializeSubtags(e, [ 'input', 'select', 'textarea' ])
+	    }
+	  }
+
+	  // standard query string style serialization
+	  function serializeQueryString() {
+	    return reqwest.toQueryString(reqwest.serializeArray.apply(null, arguments))
+	  }
+
+	  // { 'name': 'value', ... } style serialization
+	  function serializeHash() {
+	    var hash = {}
+	    eachFormElement.apply(function (name, value) {
+	      if (name in hash) {
+	        hash[name] && !isArray(hash[name]) && (hash[name] = [hash[name]])
+	        hash[name].push(value)
+	      } else hash[name] = value
+	    }, arguments)
+	    return hash
+	  }
+
+	  // [ { name: 'name', value: 'value' }, ... ] style serialization
+	  reqwest.serializeArray = function () {
+	    var arr = []
+	    eachFormElement.apply(function (name, value) {
+	      arr.push({name: name, value: value})
+	    }, arguments)
+	    return arr
+	  }
+
+	  reqwest.serialize = function () {
+	    if (arguments.length === 0) return ''
+	    var opt, fn
+	      , args = Array.prototype.slice.call(arguments, 0)
+
+	    opt = args.pop()
+	    opt && opt.nodeType && args.push(opt) && (opt = null)
+	    opt && (opt = opt.type)
+
+	    if (opt == 'map') fn = serializeHash
+	    else if (opt == 'array') fn = reqwest.serializeArray
+	    else fn = serializeQueryString
+
+	    return fn.apply(null, args)
+	  }
+
+	  reqwest.toQueryString = function (o, trad) {
+	    var prefix, i
+	      , traditional = trad || false
+	      , s = []
+	      , enc = encodeURIComponent
+	      , add = function (key, value) {
+	          // If value is a function, invoke it and return its value
+	          value = ('function' === typeof value) ? value() : (value == null ? '' : value)
+	          s[s.length] = enc(key) + '=' + enc(value)
+	        }
+	    // If an array was passed in, assume that it is an array of form elements.
+	    if (isArray(o)) {
+	      for (i = 0; o && i < o.length; i++) add(o[i]['name'], o[i]['value'])
+	    } else {
+	      // If traditional, encode the "old" way (the way 1.3.2 or older
+	      // did it), otherwise encode params recursively.
+	      for (prefix in o) {
+	        if (o.hasOwnProperty(prefix)) buildParams(prefix, o[prefix], traditional, add)
+	      }
+	    }
+
+	    // spaces should be + according to spec
+	    return s.join('&').replace(/%20/g, '+')
+	  }
+
+	  function buildParams(prefix, obj, traditional, add) {
+	    var name, i, v
+	      , rbracket = /\[\]$/
+
+	    if (isArray(obj)) {
+	      // Serialize array item.
+	      for (i = 0; obj && i < obj.length; i++) {
+	        v = obj[i]
+	        if (traditional || rbracket.test(prefix)) {
+	          // Treat each array item as a scalar.
+	          add(prefix, v)
+	        } else {
+	          buildParams(prefix + '[' + (typeof v === 'object' ? i : '') + ']', v, traditional, add)
+	        }
+	      }
+	    } else if (obj && obj.toString() === '[object Object]') {
+	      // Serialize object item.
+	      for (name in obj) {
+	        buildParams(prefix + '[' + name + ']', obj[name], traditional, add)
+	      }
+
+	    } else {
+	      // Serialize scalar item.
+	      add(prefix, obj)
+	    }
+	  }
+
+	  reqwest.getcallbackPrefix = function () {
+	    return callbackPrefix
+	  }
+
+	  // jQuery and Zepto compatibility, differences can be remapped here so you can call
+	  // .ajax.compat(options, callback)
+	  reqwest.compat = function (o, fn) {
+	    if (o) {
+	      o['type'] && (o['method'] = o['type']) && delete o['type']
+	      o['dataType'] && (o['type'] = o['dataType'])
+	      o['jsonpCallback'] && (o['jsonpCallbackName'] = o['jsonpCallback']) && delete o['jsonpCallback']
+	      o['jsonp'] && (o['jsonpCallback'] = o['jsonp'])
+	    }
+	    return new Reqwest(o, fn)
+	  }
+
+	  reqwest.ajaxSetup = function (options) {
+	    options = options || {}
+	    for (var k in options) {
+	      globalSetupOptions[k] = options[k]
+	    }
+	  }
+
+	  return reqwest
+	});
+
+
+/***/ },
+/* 215 */
+/***/ function(module, exports) {
+
+	/* (ignored) */
+
+/***/ },
+/* 216 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	var React = __webpack_require__(1);
@@ -33937,7 +35096,7 @@
 	});
 
 /***/ },
-/* 214 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33946,9 +35105,9 @@
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
 
-	var Reviews = __webpack_require__(215);
-	var ReviewStars = __webpack_require__(217);
-	var FlavourMap = __webpack_require__(222);
+	var Reviews = __webpack_require__(218);
+	var ReviewStars = __webpack_require__(220);
+	var FlavourMap = __webpack_require__(225);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -34160,14 +35319,14 @@
 	});
 
 /***/ },
-/* 215 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Review = __webpack_require__(216);
-	var ReviewFormInline = __webpack_require__(218);
+	var Review = __webpack_require__(219);
+	var ReviewFormInline = __webpack_require__(221);
 
 	module.exports = React.createClass({
 	  displayName: "BeerReviews",
@@ -34218,14 +35377,14 @@
 	});
 
 /***/ },
-/* 216 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
-	var ReviewStars = __webpack_require__(217);
+	var ReviewStars = __webpack_require__(220);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -34290,7 +35449,7 @@
 	});
 
 /***/ },
-/* 217 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34388,15 +35547,15 @@
 	});
 
 /***/ },
-/* 218 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(209);
 	var React = __webpack_require__(1);
-	var ReviewStars = __webpack_require__(217);
-	var Slider = __webpack_require__(219);
+	var ReviewStars = __webpack_require__(220);
+	var Slider = __webpack_require__(222);
 
 	module.exports = React.createClass({
 	  displayName: "ReviewFormInline",
@@ -34559,15 +35718,15 @@
 	});
 
 /***/ },
-/* 219 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158); // required here because we're invoking it to get the node width
-	var Draggable = __webpack_require__(220);
-	var calculateDbCoords = __webpack_require__(221);
+	var Draggable = __webpack_require__(223);
+	var calculateDbCoords = __webpack_require__(224);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -34651,7 +35810,7 @@
 	});
 
 /***/ },
-/* 220 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
@@ -36032,7 +37191,7 @@
 	//# sourceMappingURL=react-draggable.js.map
 
 /***/ },
-/* 221 */
+/* 224 */
 /***/ function(module, exports) {
 
 	// TODO: refactor this and calculate_flavour_map_coords into one class
@@ -36053,13 +37212,13 @@
 
 
 /***/ },
-/* 222 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var FlavourMapEmbedded = __webpack_require__(223);
+	var FlavourMapEmbedded = __webpack_require__(226);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -36078,16 +37237,16 @@
 	});
 
 /***/ },
-/* 223 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Draggable = __webpack_require__(220);
+	var Draggable = __webpack_require__(223);
 	var ReactDOM = __webpack_require__(158); // required here because we're invoking it to get the node width
-	var calculateFlavourMapCoords = __webpack_require__(224);
-	var calculateDbCoords = __webpack_require__(221);
+	var calculateFlavourMapCoords = __webpack_require__(227);
+	var calculateDbCoords = __webpack_require__(224);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -36200,7 +37359,7 @@
 	});
 
 /***/ },
-/* 224 */
+/* 227 */
 /***/ function(module, exports) {
 
 	module.exports = function(flavour_x, colour_y, map_width, map_height) {
@@ -36218,7 +37377,7 @@
 
 
 /***/ },
-/* 225 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36362,15 +37521,15 @@
 	});
 
 /***/ },
-/* 226 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(209);
 	var React = __webpack_require__(1);
-	var BeerList = __webpack_require__(227);
-	var FlavourMapEmbedded = __webpack_require__(223);
+	var BeerList = __webpack_require__(230);
+	var FlavourMapEmbedded = __webpack_require__(226);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -36478,17 +37637,17 @@
 	});
 
 /***/ },
-/* 227 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var BeerCardVitals = __webpack_require__(228);
-	var BeerListIntro = __webpack_require__(229);
-	var LoadingBeers = __webpack_require__(230);
-	var NoBeers = __webpack_require__(231);
-	var ReactCSSTransitionGroup = __webpack_require__(232);
+	var BeerCardVitals = __webpack_require__(231);
+	var BeerListIntro = __webpack_require__(232);
+	var LoadingBeers = __webpack_require__(233);
+	var NoBeers = __webpack_require__(234);
+	var ReactCSSTransitionGroup = __webpack_require__(235);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -36568,14 +37727,14 @@
 	});
 
 /***/ },
-/* 228 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
-	var ReviewStars = __webpack_require__(217);
+	var ReviewStars = __webpack_require__(220);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -36642,7 +37801,7 @@
 	});
 
 /***/ },
-/* 229 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36673,7 +37832,7 @@
 	});
 
 /***/ },
-/* 230 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36699,7 +37858,7 @@
 	});
 
 /***/ },
-/* 231 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36730,13 +37889,13 @@
 	});
 
 /***/ },
-/* 232 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(233);
+	module.exports = __webpack_require__(236);
 
 /***/ },
-/* 233 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36757,8 +37916,8 @@
 
 	var assign = __webpack_require__(39);
 
-	var ReactTransitionGroup = __webpack_require__(234);
-	var ReactCSSTransitionGroupChild = __webpack_require__(236);
+	var ReactTransitionGroup = __webpack_require__(237);
+	var ReactCSSTransitionGroupChild = __webpack_require__(239);
 
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -36824,7 +37983,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ },
-/* 234 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -36841,7 +38000,7 @@
 	'use strict';
 
 	var React = __webpack_require__(2);
-	var ReactTransitionChildMapping = __webpack_require__(235);
+	var ReactTransitionChildMapping = __webpack_require__(238);
 
 	var assign = __webpack_require__(39);
 	var emptyFunction = __webpack_require__(15);
@@ -37034,7 +38193,7 @@
 	module.exports = ReactTransitionGroup;
 
 /***/ },
-/* 235 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -37137,7 +38296,7 @@
 	module.exports = ReactTransitionChildMapping;
 
 /***/ },
-/* 236 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -37157,8 +38316,8 @@
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(3);
 
-	var CSSCore = __webpack_require__(237);
-	var ReactTransitionEvents = __webpack_require__(238);
+	var CSSCore = __webpack_require__(240);
+	var ReactTransitionEvents = __webpack_require__(241);
 
 	var onlyChild = __webpack_require__(156);
 
@@ -37307,7 +38466,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ },
-/* 237 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -37410,7 +38569,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 238 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -37524,14 +38683,14 @@
 	module.exports = ReactTransitionEvents;
 
 /***/ },
-/* 239 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
-	var FlavourMapEmbedded = __webpack_require__(223);
+	var FlavourMapEmbedded = __webpack_require__(226);
 
 	// application layout
 	module.exports = React.createClass({

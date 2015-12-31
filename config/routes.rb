@@ -9,8 +9,9 @@ Rails.application.routes.draw do
   end
   get  "/auth/:provider/callback", to: "omniauth#callback"
 
-
   namespace :api, defaults: { format: :json } do
+    get "current_user", to: "base#current_user"
+
     namespace :v1 do
       resources :beers
       resources :breweries
