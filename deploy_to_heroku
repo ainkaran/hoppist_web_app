@@ -23,7 +23,7 @@ if [ $? -eq 0 ]
 
   # Heroku deployment
   git push heroku master
-  heroku run rake db:migrate
+  heroku run --app hoppist rake db:migrate
 
   # Test 'er out!
   open "http://hoppist.herokuapp.com"
