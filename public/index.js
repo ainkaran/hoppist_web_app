@@ -68,6 +68,7 @@
 	var BeerShowReviews = __webpack_require__(218);
 	var HomePageGuest = __webpack_require__(228);
 	var FlavourMapIndex = __webpack_require__(229);
+	var SignInPage = __webpack_require__(243);
 	var StyleGuide = __webpack_require__(242);
 
 	// TODO: challenges with react router: the nesting assumes that you're rendering
@@ -83,6 +84,7 @@
 	    Route,
 	    { path: '/ui', component: App },
 	    React.createElement(IndexRoute, { component: HomePageGuest }),
+	    React.createElement(Route, { path: 'sign_in', component: SignInPage }),
 	    React.createElement(Route, { path: 'beers', component: BeerIndex }),
 	    React.createElement(
 	      Route,
@@ -33734,7 +33736,7 @@
 	module.exports = React.createClass({
 	  displayName: "App",
 
-	  API_ENDPOINT: '/api/v1/',
+	  API_ENDPOINT: '/api/v1',
 
 	  getInitialState: function getInitialState() {
 	    return { signedIn: false, currentUser: {} };
@@ -33750,44 +33752,57 @@
 	      this.getCurrentUser();
 	    }
 	  },
-	  getData: function getData(url, success) {
+	  apiRequest: function apiRequest(optionsObj) {
+	    var url = optionsObj.url;
+	    var method = optionsObj.method;
+	    var data = optionsObj.data;
+	    var success = optionsObj.success;
+	    var error = optionsObj.error ? optionsObj.error : function (error) {
+	      console.error(url, error['response']);location = '/';
+	    };
+
 	    // Handle relative and absolute URLs
 	    if (url[0] !== '/') {
 	      url = this.API_ENDPOINT + '/' + url;
 	    }
 
+	    /* TODO: when I add contentType: application/json to the Reqwest
+	      object, Rails complains 'Error occurred while parsing request parameters.'
+	      Am I somehow not encoding the JSON correctly with this request??  */
 	    Reqwest({
 	      url: url,
+	      method: method,
 	      type: 'json',
-	      method: 'get',
-	      contentType: 'application/json',
+	      data: data,
 	      headers: { 'Authorization': sessionStorage.getItem('jwt') },
 	      success: success,
-	      error: function error(_error) {
-	        console.error(url, _error['response']);
-	        location = '/';
-	      }
+	      error: error
 	    });
 	  },
-	  postData: function postData() {},
 	  getCurrentUser: function getCurrentUser() {
 	    var _this = this;
 
-	    this.getData('/api/current_user', function (user) {
-	      console.log("getCurrentUser SUCCESS");
-	      _this.setState({
-	        signedIn: true,
-	        currentUser: user
-	      });
+	    this.apiRequest({
+	      url: '/api/current_user',
+	      method: 'get',
+	      success: function success(user) {
+	        _this.setState({
+	          signedIn: true,
+	          currentUser: user
+	        });
+	      }
 	    });
 	  },
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      { id: 'app' },
-	      React.createElement(HeaderNavbar, null),
-	      React.cloneElement(this.props.children, { getData: this.getData,
-	        postData: this.postData }),
+	      React.createElement(HeaderNavbar, {
+	        signedIn: this.state.signedIn,
+	        currentUser: this.state.currentUser }),
+	      React.cloneElement(this.props.children, { apiRequest: this.apiRequest,
+	        signedIn: this.state.signedIn,
+	        currentUser: this.state.currentUser }),
 	      React.createElement(Footer, null)
 	    );
 	  }
@@ -33852,6 +33867,25 @@
 	  handleMenuClick: function handleMenuClick() {
 	    this.setState({ menuIsActive: !this.state.menuIsActive });
 	  },
+	  signIn: function signIn() {
+	    var signIn;
+	    if (this.props.signedIn) {
+	      signIn = React.createElement(
+	        'span',
+	        null,
+	        this.props.currentUser.first_name,
+	        ' ',
+	        this.props.currentUser.last_name
+	      );
+	    } else {
+	      signIn = React.createElement(
+	        'a',
+	        { href: '/ui/sign_in' },
+	        'SIGN IN'
+	      );
+	    }
+	    return signIn;
+	  },
 	  render: function render() {
 	    var style = this.state.menuIsActive ? 'is-active' : '';
 
@@ -33902,11 +33936,7 @@
 	          React.createElement(
 	            'li',
 	            null,
-	            React.createElement(
-	              'a',
-	              { href: '#' },
-	              'Alex Taylor         '
-	            )
+	            this.signIn()
 	          ),
 	          React.createElement(
 	            'li',
@@ -35101,7 +35131,6 @@
 
 	'use strict';
 
-	var $ = __webpack_require__(209);
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
 
@@ -35110,14 +35139,15 @@
 	var FlavourMap = __webpack_require__(225);
 
 	module.exports = React.createClass({
-	  displayName: 'exports',
+	  displayName: 'BeerShow',
+
 	  getInitialState: function getInitialState() {
 	    return { beer: {}, brewery: {} };
 	  },
-	  handleReviewSubmit: function handleReviewSubmit(review) {
-	    this.ajaxPostReviewSubmit(review);
+	  componentDidMount: function componentDidMount() {
+	    this.getBeer(this.props.params.id);
 	  },
-	  ajaxPostReviewSubmit: function ajaxPostReviewSubmit(review) {
+	  handleReviewSubmit: function handleReviewSubmit(review) {
 	    var _this = this;
 
 	    // eager loading
@@ -35126,9 +35156,9 @@
 	    var nextReviews = [newReview].concat(prevReviews);
 	    this.setState({ reviews: nextReviews });
 
-	    $.ajax({
-	      method: "POST",
-	      url: "/api/v1/reviews",
+	    this.props.apiRequest({
+	      method: 'post',
+	      url: 'reviews',
 	      data: { review: review },
 	      success: function success(response) {
 	        _this.hydrateBeerData(response);
@@ -35164,26 +35194,16 @@
 	      brewery: brewery,
 	      reviews: reviews });
 	  },
-	  ajaxGetBeer: function ajaxGetBeer(id) {
+	  getBeer: function getBeer(id) {
 	    var _this2 = this;
 
-	    // TODO: refactor this url
-	    $.ajax({
-	      method: "GET",
-	      url: '/api/v1/beers/' + id,
+	    this.props.apiRequest({
+	      url: 'beers/' + id,
+	      method: 'get',
 	      success: function success(response) {
 	        _this2.hydrateBeerData(response);
-	      },
-
-	      error: function error(obj, msg, err) {
-	        // TODO: improve this
-	        alert("Uh oh! Error submiting to server. Check the logs.");
-	        console.log('error in request: ' + msg + ' / ' + err);
 	      }
 	    });
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.ajaxGetBeer(this.props.params.id);
 	  },
 	  render: function render() {
 	    var _this3 = this;
@@ -38940,6 +38960,64 @@
 	      React.createElement('br', null),
 	      '// FLAVOUR MAP',
 	      React.createElement(FlavourMapEmbedded, null)
+	    );
+	  }
+	});
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
+
+	module.exports = React.createClass({
+	  displayName: 'SignInPage',
+
+	  render: function render() {
+	    var extraMargin = { margin: "5px" };
+
+	    return React.createElement(
+	      'div',
+	      { id: 'sign-in' },
+	      React.createElement(
+	        'h2',
+	        { className: 'text-center' },
+	        'SIGN IN'
+	      ),
+	      React.createElement(
+	        'p',
+	        { className: 'text-center' },
+	        'Start your Hoppist life by signing in with your Google or Twitter account.'
+	      ),
+	      React.createElement(
+	        'p',
+	        { className: 'text-center' },
+	        'Don\'t worry — we\'ll ',
+	        React.createElement(
+	          'em',
+	          null,
+	          'never'
+	        ),
+	        ' tweet or post anything on your behalf, or share your information, or any other evil things.'
+	      ),
+	      React.createElement('hr', null),
+	      React.createElement(
+	        'div',
+	        { className: 'text-center' },
+	        React.createElement(
+	          'a',
+	          { href: '/auth/google_oauth2', className: 'btn btn-default', style: extraMargin },
+	          'SIGN IN WITH GOOGLE'
+	        ),
+	        React.createElement(
+	          'a',
+	          { href: '/auth/twitter', className: 'btn btn-default', style: extraMargin },
+	          'SIGN IN WITH TWITTER'
+	        )
+	      )
 	    );
 	  }
 	});

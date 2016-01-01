@@ -13,6 +13,7 @@ class Api::BaseController < ActionController::API
       uid = JWT.decode(request.headers['Authorization'], Rails.application.secrets.secret_key_base)[0]['uid']
       @current_user ||= User.find_by(uid: uid)
     rescue
+      # TODO: the frontend should handle this by redirecting to sign in/up page
       render json: 'Not Authenticated', status: 401
     end
   end

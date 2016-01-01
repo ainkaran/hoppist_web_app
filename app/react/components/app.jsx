@@ -7,8 +7,8 @@ var Reqwest = require('reqwest')
 
 module.exports = React.createClass({
   displayName: "App",
-  
-  API_ENDPOINT: '/api/v1/',
+
+  API_ENDPOINT: '/api/v1',
 
   getInitialState() {
     return { signedIn: false, currentUser: {} }
@@ -25,37 +25,43 @@ module.exports = React.createClass({
     }
   },
 
-  getData(url, success) {
+  apiRequest(optionsObj) {
+    var url     = optionsObj.url
+    var method  = optionsObj.method
+    var data    = optionsObj.data
+    var success = optionsObj.success
+    var error   = optionsObj.error ? optionsObj.error : (error)=>{ console.error(url, error['response']); location = '/';}
+
     // Handle relative and absolute URLs
     if(url[0] !== '/') {
       url = `${this.API_ENDPOINT}/${url}`;
     }
 
+    /* TODO: when I add contentType: application/json to the Reqwest
+      object, Rails complains 'Error occurred while parsing request parameters.'
+      Am I somehow not encoding the JSON correctly with this request??  */
     Reqwest({
       url: url,
+      method: method,
       type: 'json',
-      method: 'get',
-      contentType: 'application/json',
+      data: data,
       headers: {'Authorization': sessionStorage.getItem('jwt') },
       success: success,
-      error: function(error) {
-        console.error(url, error['response']);
-        location = '/';
-      }
+      error: error
     });
   },
 
-  postData() {
-
-  },
 
   getCurrentUser() {
-    this.getData('/api/current_user', (user) => {
-      console.log("getCurrentUser SUCCESS");
-      this.setState({
-        signedIn: true,
-        currentUser: user
-      })
+    this.apiRequest({
+      url:     '/api/current_user',
+      method:  'get',
+      success: (user) => {
+        this.setState({
+          signedIn: true,
+          currentUser: user
+        })
+      }
     })
   },
 
@@ -63,10 +69,13 @@ module.exports = React.createClass({
   render() {
     return (
       <div id="app">
-        <HeaderNavbar />
+        <HeaderNavbar
+          signedIn={this.state.signedIn}
+          currentUser={this.state.currentUser}/>
         {React.cloneElement(this.props.children,
-          {getData:  this.getData,
-           postData: this.postData}
+          {apiRequest:  this.apiRequest,
+           signedIn: this.state.signedIn,
+           currentUser: this.state.currentUser}
         )}
         <Footer />
       </div>

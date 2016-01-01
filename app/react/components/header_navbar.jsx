@@ -7,12 +7,28 @@ module.exports = React.createClass({
     return { menuIsActive: false };
   },
 
+
   handleMenuClick() {
     this.setState( { menuIsActive: !this.state.menuIsActive } );
   },
 
+  signIn() {
+    var signIn;
+    if (this.props.signedIn) {
+      signIn = (
+        <span>
+          {this.props.currentUser.first_name} {this.props.currentUser.last_name}
+        </span>
+      )
+    } else {
+        signIn = (<a href="/ui/sign_in">SIGN IN</a>)
+    }
+    return signIn;
+  },
+
   render() {
     var style = this.state.menuIsActive ? 'is-active' : '';
+
 
     return (
       <div>
@@ -32,7 +48,7 @@ module.exports = React.createClass({
             <h1 className="branded">...</h1>
           </div>
           <ul>
-            <li><a href="#">Alex Taylor         </a></li>
+            <li>{ this.signIn() }</li>
             <li><a href="#">REVIEW              </a></li>
             <li><Link to="/ui/flavour-map" onClick={this.handleMenuClick}>FLAVOUR MAP</Link></li>
             <li><a href="#">MATCH MAKER         </a></li>
