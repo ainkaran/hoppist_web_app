@@ -11,12 +11,15 @@ module.exports = React.createClass({
   API_ENDPOINT: '/api/v1',
 
   getInitialState() {
-    return { signedIn: false, currentUser: {} }
+    return { displayFlash: false, signedIn: false, currentUser: {} }
   },
 
   componentWillMount() {
     var jwt = new Uri(location.search).getQueryParamValue('jwt');
-    if (jwt) { sessionStorage.setItem('jwt', jwt); }
+    if (jwt) {
+      sessionStorage.setItem('jwt', jwt);
+      this.setState({ displayFlash: true })
+    }
   },
 
   componentDidMount() {
@@ -67,11 +70,28 @@ module.exports = React.createClass({
 
 
   render() {
+    var signedInFlash;
+    if (this.state.displayFlash) {
+      signedInFlash = (<div className="alert alert-success">Signed in successfully.</div>);
+    }
+
+    var betaBadgeStyle = {
+      textAlign: 'center',
+      background: '#A6AB85',
+      color: 'white',
+      padding: '5px',
+      fontSize: '90%'
+    }
+
     return (
       <div id="app">
+        <div className="beta-badge" style={betaBadgeStyle}>Heads up - we're still in beta! Not all features are functional at the moment.</div>
         <HeaderNavbar
           signedIn={this.state.signedIn}
           currentUser={this.state.currentUser}/>
+
+        {signedInFlash}
+
         {React.cloneElement(this.props.children,
           {apiRequest:  this.apiRequest,
            signedIn: this.state.signedIn,

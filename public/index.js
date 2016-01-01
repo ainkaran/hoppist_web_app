@@ -68,8 +68,8 @@
 	var BeerShowReviews = __webpack_require__(218);
 	var HomePageGuest = __webpack_require__(228);
 	var FlavourMapIndex = __webpack_require__(229);
-	var SignInPage = __webpack_require__(243);
-	var StyleGuide = __webpack_require__(242);
+	var SignInPage = __webpack_require__(242);
+	var StyleGuide = __webpack_require__(243);
 
 	// TODO: challenges with react router: the nesting assumes that you're rendering
 	// a child in a parent component. so we can't nest beers within breweries for the
@@ -33739,12 +33739,13 @@
 	  API_ENDPOINT: '/api/v1',
 
 	  getInitialState: function getInitialState() {
-	    return { signedIn: false, currentUser: {} };
+	    return { displayFlash: false, signedIn: false, currentUser: {} };
 	  },
 	  componentWillMount: function componentWillMount() {
 	    var jwt = new Uri(location.search).getQueryParamValue('jwt');
 	    if (jwt) {
 	      sessionStorage.setItem('jwt', jwt);
+	      this.setState({ displayFlash: true });
 	    }
 	  },
 	  componentDidMount: function componentDidMount() {
@@ -33794,12 +33795,35 @@
 	    });
 	  },
 	  render: function render() {
+	    var signedInFlash;
+	    if (this.state.displayFlash) {
+	      signedInFlash = React.createElement(
+	        'div',
+	        { className: 'alert alert-success' },
+	        'Signed in successfully.'
+	      );
+	    }
+
+	    var betaBadgeStyle = {
+	      textAlign: 'center',
+	      background: '#A6AB85',
+	      color: 'white',
+	      padding: '5px',
+	      fontSize: '90%'
+	    };
+
 	    return React.createElement(
 	      'div',
 	      { id: 'app' },
+	      React.createElement(
+	        'div',
+	        { className: 'beta-badge', style: betaBadgeStyle },
+	        'Heads up - we\'re still in beta! Not all features are functional at the moment.'
+	      ),
 	      React.createElement(HeaderNavbar, {
 	        signedIn: this.state.signedIn,
 	        currentUser: this.state.currentUser }),
+	      signedInFlash,
 	      React.cloneElement(this.props.children, { apiRequest: this.apiRequest,
 	        signedIn: this.state.signedIn,
 	        currentUser: this.state.currentUser }),
@@ -38710,6 +38734,64 @@
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
+
+	module.exports = React.createClass({
+	  displayName: 'SignInPage',
+
+	  render: function render() {
+	    var extraMargin = { margin: "5px" };
+
+	    return React.createElement(
+	      'div',
+	      { id: 'sign-in' },
+	      React.createElement(
+	        'h2',
+	        { className: 'text-center' },
+	        'SIGN IN'
+	      ),
+	      React.createElement(
+	        'p',
+	        { className: 'text-center' },
+	        'Start your Hoppist life by signing in with your Google or Twitter account.'
+	      ),
+	      React.createElement(
+	        'p',
+	        { className: 'text-center' },
+	        'Don\'t worry — we\'ll ',
+	        React.createElement(
+	          'em',
+	          null,
+	          'never'
+	        ),
+	        ' tweet or post anything on your behalf, or share your information, or any other evil things.'
+	      ),
+	      React.createElement('hr', null),
+	      React.createElement(
+	        'div',
+	        { className: 'text-center' },
+	        React.createElement(
+	          'a',
+	          { href: '/auth/google_oauth2', className: 'btn btn-default', style: extraMargin },
+	          'SIGN IN WITH GOOGLE'
+	        ),
+	        React.createElement(
+	          'a',
+	          { href: '/auth/twitter', className: 'btn btn-default', style: extraMargin },
+	          'SIGN IN WITH TWITTER'
+	        )
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
 	var FlavourMapEmbedded = __webpack_require__(226);
 
 	// application layout
@@ -38960,64 +39042,6 @@
 	      React.createElement('br', null),
 	      '// FLAVOUR MAP',
 	      React.createElement(FlavourMapEmbedded, null)
-	    );
-	  }
-	});
-
-/***/ },
-/* 243 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(159).Link;
-
-	module.exports = React.createClass({
-	  displayName: 'SignInPage',
-
-	  render: function render() {
-	    var extraMargin = { margin: "5px" };
-
-	    return React.createElement(
-	      'div',
-	      { id: 'sign-in' },
-	      React.createElement(
-	        'h2',
-	        { className: 'text-center' },
-	        'SIGN IN'
-	      ),
-	      React.createElement(
-	        'p',
-	        { className: 'text-center' },
-	        'Start your Hoppist life by signing in with your Google or Twitter account.'
-	      ),
-	      React.createElement(
-	        'p',
-	        { className: 'text-center' },
-	        'Don\'t worry — we\'ll ',
-	        React.createElement(
-	          'em',
-	          null,
-	          'never'
-	        ),
-	        ' tweet or post anything on your behalf, or share your information, or any other evil things.'
-	      ),
-	      React.createElement('hr', null),
-	      React.createElement(
-	        'div',
-	        { className: 'text-center' },
-	        React.createElement(
-	          'a',
-	          { href: '/auth/google_oauth2', className: 'btn btn-default', style: extraMargin },
-	          'SIGN IN WITH GOOGLE'
-	        ),
-	        React.createElement(
-	          'a',
-	          { href: '/auth/twitter', className: 'btn btn-default', style: extraMargin },
-	          'SIGN IN WITH TWITTER'
-	        )
-	      )
 	    );
 	  }
 	});
