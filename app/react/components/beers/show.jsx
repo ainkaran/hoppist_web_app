@@ -1,5 +1,4 @@
 'use strict'
-var $ = require('jquery');
 var React = require('react');
 var Link = require('react-router').Link;
 
@@ -8,26 +7,27 @@ var ReviewStars = require("../shared/_review_stars");
 var FlavourMap = require("./_flavour_map");
 
 module.exports = React.createClass({
+  displayName: 'BeerShow',
 
   getInitialState() {
     return { beer: {}, brewery: {} }
   },
 
-  handleReviewSubmit(review) {
-    this.ajaxPostReviewSubmit(review);
+  componentDidMount() {
+    this.getBeer(this.props.params.id);
   },
 
-  ajaxPostReviewSubmit(review) {
+  handleReviewSubmit(review) {
     // eager loading
     var newReview = { id: `tmp_${Math.floor(Math.random()*1000)}`, attributes: review };
     var prevReviews = this.state.reviews;
     var nextReviews = [newReview].concat(prevReviews);
     this.setState({ reviews: nextReviews })
 
-    $.ajax({
-      method: "POST",
-      url: "/api/v1/reviews",
-      data: { review: review },
+    this.props.apiRequest({
+      method: 'post',
+      url: 'reviews',
+      data: {review: review},
       success: (response) => {
         this.hydrateBeerData(response);
       },
@@ -43,7 +43,9 @@ module.exports = React.createClass({
         this.setState({ errors })
       }
     });
+
   },
+
 
   /* since we're populating this from the initial GET request AND potentially
      a new review submission, the logic goes here. */
@@ -61,26 +63,16 @@ module.exports = React.createClass({
       reviews: reviews });
   },
 
-  ajaxGetBeer(id) {
-    // TODO: refactor this url
-    $.ajax({
-      method: "GET",
-      url: `/api/v1/beers/${id}`,
-      success: (response) => {
-        this.hydrateBeerData(response);
-      },
-
-      error: (obj, msg, err) => {
-        // TODO: improve this
-        alert("Uh oh! Error submiting to server. Check the logs.")
-        console.log(`error in request: ${msg} / ${err}`);
+  getBeer(id) {
+    this.props.apiRequest({
+      url: `beers/${id}`,
+      method: 'get',
+      success: (response)=> {
+        this.hydrateBeerData(response)
       }
     })
   },
 
-  componentDidMount() {
-    this.ajaxGetBeer(this.props.params.id);
-  },
 
   render() {
     /* TODO: work out a method of using a loading screen to hide some of the ajax calls.

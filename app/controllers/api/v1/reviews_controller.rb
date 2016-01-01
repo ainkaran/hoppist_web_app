@@ -1,7 +1,9 @@
 class Api::V1::ReviewsController < Api::BaseController
+  before_action :authenticate_request, only: [:create]
+
   def create
     review       = Review.new(review_params)
-    review.user  = User.last # TODO: replace with current_user
+    review.user  = @current_user
     beer         = review.beer
 
     if review.save
