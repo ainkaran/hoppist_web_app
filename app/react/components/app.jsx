@@ -82,7 +82,7 @@ module.exports = React.createClass({
       padding: '5px',
       fontSize: '90%'
     }
-
+    // TODO: reinstate signedInFlash using react-router callback
     return (
       <div id="app">
         <div className="beta-badge" style={betaBadgeStyle}>Heads up - we're still in beta! Not all features are functional at the moment.</div>
@@ -90,7 +90,7 @@ module.exports = React.createClass({
           signedIn={this.state.signedIn}
           currentUser={this.state.currentUser}/>
 
-        {signedInFlash}
+
 
         {React.cloneElement(this.props.children,
           {apiRequest:  this.apiRequest,

@@ -33811,7 +33811,7 @@
 	      padding: '5px',
 	      fontSize: '90%'
 	    };
-
+	    // TODO: reinstate signedInFlash using react-router callback
 	    return React.createElement(
 	      'div',
 	      { id: 'app' },
@@ -33823,7 +33823,6 @@
 	      React.createElement(HeaderNavbar, {
 	        signedIn: this.state.signedIn,
 	        currentUser: this.state.currentUser }),
-	      signedInFlash,
 	      React.cloneElement(this.props.children, { apiRequest: this.apiRequest,
 	        signedIn: this.state.signedIn,
 	        currentUser: this.state.currentUser }),
@@ -35269,6 +35268,8 @@
 	    // See https://facebook.github.io/react/blog/2015/03/03/react-v0.13-rc2.html#react.cloneelement
 	    var newChildren = React.Children.map(this.props.children, function (child) {
 	      return React.cloneElement(child, {
+	        signedIn: _this3.props.signedIn,
+	        currentUser: _this3.props.currentUser,
 	        beer: _this3.state.beer,
 	        reviews: _this3.state.reviews,
 	        onReviewSubmit: _this3.handleReviewSubmit });
@@ -35385,10 +35386,23 @@
 	  render: function render() {
 	    var newReview;
 	    if (this.state.showNewReviewForm) {
-	      newReview = React.createElement(ReviewFormInline, {
-	        beer: this.props.beer,
-	        onReviewSubmit: this.handleReviewSubmit
-	      });
+	      if (this.props.signedIn) {
+	        newReview = React.createElement(ReviewFormInline, {
+	          beer: this.props.beer,
+	          onReviewSubmit: this.handleReviewSubmit
+	        });
+	      } else {
+	        newReview = React.createElement(
+	          'h4',
+	          { className: 'lighter text-center' },
+	          React.createElement(
+	            'a',
+	            { href: '/ui/sign_in' },
+	            'Sign in'
+	          ),
+	          ' to post a review.'
+	        );
+	      }
 	    }
 
 	    var reviews = [];
