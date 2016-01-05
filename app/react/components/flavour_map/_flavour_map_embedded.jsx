@@ -6,6 +6,8 @@ var calculateFlavourMapCoords = require("../../utils/calculate_flavour_map_coord
 var calculateDbCoords = require("../../utils/calculate_db_coords");
 
 module.exports = React.createClass({
+  displayName: "FlavourMapEmbedded",
+
   /*
     TODO: this is a much-improved version of the flavour map in terms of consistent
     and predictable updating of target position, but from the flavour index it
