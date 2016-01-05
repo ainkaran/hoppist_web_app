@@ -13,9 +13,14 @@ Rails.application.routes.draw do
     get "current_user", to: "base#current_user"
 
     namespace :v1 do
+      # This is a general-purpose search function. At the moment, it just searches
+      # beer names, but it could be expanded to search brewery names or other
+      # keywords as well.
+      get "search", to: "search#new"
       resources :beers
       resources :breweries
       resources :flavour_map, only: [] do
+        # This search route expects coordinates from the flavour map
         post "search", on: :collection
       end
       resources :reviews, only: [:create]
