@@ -110,14 +110,19 @@ module.exports = React.createClass({
             />
           <br />
           <p className="text-center italicize lighter">or, search by name:</p>
-          <form onSubmit={this.handleSearchSubmit}>
+
+        {/* Beer name search form */}
+          <form onSubmit={this.handleSearchSubmit} className="center-block" style={{maxWidth: this.state.flavourMapMaxWidth}}>
             <div className="form-group">
               <input type="text" name="query" ref="query" className="form-control" />
             </div>
+            {/*
             <div className="form-group text-center">
               <input className="btn btn-default" type="submit" value="SEARCH" />
             </div>
+            */}
           </form>
+
         </div>
         <div className="col-sm-6">
           <BeerList

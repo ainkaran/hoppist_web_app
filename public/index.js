@@ -37699,16 +37699,11 @@
 	        ),
 	        React.createElement(
 	          'form',
-	          { onSubmit: this.handleSearchSubmit },
+	          { onSubmit: this.handleSearchSubmit, className: 'center-block', style: { maxWidth: this.state.flavourMapMaxWidth } },
 	          React.createElement(
 	            'div',
 	            { className: 'form-group' },
 	            React.createElement('input', { type: 'text', name: 'query', ref: 'query', className: 'form-control' })
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'form-group text-center' },
-	            React.createElement('input', { className: 'btn btn-default', type: 'submit', value: 'SEARCH' })
 	          )
 	        )
 	      ),
@@ -37844,6 +37839,7 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'beer-list' },
+	      React.createElement('hr', { className: 'visible-xs' }),
 	      React.createElement(
 	        ReactCSSTransitionGroup,
 	        { transitionName: 'fade', transitionEnterTimeout: 250, transitionLeaveTimeout: 250 },
