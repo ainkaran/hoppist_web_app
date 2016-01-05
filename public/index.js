@@ -37302,7 +37302,7 @@
 	var calculateDbCoords = __webpack_require__(224);
 
 	module.exports = React.createClass({
-	  displayName: 'exports',
+	  displayName: "FlavourMapEmbedded",
 
 	  /*
 	    TODO: this is a much-improved version of the flavour map in terms of consistent
