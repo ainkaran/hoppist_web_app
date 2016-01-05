@@ -110,6 +110,8 @@ module.exports = React.createClass({
     // See https://facebook.github.io/react/blog/2015/03/03/react-v0.13-rc2.html#react.cloneelement
     var newChildren = React.Children.map(this.props.children, (child)=> {
       return React.cloneElement(child, {
+        signedIn: this.props.signedIn,
+        currentUser: this.props.currentUser,
         beer: this.state.beer,
         reviews: this.state.reviews,
         onReviewSubmit: this.handleReviewSubmit });

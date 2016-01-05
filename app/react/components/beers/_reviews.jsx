@@ -18,11 +18,16 @@ module.exports = React.createClass({
   render() {
     var newReview;
     if (this.state.showNewReviewForm) {
-      newReview = (<ReviewFormInline
-          beer={this.props.beer}
-          onReviewSubmit={this.handleReviewSubmit}
-          />
-        );
+      if (this.props.signedIn) {
+        newReview = (<ReviewFormInline
+            beer={this.props.beer}
+            onReviewSubmit={this.handleReviewSubmit}
+            />);
+      } else {
+        newReview = (
+          <h4 className="lighter text-center"><a href="/ui/sign_in">Sign in</a> to post a review.</h4>
+        )
+      }
     }
 
     var reviews = [];
