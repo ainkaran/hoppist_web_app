@@ -85,7 +85,7 @@ module.exports = React.createClass({
     // TODO: reinstate signedInFlash using react-router callback
     return (
       <div id="app">
-        <div className="beta-badge" style={betaBadgeStyle}>Heads up - we're still in beta! Not all features are functional at the moment.</div>
+        {/*<div className="beta-badge" style={betaBadgeStyle}>Heads up - we're still in beta! Not all features are functional at the moment.</div>*/}
         <HeaderNavbar
           signedIn={this.state.signedIn}
           currentUser={this.state.currentUser}/>

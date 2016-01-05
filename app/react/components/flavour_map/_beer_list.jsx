@@ -7,6 +7,8 @@ var NoBeers = require("./_beer_list_no_beers");
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 module.exports = React.createClass({
+  displayName: "FlavourMapBeerList",
+
   getInitialState() {
     return { display: "intro", beers: [], breweries: [] }
   },
@@ -37,14 +39,27 @@ module.exports = React.createClass({
       );
     });
 
-    var beerList = (
-      <div>
-        <p className="text-center lighter"><em>found {this.props.beers.length} beers:</em></p>
-        {beerNodes}
-      </div>
-    );
+    var beerList;
+    if (this.props.searchTerm) {
+      beerList = (
+        <div>
+          <p className="text-center lighter"><em>found {this.props.beers.length} beers matching '{this.props.searchTerm}':</em></p>
+          {beerNodes}
+        </div>
+      );
+    } else {
+      beerList = (
+        <div>
+          <p className="text-center lighter"><em>found {this.props.beers.length} beers:</em></p>
+          {beerNodes}
+        </div>
+      );
+    }
+
 
     var nestedContent;
+    var backToTop;
+
     switch (this.state.display) {
       case "intro":
         nestedContent = (
@@ -53,6 +68,7 @@ module.exports = React.createClass({
         break;
       case "beerList":
         nestedContent = beerList;
+        if (this.props.beers.length > 10) { backToTop = (<p className="text-center lighter italicize"><a href="#">back to top</a></p>); }
         break;
       case "noBeers":
         nestedContent = (<NoBeers key="nobeers" />);
@@ -66,6 +82,7 @@ module.exports = React.createClass({
       <div id="beer-list">
         <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={250} transitionLeaveTimeout={250}>
           {nestedContent}
+          {backToTop}
         </ReactCSSTransitionGroup>
       </div>
     );

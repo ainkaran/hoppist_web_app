@@ -33815,11 +33815,6 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'app' },
-	      React.createElement(
-	        'div',
-	        { className: 'beta-badge', style: betaBadgeStyle },
-	        'Heads up - we\'re still in beta! Not all features are functional at the moment.'
-	      ),
 	      React.createElement(HeaderNavbar, {
 	        signedIn: this.state.signedIn,
 	        currentUser: this.state.currentUser }),
@@ -33921,13 +33916,13 @@
 	        { className: 'hoppist-header' },
 	        React.createElement(
 	          'h1',
-	          { className: 'branded', onClick: this.handleMenuClick },
-	          '...'
+	          { className: 'branded text-center' },
+	          'HOPPIST'
 	        ),
 	        React.createElement(
-	          'h2',
-	          { className: 'branded' },
-	          'HOPPIST'
+	          'h3',
+	          { className: 'lighter italicize text-center flush-with-top' },
+	          'Discover great craft beer.'
 	        ),
 	        React.createElement(
 	          'div',
@@ -37614,14 +37609,6 @@
 	      success: function success(response) {
 	        var newBeers = response.data;
 	        var breweries = response.included;
-
-	        // TODO: remove this for production. maybe we can orchestrate webpack to handle this for us.
-	        if (newBeers.length > 0) {
-	          console.log('Beers found: ' + newBeers.length + ' | first id: ' + newBeers[0].id + ' | last id: ' + newBeers[newBeers.length - 1].id);
-	        } else {
-	          console.log('Beers found: 0');
-	        }
-
 	        _this.setState({ beers: newBeers, breweries: breweries, resultsLoading: false });
 	      },
 
@@ -37645,6 +37632,25 @@
 	  handleResize: function handleResize() {
 	    this.setState({ windowWidth: window.innerWidth });
 	  },
+	  handleSearchSubmit: function handleSearchSubmit(e) {
+	    var _this3 = this;
+
+	    e.preventDefault();
+	    var term = this.refs.query.value;
+	    this.setState({ resultsLoading: true });
+	    this.props.apiRequest({
+	      url: 'search',
+	      method: 'get',
+	      data: { term: term },
+	      success: function success(response) {
+	        var newBeers = response.data;
+	        var breweries = response.included;
+	        _this3.setState({ beers: newBeers, breweries: breweries, resultsLoading: false, searchTerm: term });
+	      }
+	    });
+
+	    this.refs.query.value = "";
+	  },
 	  componentDidMount: function componentDidMount() {
 	    window.addEventListener('resize', this.resizeThrottler);
 	  },
@@ -37666,9 +37672,10 @@
 	    console.log("flavour_map_index render()");
 	    var loading = this.state.resultsLoading;
 	    var classes = ["center-block", "img", "img-thumbnail"];
-	    if (this.state.windowWidth >= this.MEDIA_QUERY_MEDIUM) {
-	      classes.push("fixed");
-	    }
+	    // disabled the fixed flavour map when the search bar was added
+	    // if (this.state.windowWidth >= this.MEDIA_QUERY_MEDIUM) {
+	    //   classes.push("fixed");
+	    // }
 
 	    // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
 	    return React.createElement(
@@ -37683,12 +37690,38 @@
 	          maxWidth: this.state.flavourMapMaxWidth,
 	          onDragStop: this.handleDragStop,
 	          targetPos: { x: 6, y: 6 }
-	        })
+	        }),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'p',
+	          { className: 'text-center italicize lighter' },
+	          'or, search by name:'
+	        ),
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.handleSearchSubmit },
+	          React.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            React.createElement('input', { type: 'text', name: 'query', ref: 'query', className: 'form-control' })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'form-group text-center' },
+	            React.createElement('input', { className: 'btn btn-default', type: 'submit', value: 'SEARCH' })
+	          )
+	        )
 	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'col-sm-6' },
-	        React.createElement(BeerList, { loading: loading, beers: this.state.beers, breweries: this.state.breweries, onNavigation: this.handleNavigation })
+	        React.createElement(BeerList, {
+	          loading: loading,
+	          beers: this.state.beers,
+	          breweries: this.state.breweries,
+	          onNavigation: this.handleNavigation,
+	          searchTerm: this.state.searchTerm
+	        })
 	      )
 	    );
 	  }
@@ -37708,7 +37741,8 @@
 	var ReactCSSTransitionGroup = __webpack_require__(235);
 
 	module.exports = React.createClass({
-	  displayName: 'exports',
+	  displayName: "FlavourMapBeerList",
+
 	  getInitialState: function getInitialState() {
 	    return { display: "intro", beers: [], breweries: [] };
 	  },
@@ -37739,30 +37773,65 @@
 	        onNavigation: _this.props.onNavigation });
 	    });
 
-	    var beerList = React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'p',
-	        { className: 'text-center lighter' },
+	    var beerList;
+	    if (this.props.searchTerm) {
+	      beerList = React.createElement(
+	        'div',
+	        null,
 	        React.createElement(
-	          'em',
-	          null,
-	          'found ',
-	          this.props.beers.length,
-	          ' beers:'
-	        )
-	      ),
-	      beerNodes
-	    );
+	          'p',
+	          { className: 'text-center lighter' },
+	          React.createElement(
+	            'em',
+	            null,
+	            'found ',
+	            this.props.beers.length,
+	            ' beers matching \'',
+	            this.props.searchTerm,
+	            '\':'
+	          )
+	        ),
+	        beerNodes
+	      );
+	    } else {
+	      beerList = React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'p',
+	          { className: 'text-center lighter' },
+	          React.createElement(
+	            'em',
+	            null,
+	            'found ',
+	            this.props.beers.length,
+	            ' beers:'
+	          )
+	        ),
+	        beerNodes
+	      );
+	    }
 
 	    var nestedContent;
+	    var backToTop;
+
 	    switch (this.state.display) {
 	      case "intro":
 	        nestedContent = React.createElement(BeerListIntro, { key: 'intro' });
 	        break;
 	      case "beerList":
 	        nestedContent = beerList;
+	        if (this.props.beers.length > 10) {
+	          backToTop = React.createElement(
+	            'p',
+	            { className: 'text-center lighter italicize' },
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'back to top'
+	            )
+	          );
+	        }
 	        break;
 	      case "noBeers":
 	        nestedContent = React.createElement(NoBeers, { key: 'nobeers' });
@@ -37778,7 +37847,8 @@
 	      React.createElement(
 	        ReactCSSTransitionGroup,
 	        { transitionName: 'fade', transitionEnterTimeout: 250, transitionLeaveTimeout: 250 },
-	        nestedContent
+	        nestedContent,
+	        backToTop
 	      )
 	    );
 	  }

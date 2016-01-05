@@ -28,14 +28,6 @@ module.exports = React.createClass({
       success: (response) => {
         var newBeers  = response.data;
         var breweries = response.included;
-
-        // TODO: remove this for production. maybe we can orchestrate webpack to handle this for us.
-        if (newBeers.length > 0) {
-          console.log(`Beers found: ${newBeers.length} | first id: ${newBeers[0].id} | last id: ${newBeers[newBeers.length-1].id}`);
-        } else {
-          console.log(`Beers found: 0`);
-        }
-
         this.setState({ beers: newBeers, breweries: breweries, resultsLoading: false });
       },
 
@@ -60,6 +52,24 @@ module.exports = React.createClass({
     this.setState({ windowWidth: window.innerWidth });
   },
 
+  handleSearchSubmit(e) {
+    e.preventDefault();
+    var term = this.refs.query.value;
+    this.setState({ resultsLoading: true });
+    this.props.apiRequest({
+      url: 'search',
+      method: 'get',
+      data: {term: term},
+      success: (response)=> {
+        var newBeers  = response.data;
+        var breweries = response.included;
+        this.setState({ beers: newBeers, breweries: breweries, resultsLoading: false, searchTerm: term });
+      }
+    });
+
+    this.refs.query.value = "";
+  },
+
   componentDidMount() {
      window.addEventListener('resize', this.resizeThrottler);
   },
@@ -82,9 +92,10 @@ module.exports = React.createClass({
     console.log("flavour_map_index render()");
     var loading = this.state.resultsLoading;
     var classes = ["center-block","img","img-thumbnail"];
-    if (this.state.windowWidth >= this.MEDIA_QUERY_MEDIUM) {
-      classes.push("fixed");
-    }
+    // disabled the fixed flavour map when the search bar was added
+    // if (this.state.windowWidth >= this.MEDIA_QUERY_MEDIUM) {
+    //   classes.push("fixed");
+    // }
 
     // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
     return (
@@ -97,9 +108,25 @@ module.exports = React.createClass({
             onDragStop={this.handleDragStop}
             targetPos={{x: 6, y: 6}}
             />
+          <br />
+          <p className="text-center italicize lighter">or, search by name:</p>
+          <form onSubmit={this.handleSearchSubmit}>
+            <div className="form-group">
+              <input type="text" name="query" ref="query" className="form-control" />
+            </div>
+            <div className="form-group text-center">
+              <input className="btn btn-default" type="submit" value="SEARCH" />
+            </div>
+          </form>
         </div>
         <div className="col-sm-6">
-          <BeerList loading={loading} beers={this.state.beers} breweries={this.state.breweries} onNavigation={this.handleNavigation} />
+          <BeerList
+            loading={loading}
+            beers={this.state.beers}
+            breweries={this.state.breweries}
+            onNavigation={this.handleNavigation}
+            searchTerm={this.state.searchTerm}
+            />
         </div>
       </div>
     );

@@ -34,8 +34,9 @@ module.exports = React.createClass({
       <div>
         <div id="navbar-dimmer" onClick={this.handleMenuClick} className={style}></div>
         <nav className="hoppist-header">
-          <h1 className="branded" onClick={this.handleMenuClick}>...</h1>
-          <h2 className="branded">HOPPIST</h2>
+          {/*<h1 className="nav-button branded" onClick={this.handleMenuClick}>...</h1>*/}
+          <h1 className="branded text-center">HOPPIST</h1>
+          <h3 className="lighter italicize text-center flush-with-top">Discover great craft beer.</h3>
           <div className="flourish">
             <hr />
             <img src="/images/hoppist-vector.svg" draggable={false}/>
