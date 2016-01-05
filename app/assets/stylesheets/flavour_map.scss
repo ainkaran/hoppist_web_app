@@ -7,6 +7,11 @@
 
 #flavour-map-embedded {
   display:                   block;
+  /* NOTE: since react-draggable is set to restrict bounds to the parent,
+     the position of this must be explicitly specified; otherwise, it will
+     continue looking up the DOM for the first element it finds with
+     relative or absolute positioning. */
+  position:                  relative;
 
   &.fixed {
     position:                fixed;
