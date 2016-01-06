@@ -4,7 +4,7 @@ class Api::BaseController < ActionController::API
   def current_user
     # TODO: adding a serializer for this, either implicitly or explicitly, causes
     # a stack overflow. why? is it b/c of the instance variable?
-    render json: @current_user, only: [:first_name, :last_name]
+    render json: @current_user, only: [:id, :first_name, :last_name]
   end
 
   private

@@ -17,7 +17,11 @@ module.exports = React.createClass({
 
   render() {
     var newReview;
-    if (this.state.showNewReviewForm) {
+    var currentUserReview = this.props.reviews.filter((review)=> {
+      return review.attributes.author_id === this.props.currentUser.id
+    });
+
+    if (this.state.showNewReviewForm && currentUserReview.length === 0) {
       if (this.props.signedIn) {
         newReview = (<ReviewFormInline
             beer={this.props.beer}

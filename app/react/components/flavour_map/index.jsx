@@ -14,6 +14,7 @@ module.exports = React.createClass({
              beers: [],
              breweries: [],
              flavourMapMaxWidth: 400,
+             querySearchHasFocus: false,
              resultsLoading: false,
              windowWidth: window.innerWidth }
   },
@@ -28,14 +29,6 @@ module.exports = React.createClass({
       success: (response) => {
         var newBeers  = response.data;
         var breweries = response.included;
-
-        // TODO: remove this for production. maybe we can orchestrate webpack to handle this for us.
-        if (newBeers.length > 0) {
-          console.log(`Beers found: ${newBeers.length} | first id: ${newBeers[0].id} | last id: ${newBeers[newBeers.length-1].id}`);
-        } else {
-          console.log(`Beers found: 0`);
-        }
-
         this.setState({ beers: newBeers, breweries: breweries, resultsLoading: false });
       },
 
@@ -60,6 +53,24 @@ module.exports = React.createClass({
     this.setState({ windowWidth: window.innerWidth });
   },
 
+  handleFormSubmit(ev) {
+    ev.preventDefault();
+  },
+
+  getSearch(term) {
+    this.setState({ resultsLoading: true });
+    this.props.apiRequest({
+      url: 'search',
+      method: 'get',
+      data: {term: term},
+      success: (response)=> {
+        var newBeers  = response.data;
+        var breweries = response.included;
+        this.setState({ beers: newBeers, breweries: breweries, resultsLoading: false, searchTerm: term });
+      }
+    });
+  },
+
   componentDidMount() {
      window.addEventListener('resize', this.resizeThrottler);
   },
@@ -78,13 +89,32 @@ module.exports = React.createClass({
     if (url) { this.props.history.push(url); }
   },
 
+  handleQueryEntry(ev) {
+    var currentQuery = this.refs.query.value;
+
+    /* TODO: tried using fat-arrow syntax here, but 'this' becomes Window. why? */
+    setTimeout(function(prevQuery) {
+      var currentQuery = this.refs.query.value;
+      if (currentQuery === prevQuery && currentQuery !== "") {
+        this.getSearch(currentQuery);
+      }
+    }.bind(this), 800, currentQuery);
+
+  },
+
+  toggleQueryInput() {
+    this.setState({ querySearchHasFocus: !this.state.querySearchHasFocus });
+  },
+
   render: function() {
     console.log("flavour_map_index render()");
     var loading = this.state.resultsLoading;
     var classes = ["center-block","img","img-thumbnail"];
-    if (this.state.windowWidth >= this.MEDIA_QUERY_MEDIUM) {
-      classes.push("fixed");
-    }
+    var placeholder = this.state.querySearchHasFocus ? "" : "or, search by beer/brewery:";
+    // disabled the fixed flavour map when the search bar was added
+    // if (this.state.windowWidth >= this.MEDIA_QUERY_MEDIUM) {
+    //   classes.push("fixed");
+    // }
 
     // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
     return (
@@ -97,9 +127,39 @@ module.exports = React.createClass({
             onDragStop={this.handleDragStop}
             targetPos={{x: 6, y: 6}}
             />
+          <br />
+          {/*<p className="text-center italicize lighter">or, search by beer/brewery:</p>*/}
+
+        {/* Beer name search form */}
+          <form onSubmit={this.handleFormSubmit} className="center-block" style={{maxWidth: this.state.flavourMapMaxWidth}}>
+            <div className="form-group">
+              <input
+                className="form-control"
+                name="query"
+                onBlur={this.toggleQueryInput}
+                onFocus={this.toggleQueryInput}
+                onChange={this.handleQueryEntry}
+                placeholder={placeholder}
+                ref="query"
+                type="text"
+                />
+            </div>
+            {/*
+            <div className="form-group text-center">
+              <input className="btn btn-default" type="submit" value="SEARCH" />
+            </div>
+            */}
+          </form>
+
         </div>
         <div className="col-sm-6">
-          <BeerList loading={loading} beers={this.state.beers} breweries={this.state.breweries} onNavigation={this.handleNavigation} />
+          <BeerList
+            loading={loading}
+            beers={this.state.beers}
+            breweries={this.state.breweries}
+            onNavigation={this.handleNavigation}
+            searchTerm={this.state.searchTerm}
+            />
         </div>
       </div>
     );

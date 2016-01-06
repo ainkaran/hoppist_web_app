@@ -35,11 +35,11 @@ ReactDOM.render((
   <Router history={createBrowserHistory()}>
     <Redirect from="/" to="/ui" />
     <Route path="/ui" component={App}>
-      <IndexRoute component={HomePageGuest} />
+      <IndexRoute component={FlavourMapIndex} />
       <Route path="sign_in" component={SignInPage} />
       <Route path="beers" component={BeerIndex} />
       <Route path="beers/:id" component={BeerShow}>
-        <IndexRoute component={BeerShowFlavourMap} />
+        <IndexRoute component={BeerShowReviews} />
         <Route path="flavour-map" component={BeerShowFlavourMap} />
         <Route path="reviews" component={BeerShowReviews} />
       </Route>
@@ -48,9 +48,10 @@ ReactDOM.render((
 
 
 
-      {/* TEST ROUTES */}
+      {/* TEST ROUTES
       <Route path="styleguide" component={StyleGuide} />
       <Route path="styleguide/beer-show" component={BeerShow} />
+      */}
 
   </Route>
   </Router>

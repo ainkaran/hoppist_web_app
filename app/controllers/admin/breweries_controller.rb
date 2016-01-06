@@ -43,6 +43,6 @@ class Admin::BreweriesController < Admin::BaseController
   end
 
   def brewery_params
-    params.require(:brewery).permit([:name, :description])
+    params.require(:brewery).permit([:name, :description, :url])
   end
 end

@@ -35,7 +35,7 @@ module.exports = React.createClass({
     var beerImgUrl = this.props.beer.images ? `${this.props.beer.images.label_image.beer_card.url}` : null;
 
     return (
-      <div className="beer-card clearfix" onClick={this.handleClick}>
+      <div className="beer-card clearfix" onClick={this.handleClick} style={{cursor:"pointer"}}>
 
         <div className="col-image">
           <div className="img-thumbnail beer-thumb">

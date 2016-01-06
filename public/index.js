@@ -83,19 +83,17 @@
 	  React.createElement(
 	    Route,
 	    { path: '/ui', component: App },
-	    React.createElement(IndexRoute, { component: HomePageGuest }),
+	    React.createElement(IndexRoute, { component: FlavourMapIndex }),
 	    React.createElement(Route, { path: 'sign_in', component: SignInPage }),
 	    React.createElement(Route, { path: 'beers', component: BeerIndex }),
 	    React.createElement(
 	      Route,
 	      { path: 'beers/:id', component: BeerShow },
-	      React.createElement(IndexRoute, { component: BeerShowFlavourMap }),
+	      React.createElement(IndexRoute, { component: BeerShowReviews }),
 	      React.createElement(Route, { path: 'flavour-map', component: BeerShowFlavourMap }),
 	      React.createElement(Route, { path: 'reviews', component: BeerShowReviews })
 	    ),
-	    React.createElement(Route, { path: 'flavour-map', component: FlavourMapIndex }),
-	    React.createElement(Route, { path: 'styleguide', component: StyleGuide }),
-	    React.createElement(Route, { path: 'styleguide/beer-show', component: BeerShow })
+	    React.createElement(Route, { path: 'flavour-map', component: FlavourMapIndex })
 	  )
 	), document.getElementById('container'));
 
@@ -33815,11 +33813,6 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'app' },
-	      React.createElement(
-	        'div',
-	        { className: 'beta-badge', style: betaBadgeStyle },
-	        'Heads up - we\'re still in beta! Not all features are functional at the moment.'
-	      ),
 	      React.createElement(HeaderNavbar, {
 	        signedIn: this.state.signedIn,
 	        currentUser: this.state.currentUser }),
@@ -33921,13 +33914,17 @@
 	        { className: 'hoppist-header' },
 	        React.createElement(
 	          'h1',
-	          { className: 'branded', onClick: this.handleMenuClick },
-	          '...'
+	          { className: 'branded text-center' },
+	          React.createElement(
+	            Link,
+	            { to: '/' },
+	            'HOPPIST'
+	          )
 	        ),
 	        React.createElement(
-	          'h2',
-	          { className: 'branded' },
-	          'HOPPIST'
+	          'h3',
+	          { className: 'lighter italicize text-center flush-with-top' },
+	          'Discover great craft beer.'
 	        ),
 	        React.createElement(
 	          'div',
@@ -35165,7 +35162,7 @@
 	  displayName: 'BeerShow',
 
 	  getInitialState: function getInitialState() {
-	    return { beer: {}, brewery: {} };
+	    return { beer: {}, brewery: {}, reviews: [] };
 	  },
 	  componentDidMount: function componentDidMount() {
 	    this.getBeer(this.props.params.id);
@@ -35205,12 +35202,16 @@
 	  hydrateBeerData: function hydrateBeerData(response) {
 	    var beer = response.data.attributes;
 	    beer.id = response.data.id;
-	    var brewery = { id: response.data.relationships.brewery.data.id,
-	      name: response.included[0].attributes.name
-	    };
+	    var breweries = response.included.filter(function (el) {
+	      return el.type === "breweries";
+	    });
 	    var reviews = response.included.filter(function (el) {
 	      return el.type === "reviews";
 	    });
+	    var brewery = { id: response.data.relationships.brewery.data.id,
+	      name: breweries[0].attributes.name,
+	      url: breweries[0].attributes.url
+	    };
 
 	    this.setState({
 	      beer: beer,
@@ -35299,10 +35300,11 @@
 	            ),
 	            React.createElement(
 	              'h4',
-	              null,
+	              { className: 'lighter' },
+	              'by ',
 	              React.createElement(
-	                Link,
-	                { to: '/ui/breweries/' + this.state.brewery.id },
+	                'a',
+	                { href: this.state.brewery.url },
 	                this.state.brewery.name
 	              )
 	            ),
@@ -35316,20 +35318,6 @@
 	            rating: this.state.beer.avg_star_rating,
 	            numReviews: this.state.beer.num_reviews }),
 	          additionalAttributes
-	        ),
-	        React.createElement(
-	          'div',
-	          { id: 'beer-show-header-actions' },
-	          React.createElement(
-	            Link,
-	            { to: '/ui/beers/' + beerId + '/reviews', className: 'btn btn-tabby' },
-	            'review'
-	          ),
-	          React.createElement(
-	            'button',
-	            { href: '#', className: 'btn btn-tabby' },
-	            'add'
-	          )
 	        )
 	      ),
 	      React.createElement(
@@ -35339,17 +35327,8 @@
 	          'li',
 	          null,
 	          React.createElement(
-	            Link,
-	            { to: '/ui/beers/' + beerId + '/flavour-map', activeClassName: "active" },
-	            'Flavour Map'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            Link,
-	            { to: '/ui/beers/' + beerId + '/reviews', activeClassName: "active" },
+	            'a',
+	            { className: 'active' },
 	            'Reviews'
 	          )
 	        )
@@ -35384,8 +35363,14 @@
 	    this.setState({ showNewReviewForm: false });
 	  },
 	  render: function render() {
+	    var _this = this;
+
 	    var newReview;
-	    if (this.state.showNewReviewForm) {
+	    var currentUserReview = this.props.reviews.filter(function (review) {
+	      return review.attributes.author_id === _this.props.currentUser.id;
+	    });
+
+	    if (this.state.showNewReviewForm && currentUserReview.length === 0) {
 	      if (this.props.signedIn) {
 	        newReview = React.createElement(ReviewFormInline, {
 	          beer: this.props.beer,
@@ -37600,6 +37585,7 @@
 	      beers: [],
 	      breweries: [],
 	      flavourMapMaxWidth: 400,
+	      querySearchHasFocus: false,
 	      resultsLoading: false,
 	      windowWidth: window.innerWidth };
 	  },
@@ -37614,14 +37600,6 @@
 	      success: function success(response) {
 	        var newBeers = response.data;
 	        var breweries = response.included;
-
-	        // TODO: remove this for production. maybe we can orchestrate webpack to handle this for us.
-	        if (newBeers.length > 0) {
-	          console.log('Beers found: ' + newBeers.length + ' | first id: ' + newBeers[0].id + ' | last id: ' + newBeers[newBeers.length - 1].id);
-	        } else {
-	          console.log('Beers found: 0');
-	        }
-
 	        _this.setState({ beers: newBeers, breweries: breweries, resultsLoading: false });
 	      },
 
@@ -37645,6 +37623,24 @@
 	  handleResize: function handleResize() {
 	    this.setState({ windowWidth: window.innerWidth });
 	  },
+	  handleFormSubmit: function handleFormSubmit(ev) {
+	    ev.preventDefault();
+	  },
+	  getSearch: function getSearch(term) {
+	    var _this3 = this;
+
+	    this.setState({ resultsLoading: true });
+	    this.props.apiRequest({
+	      url: 'search',
+	      method: 'get',
+	      data: { term: term },
+	      success: function success(response) {
+	        var newBeers = response.data;
+	        var breweries = response.included;
+	        _this3.setState({ beers: newBeers, breweries: breweries, resultsLoading: false, searchTerm: term });
+	      }
+	    });
+	  },
 	  componentDidMount: function componentDidMount() {
 	    window.addEventListener('resize', this.resizeThrottler);
 	  },
@@ -37661,14 +37657,30 @@
 	      this.props.history.push(url);
 	    }
 	  },
+	  handleQueryEntry: function handleQueryEntry(ev) {
+	    var currentQuery = this.refs.query.value;
+
+	    /* TODO: tried using fat-arrow syntax here, but 'this' becomes Window. why? */
+	    setTimeout((function (prevQuery) {
+	      var currentQuery = this.refs.query.value;
+	      if (currentQuery === prevQuery && currentQuery !== "") {
+	        this.getSearch(currentQuery);
+	      }
+	    }).bind(this), 800, currentQuery);
+	  },
+	  toggleQueryInput: function toggleQueryInput() {
+	    this.setState({ querySearchHasFocus: !this.state.querySearchHasFocus });
+	  },
 
 	  render: function render() {
 	    console.log("flavour_map_index render()");
 	    var loading = this.state.resultsLoading;
 	    var classes = ["center-block", "img", "img-thumbnail"];
-	    if (this.state.windowWidth >= this.MEDIA_QUERY_MEDIUM) {
-	      classes.push("fixed");
-	    }
+	    var placeholder = this.state.querySearchHasFocus ? "" : "or, search by beer/brewery:";
+	    // disabled the fixed flavour map when the search bar was added
+	    // if (this.state.windowWidth >= this.MEDIA_QUERY_MEDIUM) {
+	    //   classes.push("fixed");
+	    // }
 
 	    // TODO: 1.6 is the current aspect ratio of the flavour map; refactor this magic number
 	    return React.createElement(
@@ -37683,12 +37695,37 @@
 	          maxWidth: this.state.flavourMapMaxWidth,
 	          onDragStop: this.handleDragStop,
 	          targetPos: { x: 6, y: 6 }
-	        })
+	        }),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.handleFormSubmit, className: 'center-block', style: { maxWidth: this.state.flavourMapMaxWidth } },
+	          React.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            React.createElement('input', {
+	              className: 'form-control',
+	              name: 'query',
+	              onBlur: this.toggleQueryInput,
+	              onFocus: this.toggleQueryInput,
+	              onChange: this.handleQueryEntry,
+	              placeholder: placeholder,
+	              ref: 'query',
+	              type: 'text'
+	            })
+	          )
+	        )
 	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'col-sm-6' },
-	        React.createElement(BeerList, { loading: loading, beers: this.state.beers, breweries: this.state.breweries, onNavigation: this.handleNavigation })
+	        React.createElement(BeerList, {
+	          loading: loading,
+	          beers: this.state.beers,
+	          breweries: this.state.breweries,
+	          onNavigation: this.handleNavigation,
+	          searchTerm: this.state.searchTerm
+	        })
 	      )
 	    );
 	  }
@@ -37708,7 +37745,8 @@
 	var ReactCSSTransitionGroup = __webpack_require__(235);
 
 	module.exports = React.createClass({
-	  displayName: 'exports',
+	  displayName: "FlavourMapBeerList",
+
 	  getInitialState: function getInitialState() {
 	    return { display: "intro", beers: [], breweries: [] };
 	  },
@@ -37739,30 +37777,65 @@
 	        onNavigation: _this.props.onNavigation });
 	    });
 
-	    var beerList = React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'p',
-	        { className: 'text-center lighter' },
+	    var beerList;
+	    if (this.props.searchTerm) {
+	      beerList = React.createElement(
+	        'div',
+	        null,
 	        React.createElement(
-	          'em',
-	          null,
-	          'found ',
-	          this.props.beers.length,
-	          ' beers:'
-	        )
-	      ),
-	      beerNodes
-	    );
+	          'p',
+	          { className: 'text-center lighter' },
+	          React.createElement(
+	            'em',
+	            null,
+	            'found ',
+	            this.props.beers.length,
+	            ' beers matching \'',
+	            this.props.searchTerm,
+	            '\':'
+	          )
+	        ),
+	        beerNodes
+	      );
+	    } else {
+	      beerList = React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'p',
+	          { className: 'text-center lighter' },
+	          React.createElement(
+	            'em',
+	            null,
+	            'found ',
+	            this.props.beers.length,
+	            ' beers:'
+	          )
+	        ),
+	        beerNodes
+	      );
+	    }
 
 	    var nestedContent;
+	    var backToTop;
+
 	    switch (this.state.display) {
 	      case "intro":
 	        nestedContent = React.createElement(BeerListIntro, { key: 'intro' });
 	        break;
 	      case "beerList":
 	        nestedContent = beerList;
+	        if (this.props.beers.length > 10) {
+	          backToTop = React.createElement(
+	            'p',
+	            { className: 'text-center lighter italicize' },
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'back to top'
+	            )
+	          );
+	        }
 	        break;
 	      case "noBeers":
 	        nestedContent = React.createElement(NoBeers, { key: 'nobeers' });
@@ -37775,10 +37848,12 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'beer-list' },
+	      React.createElement('hr', { className: 'visible-xs' }),
 	      React.createElement(
 	        ReactCSSTransitionGroup,
 	        { transitionName: 'fade', transitionEnterTimeout: 250, transitionLeaveTimeout: 250 },
-	        nestedContent
+	        nestedContent,
+	        backToTop
 	      )
 	    );
 	  }
@@ -37827,7 +37902,7 @@
 
 	    return React.createElement(
 	      'div',
-	      { className: 'beer-card clearfix', onClick: this.handleClick },
+	      { className: 'beer-card clearfix', onClick: this.handleClick, style: { cursor: "pointer" } },
 	      React.createElement(
 	        'div',
 	        { className: 'col-image' },
