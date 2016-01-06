@@ -122,7 +122,7 @@ module.exports = React.createClass({
             targetPos={{x: 6, y: 6}}
             />
           <br />
-          <p className="text-center italicize lighter">or, search by name:</p>
+          <p className="text-center italicize lighter">or, search by beer/brewery:</p>
 
         {/* Beer name search form */}
           <form onSubmit={this.handleFormSubmit} className="center-block" style={{maxWidth: this.state.flavourMapMaxWidth}}>

@@ -37705,7 +37705,7 @@
 	        React.createElement(
 	          'p',
 	          { className: 'text-center italicize lighter' },
-	          'or, search by name:'
+	          'or, search by beer/brewery:'
 	        ),
 	        React.createElement(
 	          'form',
