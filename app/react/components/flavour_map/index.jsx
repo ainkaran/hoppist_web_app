@@ -14,6 +14,7 @@ module.exports = React.createClass({
              beers: [],
              breweries: [],
              flavourMapMaxWidth: 400,
+             querySearchHasFocus: false,
              resultsLoading: false,
              windowWidth: window.innerWidth }
   },
@@ -101,10 +102,15 @@ module.exports = React.createClass({
 
   },
 
+  toggleQueryInput() {
+    this.setState({ querySearchHasFocus: !this.state.querySearchHasFocus });
+  },
+
   render: function() {
     console.log("flavour_map_index render()");
     var loading = this.state.resultsLoading;
     var classes = ["center-block","img","img-thumbnail"];
+    var placeholder = this.state.querySearchHasFocus ? "" : "or, search by beer/brewery:";
     // disabled the fixed flavour map when the search bar was added
     // if (this.state.windowWidth >= this.MEDIA_QUERY_MEDIUM) {
     //   classes.push("fixed");
@@ -122,12 +128,21 @@ module.exports = React.createClass({
             targetPos={{x: 6, y: 6}}
             />
           <br />
-          <p className="text-center italicize lighter">or, search by beer/brewery:</p>
+          {/*<p className="text-center italicize lighter">or, search by beer/brewery:</p>*/}
 
         {/* Beer name search form */}
           <form onSubmit={this.handleFormSubmit} className="center-block" style={{maxWidth: this.state.flavourMapMaxWidth}}>
             <div className="form-group">
-              <input type="text" name="query" ref="query" onChange={this.handleQueryEntry} className="form-control" />
+              <input
+                className="form-control"
+                name="query"
+                onBlur={this.toggleQueryInput}
+                onFocus={this.toggleQueryInput}
+                onChange={this.handleQueryEntry}
+                placeholder={placeholder}
+                ref="query"
+                type="text"
+                />
             </div>
             {/*
             <div className="form-group text-center">

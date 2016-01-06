@@ -52,10 +52,12 @@ module.exports = React.createClass({
   hydrateBeerData(response) {
     var beer      = response.data.attributes;
     beer.id       = response.data.id;
+    var breweries = response.included.filter((el)=> { return el.type === "breweries" });
+    var reviews   = response.included.filter((el)=> { return el.type === "reviews"   });
     var brewery   = { id:   response.data.relationships.brewery.data.id,
-                      name: response.included[0].attributes.name
+                      name: breweries[0].attributes.name,
+                      url:  breweries[0].attributes.url
                     };
-    var reviews   = response.included.filter((el)=> { return el.type === "reviews" });
 
     this.setState({
       beer: beer,
@@ -130,9 +132,7 @@ module.exports = React.createClass({
                 {this.state.beer.name}
               </h2>
               <h4>
-                <Link to={`/ui/breweries/${this.state.brewery.id}`}>
-                  {this.state.brewery.name}
-                </Link>
+                by <a href={this.state.brewery.url}>{this.state.brewery.name}</a>
               </h4>
               <p className="indent italicize lighter">
                 {vitalAttributes}
@@ -143,17 +143,10 @@ module.exports = React.createClass({
               numReviews={this.state.beer.num_reviews} />
             {additionalAttributes}
           </div>
-          <div id="beer-show-header-actions">
-            <Link to={`/ui/beers/${beerId}/reviews`} className="btn btn-tabby">review</Link>
-            <button href="#" className="btn btn-tabby">add</button>
-          </div>
         </div>
 
         <ul className="nav nav-tabs">
-          {/* TODO: figure out a good way to abstract these URLs, maybe with some Rails-style link helpers */}
-          {/* TODO: fix the case of the stuck hover state on these tabs */}
-          <li><Link to={`/ui/beers/${beerId}/flavour-map`} activeClassName={"active"}>Flavour Map</Link></li>
-          <li><Link to={`/ui/beers/${beerId}/reviews`} activeClassName={"active"}>Reviews</Link></li>
+          <li><a className="active">Reviews</a></li>
         </ul>
 
         <div id="nested-content">

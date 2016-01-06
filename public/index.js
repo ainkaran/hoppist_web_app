@@ -83,19 +83,17 @@
 	  React.createElement(
 	    Route,
 	    { path: '/ui', component: App },
-	    React.createElement(IndexRoute, { component: HomePageGuest }),
+	    React.createElement(IndexRoute, { component: FlavourMapIndex }),
 	    React.createElement(Route, { path: 'sign_in', component: SignInPage }),
 	    React.createElement(Route, { path: 'beers', component: BeerIndex }),
 	    React.createElement(
 	      Route,
 	      { path: 'beers/:id', component: BeerShow },
-	      React.createElement(IndexRoute, { component: BeerShowFlavourMap }),
+	      React.createElement(IndexRoute, { component: BeerShowReviews }),
 	      React.createElement(Route, { path: 'flavour-map', component: BeerShowFlavourMap }),
 	      React.createElement(Route, { path: 'reviews', component: BeerShowReviews })
 	    ),
-	    React.createElement(Route, { path: 'flavour-map', component: FlavourMapIndex }),
-	    React.createElement(Route, { path: 'styleguide', component: StyleGuide }),
-	    React.createElement(Route, { path: 'styleguide/beer-show', component: BeerShow })
+	    React.createElement(Route, { path: 'flavour-map', component: FlavourMapIndex })
 	  )
 	), document.getElementById('container'));
 
@@ -35200,12 +35198,16 @@
 	  hydrateBeerData: function hydrateBeerData(response) {
 	    var beer = response.data.attributes;
 	    beer.id = response.data.id;
-	    var brewery = { id: response.data.relationships.brewery.data.id,
-	      name: response.included[0].attributes.name
-	    };
+	    var breweries = response.included.filter(function (el) {
+	      return el.type === "breweries";
+	    });
 	    var reviews = response.included.filter(function (el) {
 	      return el.type === "reviews";
 	    });
+	    var brewery = { id: response.data.relationships.brewery.data.id,
+	      name: breweries[0].attributes.name,
+	      url: breweries[0].attributes.url
+	    };
 
 	    this.setState({
 	      beer: beer,
@@ -35295,9 +35297,10 @@
 	            React.createElement(
 	              'h4',
 	              null,
+	              'by ',
 	              React.createElement(
-	                Link,
-	                { to: '/ui/breweries/' + this.state.brewery.id },
+	                'a',
+	                { href: this.state.brewery.url },
 	                this.state.brewery.name
 	              )
 	            ),
@@ -35311,20 +35314,6 @@
 	            rating: this.state.beer.avg_star_rating,
 	            numReviews: this.state.beer.num_reviews }),
 	          additionalAttributes
-	        ),
-	        React.createElement(
-	          'div',
-	          { id: 'beer-show-header-actions' },
-	          React.createElement(
-	            Link,
-	            { to: '/ui/beers/' + beerId + '/reviews', className: 'btn btn-tabby' },
-	            'review'
-	          ),
-	          React.createElement(
-	            'button',
-	            { href: '#', className: 'btn btn-tabby' },
-	            'add'
-	          )
 	        )
 	      ),
 	      React.createElement(
@@ -35334,17 +35323,8 @@
 	          'li',
 	          null,
 	          React.createElement(
-	            Link,
-	            { to: '/ui/beers/' + beerId + '/flavour-map', activeClassName: "active" },
-	            'Flavour Map'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            Link,
-	            { to: '/ui/beers/' + beerId + '/reviews', activeClassName: "active" },
+	            'a',
+	            { className: 'active' },
 	            'Reviews'
 	          )
 	        )
@@ -37595,6 +37575,7 @@
 	      beers: [],
 	      breweries: [],
 	      flavourMapMaxWidth: 400,
+	      querySearchHasFocus: false,
 	      resultsLoading: false,
 	      windowWidth: window.innerWidth };
 	  },
@@ -37677,11 +37658,15 @@
 	      }
 	    }).bind(this), 800, currentQuery);
 	  },
+	  toggleQueryInput: function toggleQueryInput() {
+	    this.setState({ querySearchHasFocus: !this.state.querySearchHasFocus });
+	  },
 
 	  render: function render() {
 	    console.log("flavour_map_index render()");
 	    var loading = this.state.resultsLoading;
 	    var classes = ["center-block", "img", "img-thumbnail"];
+	    var placeholder = this.state.querySearchHasFocus ? "" : "or, search by beer/brewery:";
 	    // disabled the fixed flavour map when the search bar was added
 	    // if (this.state.windowWidth >= this.MEDIA_QUERY_MEDIUM) {
 	    //   classes.push("fixed");
@@ -37703,17 +37688,21 @@
 	        }),
 	        React.createElement('br', null),
 	        React.createElement(
-	          'p',
-	          { className: 'text-center italicize lighter' },
-	          'or, search by beer/brewery:'
-	        ),
-	        React.createElement(
 	          'form',
 	          { onSubmit: this.handleFormSubmit, className: 'center-block', style: { maxWidth: this.state.flavourMapMaxWidth } },
 	          React.createElement(
 	            'div',
 	            { className: 'form-group' },
-	            React.createElement('input', { type: 'text', name: 'query', ref: 'query', onChange: this.handleQueryEntry, className: 'form-control' })
+	            React.createElement('input', {
+	              className: 'form-control',
+	              name: 'query',
+	              onBlur: this.toggleQueryInput,
+	              onFocus: this.toggleQueryInput,
+	              onChange: this.handleQueryEntry,
+	              placeholder: placeholder,
+	              ref: 'query',
+	              type: 'text'
+	            })
 	          )
 	        )
 	      ),
