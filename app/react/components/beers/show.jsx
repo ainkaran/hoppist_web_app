@@ -131,7 +131,7 @@ module.exports = React.createClass({
               <h2 className="flush-with-top">
                 {this.state.beer.name}
               </h2>
-              <h4>
+              <h4 className="lighter">
                 by <a href={this.state.brewery.url}>{this.state.brewery.name}</a>
               </h4>
               <p className="indent italicize lighter">

@@ -35300,7 +35300,7 @@
 	            ),
 	            React.createElement(
 	              'h4',
-	              null,
+	              { className: 'lighter' },
 	              'by ',
 	              React.createElement(
 	                'a',
