@@ -37632,11 +37632,12 @@
 	  handleResize: function handleResize() {
 	    this.setState({ windowWidth: window.innerWidth });
 	  },
-	  handleSearchSubmit: function handleSearchSubmit(e) {
+	  handleFormSubmit: function handleFormSubmit(ev) {
+	    ev.preventDefault();
+	  },
+	  getSearch: function getSearch(term) {
 	    var _this3 = this;
 
-	    e.preventDefault();
-	    var term = this.refs.query.value;
 	    this.setState({ resultsLoading: true });
 	    this.props.apiRequest({
 	      url: 'search',
@@ -37648,8 +37649,6 @@
 	        _this3.setState({ beers: newBeers, breweries: breweries, resultsLoading: false, searchTerm: term });
 	      }
 	    });
-
-	    this.refs.query.value = "";
 	  },
 	  componentDidMount: function componentDidMount() {
 	    window.addEventListener('resize', this.resizeThrottler);
@@ -37666,6 +37665,17 @@
 	    if (url) {
 	      this.props.history.push(url);
 	    }
+	  },
+	  handleQueryEntry: function handleQueryEntry(ev) {
+	    var currentQuery = this.refs.query.value;
+
+	    /* TODO: tried using fat-arrow syntax here, but 'this' becomes Window. why? */
+	    setTimeout((function (prevQuery) {
+	      var currentQuery = this.refs.query.value;
+	      if (currentQuery === prevQuery && currentQuery !== "") {
+	        this.getSearch(currentQuery);
+	      }
+	    }).bind(this), 800, currentQuery);
 	  },
 
 	  render: function render() {
@@ -37699,11 +37709,11 @@
 	        ),
 	        React.createElement(
 	          'form',
-	          { onSubmit: this.handleSearchSubmit, className: 'center-block', style: { maxWidth: this.state.flavourMapMaxWidth } },
+	          { onSubmit: this.handleFormSubmit, className: 'center-block', style: { maxWidth: this.state.flavourMapMaxWidth } },
 	          React.createElement(
 	            'div',
 	            { className: 'form-group' },
-	            React.createElement('input', { type: 'text', name: 'query', ref: 'query', className: 'form-control' })
+	            React.createElement('input', { type: 'text', name: 'query', ref: 'query', onChange: this.handleQueryEntry, className: 'form-control' })
 	          )
 	        )
 	      ),

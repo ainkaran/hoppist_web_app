@@ -52,9 +52,11 @@ module.exports = React.createClass({
     this.setState({ windowWidth: window.innerWidth });
   },
 
-  handleSearchSubmit(e) {
-    e.preventDefault();
-    var term = this.refs.query.value;
+  handleFormSubmit(ev) {
+    ev.preventDefault();
+  },
+
+  getSearch(term) {
     this.setState({ resultsLoading: true });
     this.props.apiRequest({
       url: 'search',
@@ -66,8 +68,6 @@ module.exports = React.createClass({
         this.setState({ beers: newBeers, breweries: breweries, resultsLoading: false, searchTerm: term });
       }
     });
-
-    this.refs.query.value = "";
   },
 
   componentDidMount() {
@@ -86,6 +86,19 @@ module.exports = React.createClass({
   handleNavigation(params) {
     var url = params["url"];
     if (url) { this.props.history.push(url); }
+  },
+
+  handleQueryEntry(ev) {
+    var currentQuery = this.refs.query.value;
+
+    /* TODO: tried using fat-arrow syntax here, but 'this' becomes Window. why? */
+    setTimeout(function(prevQuery) {
+      var currentQuery = this.refs.query.value;
+      if (currentQuery === prevQuery && currentQuery !== "") {
+        this.getSearch(currentQuery);
+      }
+    }.bind(this), 800, currentQuery);
+
   },
 
   render: function() {
@@ -112,9 +125,9 @@ module.exports = React.createClass({
           <p className="text-center italicize lighter">or, search by name:</p>
 
         {/* Beer name search form */}
-          <form onSubmit={this.handleSearchSubmit} className="center-block" style={{maxWidth: this.state.flavourMapMaxWidth}}>
+          <form onSubmit={this.handleFormSubmit} className="center-block" style={{maxWidth: this.state.flavourMapMaxWidth}}>
             <div className="form-group">
-              <input type="text" name="query" ref="query" className="form-control" />
+              <input type="text" name="query" ref="query" onChange={this.handleQueryEntry} className="form-control" />
             </div>
             {/*
             <div className="form-group text-center">
