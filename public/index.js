@@ -37902,7 +37902,7 @@
 
 	    return React.createElement(
 	      'div',
-	      { className: 'beer-card clearfix', onClick: this.handleClick },
+	      { className: 'beer-card clearfix', onClick: this.handleClick, style: { cursor: "pointer" } },
 	      React.createElement(
 	        'div',
 	        { className: 'col-image' },
