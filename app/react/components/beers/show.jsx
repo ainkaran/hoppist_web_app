@@ -10,7 +10,7 @@ module.exports = React.createClass({
   displayName: 'BeerShow',
 
   getInitialState() {
-    return { beer: {}, brewery: {} }
+    return { beer: {}, brewery: {}, reviews: [] }
   },
 
   componentDidMount() {

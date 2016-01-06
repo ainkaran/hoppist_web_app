@@ -35158,7 +35158,7 @@
 	  displayName: 'BeerShow',
 
 	  getInitialState: function getInitialState() {
-	    return { beer: {}, brewery: {} };
+	    return { beer: {}, brewery: {}, reviews: [] };
 	  },
 	  componentDidMount: function componentDidMount() {
 	    this.getBeer(this.props.params.id);
@@ -35359,8 +35359,14 @@
 	    this.setState({ showNewReviewForm: false });
 	  },
 	  render: function render() {
+	    var _this = this;
+
 	    var newReview;
-	    if (this.state.showNewReviewForm) {
+	    var currentUserReview = this.props.reviews.filter(function (review) {
+	      return review.attributes.author_id === _this.props.currentUser.id;
+	    });
+
+	    if (this.state.showNewReviewForm && currentUserReview.length === 0) {
 	      if (this.props.signedIn) {
 	        newReview = React.createElement(ReviewFormInline, {
 	          beer: this.props.beer,
