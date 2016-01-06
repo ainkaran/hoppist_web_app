@@ -33915,7 +33915,11 @@
 	        React.createElement(
 	          'h1',
 	          { className: 'branded text-center' },
-	          'HOPPIST'
+	          React.createElement(
+	            Link,
+	            { to: '/' },
+	            'HOPPIST'
+	          )
 	        ),
 	        React.createElement(
 	          'h3',

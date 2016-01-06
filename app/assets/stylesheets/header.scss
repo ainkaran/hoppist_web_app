@@ -3,6 +3,10 @@ nav.hoppist-header {
   position:                  relative;
   margin-bottom:             15px;
 
+  h1.branded a:hover {
+    text-decoration:         none;
+  }
+
   /* ... */
   h1.nav-button {
     cursor:                  pointer;
