@@ -1,4 +1,5 @@
 class BrewerySerializer < ActiveModel::Serializer
   attributes :id,
-             :name
+             :name,
+             :url
 end
