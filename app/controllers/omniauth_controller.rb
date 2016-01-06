@@ -13,7 +13,7 @@ class OmniauthController < ApplicationController
       user.save
     end
 
-    jwt = JWT.encode({uid: user.uid, exp: 1.day.from_now.to_i}, Rails.application.secrets.secret_key_base)
+    jwt = JWT.encode({uid: user.uid, exp: 30.days.from_now.to_i}, Rails.application.secrets.secret_key_base)
     redirect_to "/?jwt=#{jwt}"
   end
 

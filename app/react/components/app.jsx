@@ -17,13 +17,13 @@ module.exports = React.createClass({
   componentWillMount() {
     var jwt = new Uri(location.search).getQueryParamValue('jwt');
     if (jwt) {
-      sessionStorage.setItem('jwt', jwt);
+      localStorage.setItem('jwt', jwt);
       this.setState({ displayFlash: true })
     }
   },
 
   componentDidMount() {
-    if (sessionStorage.getItem('jwt')) {
+    if (localStorage.getItem('jwt')) {
       this.getCurrentUser();
     }
   },
@@ -48,7 +48,7 @@ module.exports = React.createClass({
       method: method,
       type: 'json',
       data: data,
-      headers: {'Authorization': sessionStorage.getItem('jwt') },
+      headers: {'Authorization': localStorage.getItem('jwt') },
       success: success,
       error: error
     });
@@ -57,14 +57,22 @@ module.exports = React.createClass({
 
   getCurrentUser() {
     this.apiRequest({
-      url:     '/api/current_user',
+      url:     '/api/logged_in_user',
       method:  'get',
       success: (user) => {
         this.setState({
           signedIn: true,
-          currentUser: user
+          currentUser: user.data.attributes
         })
       }
+    })
+  },
+
+  handleLogOut() {
+    localStorage.removeItem('jwt');
+    this.setState({
+      signedIn: false,
+      currentUser: {}
     })
   },
 
@@ -90,14 +98,16 @@ module.exports = React.createClass({
           signedIn={this.state.signedIn}
           currentUser={this.state.currentUser}/>
 
-
-
         {React.cloneElement(this.props.children,
           {apiRequest:  this.apiRequest,
            signedIn: this.state.signedIn,
            currentUser: this.state.currentUser}
         )}
-        <Footer />
+
+        <Footer
+          signedIn={this.state.signedIn}
+          currentUser={this.state.currentUser}
+          logOut={this.handleLogOut}/>
       </div>
     );
   },

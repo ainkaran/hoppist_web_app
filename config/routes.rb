@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get  "/auth/:provider/callback", to: "omniauth#callback"
 
   namespace :api, defaults: { format: :json } do
-    get "current_user", to: "base#current_user"
+    get "logged_in_user", to: "base#logged_in_user"
 
     namespace :v1 do
       # This is a general-purpose search function. At the moment, it just searches

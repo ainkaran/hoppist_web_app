@@ -33742,12 +33742,12 @@
 	  componentWillMount: function componentWillMount() {
 	    var jwt = new Uri(location.search).getQueryParamValue('jwt');
 	    if (jwt) {
-	      sessionStorage.setItem('jwt', jwt);
+	      localStorage.setItem('jwt', jwt);
 	      this.setState({ displayFlash: true });
 	    }
 	  },
 	  componentDidMount: function componentDidMount() {
-	    if (sessionStorage.getItem('jwt')) {
+	    if (localStorage.getItem('jwt')) {
 	      this.getCurrentUser();
 	    }
 	  },
@@ -33773,7 +33773,7 @@
 	      method: method,
 	      type: 'json',
 	      data: data,
-	      headers: { 'Authorization': sessionStorage.getItem('jwt') },
+	      headers: { 'Authorization': localStorage.getItem('jwt') },
 	      success: success,
 	      error: error
 	    });
@@ -33782,14 +33782,21 @@
 	    var _this = this;
 
 	    this.apiRequest({
-	      url: '/api/current_user',
+	      url: '/api/logged_in_user',
 	      method: 'get',
 	      success: function success(user) {
 	        _this.setState({
 	          signedIn: true,
-	          currentUser: user
+	          currentUser: user.data.attributes
 	        });
 	      }
+	    });
+	  },
+	  handleLogOut: function handleLogOut() {
+	    localStorage.removeItem('jwt');
+	    this.setState({
+	      signedIn: false,
+	      currentUser: {}
 	    });
 	  },
 	  render: function render() {
@@ -33819,7 +33826,10 @@
 	      React.cloneElement(this.props.children, { apiRequest: this.apiRequest,
 	        signedIn: this.state.signedIn,
 	        currentUser: this.state.currentUser }),
-	      React.createElement(Footer, null)
+	      React.createElement(Footer, {
+	        signedIn: this.state.signedIn,
+	        currentUser: this.state.currentUser,
+	        logOut: this.handleLogOut })
 	    );
 	  }
 	});
@@ -33837,6 +33847,33 @@
 	  displayName: "Footer",
 
 	  render: function render() {
+
+	    var loginStatus;
+	    if (this.props.signedIn) {
+	      loginStatus = React.createElement(
+	        'p',
+	        null,
+	        'Logged in as ',
+	        this.props.currentUser.display_name,
+	        ' ',
+	        React.createElement(
+	          'a',
+	          { href: 'javascript:void(0)', onClick: this.props.logOut },
+	          'Log Out'
+	        )
+	      );
+	    } else {
+	      loginStatus = React.createElement(
+	        'p',
+	        null,
+	        React.createElement(
+	          Link,
+	          { to: '/ui/sign_in' },
+	          'Log In'
+	        )
+	      );
+	    }
+
 	    return React.createElement(
 	      'div',
 	      { className: 'row' },
@@ -33847,6 +33884,7 @@
 	        React.createElement(
 	          'div',
 	          null,
+	          loginStatus,
 	          React.createElement(
 	            'p',
 	            { style: { fontSize: "0.8em" } },
@@ -33858,7 +33896,12 @@
 	              { href: 'https://twitter.com/mctaylorpants' },
 	              '@mctaylorpants'
 	            ),
-	            '. All images copyright their respective owners. We\'re in beta right now; keep checking back for new and exciting updates!'
+	            '. All images copyright their respective owners.'
+	          ),
+	          React.createElement(
+	            'p',
+	            { style: { fontSize: "0.8em" } },
+	            'We\'re in beta right now; keep checking back for new and exciting updates!'
 	          )
 	        )
 	      )
