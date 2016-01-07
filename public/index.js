@@ -33739,11 +33739,22 @@
 	  getInitialState: function getInitialState() {
 	    return { displayFlash: false, signedIn: false, currentUser: {} };
 	  },
+	  componentWillReceiveProps: function componentWillReceiveProps() {
+	    /* stores the referring URL every time the location changes.
+	       this way we can capture the referring page during an auth cycle */
+	    window.urlReferrer = this.props.location;
+	    console.log("Setting referrer URL");
+	  },
 	  componentWillMount: function componentWillMount() {
 	    var jwt = new Uri(location.search).getQueryParamValue('jwt');
 	    if (jwt) {
 	      localStorage.setItem('jwt', jwt);
 	      this.setState({ displayFlash: true });
+
+	      if (sessionStorage.getItem('urlReferrer')) {
+	        this.props.history.push({ pathname: sessionStorage.getItem('urlReferrer') });
+	        sessionStorage.removeItem('urlReferrer');
+	      }
 	    }
 	  },
 	  componentDidMount: function componentDidMount() {
@@ -35394,6 +35405,7 @@
 	var React = __webpack_require__(1);
 	var Review = __webpack_require__(219);
 	var ReviewFormInline = __webpack_require__(221);
+	var Link = __webpack_require__(159).Link;
 
 	module.exports = React.createClass({
 	  displayName: "BeerReviews",
@@ -35424,8 +35436,8 @@
 	          'h4',
 	          { className: 'lighter text-center' },
 	          React.createElement(
-	            'a',
-	            { href: '/ui/sign_in' },
+	            Link,
+	            { to: '/ui/sign_in' },
 	            'Sign in'
 	          ),
 	          ' to post a review.'
@@ -35473,7 +35485,7 @@
 	var ReviewStars = __webpack_require__(220);
 
 	module.exports = React.createClass({
-	  displayName: 'exports',
+	  displayName: "ReviewsReviewCard",
 
 	  propTypes: {
 	    review: React.PropTypes.object
@@ -38870,6 +38882,9 @@
 	module.exports = React.createClass({
 	  displayName: 'SignInPage',
 
+	  componentWillMount: function componentWillMount() {
+	    sessionStorage.setItem('urlReferrer', window.urlReferrer.pathname);
+	  },
 	  render: function render() {
 	    var extraMargin = { margin: "5px" };
 
