@@ -1,8 +1,8 @@
 class ReviewSerializer < ActiveModel::Serializer
   attributes :id,
-             :date,
              :author_id,
              :author_name,
+             :date,
              :body,
              :star_rating,
              :colour_rating,
@@ -13,7 +13,7 @@ class ReviewSerializer < ActiveModel::Serializer
   end
 
   def author_name
-    object.user.display_name
+    UserSerializer.new(object.user).display_name
   end
 
   def date
