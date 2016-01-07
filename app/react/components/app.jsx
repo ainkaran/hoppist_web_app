@@ -14,12 +14,25 @@ module.exports = React.createClass({
     return { displayFlash: false, signedIn: false, currentUser: {} }
   },
 
+  componentWillReceiveProps() {
+    /* stores the referring URL every time the location changes.
+       this way we can capture the referring page during an auth cycle */
+    window.urlReferrer = this.props.location;
+    console.log("Setting referrer URL");
+  },
+
   componentWillMount() {
     var jwt = new Uri(location.search).getQueryParamValue('jwt');
     if (jwt) {
       localStorage.setItem('jwt', jwt);
       this.setState({ displayFlash: true })
+
+      if (sessionStorage.getItem('urlReferrer')) {
+        this.props.history.push({pathname: sessionStorage.getItem('urlReferrer')});
+        sessionStorage.removeItem('urlReferrer');
+      }
     }
+
   },
 
   componentDidMount() {

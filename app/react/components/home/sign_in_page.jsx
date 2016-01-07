@@ -5,6 +5,10 @@ var Link = require('react-router').Link;
 module.exports = React.createClass({
   displayName: 'SignInPage',
 
+  componentWillMount() {
+    sessionStorage.setItem('urlReferrer', window.urlReferrer.pathname)
+  },
+
   render() {
     var extraMargin = { margin: "5px" }
 
