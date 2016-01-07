@@ -33798,7 +33798,7 @@
 	      success: function success(user) {
 	        _this.setState({
 	          signedIn: true,
-	          currentUser: user.data.attributes
+	          currentUser: Object.assign(user.data.attributes, { id: user.data.id })
 	        });
 	      }
 	    });
@@ -35422,7 +35422,8 @@
 
 	    var newReview;
 	    var currentUserReview = this.props.reviews.filter(function (review) {
-	      return review.attributes.author_id === _this.props.currentUser.id;
+	      /* NOTE: intentionally using == here instead of ===, to avoid subtle type errors */
+	      return review.attributes.author_id == _this.props.currentUser.id;
 	    });
 
 	    if (this.state.showNewReviewForm && currentUserReview.length === 0) {

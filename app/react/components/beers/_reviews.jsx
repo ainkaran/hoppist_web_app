@@ -19,7 +19,8 @@ module.exports = React.createClass({
   render() {
     var newReview;
     var currentUserReview = this.props.reviews.filter((review)=> {
-      return review.attributes.author_id === this.props.currentUser.id
+      /* NOTE: intentionally using == here instead of ===, to avoid subtle type errors */
+      return review.attributes.author_id == this.props.currentUser.id
     });
 
     if (this.state.showNewReviewForm && currentUserReview.length === 0) {

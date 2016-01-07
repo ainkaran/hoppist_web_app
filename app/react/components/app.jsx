@@ -75,7 +75,7 @@ module.exports = React.createClass({
       success: (user) => {
         this.setState({
           signedIn: true,
-          currentUser: user.data.attributes
+          currentUser: Object.assign(user.data.attributes, {id: user.data.id})
         })
       }
     })
