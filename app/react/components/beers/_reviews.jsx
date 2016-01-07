@@ -2,6 +2,7 @@
 var React = require('react');
 var Review = require("../reviews/_review_card");
 var ReviewFormInline = require("../reviews/_form_inline");
+var Link = require('react-router').Link;
 
 module.exports = React.createClass({
   displayName: "BeerReviews",
@@ -29,7 +30,7 @@ module.exports = React.createClass({
             />);
       } else {
         newReview = (
-          <h4 className="lighter text-center"><a href="/ui/sign_in">Sign in</a> to post a review.</h4>
+          <h4 className="lighter text-center"><Link to="/ui/sign_in">Sign in</Link> to post a review.</h4>
         )
       }
     }
