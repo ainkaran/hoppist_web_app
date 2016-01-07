@@ -2,6 +2,7 @@ class OmniauthController < ApplicationController
   skip_before_filter :verify_authenticity_token, only: [:callback]
 
   def callback
+    return redirect_to "/?auth_status=failure" if params[:provider] == "failure"
     user = User.where(uid: auth_hash["uid"], provider: auth_hash["provider"]).first
 
     unless user
