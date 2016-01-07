@@ -6,6 +6,8 @@ var FlavourMapEmbedded = require("./_flavour_map_embedded");
 
 
 module.exports = React.createClass({
+  displayName: "FlavourMapIndex",
+
   MEDIA_QUERY_MEDIUM: 992, // Matches Bootstrap's 'medium' media query
   resizeTimeout: null, // for the resizeThrottler below
 
@@ -18,7 +20,6 @@ module.exports = React.createClass({
              resultsLoading: false,
              windowWidth: window.innerWidth }
   },
-
 
   ajaxPostFlavourMapSearch(searchCoords) {
     // TODO: refactor this url
@@ -107,7 +108,6 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    console.log("flavour_map_index render()");
     var loading = this.state.resultsLoading;
     var classes = ["center-block","img","img-thumbnail"];
     var placeholder = this.state.querySearchHasFocus ? "" : "or, search by beer/brewery:";

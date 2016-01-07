@@ -10,7 +10,7 @@ module.exports = React.createClass({
   displayName: "FlavourMapBeerList",
 
   getInitialState() {
-    return { display: "intro", beers: [], breweries: [] }
+    return { display: "intro" }
   },
 
   componentWillReceiveProps(nextProps) {
@@ -19,11 +19,18 @@ module.exports = React.createClass({
       return;
     }
 
-    if (nextProps.beers.length > 0) {
-      this.setState( { display: "beerList" });
-    } else {
-      this.setState( { display: "noBeers" });
+    /* Previously, the beer list was triggering when the currentUser and signedIn
+       props were passed down to FlavourMapIndex from App. This fix ensures that
+       the beer list is only displayed on a transition from loading to not loading,
+       which will only be triggered by an API call passing results through */
+    if (this.props.loading === true && nextProps.loading === false) {
+      if (nextProps.beers.length > 0) {
+        this.setState( { display: "beerList" });
+      } else {
+        this.setState( { display: "noBeers" });
+      }
     }
+
   },
 
   render() {

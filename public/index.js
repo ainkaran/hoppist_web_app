@@ -37630,7 +37630,7 @@
 	var FlavourMapEmbedded = __webpack_require__(226);
 
 	module.exports = React.createClass({
-	  displayName: 'exports',
+	  displayName: "FlavourMapIndex",
 
 	  MEDIA_QUERY_MEDIUM: 992, // Matches Bootstrap's 'medium' media query
 	  resizeTimeout: null, // for the resizeThrottler below
@@ -37728,7 +37728,6 @@
 	  },
 
 	  render: function render() {
-	    console.log("flavour_map_index render()");
 	    var loading = this.state.resultsLoading;
 	    var classes = ["center-block", "img", "img-thumbnail"];
 	    var placeholder = this.state.querySearchHasFocus ? "" : "or, search by beer/brewery:";
@@ -37803,7 +37802,7 @@
 	  displayName: "FlavourMapBeerList",
 
 	  getInitialState: function getInitialState() {
-	    return { display: "intro", beers: [], breweries: [] };
+	    return { display: "intro" };
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    if (nextProps.loading) {
@@ -37811,10 +37810,16 @@
 	      return;
 	    }
 
-	    if (nextProps.beers.length > 0) {
-	      this.setState({ display: "beerList" });
-	    } else {
-	      this.setState({ display: "noBeers" });
+	    /* Previously, the beer list was triggering when the currentUser and signedIn
+	       props were passed down to FlavourMapIndex from App. This fix ensures that
+	       the beer list is only displayed on a transition from loading to not loading,
+	       which will only be triggered by an API call passing results through */
+	    if (this.props.loading === true && nextProps.loading === false) {
+	      if (nextProps.beers.length > 0) {
+	        this.setState({ display: "beerList" });
+	      } else {
+	        this.setState({ display: "noBeers" });
+	      }
 	    }
 	  },
 	  render: function render() {
