@@ -43,7 +43,7 @@
       .panel-footer
         h4 Full Reviews
         - @beer.reviews.each do |review|
-          p User: #{review.user.display_name}
+          p User: #{review.user.first_name} #{review.user.last_name}
           p Star Rating: #{review.star_rating} / 5
           p Colour Rating: #{review.colour_rating} / 12
           p Flavour Rating: #{review.flavour_rating} / 12
