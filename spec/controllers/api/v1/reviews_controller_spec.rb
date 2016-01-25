@@ -7,6 +7,11 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
 
     before do
       user # create a user
+
+      # create authentication
+      # TODO: there's got to be a better way to do this...
+      jwt = JWT.encode({uid: user.uid, exp: 30.days.from_now.to_i}, Rails.application.secrets.secret_key_base)
+      request.headers['Authorization'] = jwt
     end
 
     def valid_review_params(new_attributes = {})
