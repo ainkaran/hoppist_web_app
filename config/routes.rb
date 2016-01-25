@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
 
   namespace :admin do
-    get "/" => "dashboard#index"
+    root "dashboard#index"
     resources :breweries
     resources :beers
     resources :sessions, only: [:new, :create] do

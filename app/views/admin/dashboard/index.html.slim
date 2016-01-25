@@ -1,0 +1,70 @@
+.col-md-12
+  ul.nav.nav-pills
+    li = link_to "Add Beer", new_admin_beer_path
+    li = link_to "Add Brewery", new_admin_brewery_path
+  hr
+
+.col-md-4
+  h3 Recent Signups
+  table.table
+    thead
+      tr
+        th
+          |Name
+        th
+          |Provider
+        th
+          |Sign-up Date
+    tbody
+      - @users.each do |user|
+        tr
+          td
+            |#{user.first_name} #{user.last_name}
+          td
+            |#{user.provider}
+          td
+            |#{user.created_at.strftime('%Y.%m.%d %H:%M')}
+
+  hr
+  h3 Recent Reviews
+
+  - @reviews.each do |review|
+    .panel.panel-default
+      .panel-heading
+        p
+          strong #{review.beer.name}
+        p by #{review.user.first_name} #{review.user.last_name}
+        p Stars: #{review.star_rating}
+        p Flavour: #{review.flavour_rating} | Colour: #{review.colour_rating}
+      .panel-body
+        |#{review.body_brief(200)}
+
+.col-md-4
+  h3 Recent Beers
+  table.table
+    thead
+      tr
+        th
+        th
+    tbody
+      - @beers.each do |beer|
+        - if beer.avg_colour_rating.nil? || beer.avg_flavour_rating.nil?
+          tr.danger
+            td = image_tag beer.label_image.url, width: "45px"
+            td = link_to "#{beer.name} by #{beer.brewery.name}", admin_beer_path(beer)
+
+        - else
+          tr
+            td = image_tag beer.label_image.url, width: "45px"
+            td = link_to "#{beer.name} by #{beer.brewery.name}", admin_beer_path(beer)
+
+.col-md-4
+  h3 Recent Breweries
+  table.table
+    thead
+      tr
+        th
+    tbody
+      - @breweries.each do |brewery|
+        tr
+          td = link_to brewery.name, admin_brewery_path(brewery)
