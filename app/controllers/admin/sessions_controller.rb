@@ -9,7 +9,7 @@ class Admin::SessionsController < Admin::BaseController
 
     if user && user.is_admin? && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to admin_breweries_path, notice: "Signed in!"
+      redirect_to admin_root_path, notice: "Signed in!"
     else
       flash[:notice] = "Invalid credentials or authorization"
       render :new
@@ -19,7 +19,7 @@ class Admin::SessionsController < Admin::BaseController
 
   def destroy
     session[:user_id] = nil
-    redirect_to admin_path, notice: "Goodbye."
+    redirect_to admin_root_path, notice: "Goodbye."
   end
 
 end
