@@ -1,0 +1,15 @@
+// NOTE: these are imported in a specific order
+// in order to get our global variables to
+// override boostrap's
+@import "hoppist_defaults";
+@import "bootstrap/_bootstrap-sprockets";
+@import "bootstrap/_bootstrap";
+
+@import "beer_card";
+@import "beer_show";
+@import "flavour_map";
+@import "footer";
+@import "header";
+@import "navigation";
+@import "reviews";
+@import "user_profile";

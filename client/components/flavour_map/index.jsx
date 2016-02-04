@@ -22,10 +22,9 @@ module.exports = React.createClass({
   },
 
   ajaxPostFlavourMapSearch(searchCoords) {
-    // TODO: refactor this url
-    $.ajax({
-      method: "POST",
-      url: "/api/v1/flavour_map/search",
+    this.props.apiRequest({
+      method: 'post',
+      url: 'flavour_map/search',
       data: { coords: searchCoords },
       success: (response) => {
         var newBeers  = response.data;
@@ -35,8 +34,10 @@ module.exports = React.createClass({
 
       error: (obj, msg, err) => {
         console.log(`error in request: ${msg} / ${err}`);
-      }
-    });
+      },
+
+    })
+
   },
 
   resizeThrottler() {

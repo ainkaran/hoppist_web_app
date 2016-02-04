@@ -26,5 +26,12 @@ module HoppistWebApp
     # TODO: confirm if inheriting from ActionController::API in the controller will override this setting?
     #       I'd like to keep this setting in here to allow the admin frontend to function
     config.api_only = false
+
+    config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        origins 'localhost:8080'
+        resource '*', :headers => :any, :methods => [:get, :put, :patch, :post, :delete, :options]
+      end
+    end
   end
 end

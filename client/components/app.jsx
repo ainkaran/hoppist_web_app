@@ -8,7 +8,7 @@ var Reqwest = require('reqwest')
 module.exports = React.createClass({
   displayName: "App",
 
-  API_ENDPOINT: '/api/v1',
+  API_ENDPOINT: 'http://localhost:3000/api/v1',
 
   getInitialState() {
     return { displayFlash: false, signedIn: false, currentUser: {} }

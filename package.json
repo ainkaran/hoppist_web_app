@@ -1,9 +1,11 @@
 {
   "name": "hoppist_react_frontend",
   "version": "1.0.0",
-  "description": "A React frontend for Hoppist",
-  "main": "index.js",
+  "description": "React frontend for Hoppist",
+  "main": "client/main.jsx",
   "scripts": {
+    "devserve": "webpack-dev-server -d --config webpack.config.js --content-base public/ --progress --colors",
+    "devbuild": "webpack -d --config webpack.config.js --content-base public/ --profile --progress --colors",
     "test": "node test/run.js"
   },
   "repository": {
@@ -17,16 +19,21 @@
   },
   "homepage": "https://github.com/alextaylor000/hoppist_web_app#readme",
   "dependencies": {
+    "css-loader": "^0.23.1",
     "expect.js": "^0.3.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "history": "1.13.x",
     "jquery": "^2.1.4",
     "jsuri": "^1.3.1",
+    "node-sass": "^3.4.2",
     "react": "^0.14.3",
     "react-addons-css-transition-group": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-draggable": "^1.1.3",
     "react-router": "^1.0.2",
-    "reqwest": "^2.0.5"
+    "reqwest": "^2.0.5",
+    "sass-loader": "^3.1.2",
+    "style-loader": "^0.13.0"
   },
   "devDependencies": {
     "babel-core": "^6.3.17",

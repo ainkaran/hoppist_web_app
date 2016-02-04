@@ -1,0 +1,66 @@
+/* Slides out from left, all cool-like. */
+#mobile-navbar {
+  $mobile-navbar-transform:  translateX(-101%); // 101 will hide the shadow, too
+  background-color:          white;
+  box-shadow:                0px 2px 4px 0px rgba(0,0,0,0.50);
+  left:                      0;
+  height:                    100%;
+  padding:                   15px;
+  position:                  fixed;
+  top:                       0;
+    -ms-transform:           $mobile-navbar-transform;
+    -webkit-transform:       $mobile-navbar-transform;
+  transform:                 $mobile-navbar-transform;
+  transition:                transform 200ms;
+  width:                     160px;
+  z-index:                   999;
+
+  &.is-active {
+    $mobile-navbar-show:     translateX(0);
+      -ms-transform:         $mobile-navbar-show;
+      -webkit-transform:     $mobile-navbar-show;
+    transform:               $mobile-navbar-show;
+  }
+
+  h1 {
+    margin:                  0;
+    margin-top:              -($font-size-h1*0.6)
+  }
+
+  ul {
+    list-style:              none;
+    padding-left:            0;
+  }
+
+  li {
+    $vert-padding:         15px;
+    padding-top:           $vert-padding;
+    padding-bottom:        $vert-padding;
+    border-bottom:         1px solid $hp-gray-lighter;
+    overflow-x:            hidden;
+    font-size:             $font-size-h4;
+
+    /* this is an implementation of the table-of-contents style periods */
+    span {
+      display:             block; // we're forcing it to overflow instead of wrap
+      width:               200%;
+    }
+  }
+}
+
+#navbar-dimmer {
+  background:                black;
+  height:                    100%;
+  left:                      0;
+  opacity:                   0;
+  position:                  absolute;
+  top:                       0;
+  transition:                200ms;
+  width:                     100%;
+  z-index:                   -1;
+
+  &.is-active {
+    opacity:                 0.5;
+    z-index:                 998;
+  }
+}

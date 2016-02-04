@@ -49,4 +49,5 @@ group :development do
   gem 'interactive_editor'
   gem 'awesome_print'
   gem 'hirb'
+  gem 'rack-cors', :require => 'rack/cors'
 end

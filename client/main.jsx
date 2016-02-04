@@ -1,4 +1,7 @@
 'use strict'
+// stylesheets
+require('./assets/stylesheets/application.scss');
+
 // react
 var React = require('react');
 var ReactDOM = require('react-dom');
