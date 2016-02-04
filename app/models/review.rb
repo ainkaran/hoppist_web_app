@@ -18,6 +18,11 @@ class Review < ActiveRecord::Base
     review.validates :colour_rating,  presence: true, numericality: { greater_than: 0, less_than: 13 }
   end
 
+  # Truncates the review body for the admin panel
+  def body_brief(length=140)
+    body.length > 140 ? "#{body[0..140]}..." : body
+  end
+
   private
   def includes_flavour_or_colour
     flavour_rating.present? || colour_rating.present?

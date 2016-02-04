@@ -3,7 +3,11 @@ FactoryGirl.define do
     first_name "Johnny"
     last_name "Appleseed"
     email "johnny@apple.com"
-    password_digest "digestif"
+    password "digestif"
+
+    factory :admin_user do
+      is_admin true
+    end
   end
 
 end
