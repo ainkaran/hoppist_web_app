@@ -4,7 +4,7 @@ module.exports = {
     entry: './client/main.jsx',
     output: {
         path: './public',
-        filename: 'bundle.js'
+        filename: 'bundle.js',
     },
     module: {
         loaders: [
@@ -18,7 +18,7 @@ module.exports = {
             },
             {
                 test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/,
-                loader: 'file'
+                loader: 'file' // this will name files based on their MD5 hash
             },
             {
                 test: /\.[s]*css$/,
