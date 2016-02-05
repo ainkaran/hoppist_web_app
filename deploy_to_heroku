@@ -1,20 +1,19 @@
+cd ~/code/hoppist/hoppist_web_app
+
 # Updates the certified gem (recommended to do this often)
 bundle exec certified-update
-
-cd /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app
 
 # run tests
 echo "--- Running rspec tests..."
 bundle exec rspec
 
 echo "--- Running JS tests..."
-cd app/react; npm run test
+npm run test
 
 if [ $? -eq 0 ]
   then
   echo "--- All tests passed! Deploying..."
 
-  cd /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app
   # Git push
   git push origin master
 
