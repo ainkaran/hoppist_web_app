@@ -63,9 +63,6 @@
 	var Route = __webpack_require__(/*! react-router */ 167).Route;
 	var createBrowserHistory = __webpack_require__(/*! history/lib/createBrowserHistory */ 216);
 	
-	// libraries
-	var $ = __webpack_require__(/*! jquery */ 217);
-	
 	// pages
 	var App = __webpack_require__(/*! ./components/app */ 218);
 	var BeerIndex = __webpack_require__(/*! ./components/beers/index */ 224);
@@ -85,10 +82,9 @@
 	ReactDOM.render(React.createElement(
 	  Router,
 	  { history: createBrowserHistory() },
-	  React.createElement(Redirect, { from: '/', to: '/ui' }),
 	  React.createElement(
 	    Route,
-	    { path: '/ui', component: App },
+	    { path: '/', component: App },
 	    React.createElement(IndexRoute, { component: FlavourMapIndex }),
 	    React.createElement(Route, { path: 'sign_in', component: SignInPage }),
 	    React.createElement(Route, { path: 'beers', component: BeerIndex }),
@@ -34985,7 +34981,7 @@
 	        null,
 	        React.createElement(
 	          Link,
-	          { to: '/ui/sign_in' },
+	          { to: '/sign_in' },
 	          'Log In'
 	        )
 	      );
@@ -35059,7 +35055,7 @@
 	    } else {
 	      signIn = React.createElement(
 	        'a',
-	        { href: '/ui/sign_in' },
+	        { href: '/sign_in' },
 	        'SIGN IN'
 	      );
 	    }
@@ -35135,7 +35131,7 @@
 	            null,
 	            React.createElement(
 	              Link,
-	              { to: '/ui/flavour-map', onClick: this.handleMenuClick },
+	              { to: '/flavour-map', onClick: this.handleMenuClick },
 	              'FLAVOUR MAP'
 	            )
 	          ),
@@ -36565,7 +36561,7 @@
 	          { className: 'lighter text-center' },
 	          React.createElement(
 	            Link,
-	            { to: '/ui/sign_in' },
+	            { to: '/sign_in' },
 	            'Sign in'
 	          ),
 	          ' to post a review.'
@@ -36648,7 +36644,7 @@
 	          { className: 'flush-with-top' },
 	          React.createElement(
 	            Link,
-	            { to: '/ui/users/' + this.props.review.author_id },
+	            { to: '/users/' + this.props.review.author_id },
 	            this.props.review.author_name
 	          ),
 	          ' ',
@@ -38690,13 +38686,13 @@
 	            ' is a recommendation site for craft beer. We think you should discover beer like you discover movies — by asking yourself what you’re in the mood for. Check out our innovative ',
 	            React.createElement(
 	              Link,
-	              { to: '/ui/flavour-map' },
+	              { to: '/flavour-map' },
 	              'Flavour Map'
 	            ),
 	            ' to discover your next favourite brew. Or, try out our ',
 	            React.createElement(
 	              Link,
-	              { to: '/ui/match-maker' },
+	              { to: '/match-maker' },
 	              'Match Maker'
 	            ),
 	            ' if you’re looking for something curated to your favourite tastes.'
@@ -39106,21 +39102,21 @@
 	      initially receive a response from the endpoint (/) that gives it the links
 	      it needs to build the routes.
 	    */
-	    var beerLink = '/ui/beers/' + this.props.beer.id;
+	    var beerLink = '/beers/' + this.props.beer.id;
 	    this.props.onNavigation({ url: beerLink });
 	  },
 	  render: function render() {
 	    var beerLink = React.createElement(
 	      Link,
 	      {
-	        to: '/ui/beers/' + this.props.beer.id },
+	        to: '/beers/' + this.props.beer.id },
 	      this.props.beer.name
 	    );
 	
 	    var breweryLink = React.createElement(
 	      Link,
 	      {
-	        to: '/ui/breweries/' + this.props.brewery.id },
+	        to: '/breweries/' + this.props.brewery.id },
 	      this.props.brewery.name
 	    );
 	

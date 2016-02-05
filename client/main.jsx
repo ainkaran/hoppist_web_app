@@ -13,9 +13,6 @@ var Router = require('react-router').Router
 var Route = require('react-router').Route
 var createBrowserHistory = require('history/lib/createBrowserHistory');
 
-// libraries
-var $ = require("jquery");
-
 // pages
 var App                      = require("./components/app");
 var BeerIndex                = require("./components/beers/index");
@@ -36,8 +33,7 @@ var StyleGuide               = require("./components/style_guide");
 ReactDOM.render((
 
   <Router history={createBrowserHistory()}>
-    <Redirect from="/" to="/ui" />
-    <Route path="/ui" component={App}>
+    <Route path="/" component={App}>
       <IndexRoute component={FlavourMapIndex} />
       <Route path="sign_in" component={SignInPage} />
       <Route path="beers" component={BeerIndex} />
@@ -47,15 +43,6 @@ ReactDOM.render((
         <Route path="reviews" component={BeerShowReviews} />
       </Route>
       <Route path="flavour-map" component={FlavourMapIndex} />
-
-
-
-
-      {/* TEST ROUTES
-      <Route path="styleguide" component={StyleGuide} />
-      <Route path="styleguide/beer-show" component={BeerShow} />
-      */}
-
-  </Route>
+    </Route>
   </Router>
 ), document.getElementById('container'));

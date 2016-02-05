@@ -12,21 +12,21 @@ module.exports = React.createClass({
       initially receive a response from the endpoint (/) that gives it the links
       it needs to build the routes.
     */
-    var beerLink = `/ui/beers/${this.props.beer.id}`
+    var beerLink = `/beers/${this.props.beer.id}`
     this.props.onNavigation({ url: beerLink});
   },
 
   render() {
     var beerLink = (
       <Link
-        to={`/ui/beers/${this.props.beer.id}`}>
+        to={`/beers/${this.props.beer.id}`}>
         {this.props.beer.name}
       </Link>
     );
 
     var breweryLink = (
       <Link
-        to={`/ui/breweries/${this.props.brewery.id}`}>
+        to={`/breweries/${this.props.brewery.id}`}>
         {this.props.brewery.name}
       </Link>
     );

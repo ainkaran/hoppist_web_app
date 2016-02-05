@@ -11,7 +11,7 @@ module.exports = React.createClass({
     if (this.props.signedIn) {
       loginStatus = (<p>Logged in as {this.props.currentUser.display_name} <a href="javascript:void(0)" onClick={this.props.logOut}>Log Out</a></p>);
     } else {
-      loginStatus = (<p><Link to="/ui/sign_in">Log In</Link></p>)
+      loginStatus = (<p><Link to="/sign_in">Log In</Link></p>)
     }
 
     return (

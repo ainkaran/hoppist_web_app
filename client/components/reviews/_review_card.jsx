@@ -27,7 +27,7 @@ module.exports = React.createClass({
       <div className="beer-card clearfix">
         <div className="col-review">
           <h5 className="flush-with-top">
-            <Link to={`/ui/users/${this.props.review.author_id}`}>{this.props.review.author_name}</Link> <span className="lighter">on <em>{this.props.review.date}</em></span>
+            <Link to={`/users/${this.props.review.author_id}`}>{this.props.review.author_name}</Link> <span className="lighter">on <em>{this.props.review.date}</em></span>
           </h5>
 
           <ReviewStars

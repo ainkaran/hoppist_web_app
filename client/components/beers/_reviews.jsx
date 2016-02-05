@@ -31,7 +31,7 @@ module.exports = React.createClass({
             />);
       } else {
         newReview = (
-          <h4 className="lighter text-center"><Link to="/ui/sign_in">Sign in</Link> to post a review.</h4>
+          <h4 className="lighter text-center"><Link to="/sign_in">Sign in</Link> to post a review.</h4>
         )
       }
     }

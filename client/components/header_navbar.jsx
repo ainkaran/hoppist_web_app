@@ -21,7 +21,7 @@ module.exports = React.createClass({
         </span>
       )
     } else {
-        signIn = (<a href="/ui/sign_in">SIGN IN</a>)
+        signIn = (<a href="/sign_in">SIGN IN</a>)
     }
     return signIn;
   },
@@ -51,7 +51,7 @@ module.exports = React.createClass({
           <ul>
             <li>{ this.signIn() }</li>
             <li><a href="#">REVIEW              </a></li>
-            <li><Link to="/ui/flavour-map" onClick={this.handleMenuClick}>FLAVOUR MAP</Link></li>
+            <li><Link to="/flavour-map" onClick={this.handleMenuClick}>FLAVOUR MAP</Link></li>
             <li><a href="#">MATCH MAKER         </a></li>
             <li><a href="#">DISCOVER            </a></li>
             <li><a href="#">BEERS               </a></li>

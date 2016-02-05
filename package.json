@@ -5,7 +5,7 @@
   "main": "client/main.jsx",
   "scripts": {
     "devserve": "webpack-dev-server -d --config webpack.dev.config.js --content-base public/ --progress --colors",
-    "devbuild": "webpack -d --config webpack.dev.config.js --content-base public/ --profile --progress --colors",
+    "devbuild": "webpack -d --config webpack.dev.config.js --content-base public/ --profile --progress --colors --watch",
     "test": "node test/run.js"
   },
   "repository": {

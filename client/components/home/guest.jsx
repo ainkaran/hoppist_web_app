@@ -23,7 +23,7 @@ module.exports = React.createClass({
           </div>
           <div className="col-sm-8">
             <h2 className="branded flush-with-top">DISCOVER.</h2>
-            <p><small className="branded">HOPPIST</small> is a recommendation site for craft beer. We think you should discover beer like you discover movies &mdash; by asking yourself what you’re in the mood for. Check out our innovative <Link to="/ui/flavour-map">Flavour Map</Link> to discover your next favourite brew. Or, try out our <Link to="/ui/match-maker">Match Maker</Link> if you’re looking for something curated to your favourite tastes.</p>
+            <p><small className="branded">HOPPIST</small> is a recommendation site for craft beer. We think you should discover beer like you discover movies &mdash; by asking yourself what you’re in the mood for. Check out our innovative <Link to="/flavour-map">Flavour Map</Link> to discover your next favourite brew. Or, try out our <Link to="/match-maker">Match Maker</Link> if you’re looking for something curated to your favourite tastes.</p>
           </div>
         </div>
 
