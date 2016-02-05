@@ -1,0 +1,170 @@
+/* Globals & Brand */
+$brand-primary:              #A6AB85; // for headings, etc
+$brand-orange:               #FFCB47; // for stars, etc
+$border-radius-base:         2px;
+
+/* Colurs */
+$gray-base:                  #000000;
+
+// I was previously using gray-light and gray-lighter here but it was interfering
+// too much with Bootstrap components (like form inputs)
+$hp-gray-base:               #F5F5F5;
+$hp-gray-darker:             #737373;
+$hp-gray-light:              #E7E7E7;
+$hp-gray-lighter:            #D3D3D3;
+
+/* Typography */
+@import url(https://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu:400,400italic);
+$font-family-base:           'Lora', serif;
+$font-family-sans-serif:     'Ubuntu', sans-serif;
+$font-family-serif:          $font-family-base;
+$text-color:                 #595959;
+
+$headings-font-weight:       700;
+$headings-color:             #4E4E4E;
+
+$font-size-h1:               36px;
+$font-size-h2:               24px;
+$font-size-h3:               18px;
+$font-size-h4:               16px;
+$font-size-h5:               14px;
+
+.branded {
+  // used for coloured headings like the site title
+  color:                     $brand-primary;
+}
+
+.flush-with-top {
+  // removes top margin, useful for header classes.
+  margin-top:                0;
+}
+
+.italicize {
+  font-style:                italic;
+}
+
+.lighter {
+  // to knock down colours of headings, like user location
+  color:                     $hp-gray-darker;
+}
+
+.lightest {
+  color:                     #BFBFBF;
+}
+
+
+
+
+/* Buttons */
+.btn {
+  // !important is needed here because we're declaring this file before importing bootstrap
+  font-weight:               700!important;
+  height:                    50px!important;
+  padding-left:              1em!important;
+  padding-right:             1em!important;
+
+  &:active {
+    box-shadow: none!important;
+  }
+}
+
+.btn-default:hover {
+  background-color:          $hp-gray-lighter!important;
+}
+
+.btn-tabby {
+  background-color:          #E0D1AE;
+  clear:                     both;
+  color:                     white;
+  display:                   block!important;
+  float:                     right;
+  font-family:               $font-family-sans-serif!important;
+  font-style:                italic;
+  margin-bottom:             8px!important;
+
+  &:hover {
+    background-color:        #D2C4A3;
+    color:                   white!important;
+  }
+}
+
+$btn-default-color:          $brand-primary;
+$btn-default-bg:             $hp-gray-base;
+$btn-default-border:         #E7E7E7;
+
+/* Forms */
+$input-bg:                   white;
+$input-color:                #2D2D2D;
+$state-success-text:         #9DA375;
+$state-danger-text:          #E4A32A;
+
+label {
+  color:                     $hp-gray-darker;
+  font-style:                italic;
+  font-size:                 $font-size-h3;
+}
+
+.form-control {
+  border-top:                none!important;
+  border-left:               none!important;
+  border-right:              none!important;
+  border-bottom:             2px dashed $hp-gray-light!important;
+  box-shadow:                none!important;
+  font-weight:               700;
+}
+
+.has-error {
+  .help-block {
+    font-style:              italic;
+    font-size:               $font-size-h3;
+    text-align:              center;
+  }
+
+  .form-control {
+    border-bottom-color:     $state-danger-text!important;
+  }
+}
+
+/* TODO: added as a quick way to get validations working on review form_inline.
+   consider changing. */
+.errorText {
+  color:                     $state-danger-text
+}
+
+/* Alerts */
+$alert-success-bg:           none;
+$alert-danger-bg:            none;
+$alert-success-border:       $state-success-text;
+$alert-danger-border:        $state-danger-text;
+
+.alert {
+  font-style:                italic;
+  font-weight:               700;
+  text-align:                center;
+}
+
+/* Navs */
+/* Navs - Tabs */
+$nav-tabs-border-color:      #EBEBEB;
+
+.nav-tabs {
+  margin-top:                1em;
+
+  > li {
+    font-style:              italic;
+  }
+
+  > li a.active {
+    box-shadow:              0px -2px 4px 0px rgba(0, 0, 0, 0.1);
+    /* NOTE: the below styles are from the li.active class in
+       Bootstrap. I had to apply them to the link itself because
+       of how react-router applies its active style to the anchor.
+       Check out the <Link> elements in show.jsx to see why */
+    color:                   #555555;
+    background-color:        #fff;
+    border: 1px solid        #ddd;
+    border-bottom-color:     transparent;
+    cursor:                  default;
+  }
+}

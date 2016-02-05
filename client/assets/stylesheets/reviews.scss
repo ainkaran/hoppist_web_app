@@ -1,0 +1,94 @@
+/* Stars */
+.glyphicon-star {
+  font-size:                 20px;
+  color:                     $brand-orange;
+  transition:                color 400ms;
+}
+
+.glyphicon-star-empty {
+  font-size:                 20px;
+  color:                     #FFE299;
+}
+
+.review-stars span {
+  font-size:                 25px;
+
+  &.half-star {
+    width:                   12.5px;
+    overflow:                hidden;
+  }
+
+  &.large-stars {
+    font-size:               3.5em!important;
+  }
+
+  /* Interactive review: the stars being as 'unfilled'; when the user
+     selects a star, the stars get filled */
+  &.unfilled {
+    color:                   $hp-gray-lighter;
+  }
+
+  &.filled {
+    color:                   $brand-orange;
+  }
+
+}
+
+/* Sliders */
+
+#colour-gradient, #flavour-gradient {
+  border: 1px solid          #9C9C9C;
+  height:                    60px;
+  transition:                opacity 400ms;
+  width:                     100%;
+
+  // this is to keep the target from getting too close to the edge of the gradient.
+  // we don't need it on the right because the bounds must be calculated from the
+  // left edge with some width already taken into account by react-draggable.
+  padding-left:              5px;
+
+  p {
+    color:                   white;
+    font-weight:             700;
+    text-align:              center;
+    padding-top:             20px;
+    font-size:               200%;
+  }
+
+  .container-fluid, .row, .col-xs-1 {
+    height:                  100%;
+  }
+
+  .col-xs-1 span {
+    height:                  100%;
+    padding-top:             15px;
+
+  }
+
+  .glyphicon-plus {
+    font-size:               15px;
+    color:                   $brand-orange;
+  }
+
+  .glyphicon-minus {
+    font-size:               15px;
+    color:                   #FFECBD;
+  }
+
+  // TODO: this is a dupe from flavour_map_embed; refactor
+  #target {
+    /* @media */
+    height:                  2em;
+    position:                absolute;
+    width:                   2em;
+  }
+
+}
+
+#colour-gradient {
+  background:                linear-gradient(to right,  #301a00 0%,#c4750b 50%,#f2cb38 100%);;
+}
+
+#flavour-gradient {
+  background:                linear-gradient(to right, #744302 0%,#BDF238 100%);
+}

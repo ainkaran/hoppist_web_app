@@ -14,9 +14,6 @@ if [ $? -eq 0 ]
   then
   echo "--- All tests passed! Deploying..."
 
-  # Delete local assets in order to force compilation on Heroku
-  rm -rvf /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app/public/assets
-
   cd /Users/alextaylor/Documents/CodeCore/hoppist/hoppist_web_app
   # Git push
   git push origin master
@@ -26,7 +23,7 @@ if [ $? -eq 0 ]
   heroku run --app hoppist rake db:migrate
 
   # Test 'er out!
-  open "http://hoppist.herokuapp.com"
+  open "http://www.hoppist.beer"
 else
-  echo "** Deployment halted due to failed tests."
+  echo "** Deployment halted."
 fi

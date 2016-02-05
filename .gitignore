@@ -17,8 +17,8 @@
 
 /public/uploads/*
 
-/app/react/node_modules
-/app/react/npm-debug.log
+/node_modules
+/client/npm-debug.log
 
 .byebug_history
 .DS_Store

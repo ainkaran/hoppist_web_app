@@ -18,11 +18,10 @@ RSpec.describe Api::V1::BeersController, type: :controller do
   end
 
   describe "#show" do
-    # TODO: the response doesn't get wrapped in an array so we can test it like above.
-    pending "returns a single beer" do
+    it "returns a single beer" do
       get :show, { id: beer.id }
       json = JSON.parse(response.body)
-      expect(json["data"].count).to eq(1)
+      expect(json["data"]).to be_a Hash
     end
 
     it "includes the beer ID" do

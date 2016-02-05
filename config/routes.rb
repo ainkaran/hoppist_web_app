@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   root "react#index"
 
   # Omniauth callback routes
-  if Rails.env.development?
-    # The POST route is only needed for developer mode
+  if Rails.env.development? || Rails.env.test?
+    # The POST route is only needed for developer/test callback
     post "/auth/:provider/callback", to: "omniauth#callback"
   end
   get  "/auth/:provider/callback", to: "omniauth#callback"
@@ -41,11 +41,6 @@ Rails.application.routes.draw do
   # Wildcard matching requires a parameter, even though we're not going to use it
   # See http://guides.rubyonrails.org/routing.html#route-globbing-and-wildcard-segments
   # TODO: I think this is a pretty awesome little hack ;)
-  get     '/ui',        to: "react#index"
-  get     '/ui/*react', to: "react#index"
-  post    '/ui/*react', to: "react#index"
-  patch   '/ui/*react', to: "react#index"
-  put     '/ui/*react', to: "react#index"
-  delete  '/ui/*react', to: "react#index"
+  match '*all', to: 'application#react', via: :get
 
 end

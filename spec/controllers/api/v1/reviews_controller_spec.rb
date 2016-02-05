@@ -25,6 +25,11 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
     end
 
     describe "with valid attributes" do
+      before do
+        allow(controller).to receive(:authenticate_request) do
+          controller.instance_variable_set(:@current_user, user)
+        end
+      end
 
       it "creates a new review in the db" do
         expect do
@@ -47,7 +52,10 @@ RSpec.describe Api::V1::ReviewsController, type: :controller do
            .and change { beer1.reload.avg_flavour_rating }
       end
 
-      it "associates the review with the logged-in user"
+      it "associates the review with the logged-in user" do
+        post :create, review: valid_review_params
+        expect(Review.last.user).to eq(user)
+      end
 
     end
 

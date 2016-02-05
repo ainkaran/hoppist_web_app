@@ -1,0 +1,53 @@
+#target {
+  // global styles for all targets
+  background-color:          white;
+  border-radius:             50%;
+  box-shadow:                0px 2px 4px 0px rgba(0,0,0,0.50);
+}
+
+#flavour-map-embedded {
+  display:                   block;
+  /* NOTE: since react-draggable is set to restrict bounds to the parent,
+     the position of this must be explicitly specified; otherwise, it will
+     continue looking up the DOM for the first element it finds with
+     relative or absolute positioning. */
+  position:                  relative;
+
+  &.fixed {
+    position:                fixed;
+  }
+
+  #target {
+    /* @media */
+    height:                  2em;
+    position:                absolute;
+    width:                   2em;
+  }
+}
+
+/* Transition classes for intro/beerList */
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
+
+.fade-leave {
+  opacity: 1;
+}
+
+.fade-leave.fade-leave-active {
+  opacity: 0.01;
+  transition: opacity 250ms ease-in;
+}
+
+
+@media (min-width: $screen-md-min) {
+  #flavour-map-embedded #target {
+    height:                  2em;
+    width:                   2em;
+  }
+}
