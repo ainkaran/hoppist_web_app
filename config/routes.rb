@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   root "react#index"
 
   # Omniauth callback routes
-  if Rails.env.development?
-    # The POST route is only needed for developer mode
+  if Rails.env.development? || Rails.env.test?
+    # The POST route is only needed for developer/test callback
     post "/auth/:provider/callback", to: "omniauth#callback"
   end
   get  "/auth/:provider/callback", to: "omniauth#callback"
