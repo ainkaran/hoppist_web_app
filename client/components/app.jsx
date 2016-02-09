@@ -18,7 +18,6 @@ module.exports = React.createClass({
     /* stores the referring URL every time the location changes.
        this way we can capture the referring page during an auth cycle */
     window.urlReferrer = this.props.location;
-    console.log("Setting referrer URL");
   },
 
   componentWillMount() {

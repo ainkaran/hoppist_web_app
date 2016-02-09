@@ -6,7 +6,7 @@ module.exports = React.createClass({
   displayName: 'SignInPage',
 
   componentWillMount() {
-    sessionStorage.setItem('urlReferrer', window.urlReferrer.pathname)
+    if (window.urlReferrer) sessionStorage.setItem('urlReferrer', window.urlReferrer.pathname)
   },
 
   render() {
