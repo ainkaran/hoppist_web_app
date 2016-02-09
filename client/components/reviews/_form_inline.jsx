@@ -1,5 +1,4 @@
 'use strict'
-var $ = require('jquery');
 var React = require('react');
 var ReviewStars = require('../shared/_review_stars');
 var Slider = require('./_slider');

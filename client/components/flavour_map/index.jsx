@@ -1,5 +1,4 @@
 'use strict'
-var $ = require('jquery');
 var React = require('react');
 var BeerList = require("./_beer_list");
 var FlavourMapEmbedded = require("./_flavour_map_embedded");
