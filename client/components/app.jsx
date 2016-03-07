@@ -76,6 +76,13 @@ module.exports = React.createClass({
           signedIn: true,
           currentUser: Object.assign(user.data.attributes, {id: user.data.id})
         })
+      },
+      error: (err) => {
+        localStorage.removeItem('jwt');
+        this.setState({
+          signedIn: false,
+          currentUser: {}
+        })
       }
     })
   },
