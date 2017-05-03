@@ -14,6 +14,8 @@ HOPPIST is driven by you. Sign up and start rating the beers you love - and the 
 Beer should be social. HOPPIST gives you a beautiful space to showcase your favourite brews, and see what your friends are drinking. Follow your favourite breweries to get their latest social media updates.
 
 ### DEMO
+Here are some GIFs. More demo material available in `/screenshots`:
+
 ![main flow](hoppist_demo.gif)
 
 ![leaving a review](hoppist_demo_review.gif)
